@@ -55,7 +55,8 @@ Always fetch pricing from the provider's official docs before editing.
 - **Anthropic flat large-context models** — The Anthropic pricing page lists models with
   "full 1M token context window at standard pricing" in a dedicated "Long context pricing"
   section. As of July 2026 this list includes: Claude Fable 5, Claude Mythos 5, Claude
-  Mythos Preview, Claude Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 5, and Sonnet 4.6. These
+  Mythos Preview, Claude Opus 5, Claude Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 5, and
+  Sonnet 4.6. These
   models must NOT have a Large Context tier in the pricing file. Models not on this list
   (e.g. Sonnet 4.5, Haiku 4.5) may retain a Large Context tier if it was previously set.
   The Sonnet 4.6 Large Context tier was found and removed during the June 2026 audit.
@@ -103,6 +104,24 @@ Always fetch pricing from the provider's official docs before editing.
   removed on July 23 2026 after official confirmation. Do NOT add cache pricing for this model
   unless the official page explicitly adds it. Follows the same selectable-model pattern as
   gemini-3.1-flash-lite.
+- **Gemini 3.1 Flash-Lite caching confirmed** — Context caching IS available for
+  `gemini-3.1-flash-lite` at $0.025/MTok text/image/video and $0.05/MTok audio cache read
+  (10% of standard input), confirmed by explicit AI Studio pricing page fetches on July 23
+  2026 and July 26 2026 (`https://ai.google.dev/pricing#2_5_flash`). Overview-page summary
+  fetches on July 25 2026 and July 26 2026 listed this model under "Models WITHOUT Context
+  Caching" — this is a recurring page artifact. Always fetch the specific pricing section
+  rather than relying on the overview summary groupings. The pricing file entries
+  (`input_cached_tokens: 2.5e-8`, `cached_content_token_count: 2.5e-8`) are correct; do
+  not remove them based on a summary artifact.
+- **GPT-5.6 explicit cache write pricing (unresolved)** — The gpt-5.6-sol model page
+  (`https://developers.openai.com/api/docs/models/gpt-5.6-sol`) explicitly states cache
+  write pricing at 1.25× standard input: $6.25/MTok for sol, $3.125/MTok for terra,
+  $1.25/MTok for luna. No existing OpenAI entry in the pricing file uses a cache write
+  key, and the documented OpenAI price-key schema (`input`, `input_cached_tokens`,
+  `input_cache_read`, `output`) does not include a cache write dimension. Do not add
+  cache write prices for gpt-5.6 models until the API usage key is identified (possibly
+  `prompt_tokens_details.cache_creation_tokens`) and Langfuse's OpenAI usage handling
+  is verified to support it. Check the ModelUsage processing for OpenAI before adding.
 - **Claude Opus 5 (added July 2026)** — `claude-opus-5` appeared on the official Anthropic pricing and models pages in July 2026. API ID: `claude-opus-5` (no date suffix, pinned snapshot). Bedrock ID: `anthropic.claude-opus-5`. Google Cloud ID: `claude-opus-5`. Pricing: $5/$25 MTok input/output, 5m cache $6.25/MTok, 1h cache $10/MTok, cache read $0.50/MTok — same as Opus 4.8/4.7/4.6. The model is in the flat long-context list (1M token context at standard pricing; no Large Context tier). Fast mode is available at $10/$50 MTok (shared price point with Opus 4.8). Added to pricing file and `anthropicModels` in the July 25 2026 audit. matchPattern: `(?i)^((anthropic\/)?claude-opus-5|(eu\.|us\.|apac\.|global\.)?anthropic\.claude-opus-5(-v1(:0)?)?)$`.
 - **gpt-5-chat-latest confirmed pricing** — This alias has confirmed pricing at $1.25/MTok
   input, $0.125/MTok cached input, $10.00/MTok output, verified via its specific model page

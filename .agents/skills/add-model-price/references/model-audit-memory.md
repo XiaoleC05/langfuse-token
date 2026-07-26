@@ -12,7 +12,7 @@ audit date.
 
 ## Latest useful snapshot
 
-**Audit date:** 2026-07-25
+**Audit date:** 2026-07-26
 
 All prices listed as `$X / MTok` (per million tokens). Per-token JSON values: divide by 1,000,000.
 
@@ -54,7 +54,7 @@ All prices listed as `$X / MTok` (per million tokens). Per-token JSON values: di
 | Google | gemini-2.5-flash-lite | Input $0.10/MTok (1e-7), Audio $0.30/MTok (3e-7), Output $0.40/MTok (4e-7), Cache read $0.01/MTok (1e-8) | Yes | No large-context tier | Yes | None | https://ai.google.dev/pricing | Cache read = 10% of input. Confirmed. |
 | Google | gemini-2.5-pro | Input $1.25/MTok (1.25e-6) ≤200K, $2.50/MTok >200K; Output $10/MTok ≤200K, $15/MTok >200K; Cache read $0.125/MTok ≤200K | Yes | Large Context (>200K) confirmed | Yes | None | https://ai.google.dev/pricing | Two tiers confirmed. Cache = 10% of input at each tier. |
 | Google | gemini-3.5-flash | Input $1.50/MTok (1.5e-6), Output $9.00/MTok (9e-6), Cache read $0.15/MTok (1.5e-7) | Yes | No large-context tier | Yes | None | https://ai.google.dev/pricing | Cache = 10% of input. Confirmed. |
-| Google | gemini-3.1-flash-lite | Input $0.25/MTok (2.5e-7), Audio $0.50/MTok (5e-7), Output $1.50/MTok (1.5e-6), Cache read $0.025/MTok (2.5e-8) | Yes | No large-context tier | Yes | None | https://ai.google.dev/pricing | Cache = 10% of text input. Confirmed on AI Studio page (July 23 audit). A July 25 summary artifact suggested "no caching" but the July 23 explicit page fetch confirmed caching. Do not remove cache pricing based on a summary artifact alone. |
+| Google | gemini-3.1-flash-lite | Input $0.25/MTok (2.5e-7), Audio $0.50/MTok (5e-7), Output $1.50/MTok (1.5e-6), Cache read $0.025/MTok (2.5e-8) | Yes | No large-context tier | Yes | None | https://ai.google.dev/pricing | Cache = 10% of text input. Confirmed by explicit AI Studio page fetches on July 23 2026 and July 26 2026 (https://ai.google.dev/pricing#2_5_flash). Overview-page summary artifacts on July 25 and July 26 listed this model under "Models WITHOUT Context Caching" — this is a recurring page artifact; always fetch the specific pricing section rather than trusting the overview groupings. |
 | Google | gemini-3.1-flash-lite-preview | Input $0.25/MTok, Output $1.50/MTok (same as GA) | No | No large-context tier | Not applicable | None | https://ai.google.dev/pricing | Preview variant; same prices as GA version in file; not separately listed on official page. |
 | Google | gemini-3.1-pro-preview | Input $2/MTok (2e-6) ≤200K, $4/MTok >200K; Output $12/MTok ≤200K, $18/MTok >200K | Yes | Large Context (>200K) confirmed | Yes | None | https://ai.google.dev/pricing | Two tiers confirmed on AI Studio page. |
 | Google | gemini-3-flash-preview | Input $0.50/MTok (5e-7), Audio $1/MTok (1e-6), Output $3/MTok (3e-6), Cache read $0.05/MTok (5e-8) | Yes | No large-context tier | Yes | None | https://ai.google.dev/pricing | Confirmed on AI Studio page. |
@@ -75,3 +75,5 @@ All prices listed as `$X / MTok` (per million tokens). Per-token JSON values: di
 4. **claude-sonnet-5 introductory pricing** — Introductory pricing ($2/$10/MTok) expires August 31, 2026. Standard pricing ($3/$15/MTok, cache $3.75/$6/$0.30) takes effect September 1, 2026. The pricing file must be updated before or on September 1, 2026.
 
 5. **claude-opus-4-1-20250805 retirement** — Deprecated and retiring August 5, 2026. File entry retained for backward pricing compatibility. No action required; the entry stays so historical traces can still be priced.
+
+6. **gpt-5.6 explicit cache write pricing** — The gpt-5.6-sol model page (`https://developers.openai.com/api/docs/models/gpt-5.6-sol`) explicitly lists cache write pricing at 1.25× standard input: $6.25/MTok for sol, $3.125/MTok for terra, $1.25/MTok for luna. No existing OpenAI entry in the pricing file uses a cache write key, and Langfuse's OpenAI usage schema (`input`, `input_cached_tokens`, `input_cache_read`, `output`) does not include a cache write dimension. Cannot safely add until the API usage key is identified (possibly `prompt_tokens_details.cache_creation_tokens`) and Langfuse's ModelUsage processing for OpenAI is verified to support it. Future audits should check whether OpenAI API responses for gpt-5.6 models include a cache creation token count key.

@@ -20,6 +20,10 @@ import {
   ClipboardPen,
   Clock,
   Beaker,
+  BarChart3,
+  Coins,
+  Siren,
+  Wrench,
 } from "lucide-react";
 import { type ReactNode } from "react";
 import { type Entitlement } from "@/src/features/entitlements/constants/entitlements";
@@ -45,6 +49,8 @@ export enum RouteGroup {
   Observability = "Observability",
   PromptManagement = "Prompt Management",
   Evaluation = "Evaluation",
+  TokenStats = "Token 统计",
+  Admin = "管理",
 }
 
 export type Route = {
@@ -195,6 +201,35 @@ export const ROUTES: Route[] = [
     icon: Beaker,
     featureFlag: "experimentsV4Enabled",
     group: RouteGroup.Evaluation,
+    section: RouteSection.Main,
+  },
+  {
+    title: "Token 概览",
+    pathname: `/project/[projectId]/dashboard/tokens`,
+    icon: BarChart3,
+    group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "成本分析",
+    pathname: `/project/[projectId]/dashboard/cost`,
+    icon: Coins,
+    group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "告警设置",
+    pathname: `/project/[projectId]/settings/alerts`,
+    icon: Siren,
+    group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "后台管理",
+    pathname: "https://oxelia51.com/admin",
+    icon: Wrench,
+    newTab: true,
+    group: RouteGroup.Admin,
     section: RouteSection.Main,
   },
   {

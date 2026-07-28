@@ -1,0 +1,74 @@
+/**
+ * Oxelia51 双主题变量 — Cozy 暖色 / Cosmos 深色
+ * 来源：docs/4-detailed-design.md §5.1-5.2
+ *
+ * 说明：变量统一加 `--ox-` 前缀，避免与 Langfuse 自身的
+ * --accent / --border / --radius 等 shadcn 变量冲突。
+ * Langfuse 原生组件的适配映射见 web/src/styles/oxelia51-vars.css。
+ */
+
+:root,
+[data-theme="cozy"] {
+  --ox-bg: #fdf6ee;
+  --ox-bg-alt: #f5ebe0;
+  --ox-bg-glass: rgba(253, 246, 238, 0.75);
+  --ox-text: #3d2e25;
+  --ox-text-h: #2a1a0e;
+  --ox-text-muted: #8b7355;
+  --ox-accent: #c8553d;
+  --ox-accent-hover: #a04030;
+  --ox-accent-2: #6b8e5a;
+  --ox-accent-border: rgba(200, 85, 61, 0.35);
+  --ox-border: #e0d3c0;
+  --ox-border-light: #ede4d4;
+  --ox-radius: 10px;
+  --ox-speed: 0.3s;
+  --ox-ok: #4a7c59;
+  --ox-danger: #c8553d;
+  --ox-warn: #c4943d;
+
+  /* 图表暖色系 */
+  --ox-chart-1: #c8553d;
+  --ox-chart-2: #e8956c;
+  --ox-chart-3: #6b8e5a;
+  --ox-chart-4: #c4943d;
+  --ox-chart-5: #8b7355;
+
+  /* 间距尺度（8px 网格） */
+  --ox-space-sm: 8px;
+  --ox-space-gap: 16px;
+  --ox-space-card: 24px;
+  --ox-space-section: 80px;
+}
+
+[data-theme="cosmos"] {
+  --ox-bg: #0a0e17;
+  --ox-bg-alt: #111620;
+  --ox-bg-glass: rgba(17, 22, 32, 0.78);
+  --ox-text: #c9d1d9;
+  --ox-text-h: #e6edf3;
+  --ox-text-muted: #6e7681;
+  --ox-accent: #7c3aed;
+  --ox-accent-hover: #9d6ff5;
+  --ox-accent-2: #3b82f6;
+  --ox-accent-border: rgba(124, 58, 237, 0.4);
+  --ox-border: #1e2430;
+  --ox-border-light: #252c38;
+  --ox-radius: 6px;
+  --ox-speed: 0.2s;
+  --ox-ok: #3fb950;
+  --ox-danger: #f85149;
+  --ox-warn: #d29922;
+
+  /* 图表冷色系 */
+  --ox-chart-1: #7c3aed;
+  --ox-chart-2: #3b82f6;
+  --ox-chart-3: #3fb950;
+  --ox-chart-4: #d29922;
+  --ox-chart-5: #6e7681;
+
+  --ox-space-sm: 8px;
+  --ox-space-gap: 16px;
+  --ox-space-card: 24px;
+  --ox-space-section: 80px;
+}

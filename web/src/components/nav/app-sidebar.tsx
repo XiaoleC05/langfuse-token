@@ -30,6 +30,7 @@ import { type RouteGroup } from "@/src/components/layouts/routes";
 import { ExternalLink, Grid2X2 } from "lucide-react";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
 import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
+import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 
 type AppSidebarProps = {
   navItems: {
@@ -75,6 +76,9 @@ export function AppSidebar({
         <NavMain items={secondaryNavItems} />
       </SidebarContent>
       <SidebarFooter>
+        <div className="px-2 pb-2">
+          <Oxelia51ThemeToggle />
+        </div>
         <NavUser {...userNavProps} />
       </SidebarFooter>
       <SidebarRail />

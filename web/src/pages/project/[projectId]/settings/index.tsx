@@ -34,6 +34,7 @@ import { PersonalNotificationSettings } from "@/src/features/notifications/compo
 import { ProjectNotificationChannels } from "@/src/features/notifications/components/ProjectNotificationChannels";
 import { WebCalloutIntegrationCard } from "@/src/features/web-callouts/components/WebCalloutSettingsPage";
 import { DeveloperToolsSettings } from "@/src/features/developer-tools/components/DeveloperToolsSettings";
+import { AlertsSettings } from "@/src/features/oxelia51/components/AlertsSettings";
 
 type ProjectSettingsPage = {
   title: string;
@@ -237,6 +238,12 @@ export const getProjectSettingsPages = ({
     slug: "audit-logs",
     cmdKKeywords: ["trail"],
     content: <AuditLogsSettingsPage projectId={project.id} />,
+  },
+  {
+    title: "告警设置",
+    slug: "alerts",
+    cmdKKeywords: ["alert", "budget", "webhook", "告警", "预算"],
+    content: <AlertsSettings projectId={project.id} />,
   },
   {
     title: "Notifications",

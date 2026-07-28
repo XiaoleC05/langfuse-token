@@ -61,6 +61,7 @@ import { onboardingRouter } from "@/src/features/onboarding/server/onboardingRou
 import { webCalloutsRouter } from "@/src/features/web-callouts/server/router";
 import { inAppAgentRouter } from "@/src/ee/features/in-app-agent/server/router";
 import { v4TransitionRouter } from "@/src/features/v4/server/v4TransitionRouter";
+import { oxelia51Router } from "@/src/features/oxelia51/server/oxelia51Router";
 
 /**
  * This is the primary router for your server.
@@ -130,6 +131,7 @@ export const appRouter = createTRPCRouter({
   webCallouts: webCalloutsRouter,
   inAppAgent: inAppAgentRouter,
   v4Transition: v4TransitionRouter,
+  oxelia51: oxelia51Router,
 });
 
 // export type definition of API

@@ -17,6 +17,8 @@ import NextAdapterPages from "next-query-params/pages";
 import { QueryParamProvider } from "use-query-params";
 
 import "@/src/styles/globals.css";
+import "@/src/features/theming/oxelia51-theme.css";
+import "@/src/styles/oxelia51-vars.css";
 import { AppLayout } from "@/src/components/layouts/app-layout";
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";

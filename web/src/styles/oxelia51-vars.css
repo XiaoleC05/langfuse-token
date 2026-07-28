@@ -1,0 +1,56 @@
+/**
+ * Oxelia51 CSS 变量覆盖 — 将 Cozy/Cosmos 主题映射到 Langfuse 原生组件。
+ *
+ * Langfuse 的 shadcn 变量定义在 globals.css 的 @layer base 中（HSL 三元组），
+ * 本文件不使用 @layer，因此按层叠规则优先于 globals.css 生效。
+ * 主题由 document.documentElement 的 data-theme 属性驱动（见 theming/ThemeProvider.tsx）。
+ */
+
+/* Cozy 暖色（默认） */
+:root,
+[data-theme="cozy"] {
+  --background: 32 79% 96%; /* --ox-bg #fdf6ee */
+  --foreground: 23 25% 19%; /* --ox-text #3d2e25 */
+  --card: 40 100% 98%;
+  --card-foreground: 23 25% 19%;
+  --popover: 40 100% 98%;
+  --popover-foreground: 23 25% 19%;
+  --primary: 10 56% 51%; /* --ox-accent #c8553d */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 31 52% 92%; /* --ox-bg-alt #f5ebe0 */
+  --secondary-foreground: 26 50% 11%; /* --ox-text-h #2a1a0e */
+  --muted: 31 52% 92%;
+  --muted-foreground: 33 24% 44%; /* --ox-text-muted #8b7355 */
+  --accent: 31 52% 92%;
+  --accent-foreground: 26 50% 11%;
+  --destructive: 10 56% 51%; /* --ox-danger #c8553d */
+  --destructive-foreground: 0 0% 100%;
+  --border: 36 34% 82%; /* --ox-border #e0d3c0 */
+  --input: 38 41% 88%; /* --ox-border-light #ede4d4 */
+  --ring: 10 56% 51%;
+  --radius: 10px; /* --ox-radius */
+}
+
+/* Cosmos 深色（ThemeProvider 会同步附加 .dark class） */
+[data-theme="cosmos"] {
+  --background: 222 39% 6%; /* --ox-bg #0a0e17 */
+  --foreground: 210 17% 82%; /* --ox-text #c9d1d9 */
+  --card: 220 31% 10%; /* --ox-bg-alt #111620 */
+  --card-foreground: 210 17% 82%;
+  --popover: 220 31% 10%;
+  --popover-foreground: 210 17% 82%;
+  --primary: 262 83% 58%; /* --ox-accent #7c3aed */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 23% 15%; /* --ox-border #1e2430 */
+  --secondary-foreground: 208 35% 93%; /* --ox-text-h #e6edf3 */
+  --muted: 220 23% 15%;
+  --muted-foreground: 215 8% 47%; /* --ox-text-muted #6e7681 */
+  --accent: 220 23% 15%;
+  --accent-foreground: 208 35% 93%;
+  --destructive: 3 93% 63%; /* --ox-danger #f85149 */
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 23% 15%; /* --ox-border #1e2430 */
+  --input: 218 20% 18%; /* --ox-border-light #252c38 */
+  --ring: 262 83% 58%;
+  --radius: 6px; /* --ox-radius */
+}

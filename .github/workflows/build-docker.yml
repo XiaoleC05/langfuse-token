@@ -12,6 +12,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build Docker image
         run: |
@@ -27,5 +29,5 @@ jobs:
           gh release create "$TAG" langfuse-token-web.tar.gz \
             --title "Docker Image ${GITHUB_SHA::7}" \
             --notes "langfuse-token-web Docker image. Commit: ${GITHUB_SHA}" \
-            --target main \
+            --target ${{ github.sha }} \
             --latest

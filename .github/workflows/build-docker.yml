@@ -40,3 +40,4 @@ jobs:
             --notes "langfuse-token-web Docker image. Commit: ${GITHUB_SHA}" \
             --target ${{ github.sha }} \
             --latest
+

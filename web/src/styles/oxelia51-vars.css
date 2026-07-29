@@ -61,3 +61,52 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
 }
+
+/* ============================================================
+   PR2 视觉层：侧栏 / 卡片 / 表格
+   ============================================================ */
+
+/* 侧栏变量（shadcn sidebar 独立变量组） */
+:root,
+[data-theme="cozy"] {
+  --sidebar-background: 40 100% 98%;
+  --sidebar-foreground: 23 25% 19%;
+  --sidebar-accent: 31 52% 90%;
+  --sidebar-accent-foreground: 10 56% 41%;
+  --sidebar-border: 36 34% 85%;
+  --sidebar-ring: 10 56% 51%;
+}
+
+[data-theme="cosmos"] {
+  --sidebar-background: 220 31% 9%;
+  --sidebar-foreground: 210 17% 82%;
+  --sidebar-accent: 220 23% 15%;
+  --sidebar-accent-foreground: 263 85% 76%;
+  --sidebar-border: 220 23% 15%;
+  --sidebar-ring: 262 83% 58%;
+}
+
+/* 侧栏激活项：左侧 3px accent 指示条 */
+[data-sidebar="menu-button"][data-active="true"] {
+  box-shadow: inset 3px 0 0 0 var(--ox-accent);
+}
+
+/* 卡片：细边框 + 主题阴影 + hover 微浮起 */
+[data-theme="cozy"] [data-slot="card"],
+[data-theme="cozy"] .card {
+  box-shadow: 0 1px 3px rgba(61, 46, 37, 0.06);
+}
+
+[data-theme="cosmos"] [data-slot="card"],
+[data-theme="cosmos"] .card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* 表格：表头底色 + 行 hover */
+[data-slot="table"] thead tr {
+  background-color: var(--ox-bg-alt);
+}
+
+[data-slot="table"] tbody tr {
+  transition: background-color var(--ox-speed) ease;
+}

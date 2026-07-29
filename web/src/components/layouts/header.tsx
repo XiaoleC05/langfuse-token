@@ -38,10 +38,13 @@ function HeaderTitle({
   // primary emphasis tier (the shell's sidebar tint would dim them);
   // sub-levels follow the text-* token weight — hierarchy below h3 is
   // carried by size.
+  // Oxelia51：内嵌板块标题使用 Noto Serif SC（AGENTS.md §3.1 字体约定）。
   switch (level) {
     case "h3":
       return (
-        <h3 className="text-primary text-lg leading-7 font-bold">{title}</h3>
+        <h3 className="text-primary font-heading text-lg leading-7 font-bold">
+          {title}
+        </h3>
       );
     case "h4":
       return <h4 className="text-lg leading-6">{title}</h4>;

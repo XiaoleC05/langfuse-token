@@ -37,6 +37,13 @@ import "core-js/features/array/to-sorted";
 import "react18-json-view/src/style.css";
 import "streamdown/styles.css";
 
+// Oxelia51 品牌字体（自托管 @fontsource，无外部 CDN 依赖）
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/noto-serif-sc/600.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/600.css";
+
 // Polyfill to prevent React crashes when Google Translate modifies the DOM.
 // Google Translate wraps text nodes in <font> elements, which breaks React's
 // reconciliation when it tries to remove/insert nodes that no longer exist

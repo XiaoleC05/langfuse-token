@@ -107,12 +107,38 @@ export default function AdminPage() {
   const { data: session, status } = useSession();
   const authed = status === "authenticated" && Boolean(session?.user);
 
-  const stats = usePolling<ServerStats>("server-stats", authed);
-  const power = usePolling<PowerRecord>("dorm-power", authed);
+  // whoami 门禁：仅管理员可见内容
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!authed) {
+      setIsAdmin(null);
+      return;
+    }
+    fetch("/api/oxelia-admin/whoami")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { isAdmin?: boolean } | null) =>
+        setIsAdmin(Boolean(d?.isAdmin)),
+      )
+      .catch(() => setIsAdmin(false));
+  }, [authed]);
+
+  const allowed = authed && isAdmin === true;
+
+  const stats = usePolling<ServerStats>("server-stats", allowed);
+  const power = usePolling<PowerRecord>("dorm-power", allowed);
   const whitelist = usePolling<{ items?: WhitelistItem[]; clientIP?: string }>(
     "whitelist-list",
-    authed,
+    allowed,
   );
+  const users = usePolling<{
+    items?: Array<{
+      id: string;
+      name: string | null;
+      email: string | null;
+      created_at: string;
+      memberships: Array<{ org: string; role: string }>;
+    }>;
+  }>("users-list", allowed);
 
   const [newIp, setNewIp] = useState("");
   const [newLabel, setNewLabel] = useState("");
@@ -171,7 +197,7 @@ export default function AdminPage() {
         </header>
 
         <main className="mx-auto flex max-w-4xl flex-col gap-4 p-6 pb-20">
-          {status === "loading" ? (
+          {status === "loading" || (authed && isAdmin === null) ? (
             <p className="text-muted-foreground text-sm">加载中…</p>
           ) : !authed ? (
             <Card className="flex flex-col gap-3 p-6">
@@ -181,6 +207,17 @@ export default function AdminPage() {
               </p>
               <Button asChild className="self-start">
                 <Link href="/auth/sign-in">前往登录</Link>
+              </Button>
+            </Card>
+          ) : !isAdmin ? (
+            <Card className="flex flex-col gap-3 p-6">
+              <h2 className="font-heading text-lg font-semibold">无访问权限</h2>
+              <p className="text-muted-foreground text-sm">
+                后台管理仅对管理员开放。当前账户（{session?.user?.email}
+                ）没有管理权限，如需开通请联系平台管理员。
+              </p>
+              <Button asChild variant="ghost" className="self-start">
+                <Link href="/">返回平台</Link>
               </Button>
             </Card>
           ) : (
@@ -290,6 +327,52 @@ export default function AdminPage() {
                           </TableCell>
                         </TableRow>
                       )}
+                    </TableBody>
+                  </Table>
+                )}
+              </Card>
+
+              {/* 平台用户管理 */}
+              <Card className="flex flex-col gap-3 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">
+                    平台用户（{users.data?.items?.length ?? "…"}）
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={() => void users.reload()}>
+                    <RefreshCw className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+                {users.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{users.error}</p>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>邮箱</TableHead>
+                        <TableHead>姓名</TableHead>
+                        <TableHead>组织 / 角色</TableHead>
+                        <TableHead>注册时间</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(users.data?.items ?? []).map((u) => (
+                        <TableRow key={u.id}>
+                          <TableCell>{u.email ?? "—"}</TableCell>
+                          <TableCell>{u.name || "—"}</TableCell>
+                          <TableCell className="text-xs">
+                            {(u.memberships ?? []).length === 0
+                              ? "—"
+                              : (u.memberships ?? [])
+                                  .map((m) => `${m.org}（${m.role}）`)
+                                  .join("、")}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground text-xs">
+                            {u.created_at
+                              ? new Date(u.created_at).toLocaleDateString("zh-CN")
+                              : "—"}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 )}

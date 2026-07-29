@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerAuthSession } from "@/src/server/auth";
+import { prisma } from "@langfuse/shared/src/db";
 import { env } from "@/src/env.mjs";
 
 /**
@@ -78,6 +79,8 @@ const ACTIONS: Record<string, ActionDef> = {
       `/api/tools/dormguard/proxy/api/power/records/${dorm()}/latest`,
     auth: true,
   },
+  // 特殊处理：本地 prisma 查询，不转发（见下方 users-list 分支）
+  "users-list": { method: "GET", path: () => "", auth: false },
 };
 
 export default async function handler(
@@ -89,22 +92,63 @@ export default async function handler(
   if (!session?.user?.email) {
     return res.status(401).json({ error: "请先登录平台账户" });
   }
-  // 2. 可选管理员邮箱白名单
+  // 2. 管理员判定（邮箱白名单；空名单=任何登录用户都是管理员）
   const allowlist = (env.OXELIA51_ADMIN_EMAILS ?? "")
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
-  if (allowlist.length > 0 && !allowlist.includes(session.user.email)) {
+  const isAdmin =
+    allowlist.length === 0 || allowlist.includes(session.user.email);
+
+  const action = String(req.query.action ?? "");
+
+  // whoami 始终可用：前端据此决定后台管理入口可见性
+  if (action === "whoami") {
+    return res.status(200).json({ email: session.user.email, isAdmin });
+  }
+  if (!isAdmin) {
     return res.status(403).json({ error: "当前账户无后台管理权限" });
   }
 
-  const action = String(req.query.action ?? "");
   const def = ACTIONS[action];
   if (!def) {
     return res.status(404).json({ error: `未知操作: ${action}` });
   }
   if (req.method !== def.method) {
     return res.status(405).json({ error: "方法不允许" });
+  }
+
+  // users-list：直接读 Langfuse 用户表（不走 Go 后端）
+  if (action === "users-list") {
+    try {
+      const users = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          name: string | null;
+          email: string | null;
+          created_at: Date;
+          memberships: unknown;
+        }>
+      >`
+        SELECT u.id, u.name, u.email, u.created_at,
+               COALESCE(
+                 json_agg(json_build_object('org', o.name, 'role', m.role))
+                   FILTER (WHERE m.user_id IS NOT NULL),
+                 '[]'
+               ) AS memberships
+        FROM users u
+        LEFT JOIN memberships m ON m.user_id = u.id
+        LEFT JOIN organizations o ON o.id = m.org_id
+        GROUP BY u.id
+        ORDER BY u.created_at DESC
+        LIMIT 200
+      `;
+      return res.status(200).json({ items: users });
+    } catch (error) {
+      return res.status(500).json({
+        error: error instanceof Error ? error.message : "查询用户失败",
+      });
+    }
   }
 
   try {

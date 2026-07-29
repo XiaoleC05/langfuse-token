@@ -4,7 +4,7 @@
  */
 
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
 import { useEntitlements } from "@/src/features/entitlements/hooks";
 import { useUiCustomization } from "@/src/ee/features/ui-customization/useUiCustomization";
@@ -125,6 +125,26 @@ export function useFilteredNavigation(
     return applyNavigationFilters(ROUTES, filterContext, organization);
   }, [filterContext, organization]);
 
+  // Oxelia51：后台管理入口仅管理员可见（whoami 由 /api/oxelia-admin 判定）
+  const [isOxeliaAdmin, setIsOxeliaAdmin] = useState(false);
+  const sessionEmail = session?.user?.email;
+  useEffect(() => {
+    if (!sessionEmail) {
+      setIsOxeliaAdmin(false);
+      return;
+    }
+    let cancelled = false;
+    fetch("/api/oxelia-admin/whoami")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { isAdmin?: boolean } | null) => {
+        if (!cancelled) setIsOxeliaAdmin(Boolean(d?.isAdmin));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionEmail]);
+
   // Map filtered routes to NavigationItems with url and isActive
   // This is O(n) - we map directly over filteredRoutes instead of re-iterating ROUTES
   return useMemo(() => {
@@ -147,7 +167,10 @@ export function useFilteredNavigation(
     };
 
     // Map filtered routes to navigation items
-    const allItems = filteredRoutes.map(mapRouteToNavigationItem);
+    const allItems = filteredRoutes
+      // 非管理员隐藏后台管理入口
+      .filter((route) => route.pathname !== "/admin" || isOxeliaAdmin)
+      .map(mapRouteToNavigationItem);
 
     // Split by section and group
     const mainItems = allItems.filter(
@@ -168,5 +191,11 @@ export function useFilteredNavigation(
         ...secondaryNavigation.flattened,
       ],
     };
-  }, [filteredRoutes, routerProjectId, routerOrganizationId, router.pathname]);
+  }, [
+    filteredRoutes,
+    routerProjectId,
+    routerOrganizationId,
+    router.pathname,
+    isOxeliaAdmin,
+  ]);
 }

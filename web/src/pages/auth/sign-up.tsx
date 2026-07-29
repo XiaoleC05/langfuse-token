@@ -9,6 +9,14 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { signupSchema } from "@/src/features/auth/lib/signupSchema";
+
+/** 注册表单 schema：在服务端 signupSchema 基础上加确认密码（仅客户端校验） */
+const signupFormSchema = signupSchema
+  .extend({ confirmPassword: z.string() })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "两次输入的密码不一致",
+    path: ["confirmPassword"],
+  });
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
@@ -107,11 +115,12 @@ function StandardSignupFlow({
     );
 
   const form = useForm({
-    resolver: showPasswordStep ? zodResolver(signupSchema) : undefined,
+    resolver: showPasswordStep ? zodResolver(signupFormSchema) : undefined,
     defaultValues: {
       name: "",
       email: emailParam ?? "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -199,7 +208,12 @@ function StandardSignupFlow({
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            referralSource: values.referralSource,
+          }),
         },
       );
 
@@ -285,6 +299,21 @@ function StandardSignupFlow({
               )}
             />
           )}
+          {showPasswordStep && (
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>确认密码</FormLabel>
+                  <FormControl>
+                    <PasswordInput {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <Button
             type="submit"
             className="w-full"
@@ -294,7 +323,7 @@ function StandardSignupFlow({
             disabled={showPasswordStep ? false : form.watch("email") === ""}
             data-testid="submit-email-password-sign-up-form"
           >
-            {showPasswordStep ? "Sign up" : "Continue"}
+            {showPasswordStep ? "注册" : "继续"}
           </Button>
           {formError ? (
             <div className="text-destructive text-center text-sm font-bold">

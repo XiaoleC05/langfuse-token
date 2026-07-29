@@ -19,6 +19,17 @@ jobs:
           docker save langfuse-token-web:latest | gzip > langfuse-token-web.tar.gz
           ls -lh langfuse-token-web.tar.gz
 
+      - name: Push to Aliyun ACR
+        env:
+          ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }}
+          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+        run: |
+          docker tag langfuse-token-web:latest "$ACR_REGISTRY/oxelia51/langfuse-token:latest"
+          echo "$ACR_PASSWORD" | docker login --username "$ACR_USERNAME" --password-stdin "$ACR_REGISTRY"
+          docker push "$ACR_REGISTRY/oxelia51/langfuse-token:latest"
+          echo "PUSH_DONE"
+
       - name: Upload to Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

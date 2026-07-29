@@ -7,9 +7,9 @@ type LangfuseIconProps = {
 export const LangfuseIcon = ({ size = 32 }: LangfuseIconProps) => (
   // eslint-disable-next-line @next/next/no-img-element
   <img
-    src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon.svg`}
+    src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon.png`}
     width={size}
     height={size}
-    alt="Langfuse Icon"
+    alt="Oxelia51"
   />
 );

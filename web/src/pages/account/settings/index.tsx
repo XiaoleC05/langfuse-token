@@ -253,7 +253,7 @@ export function useAccountSettingsPages(): AccountSettingsPage[] {
 
 const getAccountSettingsPages = (userEmail: string): AccountSettingsPage[] => [
   {
-    title: "General",
+    title: "通用",
     slug: "index",
     cmdKKeywords: [
       "account",
@@ -272,30 +272,28 @@ const getAccountSettingsPages = (userEmail: string): AccountSettingsPage[] => [
           <Header title="Email" />
           <Card className="p-3">
             <p className="text-primary text-sm">
-              Your email address: <b>{userEmail}</b>
+              您的邮箱地址： <b>{userEmail}</b>
             </p>
           </Card>
         </div>
         <UpdateDisplayName />
         <div>
-          <Header title="Password" />
+          <Header title="密码" />
           <Card className="p-3">
             <p className="text-primary mb-4 text-sm">
-              To change your password, we will send you a secure link to your
-              email address. Click the button below to start the password reset
-              process.
+              我们将向您的邮箱发送安全链接，点击下方按钮开始重置密码流程。
             </p>
             <Button asChild variant="secondary">
-              <Link href="/auth/reset-password">Change Password</Link>
+              <Link href="/auth/reset-password">修改密码</Link>
             </Button>
           </Card>
         </div>
         <SettingsDangerZone
           items={[
             {
-              title: "Delete your account",
+              title: "删除账户",
               description:
-                "You can delete your account if you are not the last owner of any organization. If you are the last owner, please add another owner or delete the organization and all projects first.",
+                "如果您不是任何组织的最后一位所有者，即可删除账户。如果是最后一位所有者，请先添加其他所有者或删除组织及其全部项目。",
               button: <DeleteAccountButton />,
             },
           ]}
@@ -315,7 +313,7 @@ export default function AccountSettingsPage() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Account Settings",
+        title: "账户设置",
       }}
     >
       <PagedSettingsContainer

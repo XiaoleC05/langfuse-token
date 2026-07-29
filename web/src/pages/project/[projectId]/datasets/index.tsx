@@ -30,7 +30,7 @@ export default function Datasets() {
     return (
       <Page
         headerProps={{
-          title: "Datasets",
+          title: "数据集",
           help: {
             description:
               "Datasets in Langfuse are a collection of inputs (and expected outputs) of an LLM application. They are used to benchmark new releases before deployment to production. See docs to learn more.",
@@ -47,7 +47,7 @@ export default function Datasets() {
   return (
     <Page
       headerProps={{
-        title: "Datasets",
+        title: "数据集",
         help: {
           description:
             "Datasets in Langfuse are a collection of inputs (and expected outputs) of an LLM application. They are used to benchmark new releases before deployment to production. See docs to learn more.",

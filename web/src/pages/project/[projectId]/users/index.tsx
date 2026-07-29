@@ -85,7 +85,7 @@ export default function UsersPage() {
   return (
     <Page
       headerProps={{
-        title: "Users",
+        title: "用户",
         help: {
           description: (
             <>

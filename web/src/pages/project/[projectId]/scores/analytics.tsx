@@ -190,7 +190,7 @@ export default function ScoresAnalyticsV2Page() {
   return (
     <Page
       headerProps={{
-        title: "Scores",
+        title: "评分",
         breadcrumb: [{ name: "Scores", href: `/project/${projectId}/scores` }],
         help: {
           description:

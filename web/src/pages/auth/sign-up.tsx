@@ -18,6 +18,7 @@ import * as z from "zod";
 import { env } from "@/src/env.mjs";
 import { useState } from "react";
 import { LangfuseIcon } from "@/src/components/design-system/LangfuseIcon/LangfuseIcon";
+import { FilingInfo } from "@/src/components/FilingInfo";
 import { CloudPrivacyNotice } from "@/src/features/auth/components/AuthCloudPrivacyNotice";
 import { CloudRegionSwitch } from "@/src/features/auth/components/AuthCloudRegionSwitch";
 import {
@@ -242,7 +243,7 @@ function StandardSignupFlow({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>姓名</FormLabel>
                   <FormControl>
                     <Input placeholder="Jane Doe" {...field} />
                   </FormControl>
@@ -256,7 +257,7 @@ function StandardSignupFlow({
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>邮箱</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="jsdoe@example.com"
@@ -275,7 +276,7 @@ function StandardSignupFlow({
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>密码</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} />
                   </FormControl>
@@ -488,7 +489,7 @@ function VerifiedSignupFlow({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>姓名</FormLabel>
                 <FormControl>
                   <Input placeholder="Jane Doe" {...field} />
                 </FormControl>
@@ -501,7 +502,7 @@ function VerifiedSignupFlow({
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>邮箱</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="jsdoe@example.com"
@@ -559,7 +560,7 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
             <LangfuseIcon />
           </div>
           <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
-            Create new account
+            创建新账户
           </h2>
         </div>
         {isLangfuseCloud ? (
@@ -574,6 +575,9 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
           {children}
         </div>
         <CloudPrivacyNotice action="creating an account" />
+        <div className="mt-6 flex justify-center pb-4">
+          <FilingInfo />
+        </div>
       </div>
     </>
   );
@@ -583,12 +587,12 @@ function SignupFooter() {
   const router = useRouter();
   return (
     <p className="text-muted-foreground mt-10 text-center text-sm">
-      Already have an account?{" "}
+      已有账号？{" "}
       <Link
         href={`/auth/sign-in${router.asPath.includes("?") ? router.asPath.substring(router.asPath.indexOf("?")) : ""}`}
         className="text-link hover:text-link-hover leading-6 font-bold"
       >
-        Sign in
+        登录
       </Link>
     </p>
   );

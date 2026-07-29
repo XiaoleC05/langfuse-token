@@ -45,7 +45,7 @@ export default function Sessions() {
   return (
     <Page
       headerProps={{
-        title: "Sessions",
+        title: "会话",
         help: {
           description: (
             <>

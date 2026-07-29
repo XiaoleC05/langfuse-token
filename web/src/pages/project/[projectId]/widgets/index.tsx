@@ -20,7 +20,7 @@ export default function Widgets() {
   return (
     <Page
       headerProps={{
-        title: "Widgets",
+        title: "组件",
         help: {
           description: "Manage and create widgets for your dashboard.",
           href: "https://langfuse.com/docs/metrics/features/custom-dashboards",

@@ -35,7 +35,7 @@ const resetPasswordSchema = z
     confirmPassword: passwordSchema,
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "两次输入的密码不一致",
     path: ["confirmPassword"],
   });
 
@@ -119,9 +119,9 @@ export function ResetPasswordPage({
       />
     );
 
-  const title = isSetMode ? "Set your password" : "Reset your password";
-  const pageTitle = isSetMode ? "Set Password" : "Reset Password";
-  const submitLabel = isSetMode ? "Set password" : "Update Password";
+  const title = isSetMode ? "设置您的密码" : "重置您的密码";
+  const pageTitle = isSetMode ? "设置密码" : "重置密码";
+  const submitLabel = isSetMode ? "设置密码" : "更新密码";
   const successMessage = isSetMode
     ? "Password set successfully. Redirecting ..."
     : "Password successfully updated. Redirecting ...";
@@ -194,7 +194,7 @@ export function ResetPasswordPage({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            {isSetMode ? "Password" : "New Password"}
+                            {isSetMode ? "密码" : "新密码"}
                           </FormLabel>
                           <FormControl>
                             <PasswordInput

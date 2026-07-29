@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { api } from "@/src/utils/api";
 import { Card } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -21,7 +22,8 @@ import { Trash2, RefreshCw } from "lucide-react";
 
 /**
  * Oxelia51 后台管理 v2。
- * 统一登录：Langfuse 登录态直接进入；数据经 /api/oxelia-admin/* 服务端代理获取。
+ * 统一登录：Langfuse 登录态直接进入；数据经 tRPC（oxelia51Admin router）
+ * 服务端代理获取，仅管理员（邮箱名单）可见。
  */
 
 type ServerStats = {
@@ -47,35 +49,15 @@ type WhitelistItem = {
   created_at?: string;
 };
 
+type UserItem = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  created_at: string;
+  memberships: Array<{ org: string; role: string }>;
+};
+
 const POLL_MS = 5000;
-
-function usePolling<T>(action: string, enabled: boolean) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState("");
-  const load = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/oxelia-admin/${action}`);
-      if (!res.ok) {
-        const d = (await res.json().catch(() => ({}))) as { error?: string };
-        setError(d.error ?? `HTTP ${res.status}`);
-        return;
-      }
-      setError("");
-      setData((await res.json()) as T);
-    } catch {
-      setError("网络错误");
-    }
-  }, [action]);
-
-  useEffect(() => {
-    if (!enabled) return;
-    void load();
-    const timer = setInterval(() => void load(), POLL_MS);
-    return () => clearInterval(timer);
-  }, [enabled, load]);
-
-  return { data, error, reload: load };
-}
 
 function formatUptime(seconds?: number) {
   if (!seconds) return "—";
@@ -103,79 +85,62 @@ function LiveDot() {
   );
 }
 
+function errMsg(e: { message?: string } | null | undefined) {
+  return e?.message ?? "";
+}
+
 export default function AdminPage() {
   const { data: session, status } = useSession();
   const authed = status === "authenticated" && Boolean(session?.user);
 
-  // whoami 门禁：仅管理员可见内容
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  useEffect(() => {
-    if (!authed) {
-      setIsAdmin(null);
-      return;
-    }
-    fetch("/api/oxelia-admin/whoami")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d: { isAdmin?: boolean } | null) =>
-        setIsAdmin(Boolean(d?.isAdmin)),
-      )
-      .catch(() => setIsAdmin(false));
-  }, [authed]);
+  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
+    enabled: authed,
+    staleTime: Infinity,
+  });
+  const allowed = authed && whoami.data?.isAdmin === true;
 
-  const allowed = authed && isAdmin === true;
+  const statsQ = api.oxelia51Admin.serverStats.useQuery(undefined, {
+    enabled: allowed,
+    refetchInterval: POLL_MS,
+  });
+  const powerQ = api.oxelia51Admin.dormPower.useQuery(undefined, {
+    enabled: allowed,
+    refetchInterval: POLL_MS,
+  });
+  const whitelistQ = api.oxelia51Admin.whitelistList.useQuery(undefined, {
+    enabled: allowed,
+  });
+  const usersQ = api.oxelia51Admin.usersList.useQuery(undefined, {
+    enabled: allowed,
+  });
 
-  const stats = usePolling<ServerStats>("server-stats", allowed);
-  const power = usePolling<PowerRecord>("dorm-power", allowed);
-  const whitelist = usePolling<{ items?: WhitelistItem[]; clientIP?: string }>(
-    "whitelist-list",
-    allowed,
-  );
-  const users = usePolling<{
-    items?: Array<{
-      id: string;
-      name: string | null;
-      email: string | null;
-      created_at: string;
-      memberships: Array<{ org: string; role: string }>;
-    }>;
-  }>("users-list", allowed);
+  const stats = statsQ.data as ServerStats | undefined;
+  const power = powerQ.data as PowerRecord | undefined;
+  const whitelist = whitelistQ.data as
+    | { items?: WhitelistItem[]; clientIP?: string }
+    | undefined;
+  const users = usersQ.data?.items as UserItem[] | undefined;
+
+  const utils = api.useUtils();
+  const [opError, setOpError] = useState("");
+  const invalidateWhitelist = () =>
+    utils.oxelia51Admin.whitelistList.invalidate();
+
+  const createMut = api.oxelia51Admin.whitelistCreate.useMutation({
+    onSuccess: () => {
+      setNewIp("");
+      setNewLabel("");
+      void invalidateWhitelist();
+    },
+    onError: (e) => setOpError(e.message),
+  });
+  const deleteMut = api.oxelia51Admin.whitelistDelete.useMutation({
+    onSuccess: () => void invalidateWhitelist(),
+    onError: (e) => setOpError(e.message),
+  });
 
   const [newIp, setNewIp] = useState("");
   const [newLabel, setNewLabel] = useState("");
-  const [opError, setOpError] = useState("");
-
-  const whitelistAction = async (
-    action: string,
-    method: string,
-    payload?: object,
-    query = "",
-  ) => {
-    setOpError("");
-    const res = await fetch(`/api/oxelia-admin/${action}${query}`, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: payload ? JSON.stringify(payload) : undefined,
-    });
-    if (!res.ok) {
-      const d = (await res.json().catch(() => ({}))) as { error?: string };
-      setOpError(d.error ?? `操作失败（HTTP ${res.status}）`);
-      return false;
-    }
-    await whitelist.reload();
-    return true;
-  };
-
-  const addIp = async () => {
-    if (!newIp.trim()) return;
-    const ok = await whitelistAction("whitelist-create", "POST", {
-      ip: newIp.trim(),
-      label: newLabel.trim(),
-    });
-    if (ok) {
-      setNewIp("");
-      setNewLabel("");
-    }
-  };
 
   const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -197,7 +162,7 @@ export default function AdminPage() {
         </header>
 
         <main className="mx-auto flex max-w-4xl flex-col gap-4 p-6 pb-20">
-          {status === "loading" || (authed && isAdmin === null) ? (
+          {status === "loading" || (authed && whoami.isLoading) ? (
             <p className="text-muted-foreground text-sm">加载中…</p>
           ) : !authed ? (
             <Card className="flex flex-col gap-3 p-6">
@@ -209,7 +174,7 @@ export default function AdminPage() {
                 <Link href="/auth/sign-in">前往登录</Link>
               </Button>
             </Card>
-          ) : !isAdmin ? (
+          ) : !whoami.data?.isAdmin ? (
             <Card className="flex flex-col gap-3 p-6">
               <h2 className="font-heading text-lg font-semibold">无访问权限</h2>
               <p className="text-muted-foreground text-sm">
@@ -228,20 +193,20 @@ export default function AdminPage() {
                   <span className="font-heading text-sm font-semibold">服务器状态（阿里云）</span>
                   <LiveDot />
                 </div>
-                {stats.error ? (
-                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{stats.error}</p>
+                {statsQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(statsQ.error)}</p>
                 ) : (
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    <StatCell label="CPU" value={stats.data?.cpu_percent != null ? `${stats.data.cpu_percent.toFixed(1)}%` : "—"} />
+                    <StatCell label="CPU" value={stats?.cpu_percent != null ? `${stats.cpu_percent.toFixed(1)}%` : "—"} />
                     <StatCell
                       label="内存"
-                      value={stats.data?.memory_used_mb != null ? `${(stats.data.memory_used_mb / 1024).toFixed(1)} / ${((stats.data.memory_total_mb ?? 0) / 1024).toFixed(1)} GB` : "—"}
+                      value={stats?.memory_used_mb != null ? `${(stats.memory_used_mb / 1024).toFixed(1)} / ${((stats.memory_total_mb ?? 0) / 1024).toFixed(1)} GB` : "—"}
                     />
                     <StatCell
                       label="磁盘"
-                      value={stats.data?.disk_used_percent != null ? `${stats.data.disk_used_percent.toFixed(1)}%（${stats.data.disk_total_gb} GB）` : "—"}
+                      value={stats?.disk_used_percent != null ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）` : "—"}
                     />
-                    <StatCell label="运行时长" value={formatUptime(stats.data?.uptime_seconds)} />
+                    <StatCell label="运行时长" value={formatUptime(stats?.uptime_seconds)} />
                   </div>
                 )}
               </Card>
@@ -252,17 +217,17 @@ export default function AdminPage() {
                   <span className="font-heading text-sm font-semibold">宿舍电费（DormGuard）</span>
                   <LiveDot />
                 </div>
-                {power.error ? (
-                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{power.error}</p>
+                {powerQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(powerQ.error)}</p>
                 ) : (
                   <div className="grid grid-cols-2 gap-3">
-                    <PowerCell label="空调余量" value={power.data?.kbalance} />
-                    <PowerCell label="照明余量" value={power.data?.zbalance} />
+                    <PowerCell label="空调余量" value={power?.kbalance} />
+                    <PowerCell label="照明余量" value={power?.zbalance} />
                   </div>
                 )}
-                {power.data?.record_time && (
+                {power?.record_time && (
                   <p className="text-muted-foreground text-xs">
-                    数据时间：{new Date(power.data.record_time).toLocaleString("zh-CN")}
+                    数据时间：{new Date(power.record_time).toLocaleString("zh-CN")}
                   </p>
                 )}
               </Card>
@@ -271,24 +236,32 @@ export default function AdminPage() {
               <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-sm font-semibold">IP 白名单</span>
-                  <Button variant="ghost" size="sm" onClick={() => void whitelist.reload()}>
+                  <Button variant="ghost" size="sm" onClick={() => void whitelistQ.refetch()}>
                     <RefreshCw className="h-3.5 w-3.5" />
                   </Button>
                 </div>
                 <p className="text-muted-foreground text-xs">
                   白名单控制高危运维接口（命令执行）的访问来源
-                  {whitelist.data?.clientIP ? `，当前出口 IP：${whitelist.data.clientIP}` : ""}
+                  {whitelist?.clientIP ? `，当前出口 IP：${whitelist.clientIP}` : ""}
                 </p>
                 <div className="flex gap-2">
                   <Input placeholder="IP 地址" value={newIp} onChange={(e) => setNewIp(e.target.value)} className="w-48" />
                   <Input placeholder="备注（可选）" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} className="flex-1" />
-                  <Button onClick={() => void addIp()}>添加</Button>
+                  <Button
+                    onClick={() => {
+                      setOpError("");
+                      createMut.mutate({ ip: newIp.trim(), label: newLabel.trim() });
+                    }}
+                    disabled={!newIp.trim() || createMut.isPending}
+                  >
+                    添加
+                  </Button>
                 </div>
                 {opError && (
                   <p className="text-sm" style={{ color: "var(--ox-danger)" }}>{opError}</p>
                 )}
-                {whitelist.error ? (
-                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{whitelist.error}</p>
+                {whitelistQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(whitelistQ.error)}</p>
                 ) : (
                   <Table>
                     <TableHeader>
@@ -300,7 +273,7 @@ export default function AdminPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {(whitelist.data?.items ?? []).map((item) => (
+                      {(whitelist?.items ?? []).map((item) => (
                         <TableRow key={item.id}>
                           <TableCell className="font-mono">{item.ip}</TableCell>
                           <TableCell>{item.label || "—"}</TableCell>
@@ -311,16 +284,17 @@ export default function AdminPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() =>
-                                void whitelistAction("whitelist-delete", "DELETE", undefined, `?id=${item.id}`)
-                              }
+                              onClick={() => {
+                                setOpError("");
+                                deleteMut.mutate({ id: String(item.id) });
+                              }}
                             >
                               <Trash2 className="h-3.5 w-3.5" style={{ color: "var(--ox-danger)" }} />
                             </Button>
                           </TableCell>
                         </TableRow>
                       ))}
-                      {(whitelist.data?.items ?? []).length === 0 && (
+                      {(whitelist?.items ?? []).length === 0 && (
                         <TableRow>
                           <TableCell colSpan={4} className="text-muted-foreground text-center text-sm">
                             暂无白名单条目
@@ -336,14 +310,14 @@ export default function AdminPage() {
               <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-sm font-semibold">
-                    平台用户（{users.data?.items?.length ?? "…"}）
+                    平台用户（{users?.length ?? "…"}）
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => void users.reload()}>
+                  <Button variant="ghost" size="sm" onClick={() => void usersQ.refetch()}>
                     <RefreshCw className="h-3.5 w-3.5" />
                   </Button>
                 </div>
-                {users.error ? (
-                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{users.error}</p>
+                {usersQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(usersQ.error)}</p>
                 ) : (
                   <Table>
                     <TableHeader>
@@ -355,7 +329,7 @@ export default function AdminPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {(users.data?.items ?? []).map((u) => (
+                      {(users ?? []).map((u) => (
                         <TableRow key={u.id}>
                           <TableCell>{u.email ?? "—"}</TableCell>
                           <TableCell>{u.name || "—"}</TableCell>

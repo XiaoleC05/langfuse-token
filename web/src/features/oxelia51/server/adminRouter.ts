@@ -1,0 +1,173 @@
+import { z } from "zod";
+import {
+  authenticatedProcedure,
+  createTRPCRouter,
+} from "@/src/server/api/trpc";
+import { env } from "@/src/env.mjs";
+import { prisma } from "@langfuse/shared/src/db";
+import { TRPCError } from "@trpc/server";
+
+/**
+ * Oxelia51 后台管理 tRPC router。
+ * Langfuse 登录态即管理员身份：服务端持有 Go 后端运维凭证换 JWT 转发，
+ * 凭证不下发到浏览器。管理员由 OXELIA51_ADMIN_EMAILS 邮箱名单判定
+ * （空名单 = 任何登录用户，仅建议内网使用）。
+ */
+
+const API_BASE = "https://oxelia51.com";
+
+// Go JWT 服务端缓存（单实例，按 expires_in 提前 60s 续期）
+let cachedToken: { token: string; expiresAt: number } | null = null;
+
+async function getGoToken(): Promise<string> {
+  if (cachedToken && cachedToken.expiresAt > Date.now()) {
+    return cachedToken.token;
+  }
+  const account = env.OXELIA51_ADMIN_ACCOUNT;
+  const password = env.OXELIA51_ADMIN_PASSWORD;
+  if (!account || !password) {
+    throw new TRPCError({
+      code: "PRECONDITION_FAILED",
+      message: "运维凭证未配置（OXELIA51_ADMIN_ACCOUNT/PASSWORD）",
+    });
+  }
+  const res = await fetch(`${API_BASE}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ account, password }),
+  });
+  const data = (await res.json()) as { token?: string; expires_in?: number };
+  if (!res.ok || !data.token) {
+    throw new TRPCError({
+      code: "BAD_GATEWAY",
+      message: `运维登录失败（HTTP ${res.status}）`,
+    });
+  }
+  const ttl = (data.expires_in ?? 3600) * 1000;
+  cachedToken = { token: data.token, expiresAt: Date.now() + ttl - 60_000 };
+  return cachedToken.token;
+}
+
+function isAdminEmail(email: string | null | undefined): boolean {
+  const allowlist = (env.OXELIA51_ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+  if (allowlist.length === 0) return true;
+  return Boolean(email) && allowlist.includes(email as string);
+}
+
+/** 仅管理员的 procedure（在登录态之上再校验邮箱名单） */
+const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
+  if (!isAdminEmail(ctx.session.user.email)) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "当前账户无后台管理权限",
+    });
+  }
+  return next();
+});
+
+async function goFetch(
+  path: string,
+  method: "GET" | "POST" | "PATCH" | "DELETE",
+  body?: unknown,
+  auth = true,
+): Promise<unknown> {
+  const headers: Record<string, string> = {};
+  if (auth) headers.Authorization = `Bearer ${await getGoToken()}`;
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  const res = await fetch(`${API_BASE}${path}`, {
+    method,
+    headers,
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+  const text = await res.text();
+  let data: unknown;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    data = text;
+  }
+  if (!res.ok) {
+    const msg =
+      typeof data === "object" && data !== null && "error" in data
+        ? String((data as { error: unknown }).error)
+        : `HTTP ${res.status}`;
+    throw new TRPCError({ code: "BAD_GATEWAY", message: msg });
+  }
+  return data;
+}
+
+const whitelistIdSchema = z.object({ id: z.string().regex(/^\d+$/, "无效的 id") });
+
+export const oxelia51AdminRouter = createTRPCRouter({
+  /** 前端据此决定后台管理入口可见性（任何登录用户可调） */
+  whoami: authenticatedProcedure.query(({ ctx }) => {
+    return {
+      email: ctx.session.user.email,
+      isAdmin: isAdminEmail(ctx.session.user.email),
+    };
+  }),
+
+  health: adminProcedure.query(() => goFetch("/api/health", "GET", undefined, false)),
+  uptime: adminProcedure.query(() => goFetch("/api/uptime", "GET", undefined, false)),
+  serverStats: adminProcedure.query(() =>
+    goFetch("/api/admin/server-stats", "GET"),
+  ),
+  dormPower: adminProcedure.query(() =>
+    goFetch(
+      `/api/tools/dormguard/proxy/api/power/records/${env.OXELIA51_DORM_NUMBER ?? "320"}/latest`,
+      "GET",
+    ),
+  ),
+
+  whitelistList: adminProcedure.query(() =>
+    goFetch("/api/admin/ip-whitelist", "GET"),
+  ),
+  whitelistCreate: adminProcedure
+    .input(z.object({ ip: z.string().min(3), label: z.string().default("") }))
+    .mutation(({ input }) =>
+      goFetch("/api/admin/ip-whitelist", "POST", input),
+    ),
+  whitelistUpdate: adminProcedure
+    .input(whitelistIdSchema.extend({ ip: z.string().min(3), label: z.string().default("") }))
+    .mutation(({ input }) =>
+      goFetch(`/api/admin/ip-whitelist/${input.id}`, "PATCH", {
+        ip: input.ip,
+        label: input.label,
+      }),
+    ),
+  whitelistDelete: adminProcedure
+    .input(whitelistIdSchema)
+    .mutation(({ input }) =>
+      goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE"),
+    ),
+
+  /** 平台用户列表：直查 Langfuse 用户表（不走 Go 后端） */
+  usersList: adminProcedure.query(async () => {
+    const users = await prisma.$queryRaw<
+      Array<{
+        id: string;
+        name: string | null;
+        email: string | null;
+        created_at: Date;
+        memberships: unknown;
+      }>
+    >`
+      SELECT u.id, u.name, u.email, u.created_at,
+             COALESCE(
+               json_agg(json_build_object('org', o.name, 'role', m.role))
+                 FILTER (WHERE m.user_id IS NOT NULL),
+               '[]'
+             ) AS memberships
+      FROM users u
+      LEFT JOIN memberships m ON m.user_id = u.id
+      LEFT JOIN organizations o ON o.id = m.org_id
+      GROUP BY u.id
+      ORDER BY u.created_at DESC
+      LIMIT 200
+    `;
+    return { items: users };
+  }),
+});

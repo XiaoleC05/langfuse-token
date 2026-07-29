@@ -4,8 +4,9 @@
  */
 
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { Session } from "next-auth";
+import { api } from "@/src/utils/api";
 import { useEntitlements } from "@/src/features/entitlements/hooks";
 import { useUiCustomization } from "@/src/ee/features/ui-customization/useUiCustomization";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
@@ -125,25 +126,13 @@ export function useFilteredNavigation(
     return applyNavigationFilters(ROUTES, filterContext, organization);
   }, [filterContext, organization]);
 
-  // Oxelia51：后台管理入口仅管理员可见（whoami 由 /api/oxelia-admin 判定）
-  const [isOxeliaAdmin, setIsOxeliaAdmin] = useState(false);
+  // Oxelia51：后台管理入口仅管理员可见（whoami 由 tRPC 判定）
   const sessionEmail = session?.user?.email;
-  useEffect(() => {
-    if (!sessionEmail) {
-      setIsOxeliaAdmin(false);
-      return;
-    }
-    let cancelled = false;
-    fetch("/api/oxelia-admin/whoami")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d: { isAdmin?: boolean } | null) => {
-        if (!cancelled) setIsOxeliaAdmin(Boolean(d?.isAdmin));
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [sessionEmail]);
+  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
+    enabled: Boolean(sessionEmail),
+    staleTime: Infinity,
+  });
+  const isOxeliaAdmin = Boolean(sessionEmail) && (whoami.data?.isAdmin ?? false);
 
   // Map filtered routes to NavigationItems with url and isActive
   // This is O(n) - we map directly over filteredRoutes instead of re-iterating ROUTES

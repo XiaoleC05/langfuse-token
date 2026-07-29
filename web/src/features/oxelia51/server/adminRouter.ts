@@ -1,4 +1,6 @@
 import { z } from "zod";
+import os from "node:os";
+import { statfs } from "node:fs/promises";
 import {
   authenticatedProcedure,
   createTRPCRouter,
@@ -115,6 +117,32 @@ export const oxelia51AdminRouter = createTRPCRouter({
   serverStats: adminProcedure.query(() =>
     goFetch("/api/admin/server-stats", "GET"),
   ),
+
+  /** 腾讯云服务器状态：langfuse-web 容器所在主机（本进程读取） */
+  localStats: adminProcedure.query(async () => {
+    const load = (os.loadavg()[0] / os.cpus().length) * 100;
+    const totalMem = os.totalmem();
+    const usedMem = totalMem - os.freemem();
+    let diskUsedPercent: number | null = null;
+    let diskTotalGB: number | null = null;
+    try {
+      const st = await statfs("/");
+      const total = st.blocks * st.bsize;
+      const free = st.bavail * st.bsize;
+      diskTotalGB = Math.round(total / 1e9);
+      diskUsedPercent = ((total - free) / total) * 100;
+    } catch {
+      // statfs 不可用时留空
+    }
+    return {
+      cpuPercent: load,
+      memoryUsedMB: Math.round(usedMem / 1048576),
+      memoryTotalMB: Math.round(totalMem / 1048576),
+      diskUsedPercent,
+      diskTotalGB,
+      uptimeSeconds: Math.round(os.uptime()),
+    };
+  }),
   dormPower: adminProcedure.query(() =>
     goFetch(
       `/api/tools/dormguard/proxy/api/power/records/${env.OXELIA51_DORM_NUMBER ?? "320"}/latest`,
@@ -157,13 +185,13 @@ export const oxelia51AdminRouter = createTRPCRouter({
     >`
       SELECT u.id, u.name, u.email, u.created_at,
              COALESCE(
-               json_agg(json_build_object('org', o.name, 'role', m.role))
-                 FILTER (WHERE m.user_id IS NOT NULL),
+               json_agg(json_build_object('org', o.name, 'role', om.role))
+                 FILTER (WHERE om.user_id IS NOT NULL),
                '[]'
              ) AS memberships
       FROM users u
-      LEFT JOIN memberships m ON m.user_id = u.id
-      LEFT JOIN organizations o ON o.id = m.org_id
+      LEFT JOIN organization_memberships om ON om.user_id = u.id
+      LEFT JOIN organizations o ON o.id = om.org_id
       GROUP BY u.id
       ORDER BY u.created_at DESC
       LIMIT 200

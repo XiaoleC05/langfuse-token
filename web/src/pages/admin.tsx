@@ -103,6 +103,10 @@ export default function AdminPage() {
     enabled: allowed,
     refetchInterval: POLL_MS,
   });
+  const localStatsQ = api.oxelia51Admin.localStats.useQuery(undefined, {
+    enabled: allowed,
+    refetchInterval: POLL_MS,
+  });
   const powerQ = api.oxelia51Admin.dormPower.useQuery(undefined, {
     enabled: allowed,
     refetchInterval: POLL_MS,
@@ -207,6 +211,30 @@ export default function AdminPage() {
                       value={stats?.disk_used_percent != null ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）` : "—"}
                     />
                     <StatCell label="运行时长" value={formatUptime(stats?.uptime_seconds)} />
+                  </div>
+                )}
+              </Card>
+
+              {/* 服务器状态（腾讯云，langfuse-web 所在主机） */}
+              <Card className="flex flex-col gap-3 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">服务器状态（腾讯云）</span>
+                  <LiveDot />
+                </div>
+                {localStatsQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(localStatsQ.error)}</p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    <StatCell label="CPU 负载" value={localStatsQ.data?.cpuPercent != null ? `${localStatsQ.data.cpuPercent.toFixed(1)}%` : "—"} />
+                    <StatCell
+                      label="内存"
+                      value={localStatsQ.data?.memoryUsedMB != null ? `${(localStatsQ.data.memoryUsedMB / 1024).toFixed(1)} / ${((localStatsQ.data.memoryTotalMB ?? 0) / 1024).toFixed(1)} GB` : "—"}
+                    />
+                    <StatCell
+                      label="磁盘"
+                      value={localStatsQ.data?.diskUsedPercent != null ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%（${localStatsQ.data.diskTotalGB} GB）` : "—"}
+                    />
+                    <StatCell label="运行时长" value={formatUptime(localStatsQ.data?.uptimeSeconds)} />
                   </div>
                 )}
               </Card>

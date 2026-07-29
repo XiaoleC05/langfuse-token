@@ -62,7 +62,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
         <span>
           基于{" "}
           <a
-            href="https://github.com/XiaoleC05/langfuse-token"
+            href="https://github.com/langfuse/langfuse"
             target="_blank"
             rel="noreferrer"
             className="hover:text-foreground underline underline-offset-2"
@@ -71,7 +71,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
           </a>{" "}
           (MIT) 二次开发 · Powered by{" "}
           <a
-            href="https://github.com/XiaoleC05/langfuse-token"
+            href="https://github.com/langfuse/langfuse"
             target="_blank"
             rel="noreferrer"
             className="hover:text-foreground underline underline-offset-2"
@@ -81,16 +81,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
         </span>
         <span>·</span>
         <a
-          href="https://oxelia51.com"
-          target="_blank"
-          rel="noreferrer"
-          className="hover:text-foreground"
-        >
-          Oxelia51.com
-        </a>
-        <span>·</span>
-        <a
-          href="https://github.com/XiaoleC05/langfuse-token"
+          href="https://github.com/XiaoleC05/Oxelia51"
           target="_blank"
           rel="noreferrer"
           className="hover:text-foreground"

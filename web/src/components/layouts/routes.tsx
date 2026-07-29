@@ -49,6 +49,7 @@ export enum RouteGroup {
   PromptManagement = "提示词管理",
   Evaluation = "评估",
   TokenStats = "Token 统计",
+  Admin = "管理",
 }
 
 export type Route = {
@@ -220,6 +221,13 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/settings/alerts`,
     icon: Siren,
     group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "后台管理",
+    pathname: "/admin",
+    icon: Wrench,
+    group: RouteGroup.Admin,
     section: RouteSection.Main,
   },
   {

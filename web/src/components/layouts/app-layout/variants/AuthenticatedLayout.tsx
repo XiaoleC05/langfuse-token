@@ -15,7 +15,6 @@ import { Layer } from "@/src/components/ui/layer";
 import { TopBannerProvider } from "@/src/features/top-banner";
 import { VersionUpdateBanner } from "@/src/features/version-update";
 import { AppContentWithRightDrawer } from "../right-drawer/AppContentWithRightDrawer";
-import { ThemeToggle } from "@/src/features/theming/ThemeToggle";
 import {
   getAvailableCloudRegionOptions,
   getCloudRegionAuthUrl,
@@ -125,8 +124,7 @@ export function AuthenticatedLayout({
       avatar: user.image ?? "",
     },
     items: [
-      { name: "Account Settings", href: "/account/settings" },
-      { name: "Theme", onClick: () => {}, content: <ThemeToggle /> },
+      { name: "账户设置", href: "/account/settings" },
       ...(hasFeaturePreviews
         ? [
             {

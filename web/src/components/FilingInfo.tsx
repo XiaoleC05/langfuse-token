@@ -26,7 +26,46 @@ export function FilingInfo() {
           鲁公网安备37028202001309号
         </a>
       </div>
-      <div>基于 Langfuse (MIT) 二次开发 · Powered by Langfuse</div>
+      <div className="flex flex-wrap items-center justify-center gap-x-1.5">
+        <span>
+          基于{" "}
+          <a
+            href="https://github.com/XiaoleC05/langfuse-token"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-foreground underline underline-offset-2"
+          >
+            Langfuse
+          </a>{" "}
+          (MIT) 二次开发 · Powered by{" "}
+          <a
+            href="https://github.com/XiaoleC05/langfuse-token"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-foreground underline underline-offset-2"
+          >
+            Langfuse
+          </a>
+        </span>
+        <span>·</span>
+        <a
+          href="https://oxelia51.com"
+          target="_blank"
+          rel="noreferrer"
+          className="hover:text-foreground"
+        >
+          Oxelia51.com
+        </a>
+        <span>·</span>
+        <a
+          href="https://github.com/XiaoleC05/langfuse-token"
+          target="_blank"
+          rel="noreferrer"
+          className="hover:text-foreground"
+        >
+          源码仓库
+        </a>
+      </div>
     </div>
   );
 }

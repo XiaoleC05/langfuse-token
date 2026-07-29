@@ -16,13 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/src/features/theming/ThemeToggle";
 import { cn } from "@/src/utils/tailwind";
 
 /**
  * Compact account affordance for the mobile top bar: the user's avatar opening
  * a small menu (settings, theme, sign out). The sidebar keeps the full NavUser;
  * this is the always-visible shell-level shortcut in the minimal mobile chrome.
+ *
+ * Oxelia51：主题切换统一收敛到侧边栏 Oxelia51ThemeToggle，此处不再挂载。
  */
 export const TopbarAccount = ({ className }: { className?: string }) => {
   const session = useSession();
@@ -72,12 +73,7 @@ export const TopbarAccount = ({ className }: { className?: string }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/account/settings">Account settings</Link>
-        </DropdownMenuItem>
-        {/* ThemeToggle stops propagation itself; keep the row from closing the
-            menu so the user can flip themes and keep the menu open. */}
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <ThemeToggle />
+          <Link href="/account/settings">账户设置</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -85,7 +81,7 @@ export const TopbarAccount = ({ className }: { className?: string }) => {
             signOutCleanly().catch(() => {});
           }}
         >
-          Sign out
+          退出登录
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

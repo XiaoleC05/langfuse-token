@@ -46,11 +46,10 @@ export enum RouteSection {
 }
 
 export enum RouteGroup {
-  Observability = "Observability",
-  PromptManagement = "Prompt Management",
-  Evaluation = "Evaluation",
+  Observability = "可观测性",
+  PromptManagement = "提示词管理",
+  Evaluation = "评估",
   TokenStats = "Token 统计",
-  Admin = "管理",
 }
 
 export type Route = {
@@ -87,33 +86,33 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Organizations",
+    title: "组织",
     pathname: "/",
     icon: Grid2X2,
     show: ({ organization }) => organization === undefined,
     section: RouteSection.Main,
   },
   {
-    title: "Projects",
+    title: "项目",
     pathname: "/organization/[organizationId]",
     icon: Grid2X2,
     section: RouteSection.Main,
   },
   {
-    title: "Home",
+    title: "首页",
     pathname: `/project/[projectId]`,
     icon: Home,
     section: RouteSection.Main,
   },
   {
-    title: "Dashboards",
+    title: "仪表盘",
     pathname: `/project/[projectId]/dashboards`,
     icon: LayoutDashboard,
     productModule: "dashboards",
     section: RouteSection.Main,
   },
   {
-    title: "Tracing",
+    title: "追踪",
     icon: ListTree,
     productModule: "tracing",
     group: RouteGroup.Observability,
@@ -121,7 +120,7 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/traces`,
   },
   {
-    title: "Sessions",
+    title: "会话",
     icon: Clock,
     productModule: "tracing",
     group: RouteGroup.Observability,
@@ -129,7 +128,7 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/sessions`,
   },
   {
-    title: "Users",
+    title: "用户",
     pathname: `/project/[projectId]/users`,
     icon: UsersIcon,
     productModule: "tracing",
@@ -137,7 +136,7 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Monitors",
+    title: "监控",
     pathname: "/project/[projectId]/monitors",
     icon: BellRing,
     projectRbacScopes: ["monitors:read"],
@@ -146,7 +145,7 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Prompts",
+    title: "提示词",
     pathname: "/project/[projectId]/prompts",
     icon: FileJson,
     projectRbacScopes: ["prompts:read"],
@@ -155,7 +154,7 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Playground",
+    title: "演练场",
     pathname: "/project/[projectId]/playground",
     icon: TerminalIcon,
     productModule: "playground",
@@ -163,14 +162,14 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Scores",
+    title: "评分",
     pathname: `/project/[projectId]/scores`,
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
     icon: SquarePercent,
   },
   {
-    title: "Evaluators",
+    title: "评估器",
     icon: Lightbulb,
     productModule: "evaluation",
     projectRbacScopes: ["evalJob:read"],
@@ -179,7 +178,7 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/evals`,
   },
   {
-    title: "Human Annotation",
+    title: "人工标注",
     pathname: `/project/[projectId]/annotation-queues`,
     projectRbacScopes: ["annotationQueues:read"],
     group: RouteGroup.Evaluation,
@@ -187,7 +186,7 @@ export const ROUTES: Route[] = [
     icon: ClipboardPen,
   },
   {
-    title: "Datasets",
+    title: "数据集",
     pathname: `/project/[projectId]/datasets`,
     icon: Database,
     productModule: "datasets",
@@ -196,7 +195,7 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Experiments",
+    title: "实验",
     pathname: `/project/[projectId]/experiments`,
     icon: Beaker,
     featureFlag: "experimentsV4Enabled",
@@ -222,14 +221,6 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/settings/alerts`,
     icon: Siren,
     group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
-    title: "后台管理",
-    pathname: "https://oxelia51.com/admin",
-    icon: Wrench,
-    newTab: true,
-    group: RouteGroup.Admin,
     section: RouteSection.Main,
   },
   {

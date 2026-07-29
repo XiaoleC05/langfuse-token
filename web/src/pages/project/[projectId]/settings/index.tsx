@@ -81,7 +81,7 @@ export const getProjectSettingsPages = ({
   showProtectedLabelsSettings: boolean;
 }): ProjectSettingsPage[] => [
   {
-    title: "General",
+    title: "通用",
     slug: "index",
     cmdKKeywords: ["name", "id", "delete", "transfer", "ownership"],
     content: (
@@ -130,7 +130,7 @@ export const getProjectSettingsPages = ({
     ),
   },
   {
-    title: "API Keys",
+    title: "API 密钥",
     slug: "api-keys",
     cmdKKeywords: ["auth", "public key", "secret key"],
     content: (
@@ -155,7 +155,7 @@ export const getProjectSettingsPages = ({
     content: <DeveloperToolsSettings projectId={project.id} />,
   },
   {
-    title: "LLM Connections",
+    title: "LLM 连接",
     slug: "llm-connections",
     cmdKKeywords: [
       "llm",
@@ -176,26 +176,26 @@ export const getProjectSettingsPages = ({
     show: showLLMConnectionsSettings,
   },
   {
-    title: "Model Definitions",
+    title: "模型定义",
     slug: "models",
     cmdKKeywords: ["cost", "token"],
     content: <ModelsSettings projectId={project.id} />,
   },
   {
-    title: "Protected Prompt Labels",
+    title: "受保护的提示词标签",
     slug: "protected-prompt-labels",
     cmdKKeywords: ["prompt", "label", "protect", "lock"],
     content: <ProtectedLabelsSettings projectId={project.id} />,
     show: showProtectedLabelsSettings,
   },
   {
-    title: "Scores Configs",
+    title: "评分配置",
     slug: "scores",
     cmdKKeywords: ["config"],
     content: <ScoreConfigSettings projectId={project.id} />,
   },
   {
-    title: "Members",
+    title: "成员",
     slug: "members",
     cmdKKeywords: ["invite", "user"],
     content: (
@@ -216,25 +216,25 @@ export const getProjectSettingsPages = ({
     ),
   },
   {
-    title: "Integrations",
+    title: "集成",
     slug: "integrations",
     cmdKKeywords: ["posthog", "mixpanel", "analytics", "callback", "webhook"],
     content: <Integrations projectId={project.id} />,
   },
   {
-    title: "Exports",
+    title: "导出",
     slug: "exports",
     cmdKKeywords: ["csv", "download", "json", "batch"],
     content: <BatchExportsSettingsPage projectId={project.id} />,
   },
   {
-    title: "Batch Actions",
+    title: "批量操作",
     slug: "batch-actions",
     cmdKKeywords: ["bulk", "batch", "action", "dataset", "delete"],
     content: <BatchActionsSettingsPage projectId={project.id} />,
   },
   {
-    title: "Audit Logs",
+    title: "审计日志",
     slug: "audit-logs",
     cmdKKeywords: ["trail"],
     content: <AuditLogsSettingsPage projectId={project.id} />,
@@ -246,7 +246,7 @@ export const getProjectSettingsPages = ({
     content: <AlertsSettings projectId={project.id} />,
   },
   {
-    title: "Notifications",
+    title: "通知",
     slug: "notifications",
     cmdKKeywords: ["inbox", "email", "mention", "alert", "slack", "webhook"],
     content: (
@@ -257,13 +257,13 @@ export const getProjectSettingsPages = ({
     ),
   },
   {
-    title: "Billing",
+    title: "账单",
     slug: "billing",
     href: `/organization/${organization.id}/settings/billing`,
     show: showBillingSettings,
   },
   {
-    title: "Organization Settings",
+    title: "组织设置",
     slug: "organization",
     href: `/organization/${organization.id}/settings`,
   },

@@ -266,7 +266,7 @@ export default function Dashboard() {
         withPadding
         scrollable
         headerProps={{
-          title: "Home",
+          title: "首页",
           actionButtonsLeft: (
             <>
               <MultiSelect

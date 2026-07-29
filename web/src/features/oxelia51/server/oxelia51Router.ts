@@ -253,7 +253,8 @@ export const oxelia51Router = createTRPCRouter({
         threshold: toNumber(budgetRows[0]?.threshold) || 0.8,
         budgetEnabled: budgetRows[0]?.enabled ?? false,
         hasBudgetConfig: budgetRows.length > 0,
-        anomalyMultiplier: toNumber(anomaly.multiplier) || 3,
+        anomalyMultiplier:
+          toNumber(anomaly.spike_ratio ?? anomaly.multiplier) || 3,
         anomalyEnabled: Boolean(anomaly.enabled ?? false),
       };
     }),
@@ -293,8 +294,9 @@ export const oxelia51Router = createTRPCRouter({
             ...metadata,
             oxelia51: {
               ...oxelia,
+              // 键名与 C++ 分析引擎契约一致（detector.h / postgres.cpp）
               anomaly: {
-                multiplier: input.anomalyMultiplier,
+                spike_ratio: input.anomalyMultiplier,
                 enabled: input.anomalyEnabled,
               },
             },

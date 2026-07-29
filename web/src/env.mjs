@@ -51,6 +51,11 @@ export const env = createEnv({
         ? z.string().min(1)
         : z.string().min(1).optional(),
     SEED_SECRET_KEY: z.string().min(1).optional(),
+    // Oxelia51 后台管理：Go 后端运维凭证（仅服务端 API 路由使用）
+    OXELIA51_ADMIN_ACCOUNT: z.string().optional(),
+    OXELIA51_ADMIN_PASSWORD: z.string().optional(),
+    OXELIA51_ADMIN_EMAILS: z.string().optional(),
+    OXELIA51_DORM_NUMBER: z.string().optional(),
     NEXTAUTH_URL: z.preprocess(
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
       // Since NextAuth.js automatically uses the VERCEL_URL if present.
@@ -555,6 +560,10 @@ export const env = createEnv({
    */
   runtimeEnv: {
     SEED_SECRET_KEY: process.env.SEED_SECRET_KEY,
+    OXELIA51_ADMIN_ACCOUNT: process.env.OXELIA51_ADMIN_ACCOUNT,
+    OXELIA51_ADMIN_PASSWORD: process.env.OXELIA51_ADMIN_PASSWORD,
+    OXELIA51_ADMIN_EMAILS: process.env.OXELIA51_ADMIN_EMAILS,
+    OXELIA51_DORM_NUMBER: process.env.OXELIA51_DORM_NUMBER,
     NEXT_PUBLIC_DEMO_PROJECT_ID: process.env.NEXT_PUBLIC_DEMO_PROJECT_ID,
     NEXT_PUBLIC_DEMO_ORG_ID: process.env.NEXT_PUBLIC_DEMO_ORG_ID,
     DATABASE_URL: process.env.DATABASE_URL,

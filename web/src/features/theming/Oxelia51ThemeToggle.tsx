@@ -2,46 +2,52 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useOxelia51Theme } from "@/src/features/theming/oxelia51-theme";
-import { cn } from "@/src/utils/tailwind";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/src/components/ui/tooltip";
 
-/** 导航栏底部的 Cozy / Cosmos 双主题切换。 */
+/**
+ * Oxelia51 主题切换（Cozy 暖色 / Cosmos 深色）。
+ * 单圆形图标按钮：当前主题的"目标"图标——Cozy 显示 Moon（切深色），
+ * Cosmos 显示 Sun（切浅色）。
+ */
 export function Oxelia51ThemeToggle() {
   const [theme, setTheme] = useOxelia51Theme();
+  const isCozy = theme === "cozy";
 
   return (
-    <div
-      className="flex items-center gap-1 rounded-md border p-1 group-data-[collapsible=icon]:hidden"
-      role="group"
-      aria-label="Oxelia51 主题切换"
-    >
-      <button
-        type="button"
-        title="Cozy 暖色"
-        onClick={() => setTheme("cozy")}
-        className={cn(
-          "flex flex-1 items-center justify-center gap-1 rounded-sm px-2 py-1 text-xs transition-colors",
-          theme === "cozy"
-            ? "bg-[var(--ox-accent)] text-white"
-            : "text-muted-foreground hover:bg-accent",
-        )}
-      >
-        <Sun className="h-3.5 w-3.5" />
-        Cozy
-      </button>
-      <button
-        type="button"
-        title="Cosmos 深色"
-        onClick={() => setTheme("cosmos")}
-        className={cn(
-          "flex flex-1 items-center justify-center gap-1 rounded-sm px-2 py-1 text-xs transition-colors",
-          theme === "cosmos"
-            ? "bg-[var(--ox-accent)] text-white"
-            : "text-muted-foreground hover:bg-accent",
-        )}
-      >
-        <Moon className="h-3.5 w-3.5" />
-        Cosmos
-      </button>
-    </div>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          aria-label={isCozy ? "切换到 Cosmos 深色" : "切换到 Cozy 暖色"}
+          onClick={() => setTheme(isCozy ? "cosmos" : "cozy")}
+          className="flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:rotate-[20deg]"
+          style={{
+            borderColor: "var(--ox-border)",
+            color: "var(--ox-text-muted)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "var(--ox-accent)";
+            e.currentTarget.style.color = "var(--ox-accent)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "var(--ox-border)";
+            e.currentTarget.style.color = "var(--ox-text-muted)";
+          }}
+        >
+          {isCozy ? (
+            <Moon className="h-4 w-4" />
+          ) : (
+            <Sun className="h-4 w-4" />
+          )}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="right">
+        {isCozy ? "Cozy 暖色 · 点击切换深色" : "Cosmos 深色 · 点击切换暖色"}
+      </TooltipContent>
+    </Tooltip>
   );
 }

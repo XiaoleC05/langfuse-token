@@ -884,7 +884,7 @@ export default function SignIn({
         </div>
         <CloudPrivacyNotice action="signing in" />
         <div className="mt-6 flex justify-center pb-4">
-          <FilingInfo />
+          <FilingInfo variant="full" />
         </div>
       </div>
     </>

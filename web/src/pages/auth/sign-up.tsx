@@ -576,7 +576,7 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
         </div>
         <CloudPrivacyNotice action="creating an account" />
         <div className="mt-6 flex justify-center pb-4">
-          <FilingInfo />
+          <FilingInfo variant="full" />
         </div>
       </div>
     </>

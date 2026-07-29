@@ -1,92 +1,155 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { Card } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/src/components/ui/table";
 import { FilingInfo } from "@/src/components/FilingInfo";
 import { env } from "@/src/env.mjs";
+import { Trash2, RefreshCw } from "lucide-react";
 
 /**
- * Oxelia51 后台管理 v1：Go 后端运维状态页。
- * 独立于 Langfuse 布局（skipAppLayout），通过 Go 后端 API 获取数据。
- * 注意：/api/admin/* 有 IP 白名单限制，未放行的网络会返回 403。
+ * Oxelia51 后台管理 v2。
+ * 统一登录：Langfuse 登录态直接进入；数据经 /api/oxelia-admin/* 服务端代理获取。
  */
 
-type HealthData = { status?: string; [k: string]: unknown };
-type UptimeData = { uptime?: string; [k: string]: unknown };
-type StatsData = Record<string, unknown>;
+type ServerStats = {
+  cpu_percent?: number;
+  memory_used_mb?: number;
+  memory_total_mb?: number;
+  disk_used_percent?: number;
+  disk_total_gb?: number;
+  uptime_seconds?: number;
+  go_goroutines?: number;
+};
 
-const TOKEN_KEY = "oxelia51-admin-token";
+type PowerRecord = {
+  kbalance?: number | null;
+  zbalance?: number | null;
+  record_time?: string;
+};
 
-export default function AdminPage() {
-  const [token, setToken] = useState<string | null>(null);
-  const [account, setAccount] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
-  const [loggingIn, setLoggingIn] = useState(false);
+type WhitelistItem = {
+  id: number;
+  ip: string;
+  label: string;
+  created_at?: string;
+};
 
-  const [health, setHealth] = useState<HealthData | null>(null);
-  const [uptime, setUptime] = useState<UptimeData | null>(null);
-  const [stats, setStats] = useState<StatsData | null>(null);
-  const [statsError, setStatsError] = useState("");
+const POLL_MS = 5000;
 
-  useEffect(() => {
-    const saved = sessionStorage.getItem(TOKEN_KEY);
-    if (saved) setToken(saved);
-  }, []);
-
-  const login = async () => {
-    setLoggingIn(true);
-    setLoginError("");
+function usePolling<T>(action: string, enabled: boolean) {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState("");
+  const load = useCallback(async () => {
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account, password }),
-      });
-      const data = (await res.json()) as { token?: string; error?: string };
-      if (!res.ok || !data.token) {
-        setLoginError(data.error ?? "登录失败，请检查账号密码");
+      const res = await fetch(`/api/oxelia-admin/${action}`);
+      if (!res.ok) {
+        const d = (await res.json().catch(() => ({}))) as { error?: string };
+        setError(d.error ?? `HTTP ${res.status}`);
         return;
       }
-      sessionStorage.setItem(TOKEN_KEY, data.token);
-      setToken(data.token);
+      setError("");
+      setData((await res.json()) as T);
     } catch {
-      setLoginError("网络错误，无法连接后端");
-    } finally {
-      setLoggingIn(false);
+      setError("网络错误");
     }
-  };
+  }, [action]);
 
   useEffect(() => {
-    if (!token) return;
-    void fetch("/api/health")
-      .then((r) => r.json())
-      .then((d: HealthData) => setHealth(d))
-      .catch(() => setHealth(null));
-    void fetch("/api/uptime")
-      .then((r) => r.json())
-      .then((d: UptimeData) => setUptime(d))
-      .catch(() => setUptime(null));
-    void fetch("/api/admin/server-stats", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(async (r) => {
-        if (r.status === 403) {
-          setStatsError("当前网络不在 IP 白名单内，无法读取服务器统计");
-          return;
-        }
-        if (!r.ok) {
-          setStatsError(`读取失败（HTTP ${r.status}）`);
-          return;
-        }
-        setStats((await r.json()) as StatsData);
-      })
-      .catch(() => setStatsError("网络错误"));
-  }, [token]);
+    if (!enabled) return;
+    void load();
+    const timer = setInterval(() => void load(), POLL_MS);
+    return () => clearInterval(timer);
+  }, [enabled, load]);
+
+  return { data, error, reload: load };
+}
+
+function formatUptime(seconds?: number) {
+  if (!seconds) return "—";
+  const d = Math.floor(seconds / 86400);
+  const h = Math.floor((seconds % 86400) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return d > 0 ? `${d} 天 ${h} 小时` : `${h} 小时 ${m} 分`;
+}
+
+function LiveDot() {
+  return (
+    <span className="flex items-center gap-1.5 text-xs" style={{ color: "var(--ox-ok)" }}>
+      <span className="relative flex h-2 w-2">
+        <span
+          className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60"
+          style={{ backgroundColor: "var(--ox-ok)" }}
+        />
+        <span
+          className="relative inline-flex h-2 w-2 rounded-full"
+          style={{ backgroundColor: "var(--ox-ok)" }}
+        />
+      </span>
+      实时
+    </span>
+  );
+}
+
+export default function AdminPage() {
+  const { data: session, status } = useSession();
+  const authed = status === "authenticated" && Boolean(session?.user);
+
+  const stats = usePolling<ServerStats>("server-stats", authed);
+  const power = usePolling<PowerRecord>("dorm-power", authed);
+  const whitelist = usePolling<{ items?: WhitelistItem[]; clientIP?: string }>(
+    "whitelist-list",
+    authed,
+  );
+
+  const [newIp, setNewIp] = useState("");
+  const [newLabel, setNewLabel] = useState("");
+  const [opError, setOpError] = useState("");
+
+  const whitelistAction = async (
+    action: string,
+    method: string,
+    payload?: object,
+    query = "",
+  ) => {
+    setOpError("");
+    const res = await fetch(`/api/oxelia-admin/${action}${query}`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: payload ? JSON.stringify(payload) : undefined,
+    });
+    if (!res.ok) {
+      const d = (await res.json().catch(() => ({}))) as { error?: string };
+      setOpError(d.error ?? `操作失败（HTTP ${res.status}）`);
+      return false;
+    }
+    await whitelist.reload();
+    return true;
+  };
+
+  const addIp = async () => {
+    if (!newIp.trim()) return;
+    const ok = await whitelistAction("whitelist-create", "POST", {
+      ip: newIp.trim(),
+      label: newLabel.trim(),
+    });
+    if (ok) {
+      setNewIp("");
+      setNewLabel("");
+    }
+  };
 
   const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -102,97 +165,174 @@ export default function AdminPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${basePath}/logo-64.png`} alt="Oxelia51" className="hidden h-6 w-auto dark:block" />
           <span className="text-sm font-semibold">后台管理</span>
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-foreground ml-auto text-xs"
-          >
+          <Link href="/" className="text-muted-foreground hover:text-foreground ml-auto text-xs">
             ← 返回平台
           </Link>
         </header>
 
-        <main className="mx-auto flex max-w-3xl flex-col gap-4 p-6">
-          {!token ? (
+        <main className="mx-auto flex max-w-4xl flex-col gap-4 p-6 pb-20">
+          {status === "loading" ? (
+            <p className="text-muted-foreground text-sm">加载中…</p>
+          ) : !authed ? (
             <Card className="flex flex-col gap-3 p-6">
-              <h2 className="text-lg font-semibold">管理员登录</h2>
+              <h2 className="font-heading text-lg font-semibold">需要登录</h2>
               <p className="text-muted-foreground text-sm">
-                使用 Go 后端管理员账号登录（非 Langfuse 账号）。
+                后台管理与平台账户统一认证，请先登录您的 Oxelia51 账户。
               </p>
-              <Input
-                placeholder="账号（邮箱或 account_id）"
-                value={account}
-                onChange={(e) => setAccount(e.target.value)}
-              />
-              <Input
-                type="password"
-                placeholder="密码"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && void login()}
-              />
-              {loginError && (
-                <p className="text-sm" style={{ color: "var(--ox-danger)" }}>
-                  {loginError}
-                </p>
-              )}
-              <Button onClick={() => void login()} disabled={loggingIn}>
-                {loggingIn ? "登录中…" : "登录"}
+              <Button asChild className="self-start">
+                <Link href="/auth/sign-in">前往登录</Link>
               </Button>
             </Card>
           ) : (
             <>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Card className="flex flex-col gap-1 p-4">
-                  <span className="text-muted-foreground text-xs">服务健康</span>
-                  <span
-                    className="text-xl font-semibold"
-                    style={{ color: "var(--ox-ok)" }}
-                  >
-                    {health ? "运行正常" : "获取中…"}
-                  </span>
-                </Card>
-                <Card className="flex flex-col gap-1 p-4">
-                  <span className="text-muted-foreground text-xs">运行时长</span>
-                  <span className="text-xl font-semibold tabular-nums">
-                    {uptime?.uptime ?? "获取中…"}
-                  </span>
-                </Card>
-              </div>
-
-              <Card className="flex flex-col gap-2 p-4">
-                <span className="text-sm font-medium">服务器统计</span>
-                {statsError ? (
-                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
-                    {statsError}
-                  </p>
-                ) : stats ? (
-                  <pre className="bg-muted max-h-80 overflow-auto rounded-md p-3 text-xs">
-                    {JSON.stringify(stats, null, 2)}
-                  </pre>
+              {/* 服务器状态 */}
+              <Card className="flex flex-col gap-3 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">服务器状态（阿里云）</span>
+                  <LiveDot />
+                </div>
+                {stats.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{stats.error}</p>
                 ) : (
-                  <p className="text-muted-foreground text-sm">获取中…</p>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    <StatCell label="CPU" value={stats.data?.cpu_percent != null ? `${stats.data.cpu_percent.toFixed(1)}%` : "—"} />
+                    <StatCell
+                      label="内存"
+                      value={stats.data?.memory_used_mb != null ? `${(stats.data.memory_used_mb / 1024).toFixed(1)} / ${((stats.data.memory_total_mb ?? 0) / 1024).toFixed(1)} GB` : "—"}
+                    />
+                    <StatCell
+                      label="磁盘"
+                      value={stats.data?.disk_used_percent != null ? `${stats.data.disk_used_percent.toFixed(1)}%（${stats.data.disk_total_gb} GB）` : "—"}
+                    />
+                    <StatCell label="运行时长" value={formatUptime(stats.data?.uptime_seconds)} />
+                  </div>
                 )}
               </Card>
 
-              <Button
-                variant="ghost"
-                className="self-end"
-                onClick={() => {
-                  sessionStorage.removeItem(TOKEN_KEY);
-                  setToken(null);
-                  setStats(null);
-                }}
-              >
-                退出管理员登录
-              </Button>
+              {/* DormGuard 电费 */}
+              <Card className="flex flex-col gap-3 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">宿舍电费（DormGuard）</span>
+                  <LiveDot />
+                </div>
+                {power.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{power.error}</p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3">
+                    <PowerCell label="空调余量" value={power.data?.kbalance} />
+                    <PowerCell label="照明余量" value={power.data?.zbalance} />
+                  </div>
+                )}
+                {power.data?.record_time && (
+                  <p className="text-muted-foreground text-xs">
+                    数据时间：{new Date(power.data.record_time).toLocaleString("zh-CN")}
+                  </p>
+                )}
+              </Card>
+
+              {/* IP 白名单 */}
+              <Card className="flex flex-col gap-3 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">IP 白名单</span>
+                  <Button variant="ghost" size="sm" onClick={() => void whitelist.reload()}>
+                    <RefreshCw className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+                <p className="text-muted-foreground text-xs">
+                  白名单控制高危运维接口（命令执行）的访问来源
+                  {whitelist.data?.clientIP ? `，当前出口 IP：${whitelist.data.clientIP}` : ""}
+                </p>
+                <div className="flex gap-2">
+                  <Input placeholder="IP 地址" value={newIp} onChange={(e) => setNewIp(e.target.value)} className="w-48" />
+                  <Input placeholder="备注（可选）" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} className="flex-1" />
+                  <Button onClick={() => void addIp()}>添加</Button>
+                </div>
+                {opError && (
+                  <p className="text-sm" style={{ color: "var(--ox-danger)" }}>{opError}</p>
+                )}
+                {whitelist.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{whitelist.error}</p>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>IP</TableHead>
+                        <TableHead>备注</TableHead>
+                        <TableHead>添加时间</TableHead>
+                        <TableHead className="w-16" />
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(whitelist.data?.items ?? []).map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-mono">{item.ip}</TableCell>
+                          <TableCell>{item.label || "—"}</TableCell>
+                          <TableCell className="text-muted-foreground text-xs">
+                            {item.created_at ? new Date(item.created_at).toLocaleDateString("zh-CN") : "—"}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() =>
+                                void whitelistAction("whitelist-delete", "DELETE", undefined, `?id=${item.id}`)
+                              }
+                            >
+                              <Trash2 className="h-3.5 w-3.5" style={{ color: "var(--ox-danger)" }} />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {(whitelist.data?.items ?? []).length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={4} className="text-muted-foreground text-center text-sm">
+                            暂无白名单条目
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                )}
+              </Card>
             </>
           )}
         </main>
 
         <footer className="fixed inset-x-0 bottom-0 border-t bg-background py-1.5">
-          <FilingInfo />
+          <FilingInfo variant="full" />
         </footer>
       </div>
     </>
+  );
+}
+
+function StatCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-muted-foreground text-xs">{label}</span>
+      <span className="text-lg font-semibold tabular-nums">{value}</span>
+    </div>
+  );
+}
+
+function PowerCell({ label, value }: { label: string; value?: number | null }) {
+  const low = value != null && value < 10;
+  return (
+    <div className="flex flex-col gap-0.5 rounded-md border p-3">
+      <span className="text-muted-foreground text-xs">{label}</span>
+      <span
+        className="text-2xl font-semibold tabular-nums"
+        style={{ color: low ? "var(--ox-warn)" : "var(--ox-text-h)" }}
+      >
+        {value != null ? value.toFixed(2) : "—"}
+        <span className="text-muted-foreground ml-1 text-sm font-normal">度</span>
+      </span>
+      {low && (
+        <span className="text-xs" style={{ color: "var(--ox-warn)" }}>
+          余量偏低，请及时充值
+        </span>
+      )}
+    </div>
   );
 }
 

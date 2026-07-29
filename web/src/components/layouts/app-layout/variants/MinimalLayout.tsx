@@ -18,7 +18,7 @@ export function MinimalLayout({ children }: PropsWithChildren) {
       </main>
       {/* Oxelia51 备案信息 + 开源声明 */}
       <footer className="fixed inset-x-0 bottom-0 border-t bg-background py-1.5">
-        <FilingInfo />
+        <FilingInfo variant="full" />
       </footer>
     </SidebarProvider>
   );

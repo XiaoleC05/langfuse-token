@@ -45,6 +45,13 @@ type ActionDef = {
 
 const dorm = () => env.OXELIA51_DORM_NUMBER ?? "320";
 
+/** 白名单 id 仅允许数字，防止路径注入 */
+const sanitizeId = (raw: unknown): string => {
+  const id = String(raw ?? "");
+  if (!/^\d+$/.test(id)) throw new Error("无效的白名单 id");
+  return id;
+};
+
 const ACTIONS: Record<string, ActionDef> = {
   health: { method: "GET", path: () => "/api/health", auth: false },
   uptime: { method: "GET", path: () => "/api/uptime", auth: false },
@@ -65,12 +72,12 @@ const ACTIONS: Record<string, ActionDef> = {
   },
   "whitelist-update": {
     method: "PATCH",
-    path: (req) => `/api/admin/ip-whitelist/${String(req.query.id ?? "")}`,
+    path: (req) => `/api/admin/ip-whitelist/${sanitizeId(req.query.id)}`,
     auth: true,
   },
   "whitelist-delete": {
     method: "DELETE",
-    path: (req) => `/api/admin/ip-whitelist/${String(req.query.id ?? "")}`,
+    path: (req) => `/api/admin/ip-whitelist/${sanitizeId(req.query.id)}`,
     auth: true,
   },
   "dorm-power": {

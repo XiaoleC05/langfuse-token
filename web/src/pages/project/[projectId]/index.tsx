@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { Oxelia51WelcomeCard } from "@/src/features/oxelia51/components/Oxelia51WelcomeCard";
 import { api } from "@/src/utils/api";
 import { TimeRangePicker } from "@/src/components/date-picker";
 import { PageHeaderControlsPortal } from "@/src/components/layouts/page-header-controls-slot";
@@ -372,6 +373,7 @@ export default function Dashboard() {
             }
           />
         </PageHeaderControlsPortal>
+        <Oxelia51WelcomeCard projectId={projectId} />
         {!isDashboardDataReady || isResolvingDashboard ? (
           <NoDataOrLoading isLoading />
         ) : (

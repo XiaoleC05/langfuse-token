@@ -31,6 +31,7 @@ import { ExternalLink, Grid2X2 } from "lucide-react";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
 import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
+import { FilingInfo } from "@/src/components/FilingInfo";
 
 type AppSidebarProps = {
   navItems: {
@@ -80,6 +81,9 @@ export function AppSidebar({
           <Oxelia51ThemeToggle />
         </div>
         <NavUser {...userNavProps} />
+        <div className="border-t px-2 py-2">
+          <FilingInfo />
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

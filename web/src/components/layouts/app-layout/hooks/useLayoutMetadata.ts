@@ -4,14 +4,13 @@
  */
 
 import { useMemo } from "react";
-import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
 import { env } from "@/src/env.mjs";
 import type { NavigationItem } from "@/src/components/layouts/utilities/routes";
 
 /**
  * Generates metadata for the layout including:
  * - Dynamic page title based on active route
- * - Region-specific favicon (dev vs production)
+ * - Oxelia51 brand favicon
  * - Apple touch icon path
  *
  * @param activePathName - Title of the currently active navigation item
@@ -22,18 +21,16 @@ export function useLayoutMetadata(
   activePathName: string | undefined,
   _navigation: NavigationItem[],
 ) {
-  const { region } = useLangfuseCloudRegion();
-
   return useMemo(() => {
     const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
 
     // Determine page title from active route
-    const title = activePathName ? `${activePathName} | Langfuse` : "Langfuse";
+    const title = activePathName
+      ? `${activePathName} | Oxelia51`
+      : "Oxelia51";
 
-    // Use dev favicon in DEV region for visual distinction
-    // Using SVG for modern browsers with PNG fallback specified in sizes
-    const faviconPath =
-      region === "DEV" ? `${basePath}/icon-dev.svg` : `${basePath}/icon.svg`;
+    // Oxelia51 品牌 favicon（原 icon.svg 已替换）
+    const faviconPath = `${basePath}/favicon.ico`;
 
     return {
       title,
@@ -42,5 +39,5 @@ export function useLayoutMetadata(
       favicon256Path: `${basePath}/icon256.png`,
       appleTouchIconPath: `${basePath}/apple-touch-icon.png`,
     };
-  }, [activePathName, region]);
+  }, [activePathName]);
 }

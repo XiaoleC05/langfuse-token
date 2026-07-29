@@ -1,5 +1,5 @@
 import { type GetServerSideProps } from "next";
-import { LangfuseIcon } from "@/src/components/design-system/LangfuseIcon/LangfuseIcon";
+import { FilingInfo } from "@/src/components/FilingInfo";
 import { Button } from "@/src/components/ui/button";
 import {
   Form,
@@ -722,12 +722,18 @@ export default function SignIn({
   return (
     <>
       <Head>
-        <title>Sign in | Langfuse</title>
+        <title>Sign in | Oxelia51</title>
       </Head>
       <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="mx-auto w-fit">
-            <LangfuseIcon />
+            {/* Oxelia51 蓝色版 logo（登录页） */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/logo-64.png`}
+              alt="Oxelia51"
+              className="h-10 w-auto"
+            />
           </div>
           <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
             Sign in to your account
@@ -877,6 +883,9 @@ export default function SignIn({
           ) : null}
         </div>
         <CloudPrivacyNotice action="signing in" />
+        <div className="mt-6 flex justify-center pb-4">
+          <FilingInfo />
+        </div>
       </div>
     </>
   );

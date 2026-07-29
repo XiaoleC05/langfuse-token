@@ -39,20 +39,27 @@ const LangfuseLogotypeOrCustomized = () => {
 
   return (
     <div className="flex items-center">
+      {/* Oxelia51 品牌 logo：黄色版（默认/侧边栏） */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="-ml-1.5 max-h-6 max-w-22 group-data-[collapsible=icon]:hidden dark:hidden"
-        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/wordart-black.svg`}
-        alt="Langfuse Logo"
+        className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:hidden"
+        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
+        alt="Oxelia51 Logo"
       />
+      {/* 蓝色版（深色主题） */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="-ml-1.5 hidden max-h-6 max-w-22 group-data-[collapsible=icon]:hidden dark:block"
-        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/wordart-white.svg`}
-        alt="Langfuse Logo"
+        className="hidden max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:block"
+        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/logo-64.png`}
+        alt="Oxelia51 Logo"
       />
-      <div className="hidden scale-120 group-data-[collapsible=icon]:block">
-        <LangfuseIcon size={28} />
+      <div className="hidden group-data-[collapsible=icon]:block">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="h-7 w-7"
+          src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64.png`}
+          alt="Oxelia51"
+        />
       </div>
     </div>
   );

@@ -1,4 +1,9 @@
-Copyright (c) 2023-2026 Langfuse GmbH
+Original work Copyright (c) 2023 Langfuse GmbH
+Modified work Copyright (c) 2025 Oxelia51
+
+This repository is a fork of Langfuse (MIT License), customized for the
+Oxelia51 token monitoring platform. The original MIT license text is
+retained below.
 
 Portions of this software are licensed as follows:
 

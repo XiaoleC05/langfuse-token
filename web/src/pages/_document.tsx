@@ -17,6 +17,10 @@ export default function Document() {
     // expected mismatch one level deep (React 19 logs it and can re-render).
     <Html lang="zh-CN" suppressHydrationWarning>
       <Head>
+        {/* 全局 favicon（AuthenticatedLayout 只覆盖登录后页面，auth 页在此兜底） */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="256x256" href="/icon256.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* Oxelia51 双主题防闪烁：首帧渲染前从 localStorage 恢复 data-theme，
             与 theming/oxelia51-theme.ts 的存储键保持一致。 */}
         <script

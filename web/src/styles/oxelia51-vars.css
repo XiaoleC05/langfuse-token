@@ -54,3 +54,10 @@
   --ring: 262 83% 58%;
   --radius: 6px; /* --ox-radius */
 }
+
+/* Langfuse 的 auth 页布局不给 body 设背景（浏览器默认白），
+   在此兜底，保证 Cozy/Cosmos 在登录等页面整页生效。 */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}

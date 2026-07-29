@@ -15,6 +15,7 @@ import { Layer } from "@/src/components/ui/layer";
 import { TopBannerProvider } from "@/src/features/top-banner";
 import { VersionUpdateBanner } from "@/src/features/version-update";
 import { AppContentWithRightDrawer } from "../right-drawer/AppContentWithRightDrawer";
+import { FilingInfo } from "@/src/components/FilingInfo";
 import { ThemeToggle } from "@/src/features/theming/ThemeToggle";
 import {
   getAvailableCloudRegionOptions,
@@ -200,6 +201,10 @@ export function AuthenticatedLayout({
                   <InAppAgentWindowHost />
                 </SidebarInset>
               </div>
+              {/* Oxelia51 备案信息 + 开源声明：所有登录后页面的全局页脚 */}
+              <footer className="shrink-0 border-t bg-background py-1">
+                <FilingInfo />
+              </footer>
               {hasFeaturePreviews ? (
                 <ControlledFeaturePreviewModal
                   open={featurePreviewOpen}

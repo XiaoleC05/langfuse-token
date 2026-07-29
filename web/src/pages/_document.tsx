@@ -16,7 +16,15 @@ export default function Document() {
     // next-themes mutates class/style on <html> before hydration; suppress the
     // expected mismatch one level deep (React 19 logs it and can re-render).
     <Html lang="zh-CN" suppressHydrationWarning>
-      <Head />
+      <Head>
+        {/* Oxelia51 双主题防闪烁：首帧渲染前从 localStorage 恢复 data-theme，
+            与 theming/oxelia51-theme.ts 的存储键保持一致。 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{document.documentElement.dataset.theme=localStorage.getItem("oxelia51-theme")==="cosmos"?"cosmos":"cozy"}catch(e){document.documentElement.dataset.theme="cozy"}`,
+          }}
+        />
+      </Head>
       <body>
         <Main />
         <div data-overlay-root>

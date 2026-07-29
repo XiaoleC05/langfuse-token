@@ -727,10 +727,10 @@ export default function SignIn({
       <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="mx-auto w-fit">
-            {/* Oxelia51 蓝色版 logo（登录页） */}
+            {/* Oxelia51 品牌 logo（暖橙红固定版） */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/logo-64.png`}
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
               alt="Oxelia51"
               className="h-10 w-auto"
             />

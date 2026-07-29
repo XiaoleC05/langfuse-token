@@ -156,9 +156,7 @@ export default function AdminPage() {
       <div className="min-h-dvh bg-background text-foreground">
         <header className="flex items-center gap-3 border-b px-6 py-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${basePath}/icon-64.png`} alt="Oxelia51" className="h-6 w-auto dark:hidden" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${basePath}/logo-64.png`} alt="Oxelia51" className="hidden h-6 w-auto dark:block" />
+          <img src={`${basePath}/icon-64.png`} alt="Oxelia51" className="h-6 w-auto" />
           <span className="text-sm font-semibold">后台管理</span>
           <Link href="/" className="text-muted-foreground hover:text-foreground ml-auto text-xs">
             ← 返回平台

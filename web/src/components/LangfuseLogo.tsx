@@ -39,18 +39,11 @@ const LangfuseLogotypeOrCustomized = () => {
 
   return (
     <div className="flex items-center">
-      {/* Oxelia51 品牌 logo：黄色版（默认/侧边栏） */}
+      {/* Oxelia51 品牌 logo：暖橙红固定版（不随主题切换） */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:hidden"
+        className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden"
         src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
-        alt="Oxelia51 Logo"
-      />
-      {/* 蓝色版（深色主题） */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="hidden max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:block"
-        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/logo-64.png`}
         alt="Oxelia51 Logo"
       />
       <div className="hidden group-data-[collapsible=icon]:block">

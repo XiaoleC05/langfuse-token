@@ -67,7 +67,7 @@ export const getOrganizationSettingsPages = ({
   isLangfuseCloud: boolean;
 }): OrganizationSettingsPage[] => [
   {
-    title: "General",
+    title: "通用",
     slug: "index",
     cmdKKeywords: ["name", "id", "delete"],
     content: (
@@ -112,7 +112,7 @@ export const getOrganizationSettingsPages = ({
     show: showOrgApiKeySettings,
   },
   {
-    title: "Members",
+    title: "成员",
     slug: "members",
     cmdKKeywords: ["invite", "user", "rbac"],
     content: (
@@ -160,7 +160,7 @@ export const getOrganizationSettingsPages = ({
     show: isLangfuseCloud,
   },
   {
-    title: "Projects",
+    title: "项目",
     slug: "projects",
     href: `/organization/${organization.id}`,
   },
@@ -177,7 +177,7 @@ const OrgSettingsPage = () => {
   return (
     <ContainerPage
       headerProps={{
-        title: "Organization Settings",
+        title: "组织设置",
       }}
     >
       <PagedSettingsContainer

@@ -24,7 +24,7 @@ import { BatchExportsSettingsPage } from "@/src/features/batch-exports/component
 import { BatchActionsSettingsPage } from "@/src/features/batch-actions/components/BatchActionsSettingsPage";
 import { AuditLogsSettingsPage } from "@/src/ee/features/audit-log-viewer/AuditLogsSettingsPage";
 import { ModelsSettings } from "@/src/features/models/components/ModelSettings";
-import 配置Retention from "@/src/features/projects/components/配置Retention";
+import ConfigureRetention from "@/src/features/projects/components/ConfigureRetention";
 import ContainerPage from "@/src/components/layouts/container-page";
 import ProtectedLabelsSettings from "@/src/features/prompts/components/ProtectedLabelsSettings";
 import { SiSlack } from "react-icons/si";
@@ -88,7 +88,7 @@ export const getProjectSettingsPages = ({
       <div className="flex flex-col gap-6">
         <HostNameProject />
         <RenameProject />
-        {showRetentionSettings && <配置Retention />}
+        {showRetentionSettings && <ConfigureRetention />}
         <div>
           <Header title="调试信息" />
           <JSONView

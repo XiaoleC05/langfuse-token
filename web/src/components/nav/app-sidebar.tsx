@@ -18,7 +18,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
   useSidebar,
 } from "@/src/components/ui/sidebar";
 import { env } from "@/src/env.mjs";
@@ -91,16 +90,9 @@ export function AppSidebar({
           <FilingInfo />
         </div>
       </SidebarFooter>
-      <SidebarRail />
-      {/* Oxelia51：右缘拖动调宽手柄 */}
-      {onStartResize && (
-        <div
-          role="separator"
-          aria-label="拖动调整侧栏宽度"
-          onMouseDown={onStartResize}
-          className="absolute top-0 right-0 z-20 hidden h-full w-1.5 cursor-col-resize transition-colors hover:bg-[var(--ox-accent)]/40 group-data-[collapsible=icon]:hidden md:block"
-        />
-      )}
+      {/* Oxelia51：自研 Rail——点击收起/展开，拖动调整宽度。
+          原生 SidebarRail（z-50 w-4 隐形按钮）会盖住独立手柄，故二合一。 */}
+      <SidebarResizeRail onStartResize={onStartResize} />
     </Sidebar>
   );
 }
@@ -154,3 +146,36 @@ const DemoBadge = () => {
     </SidebarGroup>
   );
 };
+
+/** 点击切换侧栏；按住横向拖动调整宽度（阈值 4px 区分点击与拖动）。 */
+function SidebarResizeRail({
+  onStartResize,
+}: {
+  onStartResize?: (e: React.MouseEvent) => void;
+}) {
+  const { toggleSidebar } = useSidebar();
+  const dragState = React.useRef<{ startX: number; dragging: boolean }>({
+    startX: 0,
+    dragging: false,
+  });
+
+  return (
+    <button
+      type="button"
+      data-sidebar="rail"
+      aria-label="拖动调整宽度，点击收起侧栏"
+      tabIndex={-1}
+      title="拖动调整宽度 · 点击收起"
+      onMouseDown={(e) => {
+        dragState.current = { startX: e.clientX, dragging: false };
+        onStartResize?.(e);
+      }}
+      onClick={(e) => {
+        // 拖动（位移 > 4px）不触发收起
+        if (Math.abs(e.clientX - dragState.current.startX) > 4) return;
+        toggleSidebar();
+      }}
+      className="hover:after:bg-sidebar-accent absolute inset-y-0 z-50 hidden w-4 -translate-x-1/2 cursor-col-resize transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] md:flex"
+    />
+  );
+}

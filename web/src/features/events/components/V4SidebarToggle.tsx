@@ -17,7 +17,7 @@ import {
 } from "@/src/features/experiments/utils/experimentUrlTranslation";
 
 const PREVIEW_FAST_DESCRIPTION =
-  "Get a more performant Langfuse experience. Upgrade SDKs to the latest major for real-time data. This is a personal setting.";
+  "获得更高性能的 Langfuse 体验。请将 SDK 升级到最新主版本以获取实时数据。此为个人设置。";
 const PREVIEW_FAST_DESCRIPTION_ID = "preview-fast-toggle-description";
 
 function asSingleValue(value: string | string[] | undefined) {
@@ -102,7 +102,7 @@ export function V4SidebarToggle() {
     }
   };
 
-  const fastPreviewLabel = "Fast (Preview)";
+  const fastPreviewLabel = "快速（预览）";
 
   return (
     <>
@@ -130,7 +130,7 @@ export function V4SidebarToggle() {
                   checked={isBetaEnabled}
                   onCheckedChange={handleToggle}
                   disabled={isLoading}
-                  aria-label="Toggle Preview (fast)"
+                  aria-label="切换预览（快速）"
                   aria-describedby={PREVIEW_FAST_DESCRIPTION_ID}
                 />
               </div>

@@ -49,7 +49,7 @@ export const ArchiveScoreConfigButton = ({
           }}
         >
           <Archive className="mr-2 h-4 w-4"></Archive>
-          Archive
+          归档
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -57,13 +57,13 @@ export const ArchiveScoreConfigButton = ({
         className="max-w-[500px]"
       >
         <h2 className="mb-3 font-bold">
-          {isArchived ? "Restore config" : "Archive config"}
+          {isArchived ? "恢复配置" : "归档配置"}
         </h2>
         <p className="mb-3 text-sm">
-          Your config is currently{" "}
+          你的配置当前处于
           {isArchived
-            ? `archived. Restore if you want to use "${name}" in annotation again.`
-            : `active. Archive if you no longer want to use "${name}" in annotation. Historic "${name}" scores will still be shown and can be deleted. You can restore your config at any point.`}
+            ? `归档状态。如想再次在标注中使用"${name}",请恢复。`
+            : `活跃状态。如不再想在标注中使用"${name}",请归档。历史"${name}"评分仍会显示且可删除。你可以随时恢复配置。`}
         </p>
         <div className="flex justify-end space-x-4">
           <Button
@@ -82,7 +82,7 @@ export const ArchiveScoreConfigButton = ({
               capture("score_configs:archive_form_submit");
             }}
           >
-            Confirm
+            确认
           </Button>
         </div>
       </PopoverContent>

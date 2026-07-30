@@ -102,7 +102,7 @@ export const observationEventsFilterConfig: FilterConfig = {
       label: getEventsColumnName("type"),
       help: {
         description:
-          "Observation types classify the work captured within a trace, such as generations, spans, tools, chains, and agents.",
+          "观测类型对追踪中捕获的工作进行分类，例如生成、Span、工具、链和代理。",
         href: "https://langfuse.com/docs/observability/features/observation-types",
       },
       renderIcon: renderFilterIcon,
@@ -110,9 +110,9 @@ export const observationEventsFilterConfig: FilterConfig = {
     {
       type: "boolean" as const,
       column: "isRootObservation",
-      label: "Is Root Observation",
+      label: "是否为根观测",
       tooltip:
-        "A root observation is top-level in a trace or marked as an app root by the SDK. Filter to 'True' to see root-level observations.",
+        "根观测是追踪中的顶层节点，或由 SDK 标记为应用根。筛选为 True 即可查看根层级观测。",
     },
     {
       type: "categorical" as const,
@@ -136,7 +136,7 @@ export const observationEventsFilterConfig: FilterConfig = {
       // `level` until the cross-surface rename lands.
       type: "categorical" as const,
       column: "level",
-      label: "Status",
+      label: "状态",
       renderIcon: renderLevelIcon,
     },
     {
@@ -263,24 +263,24 @@ export const observationEventsFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "toolNames",
-      label: "Tool Names (Available)",
+      label: "工具名称（可用）",
     },
     {
       type: "categorical" as const,
       column: "calledToolNames",
-      label: "Tool Names (Called)",
+      label: "工具名称（已调用）",
     },
     {
       type: "numeric" as const,
       column: "toolDefinitions",
-      label: "Available Tools",
+      label: "可用工具",
       min: 0,
       max: 25,
     },
     {
       type: "numeric" as const,
       column: "toolCalls",
-      label: "Tool Calls",
+      label: "工具调用",
       min: 0,
       max: 25,
     },
@@ -293,29 +293,29 @@ export const observationEventsFilterConfig: FilterConfig = {
     {
       type: "keyValue" as const,
       column: "score_categories",
-      label: "Categorical Scores",
+      label: "分类评分",
     },
     {
       type: "numericKeyValue" as const,
       column: "scores_avg",
-      label: "Numeric Scores",
+      label: "数值评分",
     },
     {
       type: "booleanKeyValue" as const,
       column: "score_booleans",
-      label: "Boolean Scores",
+      label: "布尔评分",
     },
     {
       type: "numeric" as const,
       column: "commentCount",
-      label: "Comment Count",
+      label: "评论数量",
       min: 0,
       max: 100,
     },
     {
       type: "string" as const,
       column: "commentContent",
-      label: "Comment Content",
+      label: "评论内容",
     },
   ],
 };

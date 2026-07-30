@@ -41,13 +41,13 @@ export function EditDashboardDialog({
       onOpenChange(false);
     },
     onError: (e) => {
-      showErrorToast("Failed to update dashboard", e.message);
+      showErrorToast("更新仪表板失败", e.message);
     },
   });
 
   const handleSave = () => {
     if (!name.trim()) {
-      showErrorToast("Validation error", "Dashboard name is required");
+      showErrorToast("校验错误", "仪表板名称为必填项");
       return;
     }
 
@@ -63,26 +63,26 @@ export function EditDashboardDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit Dashboard</DialogTitle>
+          <DialogTitle>编辑仪表板</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">名称</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Dashboard name"
+                placeholder="仪表板名称"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">描述</Label>
               <Textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Dashboard description"
+                placeholder="仪表板描述"
                 rows={3}
               />
             </div>
@@ -95,14 +95,14 @@ export function EditDashboardDialog({
               variant="outline"
               type="button"
             >
-              Cancel
+              取消
             </Button>
             <Button
               onClick={handleSave}
               type="button"
               loading={updateDashboard.isPending}
             >
-              Save Changes
+              保存更改
             </Button>
           </div>
         </DialogFooter>

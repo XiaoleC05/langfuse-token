@@ -27,7 +27,7 @@ export function OrganizationDropdownMenu(props: OrganizationDropdownMenuProps) {
   const { canCreateOrganizations, getOrgPath } = props;
 
   return (
-    <DropdownMenuContent align="start" header="Organizations" maxHeight="15rem">
+    <DropdownMenuContent align="start" header="组织" maxHeight="15rem">
       {props.state === "loaded" ? (
         [...props.organizations]
           .sort((a, b) => {
@@ -48,7 +48,7 @@ export function OrganizationDropdownMenu(props: OrganizationDropdownMenuProps) {
                 href={getOrgPath(dropdownOrg.id)}
                 secondaryAction={{
                   href: `/organization/${dropdownOrg.id}/settings`,
-                  ariaLabel: `Go to settings for ${dropdownOrg.name}`,
+                  ariaLabel: `前往 ${dropdownOrg.name} 的设置`,
                   icon: Settings,
                 }}
               />
@@ -62,7 +62,7 @@ export function OrganizationDropdownMenu(props: OrganizationDropdownMenuProps) {
         <>
           <DropdownMenuSeparator />
           <DropdownMenuItemWithSecondaryAction
-            title="New Organization"
+            title="新建组织"
             href={createOrganizationRoute}
             icon={PlusIcon}
           />

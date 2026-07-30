@@ -114,8 +114,8 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
   return (
     <div className="space-y-6">
       <StepHeader
-        title="Prompt & Model Configuration"
-        description="Select the prompt version and configure the model parameters for your experiment."
+        title="提示词与模型配置"
+        description="选择提示词版本并为您的实验配置模型参数。"
       />
 
       <FormField
@@ -123,7 +123,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
         name="promptId"
         render={() => (
           <FormItem>
-            <FormLabel>Prompt</FormLabel>
+            <FormLabel>提示词</FormLabel>
             <div className="mb-2 flex gap-2">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -133,7 +133,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                     aria-expanded={open}
                     className="w-2/3 justify-between px-2 font-normal"
                   >
-                    {selectedPromptName || "Select a prompt"}
+                    {selectedPromptName || "选择提示词"}
                     <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -143,12 +143,12 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                 >
                   <InputCommand>
                     <InputCommandInput
-                      placeholder="Search prompts..."
+                      placeholder="搜索提示词..."
                       className="h-9"
                       variant="bottom"
                     />
                     <InputCommandList>
-                      <InputCommandEmpty>No prompt found.</InputCommandEmpty>
+                      <InputCommandEmpty>未找到提示词。</InputCommandEmpty>
                       <InputCommandGroup>
                         {promptsByName &&
                           Object.entries(promptsByName).map(
@@ -192,8 +192,8 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                     className="w-1/3 justify-between px-2 font-normal"
                   >
                     {selectedPromptVersion
-                      ? `Version ${selectedPromptVersion}`
-                      : "Version"}
+                      ? `版本 ${selectedPromptVersion}`
+                      : "版本"}
                     <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -203,11 +203,11 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                 >
                   <InputCommand>
                     <InputCommandInput
-                      placeholder="Search versions..."
+                      placeholder="搜索版本..."
                       className="h-9"
                     />
                     <InputCommandList>
-                      <InputCommandEmpty>No version found.</InputCommandEmpty>
+                      <InputCommandEmpty>未找到版本。</InputCommandEmpty>
                       <InputCommandGroup className="overflow-y-auto">
                         {promptsByName &&
                         selectedPromptName &&
@@ -223,7 +223,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                             >
                               <div className="flex min-w-0 flex-1 items-center gap-2">
                                 <span className="shrink-0">
-                                  Version {prompt.version}
+                                  版本 {prompt.version}
                                 </span>
                                 {prompt.labels.length > 0 && (
                                   <TruncatedLabels
@@ -245,7 +245,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                           ))
                         ) : (
                           <InputCommandItem disabled>
-                            No versions available
+                            没有可用版本
                           </InputCommandItem>
                         )}
                       </InputCommandGroup>
@@ -257,8 +257,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
             {selectedPromptToolConfig.status === "invalid" && (
               <p className="text-dark-yellow flex items-center gap-1.5 text-sm">
                 <TriangleAlert className="h-4 w-4 shrink-0" />
-                Invalid tool config detected on this prompt version. Its tools
-                will be ignored when running the experiment.
+                检测到此提示词版本上的无效工具配置。运行实验时将忽略其工具。
               </p>
             )}
             <FormMessage />
@@ -272,7 +271,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
         render={() => (
           <FormItem>
             <ModelParameters
-              customHeader={<FormLabel>Model</FormLabel>}
+              customHeader={<FormLabel>模型</FormLabel>}
               {...{
                 modelParams,
                 availableModels,
@@ -304,7 +303,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
         render={({ field }) => (
           <FormItem>
             <div className="flex items-center justify-between">
-              <FormLabel>Structured output (optional)</FormLabel>
+              <FormLabel>结构化输出（可选）</FormLabel>
               <Switch
                 checked={structuredOutputEnabled}
                 onCheckedChange={handleToggleStructuredOutput}
@@ -326,7 +325,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                           aria-expanded={schemaPopoverOpen}
                           className="flex-1 justify-between px-2 font-normal"
                         >
-                          {selectedSchema?.name || "Select schema"}
+                          {selectedSchema?.name || "选择 Schema"}
                           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
@@ -336,13 +335,13 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                       >
                         <InputCommand>
                           <InputCommandInput
-                            placeholder="Search schemas..."
+                            placeholder="搜索 Schema..."
                             className="h-9"
                             variant="bottom"
                           />
                           <InputCommandList>
                             <InputCommandEmpty>
-                              No schema found.
+                              未找到 Schema。
                             </InputCommandEmpty>
                             <InputCommandGroup>
                               {savedSchemas.data.map((schema) => (
@@ -412,7 +411,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
                   >
                     <Button variant="outline" className="w-full">
                       <PlusIcon className="mr-2 h-4 w-4" />
-                      Add schema
+                      添加 Schema
                     </Button>
                   </CreateOrEditLLMSchemaDialog>
                 )}
@@ -427,8 +426,8 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
               {hasToolStructuredOutputConflict
                 ? PROMPT_TOOL_STRUCTURED_OUTPUT_CONFLICT_MESSAGE
                 : structuredOutputEnabled
-                  ? "Configure the schema for structured LLM outputs"
-                  : "Enable to enforce a specific output format"}
+                  ? "配置结构化 LLM 输出的 Schema"
+                  : "启用以强制使用特定的输出格式"}
             </CardDescription>
             <FormMessage />
           </FormItem>

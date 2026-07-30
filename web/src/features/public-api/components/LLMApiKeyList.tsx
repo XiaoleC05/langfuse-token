@@ -44,11 +44,11 @@ export function LlmApiKeyList(props: { projectId: string }) {
   if (!hasAccess) {
     return (
       <div>
-        <Header title="LLM Connections" />
+        <Header title="LLM 连接" />
         <Alert>
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            You do not have permission to view LLM API keys for this project.
+            您没有查看此项目的 LLM API 密钥的权限。
           </AlertDescription>
         </Alert>
       </div>
@@ -57,27 +57,27 @@ export function LlmApiKeyList(props: { projectId: string }) {
 
   return (
     <div id="llm-api-keys">
-      <Header title="LLM Connections" />
+      <Header title="LLM 连接" />
       <p className="mb-4 text-sm">
-        Connect your LLM services to enable evaluations and playground features.
-        Your provider will charge based on usage.
+        连接您的 LLM 服务以启用评估和实验场功能。
+        您的提供商将根据使用量收费。
       </p>
       <Card className="mb-4 overflow-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="text-primary md:table-cell">
-                Provider
+                提供商
               </TableHead>
               <TableHead className="text-primary md:table-cell">
                 Adapter
               </TableHead>
               <TableHead className="text-primary md:table-cell">
-                Base URL
+                基础 URL
               </TableHead>
-              <TableHead className="text-primary">API Key</TableHead>
+              <TableHead className="text-primary">API 密钥</TableHead>
               {hasExtraHeaderKeys ? (
-                <TableHead className="text-primary">Extra headers</TableHead>
+                <TableHead className="text-primary">额外请求头</TableHead>
               ) : null}
               <TableHead />
             </TableRow>
@@ -90,7 +90,7 @@ export function LlmApiKeyList(props: { projectId: string }) {
                   colSpan={6}
                   className="text-center"
                 >
-                  None
+                  无
                 </TableCell>
               </TableRow>
             ) : (
@@ -180,9 +180,9 @@ function DeleteApiKeyButton(props: { projectId: string; apiKeyId: string }) {
           <TrashIcon className="h-4 w-4" />
         </Button>
       }
-      title="Delete LLM Connection"
-      description="Are you sure you want to delete this connection? This action cannot be undone."
-      confirmLabel="Permanently delete"
+      title="删除 LLM 连接"
+      description="确定要删除此连接吗？此操作无法撤销。"
+      confirmLabel="永久删除"
       loading={mutDeleteApiKey.isPending}
       onConfirm={() => {
         mutDeleteApiKey

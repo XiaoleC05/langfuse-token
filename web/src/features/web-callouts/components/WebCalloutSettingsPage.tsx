@@ -131,12 +131,12 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
     onSuccess: async () => {
       await utils.webCallouts.invalidate();
       showSuccessToast({
-        title: "Callout endpoint deleted",
-        description: "The endpoint was removed from this project.",
+        title: "提示端点已删除",
+        description: "该端点已从此项目中移除。",
       });
     },
     onError: (error) => {
-      showErrorToast("Failed to delete callout endpoint", error.message);
+      showErrorToast("删除提示端点失败", error.message);
     },
   });
 
@@ -144,9 +144,9 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
     return (
       <div>
         <Alert>
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            You do not have permission to manage integrations for this project.
+            您没有管理此项目集成的权限。
           </AlertDescription>
         </Alert>
       </div>
@@ -156,9 +156,9 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
   const configuredEndpoint = endpoints.data?.[0];
   const canCreateEndpoint = !configuredEndpoint;
   const addEndpointDisabledReason = endpoints.isLoading
-    ? "Loading callout endpoint configuration."
+    ? "正在加载提示端点配置。"
     : !canCreateEndpoint
-      ? "Currently you can only create one callout per project."
+      ? "目前每个项目只能创建一个提示。"
       : undefined;
 
   const openCreateDialog = () => {
@@ -228,7 +228,7 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
                   colSpan={6}
                   className="text-muted-foreground text-center"
                 >
-                  No callout endpoint configured.
+                  未配置提示端点。
                 </TableCell>
               </TableRow>
             ) : (
@@ -266,7 +266,7 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
                             <Pencil className="h-4 w-4" />
                           </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Edit endpoint</TooltipContent>
+                        <TooltipContent>编辑端点</TooltipContent>
                       </Tooltip>
                       <DeleteEndpointButton
                         endpoint={endpoint}
@@ -355,14 +355,14 @@ function WebCalloutEndpointDialog(props: {
       await utils.webCallouts.invalidate();
       showSuccessToast({
         title: props.endpoint
-          ? "Callout endpoint updated"
-          : "Callout endpoint created",
-        description: "Web callout configuration was saved.",
+          ? "提示端点已更新"
+          : "提示端点已创建",
+        description: "网页提示配置已保存。",
       });
       props.onOpenChange(false);
     },
     onError: (error) => {
-      showErrorToast("Failed to save callout endpoint", error.message);
+      showErrorToast("保存提示端点失败", error.message);
     },
   });
 
@@ -621,7 +621,7 @@ function DeleteEndpointButton(props: {
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Delete endpoint</TooltipContent>
+        <TooltipContent>删除端点</TooltipContent>
       </Tooltip>
       <DialogContent>
         <DialogHeader>
@@ -643,7 +643,7 @@ function DeleteEndpointButton(props: {
               setOpen(false);
             }}
           >
-            Delete endpoint
+            删除端点
           </Button>
         </DialogFooter>
       </DialogContent>

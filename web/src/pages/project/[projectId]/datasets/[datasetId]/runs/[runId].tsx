@@ -56,7 +56,7 @@ function DatasetRunLegacy() {
         breadcrumb: [
           ...breadcrumb,
           {
-            name: "Experiments",
+            name: "实验",
             href: `/project/${projectId}/datasets/${datasetId}/experiments`,
           },
         ],
@@ -70,7 +70,7 @@ function DatasetRunLegacy() {
             >
               <Button>
                 <Columns3 className="mr-2 h-4 w-4" />
-                <span>Compare</span>
+                <span>对比</span>
               </Button>
             </Link>
             <DetailPageNav
@@ -111,11 +111,11 @@ function DatasetRunLegacy() {
           />
         </div>
         <SidePanel
-          mobileTitle="Experiment run details"
+          mobileTitle="实验运行详情"
           id="experiment-run-details"
         >
           <SidePanelHeader>
-            <SidePanelTitle>Experiment run details</SidePanelTitle>
+            <SidePanelTitle>实验运行详情</SidePanelTitle>
           </SidePanelHeader>
           <SidePanelContent>
             {run.isPending ? (
@@ -124,7 +124,7 @@ function DatasetRunLegacy() {
               <>
                 {run.data?.datasetVersion && (
                   <div className="flex flex-col gap-2 p-1">
-                    <span className="text-sm font-bold">Dataset Version</span>
+                    <span className="text-sm font-bold">数据集版本</span>
                     <Link
                       href={`/project/${projectId}/datasets/${datasetId}/items?version=${run.data.datasetVersion.toISOString()}`}
                       className="text-link hover:text-link-hover text-sm"
@@ -136,20 +136,20 @@ function DatasetRunLegacy() {
                 {!!run.data?.description && (
                   <JSONView
                     json={run.data.description}
-                    title="Description"
+                    title="描述"
                     className="w-full overflow-y-auto"
                   />
                 )}
                 {!!run.data?.metadata && (
                   <JSONView
                     json={run.data.metadata}
-                    title="Metadata"
+                    title="元数据"
                     className="w-full overflow-y-auto"
                   />
                 )}
                 {!run.data?.description && !run.data?.metadata && (
                   <div className="text-muted-foreground mt-1 px-1 text-sm">
-                    No description or metadata for this run
+                    此运行没有描述或元数据
                   </div>
                 )}
               </>

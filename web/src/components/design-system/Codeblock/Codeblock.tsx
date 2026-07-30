@@ -51,7 +51,7 @@ const CodeBlock: FC<Props> = memo(
               ) : (
                 <Copy className="h-3 w-3" />
               )}
-              <span className="sr-only">Copy code</span>
+              <span className="sr-only">复制代码</span>
             </Button>
           </div>
         </div>

@@ -27,7 +27,7 @@ export function ScoreCombobox({
   value,
   onChange,
   options,
-  placeholder = "Select score",
+  placeholder = "选择评分",
   filterByDataType,
   disabled = false,
   className,
@@ -56,9 +56,9 @@ export function ScoreCombobox({
     );
 
     const typeLabels: Record<string, string> = {
-      BOOLEAN: "Boolean",
-      CATEGORICAL: "Categorical",
-      NUMERIC: "Numeric",
+      BOOLEAN: "布尔型",
+      CATEGORICAL: "分类",
+      NUMERIC: "数值型",
     };
     const typeOrder = ["BOOLEAN", "CATEGORICAL", "NUMERIC"];
 
@@ -89,8 +89,8 @@ export function ScoreCombobox({
         onValueChange={handleValueChange}
         options={groupedOptions}
         placeholder={placeholder}
-        searchPlaceholder="Search scores..."
-        emptyText="No scores found."
+        searchPlaceholder="搜索评分..."
+        emptyText="未找到评分。"
         disabled={disabled}
         className={className}
       />
@@ -100,7 +100,7 @@ export function ScoreCombobox({
           variant="ghost"
           size="icon"
           onClick={handleClear}
-          title="Clear selection"
+          title="清除选择"
           className="h-6 w-6 shrink-0"
         >
           <X className="h-3 w-3" />

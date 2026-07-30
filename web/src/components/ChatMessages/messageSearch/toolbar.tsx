@@ -47,10 +47,10 @@ export function MessageSearchToolbar({ className }: { className?: string }) {
         size="sm"
         className={cn("h-8 gap-2", className)}
         onClick={openSearch}
-        aria-label="Find in messages"
+        aria-label="在消息中查找"
       >
         <Search className="h-3.5 w-3.5" />
-        <span className="hidden lg:inline">Find</span>
+        <span className="hidden lg:inline">查找</span>
       </Button>
     );
   }
@@ -73,7 +73,7 @@ export function MessageSearchToolbar({ className }: { className?: string }) {
         value={queryInput}
         onChange={(event) => setQueryInput(event.target.value)}
         onBlur={blurQueryInput}
-        placeholder="Find in messages"
+        placeholder="在消息中查找"
         className="h-6 min-w-40 border-0 px-1 text-xs shadow-none focus-visible:ring-0 sm:min-w-56"
         onKeyDown={(event) => {
           if (event.key === "Enter") {
@@ -100,17 +100,17 @@ export function MessageSearchToolbar({ className }: { className?: string }) {
       </div>
       <IconButton
         icon={ChevronUp}
-        label="Previous result"
+        label="上一个结果"
         onClick={previousMatch}
         disabled={matches.length === 0}
       />
       <IconButton
         icon={ChevronDown}
-        label="Next result"
+        label="下一个结果"
         onClick={nextMatch}
         disabled={matches.length === 0}
       />
-      <IconButton icon={X} label="Close search" onClick={closeSearch} />
+      <IconButton icon={X} label="关闭搜索" onClick={closeSearch} />
     </div>
   );
 }

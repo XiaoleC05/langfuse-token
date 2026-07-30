@@ -29,7 +29,7 @@ export const BillingDiscountCodeButton = ({
 
   const mutation = api.cloudBilling.applyPromotionCode.useMutation({
     onSuccess: async () => {
-      toast.success("Promotion code applied");
+      toast.success("优惠码已应用");
       setProcessing(false);
       setOpen(false);
       setCode("");
@@ -41,7 +41,7 @@ export const BillingDiscountCodeButton = ({
     },
     onError: (err) => {
       setProcessing(false);
-      toast.error(err.message || "Failed to apply promotion code");
+      toast.error(err.message || "应用优惠码失败");
     },
   });
 
@@ -51,15 +51,15 @@ export const BillingDiscountCodeButton = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm">
-          Add Promotion Code
+          添加优惠码
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg">Add Promotion Code</DialogTitle>
+          <DialogTitle className="text-lg">添加优惠码</DialogTitle>
         </DialogHeader>
         <DialogBody className="space-y-3 text-sm">
-          <p>Enter a valid promotion code to apply it to your subscription.</p>
+          <p>输入有效的优惠码以应用到您的订阅。</p>
           <Input
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -70,7 +70,7 @@ export const BillingDiscountCodeButton = ({
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="secondary" disabled={processing}>
-              Cancel
+              取消
             </Button>
           </DialogClose>
           <Button
@@ -86,7 +86,7 @@ export const BillingDiscountCodeButton = ({
               mutation.mutate({ orgId, code: code.trim(), opId: id });
             }}
           >
-            {processing ? "Applying…" : "Apply"}
+            {processing ? "应用中…" : "应用"}
           </Button>
         </DialogFooter>
       </DialogContent>

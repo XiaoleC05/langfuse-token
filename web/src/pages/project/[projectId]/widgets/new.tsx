@@ -23,8 +23,8 @@ export default function NewWidget() {
   const createWidgetMutation = api.dashboardWidgets.create.useMutation({
     onSuccess: (data) => {
       showSuccessToast({
-        title: "Widget created successfully",
-        description: "Your widget has been created.",
+        title: "小部件创建成功",
+        description: "小部件已创建。",
       });
 
       if (dashboardId) {
@@ -37,7 +37,7 @@ export default function NewWidget() {
       }
     },
     onError: (error) => {
-      showErrorToast("Failed to save widget", error.message);
+      showErrorToast("保存小部件失败", error.message);
     },
   });
 
@@ -53,7 +53,7 @@ export default function NewWidget() {
     minVersion: number;
   }) => {
     if (!widgetData.name.trim()) {
-      showErrorToast("Error", "Widget name is required");
+      showErrorToast("错误", "小部件名称不能为空");
       return;
     }
 
@@ -82,9 +82,9 @@ export default function NewWidget() {
     <Page
       withPadding
       headerProps={{
-        title: "New Widget",
+        title: "新建小部件",
         help: {
-          description: "Create a new widget",
+          description: "创建新的小部件",
         },
       }}
     >

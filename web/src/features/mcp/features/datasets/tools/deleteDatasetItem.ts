@@ -9,7 +9,7 @@ import { runMcpTool } from "../../../core/run-mcp-tool";
 export const [deleteDatasetItemTool, handleDeleteDatasetItem] = defineTool({
   name: "deleteDatasetItem",
   description:
-    "Delete a dataset item, one example in a dataset, and all its run items.",
+    "删除数据集条目(数据集中的一个示例)及其所有运行条目。",
   baseSchema: DeleteDatasetItemV1Query,
   inputSchema: DeleteDatasetItemV1Query,
   handler: async (input, context) =>

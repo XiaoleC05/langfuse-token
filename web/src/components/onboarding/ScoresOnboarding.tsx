@@ -8,38 +8,38 @@ import { ThumbsUp, Star, LineChart, Code } from "lucide-react";
 export function ScoresOnboarding() {
   const valuePropositions: ValueProposition[] = [
     {
-      title: "Collect user feedback",
+      title: "收集用户反馈",
       description:
-        "Gather thumbs up/down feedback from users to identify high and low quality outputs",
+        "收集用户的点赞/点踩反馈，识别高质量和低质量的输出",
       icon: <ThumbsUp className="h-4 w-4" />,
     },
     {
-      title: "Run model-based evaluations",
+      title: "运行基于模型的评估",
       description:
-        "Use LLMs to automatically evaluate your application's outputs",
+        "使用 LLM 自动评估应用程序的输出",
       icon: <Star className="h-4 w-4" />,
     },
     {
-      title: "Track quality metrics",
+      title: "追踪质量指标",
       description:
-        "Monitor quality metrics over time to identify trends and issues",
+        "随时间监控质量指标，发现趋势和问题",
       icon: <LineChart className="h-4 w-4" />,
     },
     {
-      title: "Use custom metrics",
+      title: "使用自定义指标",
       description:
-        "Langfuse's scores are flexible and can be used to track any metric that's associated with an LLM application",
+        "Langfuse 的评分非常灵活，可用于追踪与 LLM 应用程序相关的任何指标",
       icon: <Code className="h-4 w-4" />,
     },
   ];
 
   return (
     <SplashScreen
-      title="Get Started with Scores"
-      description="Scores allow you to evaluate the quality/safety of your LLM application through user feedback, model-based evaluations, or manual review. Scores can be used programmatically via the API and SDKs to track custom metrics."
+      title="开始使用评分"
+      description="通过用户反馈、基于模型的评估或人工审核，评分可帮助您评估 LLM 应用程序的质量/安全性。评分可以通过 API 和 SDK 以编程方式使用来追踪自定义指标。"
       valuePropositions={valuePropositions}
       secondaryAction={{
-        label: "Learn More",
+        label: "了解更多",
         href: "https://langfuse.com/docs/evaluation/evaluation-methods/custom-scores",
       }}
       videoSrc="https://static.langfuse.com/prod-assets/onboarding/scores-overview-v1.mp4"

@@ -70,10 +70,9 @@ export function TestModelMatchDialog({
       <DialogContent size="lg" className="min-h-[62vh] overflow-y-auto">
         <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
           <DialogHeader>
-            <DialogTitle>Test Model Match</DialogTitle>
+            <DialogTitle>测试模型匹配</DialogTitle>
             <DialogDescription className="mt-1">
-              Test which model and pricing tier your ingestion data would match
-              against.
+              测试您的摄入数据将匹配哪个模型和定价层级。
             </DialogDescription>
           </DialogHeader>
 
@@ -83,9 +82,9 @@ export function TestModelMatchDialog({
               <div className="space-y-6">
                 {/* Model Name Input */}
                 <div className="space-y-2">
-                  <div className="text-sm font-bold">Model Name *</div>
+                  <div className="text-sm font-bold">模型名称 *</div>
                   <div className="text-muted-foreground text-sm">
-                    The model name on your generations.
+                    您生成中的模型名称。
                   </div>
                   <Input
                     placeholder="e.g. gpt-4-turbo"
@@ -111,14 +110,14 @@ export function TestModelMatchDialog({
                   onClick={() => onOpenChange(false)}
                   className="flex-1"
                 >
-                  Close
+                  关闭
                 </Button>
                 <Button
                   type="submit"
                   disabled={!modelName.trim() || isLoading}
                   className="flex-1"
                 >
-                  Test Match
+                  测试匹配
                 </Button>
               </div>
             </div>
@@ -134,13 +133,13 @@ export function TestModelMatchDialog({
                     {isLoading && (
                       <div className="bg-muted/30 text-muted-foreground flex min-h-[300px] items-center justify-center gap-2 rounded-lg border p-6">
                         <Spinner size="md" />
-                        <span>Testing match...</span>
+                        <span>正在测试匹配...</span>
                       </div>
                     )}
 
                     {error && (
                       <div className="border-destructive/50 bg-destructive/5 text-destructive rounded-lg border p-4 text-sm">
-                        Error: {error.message}
+                        错误：{error.message}
                       </div>
                     )}
 
@@ -151,7 +150,7 @@ export function TestModelMatchDialog({
                             <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-4 py-2.5 dark:border-green-900 dark:bg-green-950">
                               <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
                               <span className="text-sm font-bold text-green-900 dark:text-green-100">
-                                Match Found
+                                找到匹配
                               </span>
                             </div>
                             <MatchedModelCard model={data.model} />
@@ -174,7 +173,7 @@ export function TestModelMatchDialog({
                       href={`/project/${projectId}/settings/models/${data.model.id}?pricingTier=${data.matchedTier.id}`}
                       target="_blank"
                     >
-                      View Model Details
+                      查看模型详情
                       <SquareArrowOutUpRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>

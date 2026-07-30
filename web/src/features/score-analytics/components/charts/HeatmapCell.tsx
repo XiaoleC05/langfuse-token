@@ -115,7 +115,7 @@ function CellWithData({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => onClick?.(cell)}
-      aria-label={cell.displayValue || `Value: ${cell.value}`}
+      aria-label={cell.displayValue || `数值: ${cell.value}`}
     >
       {showValues && (
         <span className="text-[10px] sm:text-xs">{cell.displayValue}</span>
@@ -127,7 +127,7 @@ function CellWithData({
       style={sharedStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      aria-label={cell.displayValue || `Value: ${cell.value}`}
+      aria-label={cell.displayValue || `数值: ${cell.value}`}
     >
       {showValues && (
         <span className="text-[10px] sm:text-xs">{cell.displayValue}</span>

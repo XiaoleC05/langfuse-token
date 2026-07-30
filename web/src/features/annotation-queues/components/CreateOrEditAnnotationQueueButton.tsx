@@ -146,7 +146,7 @@ export const CreateOrEditAnnotationQueueButton = ({
     currentName: form.watch("name"),
     allNames: allQueueNames,
     form,
-    errorMessage: "Queue name already exists.",
+    errorMessage: "队列名称已存在。",
   });
 
   const configs = configsData.data?.configs ?? [];
@@ -196,8 +196,8 @@ export const CreateOrEditAnnotationQueueButton = ({
       // capture posthog event
     } catch {
       showErrorToast(
-        "Operation failed",
-        "Failed to create or update queue or assign users. Please try again.",
+        "操作失败",
+        "创建或更新队列或分配用户失败，请重试。",
       );
     }
   };
@@ -211,7 +211,7 @@ export const CreateOrEditAnnotationQueueButton = ({
     if (values.length === 0) {
       form.setError("scoreConfigIds", {
         type: "manual",
-        message: "At least 1 score config must be selected",
+        message: "必须至少选择1个评分配置",
       });
     } else {
       form.clearErrors("scoreConfigIds");
@@ -224,12 +224,12 @@ export const CreateOrEditAnnotationQueueButton = ({
   const triggerButton = isTableAction ? (
     <IconOnlyButton
       icon={<Pen className="h-4 w-4" />}
-      label="Edit"
-      aria-label="edit"
+      label="编辑"
+      aria-label="编辑"
       disabledReason={
         hasQueueAccess
           ? undefined
-          : "You don't have permission to edit this queue."
+          : "您没有编辑此队列的权限。"
       }
       onClick={(event) => {
         event.stopPropagation();
@@ -256,7 +256,7 @@ export const CreateOrEditAnnotationQueueButton = ({
       size={size}
     >
       <span className="ml-1 text-sm font-normal">
-        {queueId ? "Edit" : "New queue"}
+        {queueId ? "编辑" : "新建队列"}
       </span>
     </ActionButton>
   );
@@ -274,11 +274,10 @@ export const CreateOrEditAnnotationQueueButton = ({
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {queueId ? "Edit" : "New"} annotation queue
+              {queueId ? "编辑" : "新建"}标注队列
             </DialogTitle>
             <DialogDescription>
-              {queueId ? "Edit" : "Create a new"} queue to manage your
-              annotation workflows.
+              {queueId ? "编辑" : "新建"}队列以管理您的标注工作流。
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -289,7 +288,7 @@ export const CreateOrEditAnnotationQueueButton = ({
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>名称</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -309,11 +308,11 @@ export const CreateOrEditAnnotationQueueButton = ({
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description (optional)</FormLabel>
+                      <FormLabel>描述（可选）</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder="Add description..."
+                          placeholder="添加描述..."
                           className="text-xs focus:ring-0 focus:outline-hidden focus-visible:ring-0 focus-visible:ring-offset-0 active:ring-0"
                         />
                       </FormControl>
@@ -326,14 +325,13 @@ export const CreateOrEditAnnotationQueueButton = ({
                   name="scoreConfigIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Score Configs</FormLabel>
+                      <FormLabel>评分配置</FormLabel>
                       <FormDescription>
-                        Define which dimensions annotators should score for the
-                        given queue.
+                        定义标注者应为此队列评分的维度。
                       </FormDescription>
                       <FormControl>
                         <MultiSelectKeyValues
-                          placeholder="Value"
+                          placeholder="值"
                           align="end"
                           variant="outline"
                           className="grid grid-cols-[auto_1fr_auto_auto] gap-2"
@@ -365,7 +363,7 @@ export const CreateOrEditAnnotationQueueButton = ({
                                 );
                               }}
                               href={`/project/${projectId}/settings/scores`}
-                              title="Manage score configs"
+                              title="管理评分配置"
                             />
                           }
                         />
@@ -381,7 +379,7 @@ export const CreateOrEditAnnotationQueueButton = ({
                   name="newAssignmentUserIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Advanced Settings</FormLabel>
+                      <FormLabel>高级设置</FormLabel>
                       <div className="mt-1 rounded-md border">
                         <Collapsible
                           open={isAdvancedOpen && hasQueueAssignmentsReadAccess}
@@ -406,7 +404,7 @@ export const CreateOrEditAnnotationQueueButton = ({
                                   <ChevronRight className="text-muted-foreground h-4 w-4" />
                                 )}
                                 <span className="text-sm font-bold">
-                                  User Assignment
+                                  用户分配
                                 </span>
                               </div>
                             </Button>
@@ -446,8 +444,8 @@ export const CreateOrEditAnnotationQueueButton = ({
                   {createQueueMutation.isPending ||
                   editQueueMutation.isPending ||
                   createQueueAssignmentsMutation.isPending
-                    ? "Processing..."
-                    : `${queueId ? "Save" : "Create"} queue`}
+                    ? "处理中..."
+                    : `${queueId ? "保存" : "创建"}队列`}
                 </Button>
               </DialogFooter>
             </form>

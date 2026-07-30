@@ -292,7 +292,7 @@ const AddMessageButton: React.FC<AddMessageButtonProps> = ({
           onClick={addRegularMessage}
         >
           <PlusCircleIcon size={14} className="mr-2" />
-          <p>Message</p>
+          <p>消息</p>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -323,27 +323,27 @@ const AddMessageButton: React.FC<AddMessageButtonProps> = ({
             <DropdownMenuItem
               onClick={() => addMessageWithRole(ChatMessageRole.User)}
             >
-              User Message
+              用户消息
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => addMessageWithRole(ChatMessageRole.Assistant)}
             >
-              Assistant Message
+              助手消息
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => addMessageWithRole(ChatMessageRole.System)}
             >
-              System Message
+              系统消息
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => addMessageWithRole(ChatMessageRole.Developer)}
             >
-              Developer Message
+              开发者消息
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => addMessageWithRole(ChatMessageRole.Tool)}
             >
-              Tool Message
+              工具消息
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -358,14 +358,13 @@ const AddMessageButton: React.FC<AddMessageButtonProps> = ({
               onClick={addPlaceholderMessage}
             >
               <PlusCircleIcon size={14} className="mr-2" />
-              <p>Placeholder</p>
+              <p>占位符</p>
             </Button>
           </TooltipTrigger>
           <TooltipContent>
             <p className="text-xs">
-              Adds a placeholder to inject message pairs, e.g. a message history
-              (with &quot;role&quot;, &quot;content&quot; pairs) when compiling
-              the message in the SDK.
+              添加一个占位符,用于注入消息对,例如在 SDK 中编译消息时注入
+              消息历史(包含 &quot;role&quot;、&quot;content&quot; 键值对)。
             </p>
           </TooltipContent>
         </Tooltip>

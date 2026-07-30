@@ -66,14 +66,14 @@ const UpdateDashboardDefinitionInput = z.object({
 const UpdateDashboardInput = z.object({
   projectId: z.string(),
   dashboardId: z.string(),
-  name: StringNoHTML.min(1, "Dashboard name is required"),
+  name: StringNoHTML.min(1, "仪表板名称为必填项"),
   description: StringNoHTML,
 });
 
 // Create dashboard input schema
 const CreateDashboardInput = z.object({
   projectId: z.string(),
-  name: StringNoHTML.min(1, "Dashboard name is required"),
+  name: StringNoHTML.min(1, "仪表板名称为必填项"),
   description: StringNoHTML,
 });
 
@@ -285,7 +285,7 @@ async function getObservationsByTypeV2(params: {
   if (!from?.value || !to?.value) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "Time filter required",
+      message: "需要时间筛选条件",
     });
   }
 
@@ -398,7 +398,7 @@ export const dashboardRouter = createTRPCRouter({
         default:
           throw new TRPCError({
             code: "NOT_FOUND",
-            message: "Query not found",
+            message: "未找到查询",
           });
       }
     }),
@@ -516,7 +516,7 @@ export const dashboardRouter = createTRPCRouter({
       if (!dashboard) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Dashboard not found",
+          message: "未找到仪表板",
         });
       }
 
@@ -599,7 +599,7 @@ export const dashboardRouter = createTRPCRouter({
       if (!sourceDashboard) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Source dashboard not found",
+          message: "未找到源仪表板",
         });
       }
 
@@ -690,7 +690,7 @@ export const dashboardRouter = createTRPCRouter({
         if (!dashboard) {
           throw new TRPCError({
             code: "NOT_FOUND",
-            message: "Dashboard not found",
+            message: "未找到仪表板",
           });
         }
       }

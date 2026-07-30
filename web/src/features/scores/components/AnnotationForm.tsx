@@ -101,7 +101,7 @@ function CommentField({
   return (
     <div className="relative">
       <div className="mb-1 flex items-center justify-between">
-        <FormLabel className="text-sm">Score Comment</FormLabel>
+        <FormLabel className="text-sm">评分评论</FormLabel>
         <div className="relative">
           {savedComment && (
             <PopoverClose asChild>
@@ -139,7 +139,7 @@ function CommentField({
                 setLocalValue(savedComment || "");
               }}
             >
-              Discard Changes
+              放弃更改
             </Button>
           </PopoverClose>
           <PopoverClose asChild>
@@ -153,7 +153,7 @@ function CommentField({
                 onSave(localValue);
               }}
             >
-              Save Changes
+              保存更改
             </Button>
           </PopoverClose>
         </div>
@@ -185,7 +185,7 @@ function AnnotateHeader({
 }) {
   return (
     <Header
-      title="Annotate"
+      title="标注"
       help={{
         description,
         href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation",
@@ -201,7 +201,7 @@ function AnnotateHeader({
             )}
           </div>
           <span className="text-muted-foreground text-xs">
-            {showSaving ? "Saving score data" : "Score data saved"}
+            {showSaving ? "正在保存评分数据" : "评分数据已保存"}
           </span>
         </div>,
         actionButtons,
@@ -351,12 +351,12 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
     if (isTextDataType(field.dataType)) {
       form.setError(`scoreData.${index}.stringValue`, {
         type: "server",
-        message: "Failed to delete score",
+        message: "删除评分失败",
       });
     } else {
       form.setError(`scoreData.${index}.value`, {
         type: "server",
-        message: "Failed to delete score",
+        message: "删除评分失败",
       });
     }
   };
@@ -416,12 +416,12 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
     if (isTextDataType(controlledFields[index]?.dataType)) {
       form.setError(`scoreData.${index}.stringValue`, {
         type: "server",
-        message: "Failed to update score",
+        message: "更新评分失败",
       });
     } else {
       form.setError(`scoreData.${index}.value`, {
         type: "server",
-        message: "Failed to update score",
+        message: "更新评分失败",
       });
     }
   };
@@ -440,12 +440,12 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
     if (isTextDataType(controlledFields[index]?.dataType)) {
       form.setError(`scoreData.${index}.stringValue`, {
         type: "server",
-        message: "Failed to create score",
+        message: "创建评分失败",
       });
     } else {
       form.setError(`scoreData.${index}.value`, {
         type: "server",
-        message: "Failed to create score",
+        message: "创建评分失败",
       });
     }
   };
@@ -594,7 +594,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
     });
     form.setError(`scoreData.${index}.comment`, {
       type: "server",
-      message: "Failed to update comment",
+      message: "更新评论失败",
     });
   };
 
@@ -835,7 +835,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
         {allowManualSelection ? (
           <div className="grid grid-flow-col items-center">
             <MultiSelectKeyValues
-              placeholder="Value"
+              placeholder="值"
               align="end"
               items="empty scores"
               className="grid grid-cols-[auto_1fr_auto_auto] gap-2"
@@ -852,7 +852,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                 }))}
               controlButtons={
                 <DropdownMenuItemWithSecondaryAction
-                  title="Manage score configs"
+                  title="管理评分配置"
                   href={`/project/${scoreMetadata.projectId}/settings/scores`}
                   onBeforeAction={() => {
                     capture(
@@ -946,7 +946,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                                 variant="link"
                                 type="button"
                                 size="xs"
-                                title="Add or view score comment"
+                                title="添加或查看评分评论"
                                 // LFE-7628: center the comment icon vertically
                                 // against the score label instead of stretching
                                 // to the full (possibly multi-line) row height,
@@ -1010,7 +1010,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                                         maxLength={TEXT_SCORE_MAX_LENGTH}
                                         className="text-xs"
                                         disabled={isInputDisabled(config)}
-                                        placeholder="Enter free form text..."
+                                        placeholder="输入自由格式文本..."
                                         onBlur={() => handleTextUpsert(index)}
                                       />
                                     </FormControl>
@@ -1081,9 +1081,9 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                                           value: category.label,
                                           disabled: category.isOutdated,
                                         }))}
-                                        placeholder="Select category"
-                                        searchPlaceholder="Search categories..."
-                                        emptyText="No category found."
+                                        placeholder="选择分类"
+                                        searchPlaceholder="搜索分类..."
+                                        emptyText="未找到分类。"
                                       />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
@@ -1177,7 +1177,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                                   variant="link"
                                   type="button"
                                   className="px-0 pl-1"
-                                  title="Delete archived score"
+                                  title="删除已归档评分"
                                   disabled={isScoreUnsaved(score.id)}
                                 >
                                   <Archive className="h-4 w-4"></Archive>
@@ -1185,11 +1185,10 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                               </PopoverTrigger>
                               <PopoverContent>
                                 <h2 className="mb-3 font-bold">
-                                  Your score is archived
+                                  您的评分已归档
                                 </h2>
                                 <p className="mb-3 text-sm">
-                                  This action will delete your score
-                                  irreversibly.
+                                  此操作将不可逆地删除您的评分。
                                 </p>
                                 <div className="flex justify-end space-x-4">
                                   <Button
@@ -1198,7 +1197,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                                     loading={deleteMutation.isPending}
                                     onClick={() => handleDeleteScore(index)}
                                   >
-                                    Delete
+                                    删除
                                   </Button>
                                 </div>
                               </PopoverContent>
@@ -1208,7 +1207,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                               variant="link"
                               type="button"
                               className="px-0 pl-1"
-                              title="Delete score from trace/observation"
+                              title="从追踪/观测中删除评分"
                               disabled={
                                 isScoreUnsaved(score.id) ||
                                 updateMutation.isPending
@@ -1244,7 +1243,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                   <KeyboardShortcut className="h-4 min-w-4 px-1 text-[9px]">
                     ↓
                   </KeyboardShortcut>
-                  move between fields
+                  在字段之间移动
                 </span>
               )}
               {optionRowCount > 0 && (
@@ -1256,7 +1255,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                   <KeyboardShortcut className="h-4 min-w-4 px-1 text-[9px]">
                     9
                   </KeyboardShortcut>
-                  select option
+                  选择选项
                 </span>
               )}
               {hasEditableRow && (
@@ -1264,7 +1263,7 @@ function InnerAnnotationForm<Target extends ScoreTarget>({
                   <KeyboardShortcut className="h-4 px-1 text-[9px]">
                     ↵
                   </KeyboardShortcut>
-                  edit field
+                  编辑字段
                 </span>
               )}
             </div>

@@ -21,8 +21,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function RedirectPage() {
   const router = useRouter();
   if (router.isFallback) {
-    return <div className="p-3">Loading...</div>;
+    return <div className="p-3">加载中...</div>;
   }
 
-  return <div>Redirecting...</div>;
+  return <div>跳转中...</div>;
 }

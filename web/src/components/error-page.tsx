@@ -8,7 +8,7 @@ import { captureException } from "@sentry/nextjs";
 import { stripBasePath } from "@/src/utils/redirect";
 
 export const ErrorPage = ({
-  title = "Error",
+  title = "错误",
   message,
   additionalButton,
 }: {
@@ -43,8 +43,7 @@ export const ErrorPage = ({
           <Button
             onClick={() => router.push(`/auth/sign-in${targetPathQuery}`)}
           >
-            Sign In
-          </Button>
+            登录</Button>
         ) : null}
         {additionalButton ? (
           "onClick" in additionalButton ? (
@@ -63,7 +62,7 @@ export const ErrorPage = ({
 };
 
 export const ErrorPageWithSentry = ({
-  title = "Error",
+  title = "错误",
   message,
   additionalButton,
 }: {

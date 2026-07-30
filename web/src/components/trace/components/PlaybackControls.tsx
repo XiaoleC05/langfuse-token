@@ -84,8 +84,8 @@ export function PlaybackControls() {
         variant="ghost"
         size="icon"
         onClick={isPlaying ? pause : play}
-        title={isPlaying ? "Pause playback" : "Play trace over time"}
-        aria-label={isPlaying ? "Pause playback" : "Play trace over time"}
+        title={isPlaying ? "暂停回放" : "回放追踪时间线"}
+        aria-label={isPlaying ? "暂停回放" : "回放追踪时间线"}
         className="relative h-7 w-7"
       >
         <svg
@@ -128,8 +128,8 @@ export function PlaybackControls() {
         variant="ghost"
         size="icon"
         onClick={stop}
-        title="Stop playback"
-        aria-label="Stop playback"
+        title="停止回放"
+        aria-label="停止回放"
         className="h-7 w-7"
       >
         <Square className="h-2.5 w-2.5" />

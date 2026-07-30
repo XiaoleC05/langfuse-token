@@ -73,13 +73,13 @@ export function MappingStep({
   const getFullLabel = () => {
     switch (field) {
       case "input":
-        return "Full observation input";
+        return "完整观测输入";
       case "expectedOutput":
-        return "Full observation output";
+        return "完整观测输出";
       case "metadata":
-        return "Full observation metadata";
+        return "完整观测元数据";
       default:
-        return `Full observation ${field}`;
+        return `完整观测${field}`;
     }
   };
 
@@ -118,7 +118,7 @@ export function MappingStep({
         <div>
           <div className="flex items-center gap-2">
             <h3 className="grow text-lg font-bold">
-              Dataset Item {fieldLabel}
+              数据集项 {fieldLabel}
             </h3>
             {hasSchema && (
               <DatasetSchemaHoverCard
@@ -131,8 +131,7 @@ export function MappingStep({
             )}
           </div>
           <p className="text-muted-foreground text-sm">
-            Configure how observation data maps to the Dataset Item {fieldLabel}
-            .
+            配置观测数据如何映射到数据集项 {fieldLabel}。
           </p>
         </div>
 

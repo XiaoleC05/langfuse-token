@@ -78,11 +78,11 @@ export const PlaygroundToolsPopover = () => {
   return (
     <Command className="flex flex-col">
       <CommandInput
-        placeholder="Search tools..."
+        placeholder="搜索工具..."
         className="h-8 border-none py-1 pr-1 pl-6 focus:ring-0 focus:ring-offset-0"
       />
       <CommandList className="max-h-[300px] overflow-y-auto">
-        <CommandEmpty>No tools found.</CommandEmpty>
+        <CommandEmpty>未找到工具。</CommandEmpty>
         <CommandGroup>
           {savedTools.map((tool) => (
             <CommandItem
@@ -132,7 +132,7 @@ export const PlaygroundToolsPopover = () => {
         >
           <Button variant="outline" size="default" className="w-full">
             <PlusIcon className="mr-2 h-4 w-4" />
-            Create new tool
+            创建新工具
           </Button>
         </CreateOrEditLLMToolDialog>
       </div>
@@ -232,7 +232,7 @@ export const PlaygroundTools = () => {
     <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-[min(45vh,18rem)]">
       {tools.length === 0 ? (
         <div className="flex h-16 flex-col items-center justify-center p-4 text-center">
-          <p className="text-muted-foreground text-xs">No tools attached.</p>
+          <p className="text-muted-foreground text-xs">未添加工具。</p>
         </div>
       ) : (
         <div className="space-y-1">
@@ -258,7 +258,7 @@ export const PlaygroundTools = () => {
                   variant="ghost"
                   size="sm"
                   className="absolute top-2 right-3 h-6 w-6 p-0"
-                  aria-label={`Remove tool ${tool.name}`}
+                  aria-label={`移除工具 ${tool.name}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -278,7 +278,7 @@ export const PlaygroundTools = () => {
                     </h3>
                     {!isToolSaved(tool) ? (
                       <span className="bg-muted text-muted-foreground mt-1 inline-flex rounded px-1 py-0.5 text-xs">
-                        Unsaved
+                        未保存
                       </span>
                     ) : null}
                   </div>

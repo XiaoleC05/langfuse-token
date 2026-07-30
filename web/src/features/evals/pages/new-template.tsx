@@ -21,10 +21,10 @@ export default function NewTemplatesPage() {
       withPadding
       scrollable
       headerProps={{
-        title: "Create custom evaluator",
+        title: "创建自定义评估器",
         breadcrumb: [
           {
-            name: "Evaluators",
+            name: "评估器",
             href: `/project/${projectId}/evals/templates`,
           },
         ],

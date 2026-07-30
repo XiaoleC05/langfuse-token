@@ -80,8 +80,8 @@ export const RemoteExperimentUpsertForm = ({
     api.datasets.upsertRemoteExperiment.useMutation({
       onSuccess: () => {
         showSuccessToast({
-          title: "Setup successfully",
-          description: "Your changes have been saved.",
+          title: "设置成功",
+          description: "您的更改已保存。",
         });
         setShowRemoteExperimentUpsertForm(false);
         utils.datasets.getRemoteExperiment.invalidate({
@@ -91,8 +91,8 @@ export const RemoteExperimentUpsertForm = ({
       },
       onError: (error) => {
         showErrorToast(
-          error.message || "Failed to setup",
-          "Please check your URL and config and try again.",
+          error.message || "设置失败",
+          "请检查您的 URL 和配置后重试。",
         );
       },
     });
@@ -101,9 +101,9 @@ export const RemoteExperimentUpsertForm = ({
     api.datasets.deleteRemoteExperiment.useMutation({
       onSuccess: () => {
         showSuccessToast({
-          title: "Deleted successfully",
+          title: "删除成功",
           description:
-            "The remote dataset run trigger has been removed from this dataset.",
+            "远程数据集运行触发器已从此数据集中移除。",
         });
         setShowRemoteExperimentUpsertForm(false);
         utils.datasets.getRemoteExperiment.invalidate({
@@ -113,8 +113,8 @@ export const RemoteExperimentUpsertForm = ({
       },
       onError: (error) => {
         showErrorToast(
-          error.message || "Failed to delete remote dataset run trigger",
-          "Please try again.",
+          error.message || "删除远程数据集运行触发器失败",
+          "请重试。",
         );
       },
     });
@@ -125,7 +125,7 @@ export const RemoteExperimentUpsertForm = ({
         JSON.parse(data.defaultPayload);
       } catch {
         form.setError("defaultPayload", {
-          message: "Invalid JSON format",
+          message: "无效的 JSON 格式",
         });
         return;
       }
@@ -143,7 +143,7 @@ export const RemoteExperimentUpsertForm = ({
   const handleDelete = () => {
     if (
       confirm(
-        "Are you sure you want to delete this remote dataset run trigger?",
+        "确定要删除此远程数据集运行触发器吗？",
       )
     ) {
       deleteRemoteExperimentMutation.mutate({
@@ -175,15 +175,15 @@ export const RemoteExperimentUpsertForm = ({
           }}
           className="inline-block self-start"
         >
-          ← Back
+          ← 返回
         </Button>
         <DialogTitle>
           {existingRemoteExperiment
-            ? "Edit remote experiment trigger"
-            : "Set up remote experiment trigger in UI"}
+            ? "编辑远程实验触发器"
+            : "在界面中设置远程实验触发器"}
         </DialogTitle>
         <DialogDescription>
-          Enable your team to run custom experiments on dataset{" "}
+          允许您的团队在数据集{" "}
           <strong>
             {dataset.isSuccess ? (
               <>&quot;{dataset.data?.name}&quot;</>
@@ -191,9 +191,7 @@ export const RemoteExperimentUpsertForm = ({
               <Spinner size="sm" display="inline" />
             )}
           </strong>
-          . Configure a webhook URL to trigger remote custom experiments from
-          UI. We will send dataset info (name, id) and config to your service,
-          which can run against the dataset and post results to Langfuse.
+          上运行自定义实验。配置 Webhook URL 以从界面触发远程自定义实验。我们将向您的服务发送数据集信息（名称、ID）和配置，您的服务可以在数据集上运行并将结果发送回 Langfuse。
         </DialogDescription>
       </DialogHeader>
 
@@ -207,8 +205,7 @@ export const RemoteExperimentUpsertForm = ({
                 <FormItem>
                   <FormLabel>URL</FormLabel>
                   <FormDescription>
-                    The URL that will be called when the remote experiment is
-                    triggered.
+                    远程实验触发时将调用的 URL。
                   </FormDescription>
                   <FormControl>
                     <Input
@@ -226,11 +223,9 @@ export const RemoteExperimentUpsertForm = ({
               name="defaultPayload"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Default config</FormLabel>
+                  <FormLabel>默认配置</FormLabel>
                   <FormDescription>
-                    Set a default config that will be sent to the remote
-                    experiment run URL. This can be modified before starting a
-                    new run. View docs for more details.
+                    设置将发送至远程实验运行 URL 的默认配置。可在启动新运行之前修改。查看文档了解更多详情。
                   </FormDescription>
                   <CodeMirrorEditor
                     value={field.value}
@@ -251,11 +246,11 @@ export const RemoteExperimentUpsertForm = ({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
-                    <FormLabel>Enabled</FormLabel>
+                    <FormLabel>已启用</FormLabel>
                     <FormDescription>
                       {field.value
-                        ? "Trigger is active. You can disable anytime to pause without losing your configuration."
-                        : "Trigger is paused. Enable to allow running remote experiments."}
+                        ? "触发器已激活。您可以随时禁用以暂停，不会丢失配置。"
+                        : "触发器已暂停。启用以允许运行远程实验。"}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -283,7 +278,7 @@ export const RemoteExperimentUpsertForm = ({
                       <Spinner size="sm" />
                     </div>
                   )}
-                  Delete
+                  删除
                 </Button>
               )}
               <Button
@@ -296,7 +291,7 @@ export const RemoteExperimentUpsertForm = ({
                     <Spinner size="sm" />
                   </div>
                 ) : null}
-                {existingRemoteExperiment ? "Update" : "Set up"}
+                {existingRemoteExperiment ? "更新" : "设置"}
               </Button>
             </div>
           </DialogFooter>

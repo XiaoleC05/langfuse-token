@@ -66,7 +66,7 @@ const QueueItemTableMultiSelectAction = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button disabled={selectedItemIds.length < 1}>
-            Actions ({selectedItemIds.length} selected)
+            操作（已选 {selectedItemIds.length} 项）
             <ChevronDown className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -78,7 +78,7 @@ const QueueItemTableMultiSelectAction = ({
             }}
           >
             <Trash className="mr-2 h-4 w-4" />
-            <span>Delete</span>
+            <span>删除</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -92,11 +92,10 @@ const QueueItemTableMultiSelectAction = ({
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete queue items</DialogTitle>
+            <DialogTitle>删除队列条目</DialogTitle>
             <DialogDescription>
-              This action cannot be undone and removes the selected annotation
-              queue item(s), but
-              <strong> does not delete associated scores.</strong>
+              此操作不可撤销，将删除选定的标注队列条目，但
+              <strong>不会删除关联的评分。</strong>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -116,7 +115,7 @@ const QueueItemTableMultiSelectAction = ({
                   });
               }}
             >
-              Delete {selectedItemIds.length} item(s)
+              删除 {selectedItemIds.length} 个条目
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -202,7 +201,7 @@ export function AnnotationQueueItemsTable({
                   setSelectedRows({});
                 }
               }}
-              aria-label="Select all"
+              aria-label="全选"
               variant="muted"
             />
           </div>
@@ -214,7 +213,7 @@ export function AnnotationQueueItemsTable({
             <Checkbox
               checked={row.getIsSelected()}
               onCheckedChange={(value) => row.toggleSelected(!!value)}
-              aria-label="Select row"
+              aria-label="选择行"
               variant="muted"
             />
           </span>
@@ -223,7 +222,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "id",
-      header: "Id",
+      header: "ID",
       id: "id",
       size: 70,
       isFixedPosition: true,
@@ -239,7 +238,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "objectType",
-      header: "Type",
+      header: "类型",
       id: "objectType",
       size: 50,
       cell: ({ row }) => {
@@ -250,10 +249,10 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "source",
-      header: "Source",
+      header: "来源",
       headerTooltip: {
         description:
-          "Link to the source trace, observation or session based on which this item was added",
+          "链接到添加此条目所依据的来源追踪、观测或会话",
       },
       id: "source",
       size: 50,
@@ -266,7 +265,7 @@ export function AnnotationQueueItemsTable({
             return (
               <TableLink
                 path={`/project/${projectId}/traces/${rowData.source.traceId}?observation=${rowData.source.observationId}`}
-                value={`Observation: ${rowData.source.observationId}`}
+                value={`观测: ${rowData.source.observationId}`}
                 icon={<ListTree className="h-4 w-4" />}
               />
             );
@@ -274,7 +273,7 @@ export function AnnotationQueueItemsTable({
             return (
               <TableLink
                 path={`/project/${projectId}/traces/${rowData.source.traceId}`}
-                value={`Trace: ${rowData.source.traceId}`}
+                value={`追踪: ${rowData.source.traceId}`}
                 icon={<ListTree className="h-4 w-4" />}
               />
             );
@@ -282,7 +281,7 @@ export function AnnotationQueueItemsTable({
             return (
               <TableLink
                 path={`/project/${projectId}/sessions/${rowData.source.sessionId}`}
-                value={`Session: ${rowData.source.sessionId}`}
+                value={`会话: ${rowData.source.sessionId}`}
                 icon={<ListTree className="h-4 w-4" />}
               />
             );
@@ -293,7 +292,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "sourceId",
-      header: "Source ID",
+      header: "来源 ID",
       id: "sourceId",
       size: 50,
       cell: ({ row }) => {
@@ -305,7 +304,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "状态",
       id: "status",
       size: 60,
       cell: ({ row }) => {
@@ -321,7 +320,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "completedAt",
-      header: "Completed At",
+      header: "完成时间",
       id: "completedAt",
       defaultHidden: true,
       enableHiding: true,
@@ -329,7 +328,7 @@ export function AnnotationQueueItemsTable({
     },
     {
       accessorKey: "annotatorUser",
-      header: "Completed by",
+      header: "完成者",
       id: "annotatorUser",
       enableHiding: true,
       size: 80,
@@ -344,7 +343,7 @@ export function AnnotationQueueItemsTable({
             <Avatar className="h-7 w-7">
               <AvatarImage
                 src={image ?? undefined}
-                alt={userName ?? "User Avatar"}
+                alt={userName ?? "用户头像"}
               />
               <AvatarFallback>
                 {userName
@@ -469,7 +468,7 @@ export function AnnotationQueueItemsTable({
         }
         help={{
           description:
-            "Add traces and/or observations to your annotation queue to have them annotated by your team across predefined dimensions.",
+            "将追踪和/或观测添加到标注队列中，让团队成员按照预定义的维度进行标注。",
           href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation-queues",
         }}
         pagination={{

@@ -18,14 +18,14 @@ const MODES: {
   {
     mode: "aggregated",
     icon: Combine,
-    label: "Aggregated",
-    title: "Repeated steps grouped into one node — the overall shape",
+    label: "聚合视图",
+    title: "将重复步骤合并为一个节点——展示整体结构",
   },
   {
     mode: "expanded",
     icon: Route,
-    label: "Expanded",
-    title: "Every call as its own node, in the order it ran",
+    label: "展开视图",
+    title: "每个调用作为独立节点，按运行顺序排列",
   },
 ];
 

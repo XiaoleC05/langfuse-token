@@ -18,7 +18,7 @@ export default withMiddlewares({
     fn: async ({ query, auth }) => {
       if (env.LANGFUSE_MIGRATION_V4_ALLOW_PREVIEW_OPT_IN !== "true") {
         throw new LangfuseNotFoundError(
-          "The experiments API is only available in a Langfuse v4 write mode. Learn more at: https://langfuse.com/docs/v4",
+          "实验 API 仅在 Langfuse v4 写入模式下可用。了解更多:https://langfuse.com/docs/v4",
         );
       }
 

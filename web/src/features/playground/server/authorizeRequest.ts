@@ -14,13 +14,13 @@ export const authorizeRequestOrThrow = async (
 ): Promise<AuthorizeRequestResult> => {
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
-  if (!session?.user) throw new UnauthorizedError("Unauthenticated");
+  if (!session?.user) throw new UnauthorizedError("未登录");
 
   if (!isProjectMemberOrAdmin(session.user, projectId))
-    throw new ForbiddenError("User is not a member of this project");
+    throw new ForbiddenError("用户不是该项目的成员");
 
   if (!hasProjectAccess({ session, projectId, scope: "playground:execute" }))
-    throw new ForbiddenError("Insufficient permissions to execute playground.");
+    throw new ForbiddenError("权限不足，无法使用试验场。");
 
   return { userId: session.user.id };
 };

@@ -39,16 +39,16 @@ export function CopyWidgetDialog({
     >
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
-          <DialogTitle>Edit your copy of this widget</DialogTitle>
+          <DialogTitle>编辑此组件的你的副本</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <p className="text-muted-foreground py-4 text-sm">
             <span className="text-foreground font-bold">
               &ldquo;{widgetName}&rdquo;
             </span>{" "}
-            is maintained by Langfuse and can&rsquo;t be edited directly.
-            We&rsquo;ll replace this tile with your own editable copy and open
-            it in the widget editor — the rest of the dashboard stays unchanged.
+            由 Langfuse 维护,无法直接编辑。
+            我们将用你自己的可编辑副本替换此卡片,并在组件编辑器中打开它
+            ——仪表板的其余部分保持不变。
           </p>
         </DialogBody>
         <DialogFooter>
@@ -59,10 +59,10 @@ export function CopyWidgetDialog({
               type="button"
               disabled={isPending}
             >
-              Cancel
+              取消
             </Button>
             <Button onClick={onConfirm} type="button" loading={isPending}>
-              Create my copy
+              创建我的副本
             </Button>
           </div>
         </DialogFooter>

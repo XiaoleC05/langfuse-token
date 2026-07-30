@@ -56,10 +56,9 @@ export function EventsChartView({
   );
 
   const error = !validRange
-    ? "Pick a wider time range to chart."
+    ? "请选择更宽的时间范围以生成图表。"
     : queryResult.isError
-      ? (queryResult.error?.message ??
-        "Couldn't build a chart for the current view.")
+      ? (queryResult.error?.message ?? "无法为当前视图生成图表。")
       : null;
 
   return (

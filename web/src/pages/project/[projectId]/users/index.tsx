@@ -89,8 +89,7 @@ export default function UsersPage() {
         help: {
           description: (
             <>
-              Attribute data in Langfuse to a user by adding a userId to your
-              traces. See{" "}
+              通过在追踪中添加 userId，将 Langfuse 中的数据归属到用户。详见{" "}
               <a
                 href="https://langfuse.com/docs/observability/features/users"
                 target="_blank"
@@ -98,9 +97,9 @@ export default function UsersPage() {
                 className="decoration-primary/30 hover:decoration-primary underline"
                 onClick={(e) => e.stopPropagation()}
               >
-                docs
+                文档
               </a>{" "}
-              to learn more.
+              了解更多。
             </>
           ),
           href: "https://langfuse.com/docs/observability/features/users",
@@ -296,10 +295,10 @@ const UsersTable = ({
     {
       accessorKey: "userId",
       enableColumnFilter: true,
-      header: "User ID",
+      header: "用户 ID",
       headerTooltip: {
         description:
-          "The unique identifier for the user that was logged in Langfuse. See docs for more details on how to set this up.",
+          "在 Langfuse 中记录的用户唯一标识。参见文档了解如何设置。",
         href: "https://langfuse.com/docs/observability/features/users",
       },
       size: 150,
@@ -317,7 +316,7 @@ const UsersTable = ({
     },
     {
       accessorKey: "environment",
-      header: "Environment",
+      header: "环境",
       id: "environment",
       size: 150,
       enableHiding: true,
@@ -337,9 +336,9 @@ const UsersTable = ({
     },
     {
       accessorKey: "firstEvent",
-      header: "First Event",
+      header: "首次事件",
       headerTooltip: {
-        description: "The earliest trace recorded for this user.",
+        description: "该用户最早的追踪记录。",
       },
       size: 150,
       loadingCell: <TableTextLoadingCell />,
@@ -353,9 +352,9 @@ const UsersTable = ({
     },
     {
       accessorKey: "lastEvent",
-      header: "Last Event",
+      header: "最近事件",
       headerTooltip: {
-        description: "The latest trace recorded for this user.",
+        description: "该用户最近的追踪记录。",
       },
       size: 150,
       loadingCell: <TableTextLoadingCell />,
@@ -369,10 +368,10 @@ const UsersTable = ({
     },
     {
       accessorKey: "totalEvents",
-      header: "Total Events",
+      header: "事件总数",
       headerTooltip: {
         description:
-          "Total number of events for the user, includes traces and observations. See data model for more details.",
+          "用户事件总数，包含追踪和观测。详见数据模型了解更多。",
         href: "https://langfuse.com/docs/observability/data-model",
       },
       size: 120,
@@ -387,10 +386,10 @@ const UsersTable = ({
     },
     {
       accessorKey: "totalTokens",
-      header: "Total Tokens",
+      header: "Token 总数",
       headerTooltip: {
         description:
-          "Total number of tokens used for the user across all generations.",
+          "用户在所有生成中使用的 Token 总数。",
         href: "https://langfuse.com/docs/model-usage-and-cost",
       },
       size: 120,
@@ -405,9 +404,9 @@ const UsersTable = ({
     },
     {
       accessorKey: "totalCost",
-      header: "Total Cost",
+      header: "总费用",
       headerTooltip: {
-        description: "Total cost for the user across all generations.",
+        description: "用户在所有生成中的总费用。",
         href: "https://langfuse.com/docs/model-usage-and-cost",
       },
       size: 120,
@@ -439,7 +438,7 @@ const UsersTable = ({
         timeRange={showControlsInPageHeader ? undefined : timeRange}
         setTimeRange={showControlsInPageHeader ? undefined : setTimeRange}
         searchConfig={{
-          metadataSearchFields: ["User ID"],
+          metadataSearchFields: ["用户 ID"],
           updateQuery: setSearchQuery,
           currentQuery: searchQuery ?? undefined,
           tableAllowsFullTextSearch: false,
@@ -472,9 +471,9 @@ const UsersTable = ({
                       userId: t.id,
                       environment: t.environment ?? undefined,
                       firstEvent:
-                        t.firstTrace?.toLocaleString() ?? "No event yet",
+                        t.firstTrace?.toLocaleString() ?? "暂无事件",
                       lastEvent:
-                        t.lastTrace?.toLocaleString() ?? "No event yet",
+                        t.lastTrace?.toLocaleString() ?? "暂无事件",
                       totalEvents: compactNumberFormatter(
                         isBetaEnabled
                           ? Number(t.totalObservations ?? 0)

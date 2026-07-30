@@ -332,7 +332,7 @@ export default function TracesTable({
         environmentFilterOptions.data?.map((value) => value.environment) ??
         undefined,
       level: ["DEFAULT", "DEBUG", "WARNING", "ERROR"],
-      bookmarked: ["Bookmarked", "Not bookmarked"],
+      bookmarked: ["已收藏", "未收藏"],
       userId:
         traceFilterOptionsResponse.data?.users?.map((u) => ({
           value: u.value,
@@ -524,9 +524,9 @@ export default function TracesTable({
   const traceDeleteMutation = api.traces.deleteMany.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Traces deleted",
+        title: "追踪已删除",
         description:
-          "Selected traces will be deleted. Traces are removed asynchronously and may continue to be visible for up to 15 minutes.",
+          "已选择的追踪将被删除。追踪将异步删除，最多可能需要15分钟才能完全消失。",
       });
     },
     onSettled: () => {
@@ -537,11 +537,11 @@ export default function TracesTable({
   const addToQueueMutation = api.annotationQueueItems.createMany.useMutation({
     onSuccess: (data) => {
       showSuccessToast({
-        title: "Traces added to queue",
-        description: `Selected traces will be added to queue "${data.queueName}". This may take a minute.`,
+        title: "追踪已添加到队列",
+        description: `已选择的追踪将添加到队列"${data.queueName}"中。这可能需要一分钟。`,
         link: {
           href: `/project/${projectId}/annotation-queues/${data.queueId}`,
-          text: `View queue "${data.queueName}"`,
+          text: `查看队列"${data.queueName}"`,
         },
       });
     },
@@ -614,11 +614,11 @@ export default function TracesTable({
           {
             id: ActionId.TraceDelete,
             type: BatchActionType.Delete,
-            label: "Delete Traces",
-            description: `This action permanently deletes ${displayCount} traces and cannot be undone. Trace deletion happens asynchronously and may take up to 24 hours.`,
+            label: "删除追踪",
+            description: `此操作将永久删除${displayCount}条追踪，且不可撤销。追踪删除将异步进行，可能需要长达24小时。`,
             disabled: selectAll && hasCommentFilter,
             disabledReason:
-              "Batch deletion does not support comment filters. Remove the comment filter to delete.",
+              "批量删除不支持评论筛选。请移除评论筛选后再删除。",
             accessCheck: {
               scope: "traces:delete",
               entitlement: "trace-deletion",
@@ -630,9 +630,9 @@ export default function TracesTable({
     {
       id: ActionId.TraceAddToAnnotationQueue,
       type: BatchActionType.Create,
-      label: "Add to Annotation Queue",
-      description: "Add selected traces to an annotation queue.",
-      targetLabel: "Annotation Queue",
+      label: "添加到标注队列",
+      description: "将选中的追踪添加到标注队列。",
+      targetLabel: "标注队列",
       execute: handleAddToAnnotationQueue,
       accessCheck: {
         scope: "annotationQueues:CUD",
@@ -674,7 +674,7 @@ export default function TracesTable({
         ] satisfies LangfuseColumnDef<TracesTableRow>[])),
     {
       accessorKey: "timestamp",
-      header: "Timestamp",
+      header: "时间戳",
       id: "timestamp",
       size: 150,
       enableHiding: true,
@@ -686,7 +686,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "name",
-      header: "Name",
+      header: "名称",
       id: "name",
       size: 150,
       enableHiding: true,
@@ -698,7 +698,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "input",
-      header: "Input",
+      header: "输入",
       id: "input",
       size: 400,
       loadingCell: () => (
@@ -727,7 +727,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "output",
-      header: "Output",
+      header: "输出",
       id: "output",
       size: 400,
       loadingCell: () => (
@@ -757,7 +757,7 @@ export default function TracesTable({
     {
       accessorKey: "levelCounts",
       id: "levelCounts",
-      header: "Observation Levels",
+      header: "观测级别",
       size: 150,
       loadingCell: <TableTextLoadingCell />,
       cell: ({ row }) => {
@@ -780,7 +780,7 @@ export default function TracesTable({
     {
       accessorKey: "latency",
       id: "latency",
-      header: "Latency",
+      header: "延迟",
       size: 100,
       // add seconds to the end of the latency
       loadingCell: <TableTextLoadingCell />,
@@ -797,7 +797,7 @@ export default function TracesTable({
 
     {
       accessorKey: "tokens",
-      header: "Tokens",
+      header: "Token",
       id: "tokens",
       size: 180,
       loadingCell: <TableTextLoadingCell />,
@@ -828,7 +828,7 @@ export default function TracesTable({
     {
       accessorKey: "totalCost",
       id: "totalCost",
-      header: "Total Cost",
+      header: "总成本",
       size: 130,
       loadingCell: <TableTextLoadingCell />,
       cell: ({ row }) => {
@@ -852,7 +852,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "environment",
-      header: "Environment",
+      header: "环境",
       id: "environment",
       size: 150,
       enableHiding: true,
@@ -874,12 +874,12 @@ export default function TracesTable({
     {
       accessorKey: "tags",
       id: "tags",
-      header: "Tags",
+      header: "标签",
       size: 150,
       headerTooltip: {
         description: (
           <>
-            Group traces with tags. Read more about implementing tags{" "}
+            使用标签对追踪进行分组。详细了解如何实现标签{" "}
             <a
               href="https://langfuse.com/docs/observability/features/tags"
               target="_blank"
@@ -915,7 +915,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       size: 400,
       loadingCell: () => (
         <MemoizedIOTableCell
@@ -927,8 +927,7 @@ export default function TracesTable({
       headerTooltip: {
         description: (
           <>
-            Add metadata to traces to track additional information. Read more
-            about adding metadata{" "}
+            向追踪添加元数据以跟踪附加信息。详细了解如何添加元数据{" "}
             <a
               href="https://langfuse.com/docs/observability/features/metadata"
               target="_blank"
@@ -964,7 +963,7 @@ export default function TracesTable({
       : [
           {
             accessorKey: "scores",
-            header: "Scores",
+            header: "评分",
             id: "scores",
             enableHiding: true,
             defaultHidden: true,
@@ -978,13 +977,13 @@ export default function TracesTable({
       accessorKey: "sessionId",
       enableColumnFilter: !omittedFilter.includes("sessionId"),
       id: "sessionId",
-      header: "Session",
+      header: "会话",
       size: 150,
       headerTooltip: {
         description: (
           <>
-            Group traces into sessions to track longer conversations/workflows.
-            Read more about sessions{" "}
+            将追踪分组到会话中，以跟踪更长的对话/工作流。
+            详细了解会话{" "}
             <a
               href="https://langfuse.com/docs/observability/features/sessions"
               target="_blank"
@@ -1011,14 +1010,14 @@ export default function TracesTable({
     },
     {
       accessorKey: "userId",
-      header: "User",
+      header: "用户",
       id: "userId",
       size: 150,
       headerTooltip: {
         description: (
           <>
-            Add <code>userId</code> to traces to track users. Read more about
-            user tracking{" "}
+            向追踪添加<code>userId</code>以跟踪用户。详细了解
+            用户跟踪{" "}
             <a
               href="https://langfuse.com/docs/observability/features/users"
               target="_blank"
@@ -1026,9 +1025,9 @@ export default function TracesTable({
               className="decoration-primary/30 hover:decoration-primary underline"
               onClick={(e) => e.stopPropagation()}
             >
-              here
+              此处
             </a>
-            .
+            。
           </>
         ),
         href: "https://langfuse.com/docs/observability/features/users",
@@ -1046,10 +1045,10 @@ export default function TracesTable({
     {
       accessorKey: "observationCount",
       id: "observationCount",
-      header: "Observations",
+      header: "观测",
       size: 120,
       headerTooltip: {
-        description: "The number of observations in the trace.",
+        description: "追踪中的观测数。",
       },
       enableHiding: true,
       defaultHidden: true,
@@ -1064,7 +1063,7 @@ export default function TracesTable({
     {
       accessorKey: "level",
       id: "level",
-      header: "Level",
+      header: "级别",
       size: 75,
       loadingCell: <TableTextLoadingCell />,
       cell: ({ row }) => {
@@ -1091,12 +1090,12 @@ export default function TracesTable({
     {
       accessorKey: "version",
       id: "version",
-      header: "Version",
+      header: "版本",
       size: 100,
       headerTooltip: {
         description: (
           <>
-            Track changes via the version tag. Read more about versions{" "}
+            通过版本标签跟踪变更。详细了解版本{" "}
             <a
               href="https://langfuse.com/docs/observability/features/releases-and-versioning"
               target="_blank"
@@ -1104,9 +1103,9 @@ export default function TracesTable({
               className="decoration-primary/30 hover:decoration-primary underline"
               onClick={(e) => e.stopPropagation()}
             >
-              here
+              此处
             </a>
-            .
+            。
           </>
         ),
         href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
@@ -1118,13 +1117,13 @@ export default function TracesTable({
     {
       accessorKey: "release",
       id: "release",
-      header: "Release",
+      header: "发布",
       size: 100,
       headerTooltip: {
         description: (
           <>
-            Track changes to your application via the release tag. Read more
-            about the release tag{" "}
+            通过发布标签跟踪应用的变更。详细了解
+            发布标签{" "}
             <a
               href="https://langfuse.com/docs/observability/features/releases-and-versioning"
               target="_blank"
@@ -1132,9 +1131,9 @@ export default function TracesTable({
               className="decoration-primary/30 hover:decoration-primary underline"
               onClick={(e) => e.stopPropagation()}
             >
-              here
+              此处
             </a>
-            .
+            。
           </>
         ),
         href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
@@ -1145,7 +1144,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "id",
-      header: "Trace ID",
+      header: "追踪ID",
       id: "id",
       size: 90,
       cell: ({ row }) => {
@@ -1161,7 +1160,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "cost",
-      header: "Cost",
+      header: "成本",
       id: "cost",
       enableHiding: true,
       defaultHidden: true,
@@ -1172,7 +1171,7 @@ export default function TracesTable({
         {
           accessorKey: "inputCost",
           id: "inputCost",
-          header: "Input Cost",
+          header: "输入成本",
           size: 100,
           loadingCell: <TableTextLoadingCell />,
           cell: ({ row }) => {
@@ -1195,7 +1194,7 @@ export default function TracesTable({
         {
           accessorKey: "outputCost",
           id: "outputCost",
-          header: "Output Cost",
+          header: "输出成本",
           size: 100,
           loadingCell: <TableTextLoadingCell />,
           cell: ({ row }) => {
@@ -1219,7 +1218,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "usage",
-      header: "Usage",
+      header: "用量",
       id: "usage",
       enableHiding: true,
       defaultHidden: true,
@@ -1230,7 +1229,7 @@ export default function TracesTable({
         {
           accessorKey: "inputTokens",
           id: "inputTokens",
-          header: "Input Tokens",
+          header: "输入Token",
           size: 110,
           loadingCell: <TableTextLoadingCell />,
           cell: ({ row }) => {
@@ -1245,7 +1244,7 @@ export default function TracesTable({
         {
           accessorKey: "outputTokens",
           id: "outputTokens",
-          header: "Output Tokens",
+          header: "输出Token",
           size: 110,
           loadingCell: <TableTextLoadingCell />,
           cell: ({ row }) => {
@@ -1260,7 +1259,7 @@ export default function TracesTable({
         {
           accessorKey: "totalTokens",
           id: "totalTokens",
-          header: "Total Tokens",
+          header: "总Token",
           size: 110,
           loadingCell: <TableTextLoadingCell />,
           cell: ({ row }) => {
@@ -1279,7 +1278,7 @@ export default function TracesTable({
       : ([
           {
             accessorKey: "action",
-            header: "Action",
+            header: "操作",
             size: 70,
             isFixedPosition: true,
             cell: ({ row }) => {
@@ -1470,7 +1469,7 @@ export default function TracesTable({
               controllers: viewControllers,
             }}
             searchConfig={{
-              metadataSearchFields: ["ID", "Trace Name", "User ID"],
+              metadataSearchFields: ["ID", "追踪名称", "用户ID"],
               updateQuery: setSearchQuery,
               currentQuery: searchQuery ?? undefined,
               tableAllowsFullTextSearch: legacyTracingIoSearchEnabled,

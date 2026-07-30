@@ -67,14 +67,14 @@ export function ScoreAnalyticsHeader({
           value={urlState.score1}
           onChange={setScore1}
           options={scoreOptions}
-          placeholder="First score"
+          placeholder="第一个评分"
           className="h-8 w-[200px]"
         />
         <ScoreCombobox
           value={urlState.score2}
           onChange={setScore2}
           options={scoreOptions}
-          placeholder="Second score"
+          placeholder="第二个评分"
           filterByDataType={compatibleScore2DataTypes}
           disabled={!urlState.score1}
           className="h-8 w-[200px]"
@@ -82,15 +82,15 @@ export function ScoreAnalyticsHeader({
         <HoverCard>
           <HoverCardTrigger asChild>
             <Badge variant="warning" className="cursor-help">
-              Beta Feature
+              Beta 功能
             </Badge>
           </HoverCardTrigger>
           <HoverCardContent className="w-80">
             <div className="space-y-2">
-              <h4 className="text-sm font-bold">Beta Feature</h4>
+              <h4 className="text-sm font-bold">Beta 功能</h4>
               <p className="text-muted-foreground text-sm">
-                Score analytics is currently in beta. We&apos;re actively
-                improving this feature and would love to hear your feedback.
+                评分分析目前处于 Beta 阶段。我们正在积极改进此功能，
+                欢迎提供反馈意见。
               </p>
               <a
                 href="https://langfuse.com/discussions"
@@ -98,7 +98,7 @@ export function ScoreAnalyticsHeader({
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 text-sm font-bold hover:underline"
               >
-                Share feedback on GitHub Discussions
+                在 GitHub Discussions 上分享反馈
                 <ExternalLink className="h-3 w-3" />
               </a>
             </div>

@@ -39,7 +39,7 @@ export function MarkdownJsonViewHeader({
       <div className="mr-1 flex min-w-0 shrink flex-row items-center gap-1">
         {controlButtons}
         <Button
-          title="Copy to clipboard"
+          title="复制到剪贴板"
           variant="ghost"
           size="icon-xs"
           type="button"

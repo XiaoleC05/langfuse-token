@@ -23,24 +23,24 @@ describe("MonitorsOnboarding", () => {
     render(<MonitorsOnboarding projectId={PROJECT_ID} hasCUDAccess={true} />);
 
     expect(
-      screen.getByText("Catch issues before they impact your users"),
+      screen.getByText("在问题影响用户之前及时发现"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Choose where alerts should go"),
+      screen.getByText("选择告警通知渠道"),
     ).toBeInTheDocument();
-    expect(screen.getByText("Decide what to monitor")).toBeInTheDocument();
+    expect(screen.getByText("决定监控内容")).toBeInTheDocument();
 
     expect(
-      screen.getByRole("link", { name: /Connect Slack/i }),
+      screen.getByRole("link", { name: /连接 Slack/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Connect Webhooks/i }),
+      screen.getByRole("link", { name: /连接 Webhooks/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Connect Github Actions/i }),
+      screen.getByRole("link", { name: /连接 Github Actions/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Create Monitor/i }),
+      screen.getByRole("link", { name: /创建监控/i }),
     ).toBeInTheDocument();
   });
 
@@ -48,9 +48,9 @@ describe("MonitorsOnboarding", () => {
     render(<MonitorsOnboarding projectId={PROJECT_ID} hasCUDAccess={true} />);
 
     const cases: Array<{ label: RegExp; expected: string }> = [
-      { label: /Connect Slack/i, expected: "SLACK" },
-      { label: /Connect Webhooks/i, expected: "WEBHOOK" },
-      { label: /Connect Github Actions/i, expected: "GITHUB_DISPATCH" },
+      { label: /连接 Slack/i, expected: "SLACK" },
+      { label: /连接 Webhooks/i, expected: "WEBHOOK" },
+      { label: /连接 Github Actions/i, expected: "GITHUB_DISPATCH" },
     ];
 
     for (const { label, expected } of cases) {
@@ -69,7 +69,7 @@ describe("MonitorsOnboarding", () => {
   it("links the Create Monitor CTA to the project's new-monitor route", () => {
     render(<MonitorsOnboarding projectId={PROJECT_ID} hasCUDAccess={true} />);
 
-    const link = screen.getByRole("link", { name: /Create Monitor/i });
+    const link = screen.getByRole("link", { name: /创建监控/i });
     expect(link.getAttribute("href")).toBe(
       `/project/${PROJECT_ID}/monitors/new`,
     );

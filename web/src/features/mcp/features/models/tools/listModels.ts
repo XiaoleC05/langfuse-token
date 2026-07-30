@@ -10,7 +10,7 @@ import { runMcpTool } from "../../../core/run-mcp-tool";
 export const [listModelsTool, handleListModels] = defineTool({
   name: "listModels",
   description:
-    "List custom and Langfuse-managed model definitions visible to the current project.",
+    "列出当前项目可见的自定义及 Langfuse 托管的模型定义。",
   baseSchema: GetModelsV1Query,
   inputSchema: GetModelsV1Query,
   handler: async (input, context) =>

@@ -28,7 +28,7 @@ export function ModelBadge({
         <Link
           href={`/project/${projectId}/settings/models/${internalModelId}`}
           className="flex items-center"
-          title="View model details"
+          title="查看模型详情"
         >
           <span className="truncate" title={model}>
             {model}

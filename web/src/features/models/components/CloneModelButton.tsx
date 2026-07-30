@@ -20,10 +20,10 @@ export const CloneModelButton = ({
       <Button
         variant="outline"
         disabled={!hasAccess}
-        title="Clone model"
+        title="克隆模型"
         className="flex items-center"
       >
-        <span>Clone</span>
+        <span>克隆</span>
       </Button>
     </UpsertModelFormDialog>
   );

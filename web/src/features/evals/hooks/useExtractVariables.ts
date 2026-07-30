@@ -77,8 +77,8 @@ export function useExtractVariables({
     if (!extractionError) return;
     const title =
       extractionError.kind === "jsonPath"
-        ? "Invalid JSONPath in variable mapping"
-        : "Failed to extract variable";
+        ? "变量映射中的 JSONPath 无效"
+        : "变量提取失败";
     showErrorToast(title, extractionError.message, "WARNING");
   }, [extractionError]);
 
@@ -210,7 +210,7 @@ export function useExtractVariables({
         console.error("Error extracting variables:", error);
         setExtractionError({
           kind: "unexpected",
-          message: error instanceof Error ? error.message : "Unknown error",
+          message: error instanceof Error ? error.message : "未知错误",
         });
         setExtractedVariables(
           variables.map((variable) => ({

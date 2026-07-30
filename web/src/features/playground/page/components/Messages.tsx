@@ -63,7 +63,7 @@ const SubmitButton = () => {
         }}
         loading={isStreaming}
       >
-        <p>Submit</p>
+        <p>提交</p>
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -82,11 +82,11 @@ const SubmitButton = () => {
             onClick={(e) => e.preventDefault()}
           >
             <div className="flex flex-col">
-              <span className="font-bold">Stream responses</span>
+              <span className="font-bold">流式响应</span>
               <span className="text-muted-foreground text-xs">
                 {streamingEnabled
-                  ? "Real-time response streaming"
-                  : "Complete response at once"}
+                  ? "实时流式响应"
+                  : "一次性完整响应"}
               </span>
             </div>
             <Switch

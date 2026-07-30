@@ -93,8 +93,8 @@ const providerLabel = (id: string) =>
 const formSchema = z.object({
   authProvider: z.enum(SSO_PROVIDERS.map((p) => p.id) as [string, ...string[]]),
   authConfig: z.object({
-    clientId: z.string().min(1, "Required"),
-    clientSecret: z.string().min(1, "Required"),
+    clientId: z.string().min(1, "必填"),
+    clientSecret: z.string().min(1, "必填"),
     issuer: z.string().optional(),
     tenantId: z.string().optional(),
     baseUrl: z.string().optional(),
@@ -134,10 +134,9 @@ export const SSOSettings = ({ orgId }: { orgId: string }) => {
 
   const heading = (
     <>
-      <Header title="SSO Configuration" />
+      <Header title="单点登录(SSO)配置" />
       <p className="text-muted-foreground mb-4 text-sm">
-        Configure Single Sign-On per verified domain. Once active, every user
-        signing in with that domain is redirected to your identity provider.
+        为每个已验证域名配置单点登录(SSO)。激活后，所有使用该域名登录的用户将被重定向到您的身份提供商。
       </p>
     </>
   );
@@ -150,10 +149,9 @@ export const SSOSettings = ({ orgId }: { orgId: string }) => {
           {heading}
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Not available</AlertTitle>
+            <AlertTitle>不可用</AlertTitle>
             <AlertDescription>
-              Enterprise SSO is not available on your plan. Please upgrade to
-              access this feature.
+              企业级单点登录(SSO)在您的套餐中不可用。请升级以使用此功能。
             </AlertDescription>
           </Alert>
         </div>
@@ -168,9 +166,9 @@ export const SSOSettings = ({ orgId }: { orgId: string }) => {
         <div>
           {heading}
           <Alert>
-            <AlertTitle>Access Denied</AlertTitle>
+            <AlertTitle>访问被拒绝</AlertTitle>
             <AlertDescription>
-              You do not have permission to configure SSO for this organization.
+              您没有权限为此组织配置单点登录(SSO)。
             </AlertDescription>
           </Alert>
         </div>
@@ -207,7 +205,7 @@ function SsoConfigsTable({ orgId }: { orgId: string }) {
     return (
       <Card className="overflow-hidden">
         <p className="text-muted-foreground px-6 py-12 text-center text-sm">
-          Verify a domain in the section above to configure SSO for it.
+          请在上方验证域名以配置单点登录(SSO)。
         </p>
       </Card>
     );
@@ -218,10 +216,10 @@ function SsoConfigsTable({ orgId }: { orgId: string }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-primary pl-2.5">Domain</TableHead>
-            <TableHead className="text-primary">Provider</TableHead>
+            <TableHead className="text-primary pl-2.5">域名</TableHead>
+            <TableHead className="text-primary">提供商</TableHead>
             <TableHead className="text-primary hidden md:table-cell">
-              Updated
+              更新时间
             </TableHead>
             <TableHead />
           </TableRow>
@@ -259,7 +257,7 @@ function SsoConfigRow({
         {config ? (
           <Badge variant="default">{providerLabel(config.authProvider)}</Badge>
         ) : (
-          <Badge variant="secondary">Not configured</Badge>
+          <Badge variant="secondary">未配置</Badge>
         )}
       </TableCell>
       <TableCell density="comfortable" className="hidden md:table-cell">
@@ -336,8 +334,8 @@ function SsoConfigDialog({
     onSuccess: () => {
       utils.ssoConfig.get.invalidate({ orgId });
       showSuccessToast({
-        title: existing ? "SSO updated" : "SSO configured",
-        description: `Active for @${domain} within 1 hour.`,
+        title: existing ? "单点登录(SSO)已更新" : "单点登录(SSO)已配置",
+        description: `将在 1 小时内对 @${domain} 生效。`,
       });
       setDialogOpen(false);
       setConfirmOpen(false);
@@ -346,7 +344,7 @@ function SsoConfigDialog({
     },
     onError: (err) => {
       showErrorToast(
-        existing ? "Update failed" : "SSO configuration failed",
+        existing ? "更新失败" : "单点登录(SSO)配置失败",
         err.message,
       );
     },
@@ -391,7 +389,7 @@ function SsoConfigDialog({
       ];
       if (!FORM_FIELDS.includes(formField)) {
         showErrorToast(
-          existing ? "Update failed" : "SSO configuration failed",
+          existing ? "更新失败" : "单点登录(SSO)配置失败",
           firstIssue.message,
         );
       }
@@ -406,15 +404,15 @@ function SsoConfigDialog({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button size="sm" variant={existing ? "outline" : "default"}>
-            {existing ? "Update" : "Configure SSO"}
+            {existing ? "更新" : "配置单点登录(SSO)"}
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
             <DialogTitle>
               {existing
-                ? `Update SSO for ${domain}`
-                : `Configure SSO for ${domain}`}
+                ? `更新 ${domain} 的单点登录(SSO)`
+                : `配置 ${domain} 的单点登录(SSO)`}
             </DialogTitle>
           </DialogHeader>
           <Form {...form}>
@@ -425,14 +423,14 @@ function SsoConfigDialog({
                   name="authProvider"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Provider</FormLabel>
+                      <FormLabel>提供商</FormLabel>
                       <FormControl>
                         <Select
                           value={field.value}
                           onValueChange={field.onChange}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Select an SSO provider" />
+                            <SelectValue placeholder="选择单点登录(SSO)提供商" />
                           </SelectTrigger>
                           <SelectContent>
                             {SSO_PROVIDERS.map((p) => (
@@ -456,7 +454,7 @@ function SsoConfigDialog({
                     name="authConfig.name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Display Name</FormLabel>
+                        <FormLabel>显示名称</FormLabel>
                         <FormControl>
                           <Input placeholder="Acme SSO" {...field} />
                         </FormControl>
@@ -471,7 +469,7 @@ function SsoConfigDialog({
                   name="authConfig.clientId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Client ID</FormLabel>
+                      <FormLabel>客户端 ID</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -485,13 +483,13 @@ function SsoConfigDialog({
                   name="authConfig.clientSecret"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Client Secret</FormLabel>
+                      <FormLabel>客户端密钥</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
                           autoComplete="off"
                           placeholder={
-                            existing ? "Re-enter to update" : undefined
+                            existing ? "重新输入以更新" : undefined
                           }
                           {...field}
                         />
@@ -507,7 +505,7 @@ function SsoConfigDialog({
                     name="authConfig.issuer"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Issuer URL</FormLabel>
+                        <FormLabel>签发者 URL</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="https://example.okta.com"
@@ -526,7 +524,7 @@ function SsoConfigDialog({
                     name="authConfig.tenantId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tenant ID</FormLabel>
+                        <FormLabel>租户 ID</FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -542,7 +540,7 @@ function SsoConfigDialog({
                     name="authConfig.baseUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Base URL</FormLabel>
+                        <FormLabel>基础 URL</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="https://github.acme.com"
@@ -572,11 +570,10 @@ function SsoConfigDialog({
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>
-                              Use id_token claims only (skip userinfo)
+                              仅使用 id_token 声明（跳过 userinfo）
                             </FormLabel>
                             <FormDescription>
-                              Leave off for IdPs that release email only via the
-                              userinfo endpoint.
+                              对于仅通过 userinfo 端点发布邮件的身份提供商，请关闭此选项。
                             </FormDescription>
                           </div>
                         </FormItem>
@@ -591,10 +588,10 @@ function SsoConfigDialog({
                   variant="ghost"
                   onClick={() => setDialogOpen(false)}
                 >
-                  Cancel
+                  取消
                 </Button>
                 <Button type="submit" loading={saveMutation.isPending}>
-                  Save
+                  保存
                 </Button>
               </DialogFooter>
             </form>
@@ -607,35 +604,34 @@ function SsoConfigDialog({
           <AlertDialogHeader>
             <AlertDialogTitle>
               {existing
-                ? `Replace SSO for @${domain}?`
-                : `Activate SSO for @${domain}?`}
+                ? `替换 @${domain} 的单点登录(SSO)？`
+                : `激活 @${domain} 的单点登录(SSO)？`}
             </AlertDialogTitle>
             <AlertDialogDescription>
               <span className="block">
-                Saving will activate SSO for{" "}
-                <span className="font-bold">@{domain}</span> within 1 hour.
-                Every user at that domain will be redirected to your identity
-                provider on sign-in &mdash; they will not be able to use Google,
-                GitHub, password, or any other method until SSO is deleted.
+                保存后将在 1 小时内为{" "}
+                <span className="font-bold">@{domain}</span> 激活单点登录(SSO)。
+                该域名的所有用户在登录时将被重定向到您的身份提供商 &mdash;
+                在单点登录(SSO)被删除之前，他们将无法使用 Google、
+                GitHub、密码或任何其他方式登录。
               </span>
               {existing ? (
                 <span className="mt-2 block">
-                  The new credentials will replace the active configuration.
+                  新的凭据将替换当前活跃的配置。
                 </span>
               ) : null}
               <span className="mt-2 block">
-                Tip: sign in via the new SSO in a second browser to confirm it
-                works before closing this tab.
+                提示：在关闭此标签页之前，请在另一个浏览器中通过新的单点登录(SSO)登录以确认其正常工作。
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>取消</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirm}
               disabled={saveMutation.isPending}
             >
-              {existing ? "Replace" : "Activate SSO"}
+              {existing ? "替换" : "激活单点登录(SSO)"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -647,7 +643,7 @@ function SsoConfigDialog({
 function CallbackUrlPanel({ callbackUrl }: { callbackUrl: string }) {
   return (
     <div>
-      <p className="mb-2 text-sm font-bold">Callback URL</p>
+      <p className="mb-2 text-sm font-bold">回调 URL</p>
       <Card className="overflow-hidden">
         <Table>
           <TableHeader>
@@ -667,7 +663,7 @@ function CallbackUrlPanel({ callbackUrl }: { callbackUrl: string }) {
         </Table>
       </Card>
       <p className="text-muted-foreground mt-2 text-xs">
-        Add this URL as an authorized redirect URI in your identity provider.
+        请将此 URL 添加为身份提供商中的授权重定向 URI。
       </p>
     </div>
   );
@@ -686,12 +682,12 @@ function DeleteSsoConfigButton({
     onSuccess: () => {
       utils.ssoConfig.get.invalidate({ orgId });
       showSuccessToast({
-        title: "SSO disabled",
-        description: `SSO for @${domain} has been removed.`,
+        title: "单点登录(SSO)已禁用",
+        description: `@${domain} 的单点登录(SSO)已被移除。`,
       });
     },
     onError: (err) => {
-      showErrorToast("Failed to remove SSO", err.message);
+      showErrorToast("移除单点登录(SSO)失败", err.message);
     },
   });
 
@@ -701,26 +697,26 @@ function DeleteSsoConfigButton({
         <Button
           variant="ghost"
           size="icon-xs"
-          aria-label={`Delete SSO for ${domain}`}
+          aria-label={`移除 ${domain} 的单点登录(SSO)`}
         >
           <TrashIcon className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove SSO for @{domain}?</AlertDialogTitle>
+          <AlertDialogTitle>移除 @{domain} 的单点登录(SSO)？</AlertDialogTitle>
           <AlertDialogDescription>
-            Users at this domain will be able to sign in with any enabled method
-            again. Active sessions are not invalidated.
+            该域名的用户将可以再次使用任何启用的方式登录。
+            当前活跃的会话不会失效。
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>取消</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => deleteMutation.mutate({ orgId, domain })}
             disabled={deleteMutation.isPending}
           >
-            Remove
+            移除
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

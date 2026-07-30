@@ -19,7 +19,7 @@ export default function SSOInitiate() {
 
     // If provider is missing or empty, show error
     if (!provider || provider === "") {
-      setError("No SSO provider specified. Please contact your administrator.");
+      setError("未指定单点登录提供商，请联系您的管理员。");
       return;
     }
 
@@ -34,7 +34,7 @@ export default function SSOInitiate() {
         setError(
           error instanceof Error
             ? error.message
-            : "Failed to initiate SSO sign-in. Please try again or contact support.",
+            : "启动单点登录失败，请重试或联系支持。",
         );
       });
   }, [router.isReady, router.query.provider]);
@@ -44,9 +44,9 @@ export default function SSOInitiate() {
     return (
       <>
         <Head>
-          <title>Sign-in Error | Oxelia51</title>
+          <title>登录错误 | Oxelia51</title>
         </Head>
-        <ErrorPageWithSentry title="SSO Sign-in Failed" message={error} />
+        <ErrorPageWithSentry title="单点登录失败" message={error} />
       </>
     );
   }
@@ -55,9 +55,9 @@ export default function SSOInitiate() {
   return (
     <>
       <Head>
-        <title>Signing in | Oxelia51</title>
+        <title>正在登录 | Oxelia51</title>
       </Head>
-      <Spinner message="Redirecting to your identity provider..." />
+      <Spinner message="正在跳转至您的身份提供商..." />
     </>
   );
 }

@@ -48,17 +48,14 @@ export const ExportFieldGroupsField = ({
       name="exportFieldGroups"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Export Field Groups</FormLabel>
+          <FormLabel>导出字段组</FormLabel>
           <FormDescription>
-            Choose which field groups to include in the observation exports.
-            Deselect large groups (e.g. Input / Output) to reduce export size,
-            or privacy-sensitive groups (e.g. Metadata) to avoid storing user
-            data.
+            选择要在观测数据导出中包含的字段组。取消选择大型字段组（如输入/输出）以减小导出大小，或取消隐私敏感字段组（如元数据）以避免存储用户数据。
             {includesLegacyExport
               ? isLegacyOnlyExport
-                ? " Traces and scores are always exported in full. Field groups that only exist on the enriched observations (e.g. Trace Context) are not available for this export source."
-                : " Traces and scores are always exported in full. Fields that only exist on the enriched observations (e.g. Trace Context) are omitted from the legacy observations export."
-              : " Scores are always exported in full."}
+                ? " 跟踪和评分始终完整导出。仅存在于增强型观测数据的字段组（如跟踪上下文）不适用于此导出来源。"
+                : " 跟踪和评分始终完整导出。仅存在于增强型观测数据的字段（如跟踪上下文）在旧版导出中会被忽略。"
+              : " 评分始终完整导出。"}
           </FormDescription>
           <div className="mt-2 space-y-2">
             {EXPORT_FIELD_GROUP_OPTIONS.filter(
@@ -104,7 +101,7 @@ export const ExportFieldGroupsField = ({
                       {option.label}
                       {isCore && (
                         <span className="text-muted-foreground ml-1 font-normal">
-                          (required)
+                          （必填）
                         </span>
                       )}
                     </div>

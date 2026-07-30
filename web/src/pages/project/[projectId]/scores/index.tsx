@@ -34,7 +34,7 @@ export default function ScoresPage() {
         title: "评分",
         help: {
           description:
-            "A scores is an evaluation of a traces or observations. It can be created from user feedback, model-based evaluations, or manual review. See docs to learn more.",
+            "评分是对追踪或观测的评估,可来自用户反馈、基于模型的评估或人工评审。查看文档了解更多。",
           href: "https://langfuse.com/docs/evaluation/overview",
         },
         tabsProps: {

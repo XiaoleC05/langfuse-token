@@ -34,15 +34,14 @@ export function ApiKeyDetailContent(props: ApiKeyDetailContentProps) {
   return (
     <div className={cn("space-y-6", className)}>
       <div>
-        <SubHeader title="Secret Key" />
+        <SubHeader title="密钥" />
         <div className="text-muted-foreground text-sm">
-          This key can only be viewed once. You can always create new keys in
-          the {scope} settings.
+          此密钥仅可查看一次。您可以在{scope}设置中随时创建新密钥。
         </div>
         <CodeView content={secretKey} className="mt-2" />
       </div>
       <div>
-        <SubHeader title="Public Key" />
+        <SubHeader title="公钥" />
         <CodeView content={publicKey} className="mt-2" />
       </div>
       <div>
@@ -53,17 +52,16 @@ export function ApiKeyDetailContent(props: ApiKeyDetailContentProps) {
         <>
           <hr />
           <div>
-            <SubHeader title="Using with MCP" />
+            <SubHeader title="与 MCP 配合使用" />
             <p className="text-muted-foreground text-sm">
-              For a detailed guide on how to use this API key to connect to the
-              Langfuse MCP server, see the{" "}
+              关于如何使用此 API 密钥连接 Langfuse MCP 服务器的详细指南，请参阅{" "}
               <a
                 href="https://langfuse.com/docs/api-and-data-platform/features/mcp-server"
                 target="_blank"
                 rel="noreferrer"
                 className="text-foreground underline"
               >
-                MCP setup docs
+                MCP 设置文档
               </a>
               .
             </p>

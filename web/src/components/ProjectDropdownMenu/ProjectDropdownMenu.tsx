@@ -28,7 +28,7 @@ export function ProjectDropdownMenu(props: ProjectDropdownMenuProps) {
   const { organizationId, canCreateProjects, getProjectPath } = props;
 
   return (
-    <DropdownMenuContent align="start" header="Projects" maxHeight="15rem">
+    <DropdownMenuContent align="start" header="项目" maxHeight="15rem">
       {props.state === "loaded" ? (
         props.projects.map((dropdownProject) => (
           <DropdownMenuItemWithSecondaryAction
@@ -37,7 +37,7 @@ export function ProjectDropdownMenu(props: ProjectDropdownMenuProps) {
             href={getProjectPath(dropdownProject.id)}
             secondaryAction={{
               href: `/project/${dropdownProject.id}/settings`,
-              ariaLabel: `Go to settings for ${dropdownProject.name}`,
+              ariaLabel: `前往 ${dropdownProject.name} 的设置`,
               icon: Settings,
             }}
           />
@@ -54,7 +54,7 @@ export function ProjectDropdownMenu(props: ProjectDropdownMenuProps) {
         <>
           <DropdownMenuSeparator />
           <DropdownMenuItemWithSecondaryAction
-            title="New Project"
+            title="新建项目"
             href={createProjectRoute(organizationId)}
             icon={PlusIcon}
           />

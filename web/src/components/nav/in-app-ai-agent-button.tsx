@@ -70,7 +70,7 @@ export const InAppAiAgentButton = ({
     <Button
       type="button"
       variant="outline"
-      aria-label={open ? "Close assistant" : "Open assistant"}
+      aria-label={open ? "关闭助手" : "打开助手"}
       aria-pressed={open}
       data-ignore-outside-interaction
       onClick={() => toggleAssistant("top_nav")}

@@ -476,7 +476,7 @@ export function DataTableControls({
           onChange={filter.onChange}
           isActive={filter.isActive}
           onReset={filter.onReset}
-          keyPlaceholder="Name"
+          keyPlaceholder="名称"
           isDisabled={facetDisabled}
           disabledReason={facetDisabledReason}
         />
@@ -500,7 +500,7 @@ export function DataTableControls({
           onChange={filter.onChange}
           isActive={filter.isActive}
           onReset={filter.onReset}
-          keyPlaceholder="Name"
+          keyPlaceholder="名称"
           isDisabled={facetDisabled}
           disabledReason={facetDisabledReason}
         />
@@ -524,7 +524,7 @@ export function DataTableControls({
           onChange={filter.onChange}
           isActive={filter.isActive}
           onReset={filter.onReset}
-          keyPlaceholder="Name"
+          keyPlaceholder="名称"
           isDisabled={facetDisabled}
           disabledReason={facetDisabledReason}
         />
@@ -613,7 +613,7 @@ export function DataTableControls({
         >
           {displayedFilters.length === 0 && (
             <p className="text-muted-foreground pb-2 text-xs">
-              No active filters.
+              暂无生效的筛选。
             </p>
           )}
           <DropdownMenu>
@@ -625,7 +625,7 @@ export function DataTableControls({
                 disabled={addableFilters.length === 0}
               >
                 <Plus className="mr-1.5 h-3.5 w-3.5" />
-                Add filter
+                添加筛选
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -675,13 +675,13 @@ export function DataTableControls({
                   setOpen(true);
                   emitSidebarToggled(true, "rail");
                 }}
-                aria-label="Show filters"
+                aria-label="显示筛选"
                 className="h-6 w-6"
               >
                 <PanelLeftOpen className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="right">Show filters</TooltipContent>
+            <TooltipContent side="right">显示筛选</TooltipContent>
           </Tooltip>
         </div>
         {activeFilterCount > 0 && (
@@ -696,9 +696,7 @@ export function DataTableControls({
                   setOpen(true);
                   emitSidebarToggled(true, "rail_badge");
                 }}
-                aria-label={`Show ${activeFilterCount} active ${
-                  activeFilterCount === 1 ? "filter" : "filters"
-                }`}
+                aria-label={`显示 ${activeFilterCount} 个生效的筛选`}
                 className="mt-2 cursor-pointer"
               >
                 <Badge variant="secondary" className="h-5 px-1.5 text-xs">
@@ -707,16 +705,13 @@ export function DataTableControls({
               </button>
             </TooltipTrigger>
             <TooltipContent side="right" className="max-w-64 text-xs">
-              <p className="font-bold">
-                {activeFilterCount} active{" "}
-                {activeFilterCount === 1 ? "filter" : "filters"}
-              </p>
+              <p className="font-bold">{activeFilterCount} 个生效的筛选</p>
               {queryFilter.filters
                 .filter((filter) => filter.isActive)
                 .slice(0, 6)
                 .map((filter) => {
                   const line = `${filter.label}: ${
-                    getFacetSummary(filter) ?? "filtered"
+                    getFacetSummary(filter) ?? "已筛选"
                   }`;
                   return (
                     <p key={filter.column} className="truncate" title={line}>
@@ -724,7 +719,7 @@ export function DataTableControls({
                     </p>
                   );
                 })}
-              {activeFilterCount > 6 && <p>+{activeFilterCount - 6} more</p>}
+              {activeFilterCount > 6 && <p>+{activeFilterCount - 6} 更多</p>}
             </TooltipContent>
           </Tooltip>
         )}
@@ -757,7 +752,7 @@ export function DataTableControls({
                   setOpen(false);
                   emitSidebarToggled(false, "header");
                 }}
-                aria-label="Close filters"
+                aria-label="关闭筛选"
                 className="-ml-1 h-6 w-6"
               >
                 <X className="h-4 w-4" />
@@ -772,17 +767,17 @@ export function DataTableControls({
                       setOpen(false);
                       emitSidebarToggled(false, "header");
                     }}
-                    aria-label="Hide filters"
+                    aria-label="隐藏筛选"
                     className="-ml-1 h-6 w-6"
                   >
                     <PanelLeftClose className="h-3.5 w-3.5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Hide filters</TooltipContent>
+                <TooltipContent>隐藏筛选</TooltipContent>
               </Tooltip>
             )}
             {layout !== "inline" && (
-              <span className="text-sm font-bold">Filters</span>
+              <span className="text-sm font-bold">筛选</span>
             )}
             {/* Inline: the count already shows on the sheet's Filters trigger
                 and footer, so a bare number here (title hidden) is just noise. */}
@@ -803,7 +798,7 @@ export function DataTableControls({
                       </Button>
                     </PopoverTrigger>
                   </TooltipTrigger>
-                  <TooltipContent>Filter with AI</TooltipContent>
+                  <TooltipContent>使用 AI 筛选</TooltipContent>
                 </Tooltip>
                 <PopoverContent align="center" className="w-[400px]">
                   <DataTableAIFilters
@@ -829,8 +824,8 @@ export function DataTableControls({
                   }
                   aria-label={
                     queryFilter.expanded.length === 0
-                      ? "Expand all filters"
-                      : "Collapse all filters"
+                      ? "展开所有筛选"
+                      : "收起所有筛选"
                   }
                 >
                   {queryFilter.expanded.length === 0 ? (
@@ -842,8 +837,8 @@ export function DataTableControls({
               </TooltipTrigger>
               <TooltipContent>
                 {queryFilter.expanded.length === 0
-                  ? "Expand all filters"
-                  : "Collapse all filters"}
+                  ? "展开所有筛选"
+                  : "收起所有筛选"}
               </TooltipContent>
             </Tooltip>
             <DropdownMenu>
@@ -854,13 +849,13 @@ export function DataTableControls({
                       variant="ghost"
                       size="icon"
                       className="h-6 w-6"
-                      aria-label="Filter options"
+                      aria-label="筛选选项"
                     >
                       <MoreVertical className="h-3.5 w-3.5" />
                     </Button>
                   </DropdownMenuTrigger>
                 </TooltipTrigger>
-                <TooltipContent>Filter options</TooltipContent>
+                <TooltipContent>筛选选项</TooltipContent>
               </Tooltip>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem
@@ -879,7 +874,7 @@ export function DataTableControls({
                   }}
                   className="cursor-pointer"
                 >
-                  Clear all filters
+                  清除所有筛选
                 </DropdownMenuItem>
                 {/* Plain item with a TRAILING check instead of
                     DropdownMenuCheckboxItem: its reserved leading indicator
@@ -900,7 +895,7 @@ export function DataTableControls({
                     });
                   }}
                 >
-                  Show only active
+                  仅显示生效的筛选
                   {showOnlyActive && <Check className="ml-auto h-3.5 w-3.5" />}
                 </DropdownMenuItem>
                 {/* "Collapse sidebar" is desktop-rail chrome — there's no rail
@@ -917,7 +912,7 @@ export function DataTableControls({
                       }}
                       className="cursor-pointer"
                     >
-                      Collapse sidebar
+                      收起侧边栏
                     </DropdownMenuItem>
                   </>
                 )}
@@ -1240,14 +1235,14 @@ export function FilterAccordionItem({
                   }
                 }}
                 className="text-muted-foreground hover:text-foreground flex shrink-0 cursor-pointer items-center gap-0.5 self-start rounded-sm px-1 py-0.5 text-[11px] leading-4 font-normal transition-colors hover:underline focus-visible:underline focus-visible:outline-none"
-                aria-label={`Clear ${label} filter`}
+                aria-label={`清除${label}筛选`}
               >
                 <IconX className="h-3 w-3 shrink-0" />
-                Clear
+                清除
               </div>
             </TooltipTrigger>
             <TooltipContent side="right" className="text-xs">
-              Clear {label.toLowerCase()} filter
+              清除{label.toLowerCase()}筛选
             </TooltipContent>
           </Tooltip>
         )}
@@ -1553,10 +1548,10 @@ function CategoricalSelectContent({
           >
             <TabsList className="grid h-6 w-full grid-cols-3 p-0.5">
               <TabsTrigger value="any of" className="h-5 px-1 text-xs">
-                Any of
+                任一
               </TabsTrigger>
               <TabsTrigger value="all of" className="h-5 px-1 text-xs">
-                All of
+                全部
               </TabsTrigger>
               {/* Without a persisted selection, switching to "none of" is a
                   deliberate no-op in the state model (an empty exclusion
@@ -1572,14 +1567,13 @@ function CategoricalSelectContent({
                       disabled={operator === undefined}
                       className="h-5 w-full px-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      None of
+                      均不
                     </TabsTrigger>
                   </span>
                 </TooltipTrigger>
                 {operator === undefined && (
                   <TooltipContent className="max-w-64 text-xs">
-                    Nothing to exclude yet — uncheck a value to exclude it, or
-                    select values first.
+                    暂无可排除的值 —— 取消勾选某个值即可将其排除，或先选择值。
                   </TooltipContent>
                 )}
               </Tooltip>
@@ -1609,36 +1603,34 @@ function CategoricalSelectContent({
         <div className="text-muted-foreground px-2 py-1 text-xs">
           {filterKey === "sessionId" ? (
             <span>
-              Sessions group {tableName} together, which is useful for tracing
-              multi-step workflows.{" "}
+              会话将{tableName}分组在一起，便于追踪多步骤工作流。{" "}
               <a
                 href="https://langfuse.com/docs/observability/features/sessions"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"
               >
-                See docs
+                查看文档
               </a>{" "}
-              to learn how to add sessions to your {tableName}.
+              了解如何为你的{tableName}添加会话。
             </span>
           ) : filterKey === "name" ? (
-            <span>No {tableName} names found in the given time range.</span>
+            <span>在给定时间范围内未找到{tableName}的名称。</span>
           ) : filterKey === "tags" ? (
             <span>
-              Tags let you filter {tableName} according to custom categories
-              (e.g. feature flags).{" "}
+              标签让你可以按自定义类别(如功能开关)筛选{tableName}。{" "}
               <a
                 href="https://langfuse.com/docs/observability/features/tags"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"
               >
-                See docs
+                查看文档
               </a>{" "}
-              to learn how to add tags to your {tableName}.
+              了解如何为你的{tableName}添加标签。
             </span>
           ) : (
-            "No options found"
+            "未找到选项"
           )}
         </div>
       ) : (
@@ -1649,7 +1641,7 @@ function CategoricalSelectContent({
               <div className="relative">
                 <Search className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
                 <Input
-                  placeholder="Filter values"
+                  placeholder="筛选值"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-8 pl-7 text-xs"
@@ -1661,7 +1653,7 @@ function CategoricalSelectContent({
           {/* Checkbox list */}
           {filteredOptions.length === 0 ? (
             <div className="text-muted-foreground py-1 text-center text-sm">
-              No matches found
+              未找到匹配项
             </div>
           ) : (
             <>
@@ -1690,7 +1682,7 @@ function CategoricalSelectContent({
                       className="mt-1 h-auto w-full justify-start py-1 pl-7 text-xs"
                     >
                       <ChevronUp className="mr-1 h-3 w-3" />
-                      Show fewer values
+                      显示更少值
                     </Button>
                   )}
                   {canShowMore && (
@@ -1705,7 +1697,7 @@ function CategoricalSelectContent({
                       className="mt-0.5 h-auto w-full justify-start py-1 pl-7 text-xs"
                     >
                       <ChevronDown className="mr-1 h-3 w-3" />
-                      Show more values
+                      显示更多值
                     </Button>
                   )}
                 </div>
@@ -1722,9 +1714,9 @@ function CategoricalSelectContent({
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"
               >
-                See docs
+                查看文档
               </a>{" "}
-              on how to add environments to your {tableName}.
+              了解如何为你的{tableName}添加环境。
             </div>
           ) : null}
         </>

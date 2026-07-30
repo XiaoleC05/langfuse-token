@@ -9,7 +9,7 @@ import { GetDatasetRunsMcpInput } from "../schema";
 export const [listDatasetRunsTool, handleListDatasetRuns] = defineTool({
   name: "listDatasetRuns",
   description:
-    "List dataset runs, each experiment or evaluation execution over a dataset, by dataset ID.",
+    "按数据集 ID 列出数据集运行(对数据集的每次实验或评估执行)。",
   baseSchema: GetDatasetRunsMcpInput,
   inputSchema: GetDatasetRunsMcpInput,
   handler: async (input, context) =>

@@ -63,8 +63,8 @@ export function LargeStringFallback({
             <span className="text-foreground font-bold">{title}</span>
           ) : null}
           <span>
-            Large string — {compactNumberFormatter(value.length, 1)} characters,
-            truncated to keep the tab responsive
+            超长字符串 —— {compactNumberFormatter(value.length, 1)} 个字符,
+            已截断以保持页面流畅
           </span>
         </div>
         <pre className="bg-muted/50 max-h-40 overflow-hidden rounded-md border p-2 font-mono text-xs break-all whitespace-pre-wrap">
@@ -73,7 +73,7 @@ export function LargeStringFallback({
         <div>
           <Button variant="outline" size="sm" onClick={onDownload}>
             <Download className="mr-1 h-3.5 w-3.5" />
-            Download full value
+            下载完整值
           </Button>
         </div>
       </div>

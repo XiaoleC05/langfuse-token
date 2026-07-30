@@ -90,7 +90,7 @@ export default async function handler(
     }
     if (!authCheck.scope.projectId) {
       throw new UnauthorizedError(
-        "Missing projectId in scope. Are you using an organization key?",
+        "作用域中缺少 projectId。你是否在使用组织密钥?",
       );
     }
     const projectId = authCheck.scope.projectId;
@@ -98,7 +98,7 @@ export default async function handler(
 
     if (authCheck.scope.isIngestionSuspended) {
       throw new ForbiddenError(
-        "Ingestion suspended: Usage threshold exceeded. Please upgrade your plan.",
+        "数据写入已暂停:用量已超过阈值。请升级你的套餐。",
       );
     }
 

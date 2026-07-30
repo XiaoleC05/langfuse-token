@@ -123,7 +123,7 @@ export function ScoreTimeSeriesNumericChart({
   if (chartData.length === 0) {
     return (
       <div className="text-muted-foreground flex h-[200px] items-center justify-center text-sm">
-        No time series data available
+        无时间序列数据可用
       </div>
     );
   }
@@ -139,7 +139,7 @@ export function ScoreTimeSeriesNumericChart({
   if (!hasAnyData) {
     return (
       <div className="text-muted-foreground flex h-[200px] items-center justify-center text-sm">
-        No data points available for the selected time range
+        所选时间范围内无数据点可用
       </div>
     );
   }

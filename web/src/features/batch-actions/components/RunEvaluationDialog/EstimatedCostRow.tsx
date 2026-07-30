@@ -34,7 +34,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
     return (
       <div className="flex gap-2">
         <span className="text-muted-foreground shrink-0">
-          Est. LLM API Key Cost:
+          预估 LLM API 密钥成本：
         </span>
         <Skeleton className="h-4 w-16" />
       </div>
@@ -46,9 +46,9 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
     return (
       <div className="flex gap-2">
         <span className="text-muted-foreground shrink-0">
-          Est. LLM API Key Cost:
+          预估 LLM API 密钥成本：
         </span>
-        <span className="text-muted-foreground">No data</span>
+        <span className="text-muted-foreground">无数据</span>
       </div>
     );
   }
@@ -65,7 +65,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
   return (
     <div className="flex gap-2">
       <span className="text-muted-foreground shrink-0">
-        Est. LLM API Key Cost:
+        预估 LLM API 密钥成本：
       </span>
       <span className="flex items-center gap-1 font-bold">
         {formatCostEstimate(totalEstimate)}
@@ -77,8 +77,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
             </TooltipTrigger>
             <TooltipContent className="max-w-xs space-y-2 p-3">
               <p className="text-xs">
-                Expected cost on your linked API key (not Langfuse). Estimated
-                from average evaluator execution cost over the last 7 days.
+                您关联的 API 密钥上的预期费用（非 Langfuse）。根据过去 7 天评估器执行的平均费用估算。
               </p>
               <div className="space-y-1">
                 {evaluators.map(({ id, name }) => {
@@ -94,7 +93,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
                       <span className="shrink-0 tabular-nums">
                         {entry
                           ? formatCostEstimate(entry.avgCost * observationCount)
-                          : "No data"}
+                          : "无数据"}
                       </span>
                     </div>
                   );
@@ -102,7 +101,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
               </div>
               {isPartial ? (
                 <p className="text-muted-foreground text-xs">
-                  *Partial estimate. Some evaluators have no execution history.
+                  *部分估算。部分评估器没有执行历史。
                 </p>
               ) : null}
             </TooltipContent>

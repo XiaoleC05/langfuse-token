@@ -6,7 +6,7 @@ export const ExpandListButton = ({
   setExpanded,
   totalLength,
   maxLength,
-  expandText = "See more",
+  expandText = "查看更多",
 }: {
   isExpanded: boolean;
   setExpanded: (isExpanded: boolean) => void;
@@ -26,7 +26,7 @@ export const ExpandListButton = ({
     >
       {isExpanded ? (
         <>
-          <ChevronUp className="mr-2 h-4 w-4" /> See less
+          <ChevronUp className="mr-2 h-4 w-4" /> 收起
         </>
       ) : (
         <>

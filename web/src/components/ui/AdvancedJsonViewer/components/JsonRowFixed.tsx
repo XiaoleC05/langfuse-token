@@ -107,8 +107,8 @@ export function JsonRowFixed({
             }}
             title={
               row.isExpandable
-                ? `${matchCount} match${matchCount === 1 ? "" : "es"} in this section`
-                : `${matchCount} match${matchCount === 1 ? "" : "es"} in this value`
+                ? `此区块中有 ${matchCount} 处匹配`
+                : `此值中有 ${matchCount} 处匹配`
             }
           >
             {currentMatchIndexInRow !== undefined

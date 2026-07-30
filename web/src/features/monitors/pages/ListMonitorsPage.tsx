@@ -16,10 +16,10 @@ import { api } from "@/src/utils/api";
 
 /** headerProps are shared by all of the ListMonitorPage headers */
 const headerProps = {
-  title: "Monitors",
+  title: "监控",
   help: {
     description:
-      "Monitors notify your team and automated workflows of sudden cost spikes, quality drops, latency changes, and other important changes on the system.",
+      "监控可在成本突增、质量下降、延迟变化及其他重要系统变更发生时通知您的团队和自动化工作流。",
   },
 };
 
@@ -113,7 +113,7 @@ const MainPage = ({ projectId }: { projectId: string }) => {
                 href={`/project/${projectId}/monitors/new`}
                 variant="default"
               >
-                New Monitor
+                新建监控
               </ActionButton>
             </>
           ),

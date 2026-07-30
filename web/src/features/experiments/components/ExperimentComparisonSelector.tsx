@@ -75,8 +75,8 @@ export function ExperimentComparisonSelector({
         isLoading={isLoading}
         placeholder={
           isMaxReached
-            ? `Max ${maxSelections} comparisons`
-            : "Search experiments..."
+            ? `最多 ${maxSelections} 个对比`
+            : "搜索实验..."
         }
         disabled={isMaxReached}
         getItemKey={(item) => item.experimentId}
@@ -126,7 +126,7 @@ export function ExperimentComparisonSelector({
       />
       {selectedIds.length > 0 && (
         <p className="text-muted-foreground text-xs">
-          {selectedIds.length} of {maxSelections} comparisons selected
+          已选择 {selectedIds.length} / {maxSelections} 个对比
         </p>
       )}
     </div>

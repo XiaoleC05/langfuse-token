@@ -69,13 +69,13 @@ export const ActionButton = React.forwardRef<
 
   const disabledReason = useMemo(() => {
     if (!hasAccess) {
-      return "You do not have access to this resource, please ask your admin to grant you access.";
+      return "你没有访问此资源的权限,请联系管理员为你授予访问权限。";
     }
     if (!hasEntitlement) {
-      return "This feature is not available in your current plan.";
+      return "你当前的套餐不支持此功能。";
     }
     if (hasReachedLimit) {
-      return `You have reached the limit (${usageLimitCurrent}/${usageLimitMax}) for this resource at your current plan. Upgrade your plan to increase the limit.`;
+      return `你在当前套餐下已达到此资源的上限(${usageLimitCurrent}/${usageLimitMax})。升级套餐以提高上限。`;
     }
 
     return null;

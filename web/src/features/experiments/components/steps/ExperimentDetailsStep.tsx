@@ -18,8 +18,8 @@ export const ExperimentDetailsStep: React.FC<ExperimentDetailsStepProps> = ({
   return (
     <div className="space-y-6">
       <StepHeader
-        title="Experiment Run Details"
-        description="Provide a name and optional description for your experiment to help identify and track it."
+        title="实验运行详情"
+        description="为你的实验提供名称和可选描述，以便于识别和跟踪。"
       />
 
       <FormField
@@ -27,11 +27,11 @@ export const ExperimentDetailsStep: React.FC<ExperimentDetailsStepProps> = ({
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Experiment name</FormLabel>
+            <FormLabel>实验名称</FormLabel>
             <FormControl>
               <Input
                 {...field}
-                placeholder="Enter experiment name"
+                placeholder="输入实验名称"
                 className="w-full"
               />
             </FormControl>
@@ -45,11 +45,11 @@ export const ExperimentDetailsStep: React.FC<ExperimentDetailsStepProps> = ({
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description (optional)</FormLabel>
+            <FormLabel>描述（可选）</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Describe the purpose or context of this experiment"
+                placeholder="描述此实验的目的或背景"
                 className="min-h-[100px] w-full"
               />
             </FormControl>

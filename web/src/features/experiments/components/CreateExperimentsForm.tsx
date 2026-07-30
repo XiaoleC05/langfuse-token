@@ -126,10 +126,10 @@ export const CreateExperimentsForm = ({
   const isRemoteExperimentEnabled =
     existingRemoteExperiment.data?.enabled !== false;
   const webhookActionLabel = isRemoteExperimentLoading
-    ? "Loading..."
+    ? "加载中..."
     : hasRemoteExperiment
-      ? "Run"
-      : "Configure";
+      ? "运行"
+      : "配置";
 
   if (!hasExperimentWriteAccess) {
     return null;
@@ -152,18 +152,17 @@ export const CreateExperimentsForm = ({
     return (
       <>
         <DialogHeader>
-          <DialogTitle>Run Experiment</DialogTitle>
+          <DialogTitle>运行实验</DialogTitle>
           <DialogDescription>
-            Experiments allow you to test iterations of your application or
-            prompt on a dataset. Learn more about experiments{" "}
+            实验允许您在数据集上测试应用或提示词的迭代版本。了解更多关于实验的信息{" "}
             <Link
               href="https://langfuse.com/docs/evaluation/dataset-runs/datasets"
               target="_blank"
               className="underline"
             >
-              here
+              点击此处
             </Link>
-            .
+            。
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="pb-8">
@@ -172,17 +171,17 @@ export const CreateExperimentsForm = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Wand2 className="size-4" />
-                  via User Interface
+                  通过用户界面
                 </CardTitle>
                 <CardDescription>
-                  Test single prompts and model configurations via Langfuse UI.
+                  通过 Langfuse 界面测试单个提示词和模型配置。
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-muted-foreground list-disc space-y-2 pl-4 text-sm">
-                  <li>Compare prompt versions</li>
-                  <li>Compare model configurations</li>
-                  <li>No code required</li>
+                  <li>对比提示词版本</li>
+                  <li>对比模型配置</li>
+                  <li>无需代码</li>
                 </ul>
               </CardContent>
               <CardFooter className="mt-auto flex flex-row gap-2">
@@ -194,7 +193,7 @@ export const CreateExperimentsForm = ({
                     setShowRemoteExperimentTriggerModal(false);
                   }}
                 >
-                  Configure
+                  配置
                 </Button>
                 <Button
                   variant="outline"
@@ -205,7 +204,7 @@ export const CreateExperimentsForm = ({
                   }
                 >
                   <Link href="https://langfuse.com/docs/evaluation/dataset-runs/native-run">
-                    View Docs
+                    查看文档
                   </Link>
                 </Button>
               </CardFooter>
@@ -215,22 +214,20 @@ export const CreateExperimentsForm = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Code2 className="size-4" />
-                  via Webhook
+                  通过 Webhook
                 </CardTitle>
                 <CardDescription>
-                  Set up an experiment webhook to start remote experiments from
-                  Langfuse. Your service receives the selected dataset and run
-                  config, executes the experiment, and posts results back.
+                  设置实验 Webhook，从 Langfuse 启动远程实验。您的服务会接收选定的数据集和运行配置，执行实验，并将结果返回。
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-muted-foreground list-disc space-y-2 pl-4 text-sm">
-                  <li>Run custom evaluation logic in your service</li>
-                  <li>Keep experiment results in Langfuse</li>
+                  <li>在您的服务中运行自定义评估逻辑</li>
+                  <li>将实验结果保存在 Langfuse</li>
                 </ul>
                 {!fixedDatasetId ? (
                   <div className="mt-4 space-y-2">
-                    <div className="text-sm font-bold">Dataset</div>
+                    <div className="text-sm font-bold">数据集</div>
                     <Popover
                       open={datasetPopoverOpen}
                       onOpenChange={setDatasetPopoverOpen}
@@ -247,10 +244,10 @@ export const CreateExperimentsForm = ({
                           className="w-full justify-between px-2 font-normal"
                         >
                           {remoteExperimentDatasets.isPending
-                            ? "Loading datasets"
+                            ? "加载数据集中"
                             : (selectedRemoteExperimentDataset?.name ??
                               remoteExperimentDataset?.name ??
-                              "Select a dataset")}
+                              "选择数据集")}
                           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
@@ -260,13 +257,13 @@ export const CreateExperimentsForm = ({
                       >
                         <InputCommand>
                           <InputCommandInput
-                            placeholder="Search datasets..."
+                            placeholder="搜索数据集..."
                             className="h-9"
                             variant="bottom"
                           />
                           <InputCommandList>
                             <InputCommandEmpty>
-                              No dataset found.
+                              未找到数据集。
                             </InputCommandEmpty>
                             <InputCommandGroup>
                               {remoteExperimentDatasets.data?.map((dataset) => (
@@ -309,7 +306,7 @@ export const CreateExperimentsForm = ({
                       title={
                         isRemoteExperimentEnabled
                           ? undefined
-                          : "please edit and enable webhook"
+                          : "请编辑并启用 webhook"
                       }
                       onClick={() => {
                         if (!datasetId || !isRemoteExperimentEnabled) return;
@@ -319,9 +316,9 @@ export const CreateExperimentsForm = ({
                       Run
                     </Button>
                     <Button
-                      aria-label="Edit remote trigger settings"
+                      aria-label="编辑远程触发器设置"
                       className="rounded-l-none rounded-r-md border-l-2 px-2"
-                      title="Edit remote trigger settings"
+                      title="编辑远程触发器设置"
                       onClick={() => setShowRemoteExperimentUpsertForm(true)}
                     >
                       <Cog className="h-3 w-3" />
@@ -351,7 +348,7 @@ export const CreateExperimentsForm = ({
                     href="https://langfuse.com/docs/evaluation/dataset-runs/remote-run"
                     target="_blank"
                   >
-                    View Docs
+                    查看文档
                   </Link>
                 </Button>
               </CardFooter>

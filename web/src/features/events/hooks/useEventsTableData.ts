@@ -240,11 +240,11 @@ export function useEventsTableData({
   const addToQueueMutation = api.annotationQueueItems.createMany.useMutation({
     onSuccess: (data) => {
       showSuccessToast({
-        title: "Observations added to queue",
-        description: `Selected observations will be added to queue "${data.queueName}". This may take a minute.`,
+        title: "观测已添加到队列",
+        description: `所选观测将被添加到队列 "${data.queueName}"。可能需要一分钟。`,
         link: {
           href: `/project/${projectId}/annotation-queues/${data.queueId}`,
-          text: `View queue "${data.queueName}"`,
+          text: `查看队列 "${data.queueName}"`,
         },
       });
     },

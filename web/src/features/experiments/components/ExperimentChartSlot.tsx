@@ -145,7 +145,7 @@ export function ExperimentChartSlot({
     }
     // Extract label from ID for stale selections
     if (selectedMetricId.startsWith("base:")) {
-      return selectedMetricId === "base:cost" ? "Cost ($)" : "Latency (ms)";
+      return selectedMetricId === "base:cost" ? "费用 ($)" : "延迟 (ms)";
     }
     // Score IDs like "obs-score-numeric:helpfulness" -> "helpfulness"
     const scoreName = selectedMetricId.split(":").pop();
@@ -175,7 +175,7 @@ export function ExperimentChartSlot({
       <div className="flex items-center">
         <Select value={selectedMetricId} onValueChange={onMetricChange}>
           <SelectTrigger className="h-7 w-44 text-xs">
-            <SelectValue placeholder="Select metric...">
+            <SelectValue placeholder="选择指标...">
               {selectedLabel}
             </SelectValue>
           </SelectTrigger>
@@ -222,7 +222,7 @@ export function ExperimentChartSlot({
         ) : (
           <div className="flex h-full items-center justify-center rounded-lg border-2 border-dashed">
             <span className="text-muted-foreground text-sm">
-              Select a metric
+              选择指标
             </span>
           </div>
         )}

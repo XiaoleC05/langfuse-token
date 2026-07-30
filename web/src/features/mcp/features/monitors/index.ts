@@ -6,7 +6,7 @@ import { listMonitorsTool, handleListMonitors } from "./tools/listMonitors";
 
 export const monitorsFeature = {
   name: "monitors",
-  description: "Inspect monitors in the current Langfuse project",
+  description: "查看当前 Langfuse 项目中的监控",
   tools: [
     { definition: listMonitorsTool, handler: handleListMonitors },
     { definition: getMonitorTool, handler: handleGetMonitor },

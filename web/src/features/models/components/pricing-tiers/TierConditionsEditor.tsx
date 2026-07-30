@@ -40,7 +40,7 @@ export function TierConditionsEditor({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <FormLabel>Conditions</FormLabel>
+        <FormLabel>条件</FormLabel>
         <Button
           type="button"
           variant="ghost"
@@ -55,14 +55,13 @@ export function TierConditionsEditor({
           }
         >
           <PlusCircle className="mr-1 h-4 w-4" />
-          Add Condition
+          添加条件
         </Button>
       </div>
 
       {fields.length === 0 && (
         <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
-          <strong>Warning:</strong> Non-default tiers require at least one
-          condition. This tier will fail validation.
+          <strong>警告：</strong>非默认层级至少需要一个条件。此层级将无法通过验证。
         </div>
       )}
 
@@ -70,7 +69,7 @@ export function TierConditionsEditor({
         <div key={condition.id} className="space-y-3 rounded-lg border p-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-bold">
-              Condition {conditionIndex + 1}
+              条件 {conditionIndex + 1}
             </span>
             <Button
               type="button"
@@ -88,12 +87,12 @@ export function TierConditionsEditor({
             name={`pricingTiers.${tierIndex}.conditions.${conditionIndex}.usageDetailPattern`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Usage Detail Pattern (Regex)</FormLabel>
+                <FormLabel>用量详情模式（正则）</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="^input" />
                 </FormControl>
                 <FormDescription>
-                  Match usage type keys (e.g., ^input, .*cache.*, output_tokens)
+                  匹配用量类型键（例如 ^input、.*cache.*、output_tokens）
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -107,20 +106,20 @@ export function TierConditionsEditor({
               name={`pricingTiers.${tierIndex}.conditions.${conditionIndex}.operator`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Operator</FormLabel>
+                  <FormLabel>运算符</FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="gt">&gt; (greater than)</SelectItem>
+                      <SelectItem value="gt">&gt; (大于)</SelectItem>
                       <SelectItem value="gte">
-                        &gt;= (greater or equal)
+                        &gt;= (大于等于)
                       </SelectItem>
-                      <SelectItem value="lt">&lt; (less than)</SelectItem>
-                      <SelectItem value="lte">&lt;= (less or equal)</SelectItem>
-                      <SelectItem value="eq">= (equals)</SelectItem>
-                      <SelectItem value="neq">!= (not equals)</SelectItem>
+                      <SelectItem value="lt">&lt; (小于)</SelectItem>
+                      <SelectItem value="lte">&lt;= (小于等于)</SelectItem>
+                      <SelectItem value="eq">= (等于)</SelectItem>
+                      <SelectItem value="neq">!= (不等于)</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -133,7 +132,7 @@ export function TierConditionsEditor({
               name={`pricingTiers.${tierIndex}.conditions.${conditionIndex}.value`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <FormLabel>值</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -161,7 +160,7 @@ export function TierConditionsEditor({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="mt-0!">Case sensitive</FormLabel>
+                <FormLabel className="mt-0!">区分大小写</FormLabel>
               </FormItem>
             )}
           />

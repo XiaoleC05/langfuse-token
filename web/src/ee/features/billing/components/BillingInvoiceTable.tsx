@@ -113,7 +113,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "created",
       id: "created",
-      header: "Date",
+      header: "日期",
       cell: ({ row }) => {
         const value = row.getValue("created") as InvoiceRow["created"];
         if (!value) return undefined;
@@ -128,7 +128,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "status",
       id: "status",
-      header: "Status",
+      header: "状态",
       size: 100,
       cell: ({ row }) => {
         const status = (row.getValue("status") as string | null)?.toLowerCase();
@@ -145,7 +145,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "breakdown.subscriptionCents",
       id: "subscription",
-      header: "Subscription",
+      header: "订阅",
       size: 100,
       cell: ({ row }) => {
         const cents = row.original.breakdown?.subscriptionCents ?? 0;
@@ -155,7 +155,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "breakdown.usageCents",
       id: "usage",
-      header: "Usage",
+      header: "用量",
       size: 90,
       cell: ({ row }) => {
         const cents = row.original.breakdown?.usageCents ?? 0;
@@ -165,7 +165,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "breakdown.discountCents",
       id: "discounts",
-      header: "Discounts",
+      header: "折扣",
       size: 90,
       cell: ({ row }) => {
         const cents = row.original.breakdown?.discountCents ?? 0;
@@ -175,7 +175,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "breakdown.taxCents",
       id: "tax",
-      header: "Tax",
+      header: "税费",
       size: 90,
       cell: ({ row }) => {
         const cents = row.original.breakdown?.taxCents ?? 0;
@@ -185,7 +185,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "breakdown.totalCents",
       id: "total",
-      header: "Total",
+      header: "合计",
       size: 90,
       cell: ({ row }) => {
         const cents = row.original.breakdown?.totalCents ?? 0;
@@ -195,7 +195,7 @@ export function BillingInvoiceTable() {
     {
       accessorKey: "actions",
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 160,
       cell: ({ row }) => {
         const { hostedInvoiceUrl, invoicePdfUrl } = row.original;
@@ -204,7 +204,7 @@ export function BillingInvoiceTable() {
             {hostedInvoiceUrl ? (
               <a href={hostedInvoiceUrl} target="_blank" rel="noreferrer">
                 <Button size="sm" variant="ghost">
-                  <ExternalLink className="mr-1 h-4 w-4" /> View
+                  <ExternalLink className="mr-1 h-4 w-4" /> 查看
                 </Button>
               </a>
             ) : null}
@@ -282,7 +282,7 @@ export function BillingInvoiceTable() {
   return (
     <div className="space-y-0">
       <div className="flex items-center justify-between pt-4">
-        <h3 className="font-bold">Invoice History</h3>
+        <h3 className="font-bold">账单历史</h3>
       </div>
       <DataTableToolbar columns={columns} />
       <DataTable

@@ -29,19 +29,19 @@ export const ViewModeToggle = React.memo(function ViewModeToggle({
     >
       <ToggleGroupItem
         value="table"
-        aria-label="Table view"
+        aria-label="表格视图"
         className="h-8 gap-1.5 rounded-r-none px-2.5 text-xs"
       >
         <Table className="h-3.5 w-3.5" />
-        Table
+        表格
       </ToggleGroupItem>
       <ToggleGroupItem
         value="chart"
-        aria-label="Chart view"
+        aria-label="图表视图"
         className="h-8 gap-1.5 rounded-l-none border-l-0 px-2.5 text-xs"
       >
         <BarChart3 className="h-3.5 w-3.5" />
-        Chart
+        图表
       </ToggleGroupItem>
     </ToggleGroup>
   );

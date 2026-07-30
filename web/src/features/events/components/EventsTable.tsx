@@ -901,9 +901,9 @@ export default function ObservationsEventsTable({
   const traceDeleteMutation = api.traces.deleteMany.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Traces deleted",
+        title: "追踪已删除",
         description:
-          "Selected traces will be deleted. Traces are removed asynchronously and may continue to be visible for up to 15 minutes.",
+          "所选追踪将被删除。追踪为异步删除,最长可能在 15 分钟内仍然可见。",
       });
     },
     onSettled: () => {
@@ -988,9 +988,9 @@ export default function ObservationsEventsTable({
 
   const isSelectAllCountUnavailable = isTotalCountLoading || isTotalCountError;
   const selectAllCountUnavailableReason = isTotalCountLoading
-    ? "Counting selected observations."
+    ? "正在统计所选观测。"
     : isTotalCountError
-      ? "Could not count selected observations. Clear selection and try again."
+      ? "无法统计所选观测。请清除选择后重试。"
       : undefined;
   const tableActions: TableAction[] = [
     ...(hasTraceDeletionEntitlement
@@ -998,8 +998,8 @@ export default function ObservationsEventsTable({
           {
             id: ActionId.TraceDelete,
             type: BatchActionType.Delete,
-            label: "Delete Traces",
-            description: `${itemCountDisplay} ${selectedItemCount === 1 ? "item is" : "items are"} selected, spanning ${traceCountDisplay} unique ${selectedUniqueTraceCount === 1 ? "trace" : "traces"}. A trace is always deleted as a whole — if at least one of its observations is selected, all of its observations are deleted with it. This action cannot be undone. Trace deletion happens asynchronously and may take up to 24 hours.`,
+            label: "删除追踪",
+            description: `已选择 ${itemCountDisplay} 个条目,涉及 ${traceCountDisplay} 条唯一追踪。追踪始终整体删除——只要选中其任一观测,该追踪的全部观测都会被一并删除。此操作无法撤销。追踪为异步删除,最长可能需要 24 小时。`,
             // Select-all is not gated on the visible-page selection; if that
             // selection drained to empty, dispatch fails loudly with the
             // server's min-1 traceIds rejection (as in the v3 traces table).
@@ -1009,8 +1009,8 @@ export default function ObservationsEventsTable({
               : selectedTraceIds.length === 0,
             disabledReason:
               selectAll && hasCommentFilter
-                ? "Batch deletion does not support comment filters. Remove the comment filter to delete."
-                : "Selected observations are missing trace IDs.",
+                ? "批量删除不支持评论筛选。请移除评论筛选后再删除。"
+                : "所选观测缺少追踪 ID。",
             // The server keys every trace-delete batch row under the traces
             // table (row id `${projectId}-traces-trace-delete`), whichever
             // view dispatched it — the events-vs-traces read routing travels
@@ -1031,9 +1031,9 @@ export default function ObservationsEventsTable({
     {
       id: ActionId.ObservationAddToAnnotationQueue,
       type: BatchActionType.Create,
-      label: "Add to Annotation Queue",
-      description: "Add selected observations to an annotation queue.",
-      targetLabel: "Annotation Queue",
+      label: "添加到标注队列",
+      description: "将所选观测添加到标注队列。",
+      targetLabel: "标注队列",
       execute: handleAddToAnnotationQueue,
       accessCheck: {
         scope: "annotationQueues:CUD",
@@ -1042,8 +1042,8 @@ export default function ObservationsEventsTable({
     {
       id: ActionId.ObservationAddToDataset,
       type: BatchActionType.Create,
-      label: "Add to Dataset",
-      description: "Add selected observations to a dataset",
+      label: "添加到数据集",
+      description: "将所选观测添加到数据集",
       customDialog: true,
       disabled: isSelectAllCountUnavailable,
       disabledReason: selectAllCountUnavailableReason,
@@ -1054,8 +1054,8 @@ export default function ObservationsEventsTable({
     {
       id: ActionId.ObservationBatchEvaluation,
       type: BatchActionType.Create,
-      label: "Evaluate",
-      description: "Run evaluations on selected observations.",
+      label: "评估",
+      description: "对所选观测运行评估。",
       customDialog: true,
       icon: <LightbulbIcon className="h-4 w-4 sm:mr-2" />,
       disabled: isSelectAllCountUnavailable,
@@ -1194,7 +1194,7 @@ export default function ObservationsEventsTable({
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       size: 300,
       loadingCell: () => (
         <JsonSkeleton
@@ -1204,7 +1204,7 @@ export default function ObservationsEventsTable({
         />
       ),
       headerTooltip: {
-        description: "Add metadata to traces to track additional information.",
+        description: "为追踪添加元数据以记录附加信息。",
         href: "https://langfuse.com/docs/observability/features/metadata",
       },
       cell: ({ row }) => {
@@ -1235,7 +1235,7 @@ export default function ObservationsEventsTable({
       size: 100,
       headerTooltip: {
         description:
-          "You can differentiate the importance of observations with the level attribute to control the verbosity of your traces and highlight errors and warnings.",
+          "你可以通过 level 属性区分观测的重要程度,以控制追踪的详细程度并突出错误和警告。",
         href: "https://langfuse.com/docs/observability/features/log-levels",
       },
       enableHiding: true,
@@ -1262,7 +1262,7 @@ export default function ObservationsEventsTable({
       size: 150,
       headerTooltip: {
         description:
-          "Use a statusMessage to e.g. provide additional information on a status such as level=ERROR.",
+          "可使用 statusMessage 为状态(如 level=ERROR)提供附加信息。",
         href: "https://langfuse.com/docs/observability/features/log-levels",
       },
       enableHiding: true,
@@ -1318,7 +1318,7 @@ export default function ObservationsEventsTable({
     },
     {
       accessorKey: "cost",
-      header: "Cost",
+      header: "成本",
       id: "cost",
       enableHiding: true,
       defaultHidden: true,
@@ -1420,7 +1420,7 @@ export default function ObservationsEventsTable({
     },
     {
       accessorKey: "usage",
-      header: "Usage",
+      header: "用量",
       id: "usage",
       enableHiding: true,
       defaultHidden: true,
@@ -1433,7 +1433,7 @@ export default function ObservationsEventsTable({
         {
           accessorKey: "tokensPerSecond",
           id: "tokensPerSecond",
-          header: "Tokens per second",
+          header: "每秒 Token 数",
           size: 200,
           cell: ({ row }) => {
             const latency: number | undefined = row.getValue("latency");
@@ -1537,7 +1537,7 @@ export default function ObservationsEventsTable({
       id: "promptName",
       header: getEventsColumnName("promptName"),
       headerTooltip: {
-        description: "Link to prompt version in Langfuse prompt management.",
+        description: "链接到 Langfuse 提示词管理中的提示词版本。",
         href: "https://langfuse.com/docs/prompt-management/get-started",
       },
       size: 200,
@@ -1597,7 +1597,7 @@ export default function ObservationsEventsTable({
     },
     {
       accessorKey: "scores",
-      header: "Scores",
+      header: "评分",
       id: "scores",
       enableHiding: true,
       defaultHidden: true,
@@ -1648,7 +1648,7 @@ export default function ObservationsEventsTable({
       header: getEventsColumnName("version"),
       size: 100,
       headerTooltip: {
-        description: "Track changes via the version tag.",
+        description: "通过版本标签追踪变更。",
         href: "https://langfuse.com/docs/experimentation",
       },
       enableHiding: true,

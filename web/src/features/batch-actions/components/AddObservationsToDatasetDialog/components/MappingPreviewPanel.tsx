@@ -181,7 +181,7 @@ export function MappingPreviewPanel({
         if (sources.size === 1) {
           return `observation.${Array.from(sources)[0]}`;
         }
-        return "multiple sources";
+        return "多个源";
       }
     }
     return `observation.${defaultSourceField}`;
@@ -191,9 +191,9 @@ export function MappingPreviewPanel({
     return (
       <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-bold">Preview</h3>
+          <h3 className="text-sm font-bold">预览</h3>
           <p className="text-muted-foreground text-xs">
-            Sample from first observation
+            来自第一个观测的示例
           </p>
         </div>
         <Skeleton className="h-32 w-full" />
@@ -206,14 +206,14 @@ export function MappingPreviewPanel({
     return (
       <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-bold">Preview</h3>
+          <h3 className="text-sm font-bold">预览</h3>
           <p className="text-muted-foreground text-xs">
-            Sample from first observation
+            来自第一个观测的示例
           </p>
         </div>
         <div className="bg-muted/30 flex h-64 items-center justify-center rounded-md border p-4">
           <p className="text-muted-foreground text-sm">
-            No observation data available
+            无可用观测数据
           </p>
         </div>
       </div>
@@ -223,16 +223,16 @@ export function MappingPreviewPanel({
   return (
     <div className="space-y-2">
       <div>
-        <h3 className="text-sm font-bold">Preview</h3>
+        <h3 className="text-sm font-bold">预览</h3>
         <p className="text-muted-foreground text-xs">
-          Sample from first observation
+          来自第一个观测的示例
         </p>
       </div>
 
       {/* Source data */}
       <div className="space-y-2">
         <p className="text-muted-foreground text-xs font-bold">
-          Source: {sourceLabel}
+          源：{sourceLabel}
         </p>
         <div className="bg-muted/30 max-h-[21vh] overflow-auto rounded-md border">
           <JSONView json={sourceData} className="text-xs" />
@@ -248,7 +248,7 @@ export function MappingPreviewPanel({
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground text-xs font-bold">
-            Result: Dataset Item {fieldLabel}
+            结果：数据集项 {fieldLabel}
           </p>
           {/* Validation status indicator */}
           {config.mode !== "none" && (
@@ -284,7 +284,7 @@ export function MappingPreviewPanel({
 
         {/* JSONPath syntax errors (always blocking) */}
         {jsonPathErrors.length > 0 && config.mode !== "none" && (
-          <IssueList variant="error" title="Invalid JSONPath:">
+          <IssueList variant="error" title="无效的 JSONPath：">
             {jsonPathErrors.map((err, idx) => (
               <IssueItem key={idx}>
                 <span className="font-mono">{err.jsonPath}</span>
@@ -299,10 +299,10 @@ export function MappingPreviewPanel({
         {hasSchema &&
           jsonPathErrors.length === 0 &&
           validationResult.errors.length > 0 && (
-            <IssueList variant="error" title="Schema validation errors:">
+            <IssueList variant="error" title="模式验证错误：">
               {validationResult.errors.map((error, idx) => (
                 <IssueItem key={idx}>
-                  <span className="font-mono">{error.path || "root"}</span>:{" "}
+                  <span className="font-mono">{error.path || "根级"}</span>：{" "}
                   {error.message}
                 </IssueItem>
               ))}
@@ -313,13 +313,13 @@ export function MappingPreviewPanel({
         {jsonPathMisses.length > 0 && config.mode !== "none" && (
           <IssueList
             variant="warning"
-            title="JSONPath warnings (preview observation):"
+            title="JSONPath 警告（预览观测）："
           >
             {jsonPathMisses.map((miss, idx) => (
               <IssueItem key={idx}>
-                <span className="font-mono">{miss.jsonPath}</span> did not match
-                any data in {miss.sourceField}
-                {miss.mappingKey ? ` (key: "${miss.mappingKey}")` : ""}
+                <span className="font-mono">{miss.jsonPath}</span> 未匹配到
+                {miss.sourceField} 中的任何数据
+                {miss.mappingKey ? ` (键："${miss.mappingKey}")` : ""}
               </IssueItem>
             ))}
           </IssueList>

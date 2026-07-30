@@ -39,7 +39,7 @@ describe("MonitorRowActions", () => {
       `/project/${PROJECT_ID}/monitors/mon-1`,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /pause/i }));
+    fireEvent.click(screen.getByRole("button", { name: /暂停/i }));
     expect(onToggleStatus).toHaveBeenCalledTimes(1);
   });
 
@@ -55,7 +55,7 @@ describe("MonitorRowActions", () => {
       />,
     );
 
-    expect(screen.getByRole("button", { name: /resume/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /恢复/i })).toBeInTheDocument();
   });
 
   it("read-only access: pause and edit controls are disabled", () => {
@@ -70,7 +70,7 @@ describe("MonitorRowActions", () => {
       />,
     );
 
-    expect(screen.getByRole("button", { name: /pause/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /暂停/i })).toBeDisabled();
     expect(screen.getByRole("link")).toHaveAttribute("disabled");
   });
 
@@ -87,7 +87,7 @@ describe("MonitorRowActions", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: /monitor actions/i }),
+      screen.getByRole("button", { name: /监控操作/i }),
     ).toBeInTheDocument();
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });

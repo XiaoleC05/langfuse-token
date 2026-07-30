@@ -75,7 +75,7 @@ export function PromptLinkingEditor({
           onClick={() => setIsDialogOpen(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
-          <span className="text-xs">Add prompt reference</span>
+          <span className="text-xs">添加提示词引用</span>
         </Button>
       </div>
 

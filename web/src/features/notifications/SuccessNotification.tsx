@@ -42,7 +42,7 @@ export const SuccessNotification: React.FC<SuccessNotificationProps> = ({
       <button
         className="text-primary-foreground flex h-6 w-6 cursor-pointer items-start justify-end border-none bg-transparent p-0 transition-colors duration-200"
         onClick={onDismiss}
-        aria-label="Close"
+        aria-label="关闭"
       >
         <X size={14} />
       </button>

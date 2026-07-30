@@ -11,7 +11,7 @@ export type VersionUpdateBannerViewProps = {
 };
 
 /**
- * Presentational "Langfuse just got an update" notification — a floating,
+ * Presentational "Langfuse 刚刚更新了" notification — a floating,
  * frosted-glass pill pinned center-top, NOT a layout-pushing top bar. It sits
  * over page content (the connected banner renders it into the top-most overlay
  * layer), so it may cover whatever is directly behind it; the rest of the app
@@ -53,19 +53,19 @@ export function VersionUpdateBannerView({
     >
       <Sparkles className="text-primary h-4 w-4 shrink-0" />
       <span className="text-foreground text-sm whitespace-nowrap">
-        Langfuse just got an update
+        Langfuse 刚刚更新了
       </span>
       <Button size="sm" className="rounded-full" onClick={onReload}>
         <RotateCw className="mr-1.5 h-3.5 w-3.5" />
-        Reload
+刷新
       </Button>
       <Button
         size="icon-sm"
         variant="ghost"
         className="text-muted-foreground rounded-full"
         onClick={onDismiss}
-        aria-label="Dismiss"
-        title="Dismiss"
+        aria-label="关闭"
+        title="关闭"
       >
         <X className="h-4 w-4" />
       </Button>

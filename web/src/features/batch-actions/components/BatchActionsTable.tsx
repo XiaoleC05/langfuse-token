@@ -47,7 +47,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "actionType",
       id: "actionType",
-      header: "Action Type",
+      header: "操作类型",
       size: 200,
       cell: ({ row }) => {
         const actionType = row.getValue("actionType") as string;
@@ -61,7 +61,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "tableName",
       id: "tableName",
-      header: "Table",
+      header: "表格",
       size: 120,
       cell: ({ row }) => {
         const tableName = row.getValue("tableName") as string;

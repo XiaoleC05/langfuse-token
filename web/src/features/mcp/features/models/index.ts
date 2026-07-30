@@ -6,7 +6,7 @@ import { handleListModels, listModelsTool } from "./tools/listModels";
 
 export const modelsFeature = {
   name: "models",
-  description: "Manage model definitions",
+  description: "管理模型定义",
   tools: [
     {
       definition: listModelsTool,

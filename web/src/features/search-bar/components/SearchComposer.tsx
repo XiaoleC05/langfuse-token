@@ -1314,7 +1314,7 @@ export function SearchComposer({
         <div
           ref={rootRef}
           role="combobox"
-          aria-label="Search"
+          aria-label="搜索"
           aria-expanded={plan !== null}
           aria-controls={plan !== null ? LISTBOX_ID : undefined}
           aria-autocomplete="list"
@@ -1381,11 +1381,11 @@ export function SearchComposer({
           <button
             type="button"
             data-testid="search-bar-ask-ai"
-            aria-label="Ask AI to build or refine filters"
+            aria-label="让AI构建或优化筛选条件"
             title={
               draft.trim().length === 0
-                ? "Describe filters in natural language"
-                : "Refine these filters with AI"
+                ? "用自然语言描述筛选条件"
+                : "用AI优化这些筛选条件"
             }
             onMouseDown={(event) => event.preventDefault()}
             onClick={(event) => {
@@ -1402,7 +1402,7 @@ export function SearchComposer({
             )}
           >
             <WandSparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Ask AI</span>
+            <span>AI助手</span>
           </button>
         )}
         {/* Bar-local overlay stacking ladder: token text (base) < remove-X
@@ -1428,7 +1428,7 @@ export function SearchComposer({
           <span
             className="text-destructive"
             title={visibleDiagnostics.map((d) => d.message).join("; ")}
-            aria-label="invalid query"
+            aria-label="无效查询"
           >
             <AlertCircle className="h-4 w-4" />
           </span>
@@ -1505,8 +1505,8 @@ function RemoveTokenButton({
     <button
       type="button"
       data-overlay-remove
-      aria-label={`Remove ${segment.raw}`}
-      title={`Remove ${segment.raw}`}
+      aria-label={`移除 ${segment.raw}`}
+      title={`移除 ${segment.raw}`}
       style={{ left: position.left, top: position.top }}
       className={cn(
         "absolute z-20 inline-flex h-4 w-4 items-center justify-center rounded-sm",

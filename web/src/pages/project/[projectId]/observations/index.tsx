@@ -41,13 +41,13 @@ export default function Generations() {
   return (
     <Page
       headerProps={{
-        title: "Tracing",
+        title: "追踪",
         // Match traces/index.tsx: no delay badge while onboarding tells the
         // user to set up tracing for the first time.
         titleBadges: showOnboarding ? undefined : <V4MigrationDelayBadge />,
         help: {
           description:
-            "An observation captures a single function call in an application. See docs to learn more.",
+            "观测捕获应用中的单次函数调用。详见文档了解更多。",
           href: "https://langfuse.com/docs/observability/data-model",
         },
         tabsProps:

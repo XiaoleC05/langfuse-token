@@ -1256,8 +1256,8 @@ export function WidgetForm({
 
     const showMalformedImportToast = () =>
       showErrorToast(
-        "Malformed input",
-        "This operation can't be done due to the malformed input",
+        "输入格式错误",
+        "由于输入格式错误，无法完成此操作",
         "WARNING",
       );
 
@@ -1314,14 +1314,14 @@ export function WidgetForm({
       setDefaultSortOrder(result.snapshot.defaultSortOrder);
 
       showSuccessToast({
-        title: "Widget uploaded successfully",
-        description: "Widget configuration has been loaded.",
+        title: "小部件上传成功",
+        description: "小部件配置已加载。",
       });
 
       if (result.removedValues || result.removedFilters) {
         showErrorToast(
-          "Widget filters were adjusted",
-          "Some imported filters or filter values were removed because they are not available in this project.",
+          "小部件筛选器已调整",
+          "部分导入的筛选器或筛选器值已被移除，因为它们在此项目中不可用。",
           "WARNING",
         );
       }
@@ -1387,12 +1387,12 @@ export function WidgetForm({
 
   const handleSaveWidget = () => {
     if (!queryValidation.valid) {
-      showErrorToast("Invalid query", queryValidation.reason);
+      showErrorToast("无效查询", queryValidation.reason);
       return;
     }
 
     if (!widgetName.trim()) {
-      showErrorToast("Error", "Widget name is required");
+      showErrorToast("错误", "小部件名称不能为空");
       return;
     }
 
@@ -1402,8 +1402,8 @@ export function WidgetForm({
     );
     if (selectedChartType === "PIVOT_TABLE" && validMetrics.length === 0) {
       showErrorToast(
-        "Error",
-        "At least one metric is required for pivot tables",
+        "错误",
+        "数据透视表至少需要一个指标",
       );
       return;
     }
@@ -1563,7 +1563,7 @@ export function WidgetForm({
         <Card className="flex h-full flex-col">
           <CardHeader>
             <div className="flex items-start justify-between gap-3">
-              <CardTitle>Widget Configuration</CardTitle>
+              <CardTitle>小部件配置</CardTitle>
               {!widgetId && isBetaEnabled && (
                 <>
                   <input
@@ -1579,13 +1579,13 @@ export function WidgetForm({
                     onClick={() => importInputRef.current?.click()}
                   >
                     <Upload className="mr-2 h-4 w-4" />
-                    Import
+                    导入
                   </Button>
                 </>
               )}
             </div>
             <CardDescription>
-              Configure your widget by selecting data and visualization options
+              选择数据和可视化选项来配置您的小部件
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 overflow-y-auto">
@@ -1596,25 +1596,24 @@ export function WidgetForm({
               >
                 <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
                 <AlertTitle className="text-yellow-800 dark:text-yellow-400">
-                  Traces view is not available in v4
+                  跟踪视图在 v4 中不可用
                 </AlertTitle>
                 <AlertDescription className="text-yellow-700 dark:text-yellow-500">
-                  This widget uses the traces view which is not supported in v4.
-                  It will continue to use v3 definitions. To use v4, change the
-                  view to observations or scores.
+                  此小部件使用了 v4 不支持的跟踪视图。
+                  它将继续使用 v3 定义。要使用 v4，请将视图切换为观测或评分。
                 </AlertDescription>
               </Alert>
             )}
             {/* Data Selection Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold">Data Selection</h3>
+                <h3 className="text-lg font-bold">数据选择</h3>
                 {viewVersion === "v2" && (
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" size="sm">
                         <Sparkles className="mr-2 h-4 w-4" />
-                        Presets
+                        预设
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-64 p-1" align="end">
@@ -1645,7 +1644,7 @@ export function WidgetForm({
 
               {/* View Selection */}
               <div className="space-y-2">
-                <Label htmlFor="view-select">View</Label>
+                <Label htmlFor="view-select">视图</Label>
                 <Select
                   value={selectedView}
                   onValueChange={(value) => {
@@ -1657,7 +1656,7 @@ export function WidgetForm({
                   }}
                 >
                   <SelectTrigger id="view-select">
-                    <SelectValue placeholder="Select a view" />
+                    <SelectValue placeholder="选择视图" />
                   </SelectTrigger>
                   <SelectContent>
                     {availableViewOptions.options.map((view) => (
@@ -1677,7 +1676,7 @@ export function WidgetForm({
               {/* Metrics Selection */}
               <div className="space-y-2">
                 <Label htmlFor="metrics-select">
-                  {selectedChartType === "PIVOT_TABLE" ? "Metrics" : "Metric"}
+                  {selectedChartType === "PIVOT_TABLE" ? "指标" : "指标"}
                 </Label>
 
                 {/* For pivot tables: multiple metrics selection */}
@@ -1708,8 +1707,8 @@ export function WidgetForm({
                           <div key={index} className="space-y-2">
                             <div className="flex items-center justify-between">
                               <Label htmlFor={`pivot-metric-${index}`}>
-                                Metric {index + 1}{" "}
-                                {index === 0 ? "(Required)" : "(Optional)"}
+                                指标 {index + 1}{" "}
+                                {index === 0 ? "（必填）" : "（可选）"}
                               </Label>
                               {index > 0 && (
                                 <Button
@@ -1742,10 +1741,10 @@ export function WidgetForm({
                                     <SelectValue
                                       placeholder={
                                         !isEnabled
-                                          ? "Select previous metric first"
+                                          ? "请先选择上一个指标"
                                           : !canEdit
-                                            ? "No more measures available"
-                                            : "Select measure"
+                                            ? "没有更多可用的度量"
+                                            : "选择度量"
                                       }
                                     />
                                   </SelectTrigger>
@@ -1785,7 +1784,7 @@ export function WidgetForm({
                                     }
                                   >
                                     <SelectTrigger>
-                                      <SelectValue placeholder="Select aggregation" />
+                                      <SelectValue placeholder="选择聚合方式" />
                                     </SelectTrigger>
                                     <SelectContent>
                                       {aggregationsForIndex.map(
@@ -1820,7 +1819,7 @@ export function WidgetForm({
                           className="w-full"
                         >
                           <Plus className="mr-1 h-3 w-3" />
-                          Add Metric {selectedMetrics.length + 1}
+                          添加指标 {selectedMetrics.length + 1}
                         </Button>
                       )}
                   </div>
@@ -1832,7 +1831,7 @@ export function WidgetForm({
                       onValueChange={(value) => setSelectedMeasure(value)}
                     >
                       <SelectTrigger id="metrics-select">
-                        <SelectValue placeholder="Select metrics" />
+                        <SelectValue placeholder="选择指标" />
                       </SelectTrigger>
                       <SelectContent>
                         {availableMetrics.map((metric) => {
@@ -1864,7 +1863,7 @@ export function WidgetForm({
                           }
                         >
                           <SelectTrigger id="aggregation-select">
-                            <SelectValue placeholder="Select Aggregation" />
+                            <SelectValue placeholder="选择聚合方式" />
                           </SelectTrigger>
                           <SelectContent>
                             {validAggregationsForMeasure.map((aggregation) => (
@@ -1876,8 +1875,8 @@ export function WidgetForm({
                         </Select>
                         {selectedChartType === "HISTOGRAM" && (
                           <p className="text-muted-foreground text-xs">
-                            Aggregation is automatically set to
-                            &quot;histogram&quot; for histogram charts
+                            直方图图表的聚合方式将自动设置为
+                            &quot;histogram&quot;
                           </p>
                         )}
                       </div>
@@ -1888,7 +1887,7 @@ export function WidgetForm({
 
               {/* Filters Section */}
               <div className="space-y-2">
-                <Label>Filters</Label>
+                <Label>筛选器</Label>
                 <div className="space-y-2">
                   {unsupportedFilters.length > 0 && (
                     <Alert
@@ -1897,10 +1896,10 @@ export function WidgetForm({
                     >
                       <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
                       <AlertTitle className="text-yellow-800 dark:text-yellow-400">
-                        Unsupported legacy filters
+                        不支持的旧版筛选器
                       </AlertTitle>
                       <AlertDescription className="text-yellow-700 dark:text-yellow-500">
-                        {`This widget still contains filter columns that are not supported for ${startCase(selectedView)}: ${unsupportedFilterColumns}. Remove them or switch to a compatible view before saving.`}
+                        {`此小部件仍包含 ${startCase(selectedView)} 不支持的筛选器列：${unsupportedFilterColumns}。请在保存前移除它们或切换到兼容的视图。`}
                       </AlertDescription>
                     </Alert>
                   )}
@@ -1919,17 +1918,17 @@ export function WidgetForm({
                 selectedChartType !== "PIVOT_TABLE" && (
                   <div className="space-y-2">
                     <Label htmlFor="dimension-select">
-                      Breakdown Dimension (Optional)
+                      细分维度（可选）
                     </Label>
                     <Select
                       value={selectedDimension}
                       onValueChange={setSelectedDimension}
                     >
                       <SelectTrigger id="dimension-select">
-                        <SelectValue placeholder="Select a dimension" />
+                        <SelectValue placeholder="选择维度" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="none">None</SelectItem>
+                        <SelectItem value="none">无</SelectItem>
                         {availableDimensions.map((dimension) => {
                           const meta =
                             viewDeclarations[viewVersion][selectedView]
@@ -1954,11 +1953,9 @@ export function WidgetForm({
               {selectedChartType === "PIVOT_TABLE" && (
                 <div className="space-y-4">
                   <div>
-                    <h4 className="mb-2 text-sm font-bold">Row Dimensions</h4>
+                    <h4 className="mb-2 text-sm font-bold">行维度</h4>
                     <p className="text-muted-foreground mb-3 text-xs">
-                      Configure up to {MAX_PIVOT_TABLE_DIMENSIONS} dimensions
-                      for pivot table rows. Each dimension creates groupings
-                      with subtotals.
+                      可为数据透视表行配置最多 {MAX_PIVOT_TABLE_DIMENSIONS} 个维度。每个维度都会创建带小计的分组。
                     </p>
                   </div>
 
@@ -1976,7 +1973,7 @@ export function WidgetForm({
                       return (
                         <div key={index} className="space-y-2">
                           <Label htmlFor={`pivot-dimension-${index}`}>
-                            Dimension {index + 1} (Optional)
+                            维度 {index + 1}（可选）
                           </Label>
                           <Select
                             value={currentValue}
@@ -1989,14 +1986,14 @@ export function WidgetForm({
                               <SelectValue
                                 placeholder={
                                   isEnabled
-                                    ? "Select a dimension"
-                                    : "Select previous dimension first"
+                                    ? "选择维度"
+                                    : "请先选择上一个维度"
                                 }
                               />
                             </SelectTrigger>
                             <SelectContent>
                               {index >= 0 && (
-                                <SelectItem value="none">None</SelectItem>
+                                <SelectItem value="none">无</SelectItem>
                               )}
                               {availableDimensions
                                 .filter(
@@ -2031,26 +2028,25 @@ export function WidgetForm({
                 <div className="space-y-4">
                   <div>
                     <h4 className="mb-2 text-sm font-bold">
-                      Default Sort Configuration
+                      默认排序配置
                     </h4>
                     <p className="text-muted-foreground mb-3 text-xs">
-                      Configure the default sort order for the pivot table. This
-                      will be applied when the widget is first loaded.
+                      配置数据透视表的默认排序方式。此设置将在小部件首次加载时应用。
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="default-sort-column">Sort Column</Label>
+                      <Label htmlFor="default-sort-column">排序列</Label>
                       <Select
                         value={defaultSortColumn}
                         onValueChange={setDefaultSortColumn}
                       >
                         <SelectTrigger id="default-sort-column">
-                          <SelectValue placeholder="Select a column to sort by" />
+                          <SelectValue placeholder="选择排序列" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">No default sort</SelectItem>
+                          <SelectItem value="none">无默认排序</SelectItem>
                           {/* Show available metrics as sort options */}
                           {selectedMetrics
                             .filter(
@@ -2067,7 +2063,7 @@ export function WidgetForm({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="default-sort-order">Sort Order</Label>
+                      <Label htmlFor="default-sort-order">排序方向</Label>
                       <Select
                         value={defaultSortOrder}
                         onValueChange={(value: "ASC" | "DESC") =>
@@ -2081,8 +2077,8 @@ export function WidgetForm({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="ASC">Ascending (A-Z)</SelectItem>
-                          <SelectItem value="DESC">Descending (Z-A)</SelectItem>
+                          <SelectItem value="ASC">升序（A-Z）</SelectItem>
+                          <SelectItem value="DESC">降序（Z-A）</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -2093,11 +2089,11 @@ export function WidgetForm({
 
             {/* Visualization Section */}
             <div className="mt-6 space-y-4">
-              <h3 className="text-lg font-bold">Visualization</h3>
+              <h3 className="text-lg font-bold">可视化</h3>
 
               {/* Widget Name */}
               <div className="space-y-2">
-                <Label htmlFor="widget-name">Name</Label>
+                <Label htmlFor="widget-name">名称</Label>
                 <Input
                   id="widget-name"
                   value={widgetName}
@@ -2105,13 +2101,13 @@ export function WidgetForm({
                     if (!autoLocked) setAutoLocked(true);
                     setWidgetName(e.target.value);
                   }}
-                  placeholder="Enter widget name"
+                  placeholder="输入小部件名称"
                 />
               </div>
 
               {/* Widget Description */}
               <div className="space-y-2">
-                <Label htmlFor="widget-description">Description</Label>
+                <Label htmlFor="widget-description">描述</Label>
                 <Input
                   id="widget-description"
                   value={widgetDescription}
@@ -2119,23 +2115,23 @@ export function WidgetForm({
                     if (!autoLocked) setAutoLocked(true);
                     setWidgetDescription(e.target.value);
                   }}
-                  placeholder="Enter widget description"
+                  placeholder="输入小部件描述"
                 />
               </div>
 
               {/* Chart Type Selection */}
               <div className="space-y-2">
-                <Label htmlFor="chart-type-select">Chart Type</Label>
+                <Label htmlFor="chart-type-select">图表类型</Label>
                 <Select
                   value={selectedChartType}
                   onValueChange={setSelectedChartType}
                 >
                   <SelectTrigger id="chart-type-select">
-                    <SelectValue placeholder="Select a chart type" />
+                    <SelectValue placeholder="选择图表类型" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Time Series</SelectLabel>
+                      <SelectLabel>时间序列</SelectLabel>
                       {chartTypes
                         .filter((item) => item.group === "time-series")
                         .map((chart) => (
@@ -2150,7 +2146,7 @@ export function WidgetForm({
                         ))}
                     </SelectGroup>
                     <SelectGroup>
-                      <SelectLabel>Total Value</SelectLabel>
+                      <SelectLabel>汇总值</SelectLabel>
                       {chartTypes
                         .filter((item) => item.group === "total-value")
                         .map((chart) => (
@@ -2176,7 +2172,7 @@ export function WidgetForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="date-select">Date Range</Label>
+                <Label htmlFor="date-select">日期范围</Label>
                 <DatePickerWithRange
                   dateRange={dateRange}
                   setDateRangeAndOption={(option, range) => {
@@ -2196,7 +2192,7 @@ export function WidgetForm({
               {/* Histogram Bins Selection - Only shown for HISTOGRAM chart type */}
               {selectedChartType === "HISTOGRAM" && (
                 <div className="space-y-2">
-                  <Label htmlFor="histogram-bins">Number of Bins (1-100)</Label>
+                  <Label htmlFor="histogram-bins">分箱数量（1-100）</Label>
                   <Input
                     id="histogram-bins"
                     type="number"
@@ -2209,7 +2205,7 @@ export function WidgetForm({
                         setHistogramBins(value);
                       }
                     }}
-                    placeholder="Enter number of bins (1-100)"
+                    placeholder="输入分箱数量（1-100）"
                   />
                 </div>
               )}
@@ -2222,7 +2218,7 @@ export function WidgetForm({
                 ) && (
                   <div className="space-y-2">
                     <Label htmlFor="row-limit">
-                      Breakdown Row Limit (0-1000)
+                      细分行数上限（0-1000）
                     </Label>
                     <Input
                       id="row-limit"
@@ -2236,7 +2232,7 @@ export function WidgetForm({
                           setRowLimit(value);
                         }
                       }}
-                      placeholder="Enter breakdown row limit (0-1000)"
+                      placeholder="输入细分行数上限（0-1000）"
                     />
                   </div>
                 )}
@@ -2244,7 +2240,7 @@ export function WidgetForm({
           </CardContent>
           <CardFooter className="mt-auto">
             <Button className="w-full" size="lg" onClick={handleSaveWidget}>
-              Save Widget
+              保存小部件
             </Button>
           </CardFooter>
         </Card>
@@ -2265,7 +2261,7 @@ export function WidgetForm({
               <div className="flex h-[300px] items-center justify-center">
                 <Alert variant="destructive" className="max-w-sm">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Invalid query</AlertTitle>
+                  <AlertTitle>无效查询</AlertTitle>
                   <AlertDescription>{queryValidation.reason}</AlertDescription>
                 </Alert>
               </div>
@@ -2366,7 +2362,7 @@ export function WidgetForm({
                   />
                 ) : (
                   <p className="text-muted-foreground">
-                    Waiting for Input / Loading...
+                    等待输入 / 加载中…
                   </p>
                 )}
               </div>

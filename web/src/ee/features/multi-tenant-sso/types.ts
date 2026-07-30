@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const base = z.object({
   domain: z.string().refine((v) => v === v.toLowerCase(), {
-    message: "Domain must be lowercase",
+    message: "域名必须为小写",
   }),
 });
 
@@ -41,9 +41,9 @@ const idTokenSignedResponseAlg = z
 // https://. `z.url()` enforces RFC 3986 grammar so values like `"https://"`
 // or `"https:// foo"` don't sneak through and only blow up at sign-in.
 const oidcIssuer = z
-  .url({ message: "OIDC issuer urls must be a valid URL" })
+  .url({ message: "OIDC issuer URL 必须是有效的 URL" })
   .startsWith("https://", {
-    message: "OIDC issuer urls must start with https://",
+    message: "OIDC issuer URL 必须以 https:// 开头",
   });
 
 export const GoogleProviderSchema = base.extend({
@@ -79,9 +79,9 @@ export const GithubEnterpriseProviderSchema = base.extend({
       clientSecret: z.string(),
       enterprise: z.object({
         baseUrl: z
-          .url({ message: "Github Enterprise baseUrls must be a valid URL" })
+          .url({ message: "Github Enterprise 的 baseUrl 必须是有效的 URL" })
           .startsWith("https://", {
-            message: "Github Enterprise baseUrls must start with https://",
+            message: "Github Enterprise 的 baseUrl 必须以 https:// 开头",
           }),
       }),
       allowDangerousEmailAccountLinking: z.boolean().optional().default(false),

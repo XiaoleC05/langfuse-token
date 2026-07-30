@@ -37,8 +37,8 @@ export default function EditWidget() {
     },
     onSuccess: () => {
       showSuccessToast({
-        title: "Widget updated successfully",
-        description: "Your widget has been updated.",
+        title: "小部件更新成功",
+        description: "小部件已更新。",
       });
       // Navigate back to dashboard if provided else widgets list
       if (dashboardId) {
@@ -50,7 +50,7 @@ export default function EditWidget() {
       }
     },
     onError: (error) => {
-      showErrorToast("Failed to update widget", error.message);
+      showErrorToast("更新小部件失败", error.message);
     },
   });
 
@@ -90,9 +90,9 @@ export default function EditWidget() {
     <Page
       withPadding
       headerProps={{
-        title: "Edit Widget",
+        title: "编辑小部件",
         help: {
-          description: "Edit an existing widget",
+          description: "编辑现有小部件",
         },
       }}
     >
@@ -123,7 +123,7 @@ export default function EditWidget() {
         />
       ) : (
         <div className="flex h-[300px] items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-muted-foreground">加载中...</p>
         </div>
       )}
     </Page>

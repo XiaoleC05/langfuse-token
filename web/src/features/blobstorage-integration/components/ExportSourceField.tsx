@@ -68,7 +68,7 @@ export const ExportSourceField = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center gap-1.5 pt-2">
-                Export Source
+                导出来源
                 <Tooltip>
                   <TooltipTrigger>
                     <Info className="text-muted-foreground h-3.5 w-3.5" />
@@ -92,7 +92,7 @@ export const ExportSourceField = ({
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-primary inline-flex items-center gap-1 text-xs hover:underline"
                       >
-                        For further information see
+                        更多信息请参阅
                         <ExternalLink className="h-3 w-3" />
                       </a>
                     </div>
@@ -106,7 +106,7 @@ export const ExportSourceField = ({
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select data to export" />
+                    <SelectValue placeholder="选择要导出的数据" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -117,15 +117,14 @@ export const ExportSourceField = ({
                       disabled={option.unavailable}
                     >
                       {option.unavailable
-                        ? `${option.label} (not available on this deployment)`
+                        ? `${option.label}（当前部署不可用）`
                         : option.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <FormDescription>
-                Choose which data sources to export to blob storage. Scores are
-                always included.
+                选择要导出到Blob存储的数据来源。评分始终包含在内。
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -135,7 +134,7 @@ export const ExportSourceField = ({
 
       {!watchedValidation.ok && (
         <Alert variant="destructive">
-          <AlertTitle>Saved export source is no longer available</AlertTitle>
+          <AlertTitle>已保存的导出来源不再可用</AlertTitle>
           <AlertDescription>
             {/* Reason-specific body; texts live in the shared lookup. */}
             {getExportSourceUnavailableMessage(watchedValidation.reason)}

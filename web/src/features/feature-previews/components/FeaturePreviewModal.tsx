@@ -90,9 +90,9 @@ const PREVIEW_REGISTRY: PreviewRegistryItem[] = [
   },
 ];
 
-const FEATURE_PREVIEW_MODAL_TITLE = "Feature Preview";
+const FEATURE_PREVIEW_MODAL_TITLE = "功能预览";
 const FEATURE_PREVIEW_MODAL_SUBTITLE =
-  "Try upcoming and experimental product experiences before they become generally available.";
+  "在正式发布前体验即将推出和实验性的产品功能。";
 
 export type FeaturePreviewModalProps = {
   open: boolean;
@@ -155,10 +155,10 @@ export function FeaturePreviewModal({
                       </span>
                       <span className="text-muted-foreground mt-1 line-clamp-2 block text-xs">
                         {state[item.flag]?.disabled
-                          ? "Unavailable"
+                          ? "不可用"
                           : state[item.flag]?.enabled
-                            ? "Enabled"
-                            : "Available"}
+                            ? "已启用"
+                            : "可用"}
                       </span>
                     </span>
                   </button>
@@ -190,7 +190,7 @@ export function FeaturePreviewModal({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Give feedback
+                        提供反馈
                       </a>
                     </Button>
                   </div>

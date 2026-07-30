@@ -492,7 +492,7 @@ export function CommentList({
           <Spinner size="sm" variant="muted" />
         </span>
         <span className="text-muted-foreground text-sm opacity-60">
-          Loading comments...
+          加载评论中...
         </span>
       </div>
     );
@@ -507,20 +507,20 @@ export function CommentList({
     >
       {cardView && (
         <div className="shrink-0 border-b px-2 py-1 text-sm font-bold">
-          Comments ({comments.data?.length ?? 0})
+          评论 ({comments.data?.length ?? 0})
         </div>
       )}
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {!cardView && (
           <div className="shrink-0 border-b">
             <div className="flex items-center justify-between gap-2 px-2 py-1.5">
-              <div className="text-sm font-bold">Comments</div>
+              <div className="text-sm font-bold">评论</div>
               <div className="relative max-w-xs flex-1">
                 <Search className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
                 <Input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search comments..."
+                  placeholder="搜索评论..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-7 pr-7 pl-7 text-xs"
@@ -552,9 +552,9 @@ export function CommentList({
             <div className="text-muted-foreground px-2 pb-1 text-xs">
               {searchQuery.trim()
                 ? filteredComments && filteredComments.length > 0
-                  ? `Showing ${filteredComments.length} of ${comments.data?.length ?? 0} comments`
-                  : "No comments match your search"
-                : `${comments.data?.length ?? 0} comments`}
+                  ? `显示 ${filteredComments.length} / ${comments.data?.length ?? 0} 条评论`
+                  : "没有匹配的评论"
+                : `${comments.data?.length ?? 0} 条评论`}
             </div>
           </div>
         )}
@@ -590,7 +590,7 @@ export function CommentList({
                   {/* Name + timestamp inline */}
                   <div className="mb-1.5 flex items-center gap-2 pt-1.5 text-xs leading-none">
                     <span className="text-foreground font-bold">
-                      {comment.authorUserName ?? comment.authorUserId ?? "User"}
+                      {comment.authorUserName ?? comment.authorUserId ?? "用户"}
                     </span>
                     <span className="text-muted-foreground/50">·</span>
                     <span className="text-muted-foreground/70">
@@ -634,7 +634,7 @@ export function CommentList({
                           align="start"
                           className="px-2 py-1 text-xs"
                         >
-                          The location of the text commented on
+                          评论所在的文本位置
                         </TooltipContent>
                       </Tooltip>
                     )}
@@ -681,12 +681,12 @@ export function CommentList({
                       type="button"
                       size="icon-xs"
                       variant="ghost"
-                      title="Delete comment"
+                      title="删除评论"
                       loading={deleteCommentMutation.isPending}
                       onClick={() => {
                         if (
                           confirm(
-                            "Are you sure you want to delete this comment?",
+                            "确定要删除这条评论吗？",
                           )
                         )
                           deleteCommentMutation.mutateAsync({
@@ -709,9 +709,9 @@ export function CommentList({
         {hasWriteAccess && (
           <div className="bg-background shrink-0 px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
             <div className="text-muted-foreground relative flex flex-row items-center justify-between text-xs">
-              <span className="sr-only">New comment</span>
+              <span className="sr-only">新评论</span>
               <span></span>
-              <span>Markdown and @-mentions support</span>
+              <span>支持 Markdown 和 @提及功能</span>
             </div>
             <div className="border-border/60 relative mt-0.5 min-h-[70px] rounded-lg border pt-1">
               {/* Visually hidden header for accessibility */}
@@ -726,7 +726,7 @@ export function CommentList({
                         <div>
                           <FormControl>
                             <Textarea
-                              placeholder="Add a comment..."
+                              placeholder="添加评论..."
                               {...field}
                               ref={(el) => {
                                 if (textareaRef.current !== el) {
@@ -786,7 +786,7 @@ export function CommentList({
                           type="submit"
                           size="icon-xs"
                           variant="outline"
-                          title="Submit comment"
+                          title="提交评论"
                           loading={createCommentMutation.isPending}
                           onClick={() => {
                             form.handleSubmit(onSubmit)();
@@ -802,7 +802,7 @@ export function CommentList({
                         className="w-auto p-2"
                       >
                         <div className="flex items-center gap-2 text-sm">
-                          <span>Send comment</span>
+                          <span>发送评论</span>
                           <KeyboardShortcut keys={["⌘", "Enter"]} />
                         </div>
                       </HoverCardContent>

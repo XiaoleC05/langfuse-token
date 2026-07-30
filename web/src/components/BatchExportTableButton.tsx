@@ -41,12 +41,12 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
     },
     onSuccess: () => {
       showSuccessToast({
-        title: "Export queued",
-        description: "You will receive an email when the export is ready.",
+        title: "导出已排队",
+        description: "导出完成后,你将收到一封邮件通知。",
         duration: 10000,
         link: {
           href: `/project/${props.projectId}/settings/exports`,
-          text: "View exports",
+          text: "查看导出",
         },
       });
     },
@@ -77,15 +77,15 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
   const getWarningMessage = () => {
     switch (props.tableName) {
       case BatchTableNames.Traces:
-        return "Note: Filters on observation-level columns (Level, Tokens, Cost, Latency) and Comments are not included in trace exports. You may receive more data than expected.";
+        return "注意:观测级别列(级别、Token、成本、延迟)和评论上的筛选条件不会应用于追踪导出。你可能会收到比预期更多的数据。";
       case BatchTableNames.Observations:
-        return "Note: Filters on trace-level columns (Trace Name, Trace Tags, User ID, Trace Environment) and Comments are not included in observation exports. You may receive more data than expected.";
+        return "注意:追踪级别列(追踪名称、追踪标签、用户 ID、追踪环境)和评论上的筛选条件不会应用于观测导出。你可能会收到比预期更多的数据。";
       case BatchTableNames.Events:
-        return "Note: Filters on Comments are not included in event exports. You may receive more data than expected.";
+        return "注意:评论上的筛选条件不会应用于事件导出。你可能会收到比预期更多的数据。";
       case BatchTableNames.Sessions:
-        return "Note: Filters on Comments are not included in session exports. You may receive more data than expected.";
+        return "注意:评论上的筛选条件不会应用于会话导出。你可能会收到比预期更多的数据。";
       case BatchTableNames.AuditLogs:
-        return "Note: Filters are not applied to audit log exports. All audit logs for this project will be exported.";
+        return "注意:筛选条件不会应用于审计日志导出。将导出此项目的所有审计日志。";
       default:
         // Note: for Scores, DatasetRunItems, DatasetItems, filters should work as expected
         return null;
@@ -97,7 +97,7 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" title="Export">
+        <Button variant="outline" size="icon" title="导出">
           {isExporting ? (
             <Spinner size="sm" />
           ) : (
@@ -107,7 +107,7 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
         <DropdownMenuContent className="w-80">
-          <DropdownMenuLabel>Export</DropdownMenuLabel>
+          <DropdownMenuLabel>导出</DropdownMenuLabel>
           {warningMessage && (
             <div className="text-muted-foreground px-2 py-1.5 text-xs">
               <div className="flex items-start gap-1.5">
@@ -123,7 +123,7 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
               className="capitalize"
               onClick={() => handleExport(key as BatchExportFileFormat)}
             >
-              as {options.label}
+              导出为 {options.label}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

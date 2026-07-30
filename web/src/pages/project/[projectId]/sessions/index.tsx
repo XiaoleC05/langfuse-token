@@ -49,9 +49,8 @@ export default function Sessions() {
         help: {
           description: (
             <>
-              A session is a collection of related traces, such as a
-              conversation or thread. To begin, add a sessionId to the trace.
-              See{" "}
+              会话是一组相关追踪的集合，例如对话或线程。要开始使用，请在追踪中添加 sessionId。
+              详见{" "}
               <a
                 href="https://langfuse.com/docs/observability/features/sessions"
                 target="_blank"
@@ -59,9 +58,9 @@ export default function Sessions() {
                 className="decoration-primary/30 hover:decoration-primary underline"
                 onClick={(e) => e.stopPropagation()}
               >
-                docs
+                文档
               </a>{" "}
-              to learn more.
+              了解更多。
             </>
           ),
           href: "https://langfuse.com/docs/observability/features/sessions",

@@ -22,7 +22,7 @@ export function MonitorPagePermissions({
   const hasAccess = useHasProjectAccess({ projectId, scope });
 
   if (!v4WriteMode || v4WriteMode === "legacy") {
-    return <ErrorPage title="Not found" message="This page does not exist." />;
+    return <ErrorPage title="未找到" message="该页面不存在。" />;
   }
 
   if (!hasAccess) {

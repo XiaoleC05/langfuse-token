@@ -64,7 +64,7 @@ export function ReactionBar({
               <div className="flex flex-col gap-1">
                 {reaction.users.map((user) => (
                   <div key={user.id} className="text-muted-foreground text-xs">
-                    {user.name || "Unknown user"}
+                    {user.name || "未知用户"}
                   </div>
                 ))}
               </div>

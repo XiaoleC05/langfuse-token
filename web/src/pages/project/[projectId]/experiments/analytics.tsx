@@ -34,7 +34,7 @@ export default function ExperimentAnalytics() {
 
   if (!isExperimentsBetaActive) {
     return (
-      <Page headerProps={{ title: "Analytics" }}>
+      <Page headerProps={{ title: "分析" }}>
         <div className="flex h-full items-center justify-center">
           <Spinner size="xl" variant="muted" />
         </div>
@@ -45,10 +45,10 @@ export default function ExperimentAnalytics() {
   return (
     <Page
       headerProps={{
-        title: "Analytics",
+        title: "分析",
         itemType: "EXPERIMENT",
         breadcrumb: [
-          { name: "Experiments", href: `/project/${projectId}/experiments` },
+          { name: "实验", href: `/project/${projectId}/experiments` },
         ],
         tabsProps: {
           tabs: getExperimentRunTabs(projectId, handleResultsClick),
@@ -63,11 +63,10 @@ export default function ExperimentAnalytics() {
           </div>
           <div className="space-y-2">
             <h3 className="text-xl font-bold tracking-tight">
-              Analytics Coming Soon
+              分析功能即将推出
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              We are working on adding advanced analytics capabilities for
-              experiments.
+              我们正在为实验添加高级分析功能，敬请期待。
             </p>
           </div>
         </div>

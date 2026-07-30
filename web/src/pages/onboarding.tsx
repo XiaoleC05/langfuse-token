@@ -7,7 +7,7 @@ export default function OnboardingPage() {
   return (
     <>
       <Head>
-        <title>Onboarding | Oxelia51</title>
+        <title>新手引导 | Oxelia51</title>
       </Head>
       <OnboardingSurvey />
     </>

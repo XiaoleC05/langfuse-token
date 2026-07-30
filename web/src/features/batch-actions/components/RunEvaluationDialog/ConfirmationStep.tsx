@@ -64,7 +64,7 @@ export function ConfirmationStep(props: ConfirmationStepProps) {
         <CardContent className="space-y-3 p-4 text-sm">
           {!hideCount && (
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Observations:</span>
+              <span className="text-muted-foreground">观测:</span>
               <span className="font-bold">{displayCount}</span>
             </div>
           )}
@@ -72,7 +72,7 @@ export function ConfirmationStep(props: ConfirmationStepProps) {
           {evaluators.length > 0 && (
             <div className="flex gap-2">
               <span className="text-muted-foreground shrink-0">
-                Evaluators:
+                评估器:
               </span>
               <div className="flex flex-wrap gap-1">
                 {evaluators.map((e) => (
@@ -89,10 +89,10 @@ export function ConfirmationStep(props: ConfirmationStepProps) {
           {showCostDisclaimer ? (
             <div className="flex gap-2">
               <span className="text-muted-foreground shrink-0">
-                Est. LLM API Key Cost:
+                预估 LLM API 密钥成本：
               </span>
               <span className="text-muted-foreground text-xs">
-                Cost estimate unavailable for experiment-scoped evaluations
+                实验范围的评估无法提供成本估算
               </span>
             </div>
           ) : (
@@ -105,7 +105,7 @@ export function ConfirmationStep(props: ConfirmationStepProps) {
         </CardContent>
       </Card>
       <p className="text-muted-foreground text-xs">
-        Evaluations will run in the background.
+        评估将在后台运行。
       </p>
     </div>
   );

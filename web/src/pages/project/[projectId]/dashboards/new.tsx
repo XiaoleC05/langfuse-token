@@ -15,7 +15,7 @@ export default function NewDashboard() {
   const { projectId } = router.query as { projectId: string };
 
   // State for new dashboard
-  const [dashboardName, setDashboardName] = useState("New Dashboard");
+  const [dashboardName, setDashboardName] = useState("新建仪表板");
   const [dashboardDescription, setDashboardDescription] = useState("");
 
   // Check project access
@@ -28,14 +28,14 @@ export default function NewDashboard() {
   const createDashboard = api.dashboard.createDashboard.useMutation({
     onSuccess: (data) => {
       showSuccessToast({
-        title: "Dashboard created",
-        description: "Your new dashboard has been created successfully",
+        title: "仪表板已创建",
+        description: "你的新仪表板已成功创建",
       });
       // Navigate to the newly created dashboard
       router.push(`/project/${projectId}/dashboards/${data.id}`);
     },
     onError: (error) => {
-      showErrorToast("Error creating dashboard", error.message);
+      showErrorToast("创建仪表板时出错", error.message);
     },
   });
 
@@ -48,7 +48,7 @@ export default function NewDashboard() {
         description: dashboardDescription,
       });
     } else {
-      showErrorToast("Validation error", "Dashboard name is required");
+      showErrorToast("校验错误", "仪表板名称为必填项");
     }
   };
 
@@ -56,9 +56,9 @@ export default function NewDashboard() {
     <Page
       withPadding
       headerProps={{
-        title: "Create Dashboard",
+        title: "创建仪表板",
         help: {
-          description: "Create a new dashboard for your project",
+          description: "为你的项目创建新的仪表板",
         },
         actionButtonsRight: (
           <>
@@ -66,7 +66,7 @@ export default function NewDashboard() {
               variant="outline"
               onClick={() => router.push(`/project/${projectId}/dashboards`)}
             >
-              Cancel
+              取消
             </Button>
             <Button
               onClick={handleCreateDashboard}
@@ -77,7 +77,7 @@ export default function NewDashboard() {
               }
               loading={createDashboard.isPending}
             >
-              Create
+              创建
             </Button>
           </>
         ),
@@ -85,35 +85,34 @@ export default function NewDashboard() {
     >
       <div className="mx-auto my-8 max-w-xl space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="dashboard-name">Dashboard Name</Label>
+          <Label htmlFor="dashboard-name">仪表盘名称</Label>
           <Input
             id="dashboard-name"
             value={dashboardName}
             onChange={(e) => {
               setDashboardName(e.target.value);
             }}
-            placeholder="Enter dashboard name"
+            placeholder="输入仪表盘名称"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="dashboard-description">Description</Label>
+          <Label htmlFor="dashboard-description">描述</Label>
           <Textarea
             id="dashboard-description"
             value={dashboardDescription}
             onChange={(e) => {
               setDashboardDescription(e.target.value);
             }}
-            placeholder="Describe the purpose of this dashboard. Optional, but very helpful."
+            placeholder="描述此仪表盘的用途。可选，但非常有帮助。"
             rows={4}
           />
         </div>
 
         <div className="text-muted-foreground text-sm">
           <p>
-            After creating the dashboard, you can add widgets to visualize your
-            data.
+            创建仪表盘后，您可以添加小部件来可视化您的数据。
           </p>
         </div>
       </div>

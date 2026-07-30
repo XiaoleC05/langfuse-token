@@ -244,8 +244,7 @@ function MarkdownRenderer({
       <div className={cn("space-y-2 overflow-x-auto text-sm", className)}>
         <div className="text-muted-foreground flex items-center gap-1 text-xs">
           <Info className="h-3 w-3" />
-          Content is too large or deeply nested to render as markdown.
-          Displaying as plain text.
+          内容过大或嵌套过深,无法以 Markdown 渲染。以纯文本显示。
         </div>
         <pre className="text-sm break-words whitespace-pre-wrap">
           {markdown}
@@ -452,7 +451,7 @@ function MarkdownRenderer({
       <>
         <div className="text-muted-foreground flex items-center gap-1 text-xs">
           <Info className="h-3 w-3" />
-          Markdown parsing failed. Displaying raw JSON.
+          Markdown 解析失败。以原始 JSON 显示。
         </div>
         <JSONView json={markdown} className="min-w-0" />
       </>
@@ -558,7 +557,7 @@ export function MarkdownView({
       onClick={toggleCollapsed}
       className="w-fit text-xs underline"
     >
-      {isCollapsed ? "Expand system prompt" : "Collapse system prompt"}
+      {isCollapsed ? "展开系统提示词" : "折叠系统提示词"}
     </Button>
   ) : null;
 
@@ -670,7 +669,7 @@ export function MarkdownView({
         {audio ? (
           <>
             <MarkdownRenderer
-              markdown={audio.transcript ? "[Audio] \n" + audio.transcript : ""}
+              markdown={audio.transcript ? "[音频] \n" + audio.transcript : ""}
               theme={theme}
               customCodeHeaderVariant={customCodeHeaderVariant}
             />
@@ -683,7 +682,7 @@ export function MarkdownView({
       {remainingMedia.length > 0 && (
         <>
           <div className="text-muted-foreground mx-3 border-t px-2 py-1 text-xs">
-            Media
+            媒体
           </div>
           <div className="mx-3 flex flex-wrap gap-2 pt-1 pb-4">
             {remainingMedia.map((m) => (

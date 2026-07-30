@@ -47,10 +47,10 @@ import { TRPCError } from "@trpc/server";
 
 export function getDisplaySecretKey(secretKey: string) {
   if (secretKey === BEDROCK_USE_DEFAULT_CREDENTIALS) {
-    return "Default AWS credentials";
+    return "AWS 默认凭证";
   }
   if (secretKey === VERTEXAI_USE_DEFAULT_CREDENTIALS) {
-    return "Default GCP credentials (ADC)";
+    return "GCP 默认凭证 (ADC)";
   }
   return secretKey.endsWith('"}')
     ? "..." + secretKey.slice(-6, -2)
@@ -66,7 +66,7 @@ export function validateBedrockSecretKey(secretKey: string) {
     BedrockCredentialSchema.parse(JSON.parse(secretKey));
   } catch {
     throw new Error(
-      "Invalid Bedrock credentials. Expected a JSON object with either {accessKeyId, secretAccessKey} or {apiKey}.",
+      "Bedrock 凭证无效。应为包含 {accessKeyId, secretAccessKey} 或 {apiKey} 的 JSON 对象。",
     );
   }
 }
@@ -109,7 +109,7 @@ async function testLLMConnection(
       ? params.customModels[0]
       : supportedModels[params.adapter][0];
 
-    if (!model) throw Error("No model found");
+    if (!model) throw Error("未找到模型");
 
     if (params.adapter === LLMAdapter.VertexAI) {
       // Skip validation if using ADC (Application Default Credentials)

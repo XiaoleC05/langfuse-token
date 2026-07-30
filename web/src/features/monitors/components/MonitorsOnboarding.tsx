@@ -18,18 +18,18 @@ type OnboardingChannel = {
 const channels: OnboardingChannel[] = [
   {
     actionType: "SLACK",
-    label: "Connect Slack",
+    label: "连接 Slack",
     // eslint-disable-next-line @typescript-eslint/no-deprecated -- brand icon retained for parity with MonitorAutomationsPanel.
     icon: <Slack className="h-4 w-4" aria-hidden="true" />,
   },
   {
     actionType: "WEBHOOK",
-    label: "Connect Webhooks",
+    label: "连接 Webhooks",
     icon: <Webhook className="h-4 w-4" aria-hidden="true" />,
   },
   {
     actionType: "GITHUB_DISPATCH",
-    label: "Connect Github Actions",
+    label: "连接 Github Actions",
     // eslint-disable-next-line @typescript-eslint/no-deprecated -- see Slack note above.
     icon: <Github className="h-4 w-4" aria-hidden="true" />,
   },
@@ -46,13 +46,13 @@ export function MonitorsOnboarding({
   return (
     <div className="mx-auto w-full max-w-xl pt-12">
       <SplashScreen
-        title="Catch issues before they impact your users"
-        description="Get notified when cost, quality, latency, or other key metrics move outside of expected ranges."
+        title="在问题影响用户之前及时发现"
+        description="当成本、质量、延迟或其他关键指标超出预期范围时及时获得通知。"
         steps={[
           {
-            title: "Choose where alerts should go",
+            title: "选择告警通知渠道",
             description:
-              "Send alerts to Slack, Webhooks, or GitHub Actions so your team and your workflows can respond automatically.",
+              "将告警发送至 Slack、Webhooks 或 GitHub Actions，让您的团队和工作流能够自动响应。",
             content: (
               <div className="flex flex-col gap-2">
                 {channels.map((channel) => (
@@ -82,9 +82,9 @@ export function MonitorsOnboarding({
             ),
           },
           {
-            title: "Decide what to monitor",
+            title: "决定监控内容",
             description:
-              "Create monitors for sudden cost spikes, quality drops, latency changes, or other important changes.",
+              "为成本突增、质量下降、延迟变化或其他重要变化创建监控。",
             content: (
               <ActionButton
                 hasAccess={hasCUDAccess}
@@ -93,7 +93,7 @@ export function MonitorsOnboarding({
                 variant="default"
                 size="lg"
               >
-                Create Monitor
+                创建监控
               </ActionButton>
             ),
           },

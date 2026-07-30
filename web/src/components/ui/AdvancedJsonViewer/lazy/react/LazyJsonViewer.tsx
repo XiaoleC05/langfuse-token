@@ -153,7 +153,7 @@ export function LazyJsonViewer({
         </div>
       ) : status === "error" ? (
         <div className="text-destructive flex h-full items-center justify-center p-4 text-sm">
-          Failed to read JSON: {error}
+          读取 JSON 失败:{error}
         </div>
       ) : (
         <LazyJsonList store={store} />

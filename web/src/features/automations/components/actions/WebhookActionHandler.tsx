@@ -17,7 +17,7 @@ import { z } from "zod";
 // (used for type extraction via z.infer<typeof>, which is a legitimate pattern)
 export const WebhookActionFormSchema = z.object({
   webhook: z.object({
-    url: z.url("Invalid URL"),
+    url: z.url("URL 无效"),
     headers: z
       .array(
         z.object({
@@ -114,7 +114,7 @@ export class WebhookActionHandler implements BaseActionHandler<WebhookActionForm
     const errors: string[] = [];
 
     if (!formData.webhook?.url) {
-      errors.push("Webhook URL is required");
+      errors.push("Webhook URL 为必填");
     }
 
     // Validate headers
@@ -125,14 +125,14 @@ export class WebhookActionHandler implements BaseActionHandler<WebhookActionForm
         // Only validate non-empty headers
         if (header.name.trim() || header.value.trim()) {
           if (!header.name.trim()) {
-            errors.push(`Header ${index + 1}: Name cannot be empty`);
+            errors.push(`请求头 ${index + 1}:名称不能为空`);
           }
           if (!header.value.trim() && !header.isSecret) {
-            errors.push(`Header ${index + 1}: Value cannot be empty`);
+            errors.push(`请求头 ${index + 1}:值不能为空`);
           }
           if (header.wasSecret !== header.isSecret && !header.value.trim()) {
             errors.push(
-              `Header ${index + 1}: A value must be provided when making a header ${header.wasSecret ? "public" : "secret"}`,
+              `请求头 ${index + 1}:将请求头设为${header.wasSecret ? "公开" : "加密"}时必须提供值`,
             );
           }
 
@@ -142,7 +142,7 @@ export class WebhookActionHandler implements BaseActionHandler<WebhookActionForm
             defaultHeaderKeys.includes(header.name.trim().toLowerCase())
           ) {
             errors.push(
-              `Header ${index + 1}: "${header.name}" is automatically added by Langfuse and cannot be customized`,
+              `请求头 ${index + 1}:"${header.name}"由 Langfuse 自动添加,无法自定义`,
             );
           }
         }
@@ -157,7 +157,7 @@ export class WebhookActionHandler implements BaseActionHandler<WebhookActionForm
       const uniqueHeaderNames = new Set(headerNames);
       if (uniqueHeaderNames.size < headerNames.length) {
         errors.push(
-          "Duplicate header names are not allowed (case-insensitive)",
+          "不允许重复的请求头名称（不区分大小写）",
         );
       }
     }

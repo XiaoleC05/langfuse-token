@@ -121,9 +121,9 @@ function DatasetsMultiSelectActionMenu({
   const deleteManyMutation = api.datasets.deleteMany.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Datasets deleted",
+        title: "数据集已删除",
         description:
-          "Selected datasets will be deleted. Associated run items and media links are cleaned up asynchronously.",
+          "所选数据集将被删除。关联的运行条目和媒体链接将异步清理。",
       });
     },
     onSettled: () => {
@@ -137,9 +137,9 @@ function DatasetsMultiSelectActionMenu({
     {
       id: ActionId.DatasetDelete,
       type: BatchActionType.Delete,
-      label: "Delete",
+      label: "删除",
       description:
-        "This action cannot be undone. Selected folders delete all datasets contained in them.",
+        "此操作无法撤销。删除所选文件夹将同时删除其中包含的所有数据集。",
       accessCheck: {
         scope: "datasets:CUD",
       },
@@ -217,7 +217,7 @@ function DatasetsTableToolbar({
       rowHeight={rowHeight}
       setRowHeight={setRowHeight}
       searchConfig={{
-        metadataSearchFields: ["Name"],
+        metadataSearchFields: ["名称"],
         updateQuery: setSearchQuery,
         currentQuery: searchQuery ?? undefined,
         tableAllowsFullTextSearch: false,
@@ -317,7 +317,7 @@ export function DatasetsTable(props: { projectId: string }) {
     selectActionColumn,
     {
       accessorKey: "key",
-      header: "Name",
+      header: "名称",
       id: "key",
       size: 150,
       isFixedPosition: true,
@@ -344,7 +344,7 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "描述",
       id: "description",
       enableHiding: true,
       size: 200,
@@ -356,21 +356,21 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "countItems",
-      header: "Items",
+      header: "条目数",
       id: "countItems",
       enableHiding: true,
       size: 60,
     },
     {
       accessorKey: "countRuns",
-      header: "Experiments",
+      header: "实验数",
       id: "countRuns",
       enableHiding: true,
       size: 60,
     },
     {
       accessorKey: "createdAt",
-      header: "Created",
+      header: "创建时间",
       id: "createdAt",
       enableHiding: true,
       size: 150,
@@ -381,7 +381,7 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "lastRunAt",
-      header: "Last Run",
+      header: "最后运行",
       id: "lastRunAt",
       enableHiding: true,
       size: 150,
@@ -392,7 +392,7 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "inputSchema",
-      header: "Input Schema",
+      header: "输入模式",
       id: "inputSchema",
       enableHiding: true,
       size: 80,
@@ -409,7 +409,7 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "expectedOutputSchema",
-      header: "Expected Output Schema",
+      header: "预期输出模式",
       id: "expectedOutputSchema",
       enableHiding: true,
       size: 90,
@@ -429,7 +429,7 @@ export function DatasetsTable(props: { projectId: string }) {
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       id: "metadata",
       enableHiding: true,
       size: 300,
@@ -443,7 +443,7 @@ export function DatasetsTable(props: { projectId: string }) {
     {
       id: "actions",
       accessorKey: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       cell: ({ row }) => {
         const key: DatasetTableRow["key"] = row.getValue("key");

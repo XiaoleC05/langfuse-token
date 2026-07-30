@@ -200,7 +200,7 @@ export default function DashboardDetail() {
         dashboard.refetch();
       },
       onError: (error) => {
-        showErrorToast("Error updating dashboard", error.message);
+        showErrorToast("更新仪表盘时出错", error.message);
       },
     });
 
@@ -218,7 +218,7 @@ export default function DashboardDetail() {
       utils.dashboard.getHomeDashboard.invalidate();
     },
     onError: (error) => {
-      showErrorToast("Failed to update home dashboard", error.message);
+      showErrorToast("更新主页仪表盘失败", error.message);
     },
   });
 
@@ -232,7 +232,7 @@ export default function DashboardDetail() {
         utils.dashboard.invalidate();
       },
       onError: (error) => {
-        showErrorToast("Error renaming dashboard", error.message);
+        showErrorToast("重命名仪表盘时出错", error.message);
       },
     });
 
@@ -244,7 +244,7 @@ export default function DashboardDetail() {
         setSavedFilters(currentFilters);
       },
       onError: (error) => {
-        showErrorToast("Error saving filters", error.message);
+        showErrorToast("保存筛选条件时出错", error.message);
       },
     });
 
@@ -454,8 +454,8 @@ export default function DashboardDetail() {
         insertWidgetPlacement(result.widget.id, placementNextTo(anchor));
       } catch (e) {
         showErrorToast(
-          "Failed to duplicate widget",
-          e instanceof Error ? e.message : "Unknown error",
+          "复制小部件失败",
+          e instanceof Error ? e.message : "未知错误",
         );
       }
     },
@@ -476,7 +476,7 @@ export default function DashboardDetail() {
           reason: "invalid",
           dashboard_id: dashboardId,
         });
-        showErrorToast("Cannot paste widget", parsed.reason, "WARNING");
+        showErrorToast("无法粘贴小部件", parsed.reason, "WARNING");
         return;
       }
       // Don't create a widget row the placement step couldn't attach — a
@@ -501,15 +501,15 @@ export default function DashboardDetail() {
         );
         if (parsed.removedFilters) {
           showErrorToast(
-            "Widget filters were adjusted",
-            "Some pasted filters were removed because they are not available in this view.",
+            "小部件筛选条件已调整",
+            "部分粘贴的筛选条件已被移除，因为它们在此视图中不可用。",
             "WARNING",
           );
         }
       } catch (e) {
         showErrorToast(
-          "Failed to paste widget",
-          e instanceof Error ? e.message : "Unknown error",
+          "粘贴小部件失败",
+          e instanceof Error ? e.message : "未知错误",
         );
       }
     },
@@ -526,8 +526,8 @@ export default function DashboardDetail() {
       const text = await readTextFromClipboard();
       if (text === null) {
         showErrorToast(
-          "Clipboard unavailable",
-          "Your browser did not allow reading the clipboard. Paste with Cmd/Ctrl+V on the dashboard instead.",
+          "剪贴板不可用",
+          "您的浏览器不允许读取剪贴板。请改用 Cmd/Ctrl+V 在仪表盘上粘贴。",
           "WARNING",
         );
         return;
@@ -545,7 +545,7 @@ export default function DashboardDetail() {
             reason: "invalid",
             dashboard_id: dashboardId,
           });
-          showErrorToast("Cannot paste card", preset.reason, "WARNING");
+          showErrorToast("无法粘贴卡片", preset.reason, "WARNING");
           return;
         }
         capture("dashboard:widget_paste_rejected", {
@@ -554,8 +554,8 @@ export default function DashboardDetail() {
           dashboard_id: dashboardId,
         });
         showErrorToast(
-          "No widget in clipboard",
-          "The clipboard does not contain a Langfuse widget JSON. Copy one via a widget's ⋯ menu first.",
+          "剪贴板中没有小部件",
+          "剪贴板中未包含 Langfuse 小部件 JSON。请先通过小部件的 ⋯ 菜单复制一个。",
           "WARNING",
         );
         return;
@@ -601,7 +601,7 @@ export default function DashboardDetail() {
             reason: "invalid",
             dashboard_id: dashboardId,
           });
-          showErrorToast("Cannot paste card", preset.reason, "WARNING");
+          showErrorToast("无法粘贴卡片", preset.reason, "WARNING");
           return;
         }
         handlePastedPreset(preset.presetId, "cmd_v");
@@ -667,10 +667,10 @@ export default function DashboardDetail() {
             (s): s is PromiseRejectedResult => s.status === "rejected",
           )?.reason;
           showErrorToast(
-            "Failed to import dashboard",
+            "导入仪表盘失败",
             firstError instanceof Error
               ? firstError.message
-              : "Could not create the dashboard's widgets.",
+              : "无法创建仪表盘中的小部件。",
           );
           return;
         }
@@ -724,29 +724,27 @@ export default function DashboardDetail() {
         }, 150);
 
         showSuccessToast({
-          title: "Dashboard imported",
-          description: `Added ${newPlacements.length} widget${
-            newPlacements.length === 1 ? "" : "s"
-          } from "${imported.name}".`,
+          title: "仪表盘已导入",
+          description: `已从「${imported.name}」添加 ${newPlacements.length} 个小部件。`,
         });
         if (imported.removedFilters) {
           showErrorToast(
-            "Widget filters were adjusted",
-            "Some imported filters were removed because they are not available in this view.",
+            "小部件筛选条件已调整",
+            "部分导入的筛选条件已被移除，因为它们在此视图中不可用。",
             "WARNING",
           );
         }
         if (imported.skippedPresetCount > 0) {
           showErrorToast(
-            "Some cards were skipped",
-            `${imported.skippedPresetCount} preset card(s) in the file are not available in this Langfuse version.`,
+            "部分卡片已跳过",
+            `文件中有 ${imported.skippedPresetCount} 个预设卡片在此 Langfuse 版本中不可用。`,
             "WARNING",
           );
         }
       } catch (e) {
         showErrorToast(
-          "Failed to import dashboard",
-          e instanceof Error ? e.message : "Unknown error",
+          "导入仪表盘失败",
+          e instanceof Error ? e.message : "未知错误",
         );
       }
     },
@@ -777,7 +775,7 @@ export default function DashboardDetail() {
           dashboard_id: dashboardId,
         });
         showErrorToast(
-          "Cannot import dashboard",
+          "无法导入仪表盘",
           dashboardResult.reason,
           "WARNING",
         );
@@ -797,7 +795,7 @@ export default function DashboardDetail() {
             reason: "invalid",
             dashboard_id: dashboardId,
           });
-          showErrorToast("Cannot import card", preset.reason, "WARNING");
+          showErrorToast("无法导入卡片", preset.reason, "WARNING");
           return;
         }
         capture("dashboard:widget_paste_rejected", {
@@ -806,8 +804,8 @@ export default function DashboardDetail() {
           dashboard_id: dashboardId,
         });
         showErrorToast(
-          "Unsupported file",
-          "Only Langfuse dashboard or widget JSON files can be dropped here.",
+          "不支持的文件",
+          "仅支持在此处拖放 Langfuse 仪表盘或小部件 JSON 文件。",
           "WARNING",
         );
         return;
@@ -907,64 +905,64 @@ export default function DashboardDetail() {
   // Filter columns for PopoverFilterBuilder
   const filterColumns: ColumnDefinition[] = [
     {
-      name: "Environment",
+      name: "环境",
       id: "environment",
       type: "stringOptions",
       options: environmentOptions,
       internal: "internalValue",
     },
     {
-      name: "Trace Name",
+      name: "Trace 名称",
       id: "traceName",
       type: "stringOptions",
       options: nameOptions,
       internal: "internalValue",
     },
     {
-      name: "Observation Name",
+      name: "Observation 名称",
       id: "observationName",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Score Name",
+      name: "Score 名称",
       id: "scoreName",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Tags",
+      name: "标签",
       id: "tags",
       type: "arrayOptions",
       options: tagsOptions,
       internal: "internalValue",
     },
     {
-      name: "User",
+      name: "用户",
       id: "user",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Session",
+      name: "会话",
       id: "session",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Metadata",
+      name: "元数据",
       id: "metadata",
       type: "stringObject",
       internal: "internalValue",
     },
     {
-      name: "Release",
+      name: "发布版本",
       id: "release",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Version",
+      name: "版本",
       id: "version",
       type: "string",
       internal: "internalValue",
@@ -1066,7 +1064,7 @@ export default function DashboardDetail() {
       }
     },
     onError: (e) => {
-      showErrorToast("Failed to clone dashboard", e.message);
+      showErrorToast("克隆仪表盘失败", e.message);
     },
   });
 
@@ -1124,16 +1122,16 @@ export default function DashboardDetail() {
         scrollable
         headerProps={{
           title:
-            (dashboard.data?.name || "Dashboard") +
+            (dashboard.data?.name || "仪表盘") +
             (dashboard.data?.owner === "LANGFUSE"
-              ? " (Langfuse Maintained)"
+              ? "（由 Langfuse 维护）"
               : ""),
           titleContent:
             hasCUDAccess && dashboard.data ? (
               <InlineEditText
                 value={dashboard.data.name}
                 required
-                aria-label="Rename dashboard"
+                aria-label="重命名仪表盘"
                 onSave={(name) => {
                   capture("dashboard:dashboard_renamed_inline", {
                     dashboard_id: dashboardId,
@@ -1149,19 +1147,19 @@ export default function DashboardDetail() {
             ) : undefined,
           breadcrumb: [
             {
-              name: "Dashboards",
+              name: "仪表盘",
               href: `/project/${projectId}/dashboards`,
             },
           ],
           help: {
             description:
-              dashboard.data?.description || "No description available",
+              dashboard.data?.description || "暂无描述",
           },
           actionButtonsLeft: (
             <>
               <MultiSelect
-                title="Environment"
-                label="Env"
+                title="环境"
+                label="环境"
                 values={selectedEnvironments}
                 onValueChange={useDebounce(setSelectedEnvironments)}
                 options={environmentOptions}
@@ -1186,9 +1184,9 @@ export default function DashboardDetail() {
                 setHomeDashboard.isPending) && (
                 <span
                   className="flex items-center"
-                  title="Saving..."
+                  title="保存中..."
                   role="status"
-                  aria-label="Saving"
+                  aria-label="保存中"
                 >
                   <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
                 </span>
@@ -1200,14 +1198,14 @@ export default function DashboardDetail() {
                   variant="outline"
                 >
                   {updateDashboardFilters.isPending
-                    ? "Saving..."
-                    : "Save Filters"}
+                    ? "保存中..."
+                    : "保存筛选"}
                 </Button>
               )}
               {hasRbacCUDAccess && (
                 <Button onClick={handleAddWidget}>
                   <PlusIcon size={16} className="mr-1 h-4 w-4" />
-                  Add Widget
+                  添加小部件
                 </Button>
               )}
               {hasCloneAccess && (
@@ -1217,7 +1215,7 @@ export default function DashboardDetail() {
                   disabled={mutateCloneDashboard.isPending}
                 >
                   <Copy size={16} className="mr-1 h-4 w-4" />
-                  Clone
+                  克隆
                 </Button>
               )}
               {hasRbacCUDAccess && (
@@ -1226,7 +1224,7 @@ export default function DashboardDetail() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      aria-label="More actions"
+                      aria-label="更多操作"
                     >
                       <MoreVertical className="h-4 w-4" />
                     </Button>
@@ -1240,7 +1238,7 @@ export default function DashboardDetail() {
                         }
                       >
                         <ClipboardPasteIcon className="mr-2 h-4 w-4" />
-                        Paste widget
+                        粘贴小部件
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
@@ -1260,14 +1258,14 @@ export default function DashboardDetail() {
                       }}
                     >
                       <HomeIcon className="mr-2 h-4 w-4" />
-                      {isCurrentHome ? "Shown on Home" : "Use as Home"}
+                      {isCurrentHome ? "已在首页展示" : "设为首页"}
                     </DropdownMenuItem>
                     {hasCUDAccess && (
                       <DropdownMenuItem
                         onClick={() => setIsEditDialogOpen(true)}
                       >
                         <PencilIcon className="mr-2 h-4 w-4" />
-                        Edit name & description
+                        编辑名称和描述
                       </DropdownMenuItem>
                     )}
                   </DropdownMenuContent>
@@ -1300,9 +1298,9 @@ export default function DashboardDetail() {
           <Layer name="modal">
             <div className="bg-background/80 pointer-events-none fixed inset-0 flex items-center justify-center backdrop-blur-xs">
               <div className="border-primary bg-background rounded-lg border-2 border-dashed px-8 py-6 text-center shadow-lg">
-                <p className="font-bold">Drop to import</p>
+                <p className="font-bold">拖放以导入</p>
                 <p className="text-muted-foreground text-sm">
-                  Langfuse dashboard or widget JSON
+                  Langfuse 仪表盘或小部件 JSON
                 </p>
               </div>
             </div>
@@ -1333,7 +1331,7 @@ export default function DashboardDetail() {
           }
           projectId={projectId}
           dashboardId={dashboardId}
-          dashboardName={dashboard.data?.name ?? "Dashboard"}
+          dashboardName={dashboard.data?.name ?? "仪表盘"}
           pendingDefinition={cloneFirstState.pendingDefinition}
           onCancel={() => {
             // Revert the attempted drag/resize by remounting the grid with
@@ -1347,7 +1345,7 @@ export default function DashboardDetail() {
         ) : dashboard.isError ? (
           <div className="flex h-64 items-center justify-center">
             <div className="text-destructive">
-              Error: {dashboard.error.message}
+              错误：{dashboard.error.message}
             </div>
           </div>
         ) : (

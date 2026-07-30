@@ -107,7 +107,7 @@ export function HeatmapSkeleton({
     <div
       className={cn("flex w-full flex-1 flex-col gap-4", className)}
       role="status"
-      aria-label="Loading heatmap visualization"
+      aria-label="加载热力图可视化中"
     >
       <div className="flex flex-1 items-stretch justify-center gap-1 sm:gap-2">
         {/* Y-axis label placeholder */}

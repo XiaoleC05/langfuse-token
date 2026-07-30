@@ -22,7 +22,7 @@ type EvaluatorSelectionStepProps = {
   queryErrorMessage: string | undefined;
   previewObservation: ObservationPreview | EventPreview | undefined;
   isPreviewLoading: boolean;
-  evaluatorScopeLabel: "observation" | "experiment";
+  evaluatorScopeLabel: "观测" | "实验";
   selectedEvaluatorIds: string[];
   evaluatorSearchQuery: string;
   onSearchQueryChange: (query: string) => void;
@@ -69,11 +69,11 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
 
   const getPromptPreview = (evaluator: Evaluator) => {
     if (isPreviewLoading) {
-      return "Loading preview...";
+      return "正在加载预览...";
     }
 
     if (!previewObservation) {
-      return "Preview unavailable for the current selection.";
+      return "当前选择无法预览。";
     }
 
     const mappingResult = observationVariableMappingList.safeParse(
@@ -81,7 +81,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
     );
 
     if (!mappingResult.success) {
-      return "Evaluator mapping is not valid for observation preview.";
+      return "评估器映射对观测预览无效。";
     }
 
     return renderPromptPreviewFromObservation({
@@ -95,18 +95,18 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
     <div className="flex h-full min-h-0 flex-col gap-2">
       <div className="flex min-h-0 flex-1 flex-col">
         {isQueryLoading ? (
-          <p className="text-muted-foreground text-sm">Loading evaluators...</p>
+          <p className="text-muted-foreground text-sm">正在加载评估器...</p>
         ) : isQueryError ? (
           <Card>
             <CardContent className="text-destructive p-4 text-sm">
-              Failed to load evaluators: {queryErrorMessage}
+              加载评估器失败：{queryErrorMessage}
             </CardContent>
           </Card>
         ) : eligibleEvaluators.length === 0 ? (
           <Card>
             <CardContent className="text-muted-foreground p-4 text-sm">
-              No {evaluatorScopeLabel}-scoped evaluators found. Create a new{" "}
-              {evaluatorScopeLabel}-scoped evaluator and it will appear here.
+              未找到{evaluatorScopeLabel}范围的评估器。创建一个新的{" "}
+              {evaluatorScopeLabel}范围的评估器，它将显示在此处。
             </CardContent>
           </Card>
         ) : (
@@ -115,7 +115,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
               <Input
                 autoFocus
                 className="pr-10"
-                placeholder="Search evaluators..."
+                placeholder="搜索评估器..."
                 value={evaluatorSearchQuery}
                 onChange={(event) =>
                   onSearchQueryChange(event.currentTarget.value)
@@ -128,7 +128,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
                   size="icon-sm"
                   className="absolute top-1/2 right-1.5 h-7 w-7 -translate-y-1/2"
                   onClick={() => onSearchQueryChange("")}
-                  aria-label="Clear evaluator search"
+                  aria-label="清除评估器搜索"
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -151,7 +151,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
                             <span>{evaluator.scoreName}</span>
                             <button
                               type="button"
-                              aria-label={`Remove ${evaluator.scoreName}`}
+                              aria-label={`移除 ${evaluator.scoreName}`}
                               className="hover:bg-muted rounded p-0.5"
                               onClick={() => onToggleEvaluator(evaluator.id)}
                             >
@@ -164,7 +164,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
                   ))
                 ) : (
                   <p className="text-muted-foreground text-xs">
-                    No evaluators selected
+                    未选择评估器
                   </p>
                 )}
               </div>
@@ -173,13 +173,13 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
             {filteredEvaluators.length === 0 ? (
               <div className="flex min-h-0 flex-1 items-center justify-center rounded-md border">
                 <p className="text-muted-foreground p-4 text-sm">
-                  No evaluators match your search.
+                  没有符合搜索条件的评估器。
                 </p>
               </div>
             ) : (
               <div className="min-h-0 flex-1 overflow-y-auto rounded-md border">
                 {filteredEvaluators.map((item, index, array) => {
-                  const templateLabel = `Template: ${item.evalTemplate?.name ?? "Deleted template"}`;
+                  const templateLabel = `模板：${item.evalTemplate?.name ?? "已删除的模板"}`;
 
                   return (
                     <div key={item.id}>
@@ -213,7 +213,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
                                 event.stopPropagation();
                               }}
                               onClick={(event) => event.stopPropagation()}
-                              aria-label={`Preview ${item.scoreName}`}
+                              aria-label={`预览 ${item.scoreName}`}
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -222,7 +222,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
                         <span className="mr-1">
                           <Checkbox
                             checked={selectedEvaluatorIds.includes(item.id)}
-                            aria-label={`Select ${item.scoreName}`}
+                            aria-label={`选择 ${item.scoreName}`}
                             onClick={(event) => event.stopPropagation()}
                             onCheckedChange={() => onToggleEvaluator(item.id)}
                           />
@@ -247,7 +247,7 @@ export function EvaluatorSelectionStep(props: EvaluatorSelectionStepProps) {
         onClick={onCreateEvaluator}
       >
         <Plus className="mr-1 h-4 w-4" />
-        Create new Evaluator
+        创建新评估器
       </Button>
     </div>
   );

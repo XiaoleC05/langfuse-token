@@ -25,7 +25,7 @@ export function TestModelMatchButton({
         onClick={() => setOpen(true)}
         data-testid="test-model-match-button"
       >
-        Test Model Match
+        测试模型匹配
       </ActionButton>
 
       <TestModelMatchDialog

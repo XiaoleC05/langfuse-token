@@ -126,7 +126,7 @@ const IOTableCellContent = ({
       <JSONView
         json={decodeUnicodeEscapesOnly(
           stringifiedJson.slice(0, IO_TABLE_CHAR_LIMIT) +
-            `...[truncated ${stringifiedJson.length - IO_TABLE_CHAR_LIMIT} characters]`,
+            `...[已截断 ${stringifiedJson.length - IO_TABLE_CHAR_LIMIT} 个字符]`,
           true, // greedy mode for double-escaped Unicode (e.g., \\uXXXX)
         )}
         className={cn(
@@ -138,7 +138,7 @@ const IOTableCellContent = ({
         borderless
       />
       <div className="text-muted-foreground text-xs">
-        Content was truncated.
+        内容已被截断。
       </div>
     </div>
   ) : (

@@ -56,7 +56,7 @@ export function MobileFullTextSearch({
       <Button
         variant="ghost"
         size="icon"
-        aria-label="Search"
+        aria-label="搜索"
         className="mr-1 h-7 w-7 shrink-0"
         onClick={() => submit(draft)}
       >
@@ -65,8 +65,8 @@ export function MobileFullTextSearch({
       <Input
         placeholder={
           tableAllowsFullTextSearch
-            ? "Search…"
-            : `Search (${metadataSearchFields?.join(", ") ?? ""})`
+            ? "搜索…"
+            : `搜索 (${metadataSearchFields?.join(", ") ?? ""})`
         }
         value={draft}
         onChange={(event) => {

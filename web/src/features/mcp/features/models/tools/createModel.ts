@@ -31,7 +31,7 @@ const CreateModelBaseSchema = z.object({
 export const [createModelTool, handleCreateModel] = defineTool({
   name: "createModel",
   description:
-    "Create a custom model definition for cost tracking/tokenization in the current project.",
+    "在当前项目中创建用于成本跟踪与分词的自定义模型定义。",
   baseSchema: CreateModelBaseSchema,
   inputSchema: PostModelsV1Body,
   handler: async (input, context) =>

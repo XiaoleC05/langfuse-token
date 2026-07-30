@@ -41,7 +41,7 @@ export async function buildAdminOrgContext(ctx: {
   if (ctx.session.user?.admin !== true) {
     throw new TRPCError({
       code: "FORBIDDEN",
-      message: "Only Langfuse admins can access this endpoint",
+      message: "仅 Langfuse 管理员可以访问此接口",
     });
   }
 

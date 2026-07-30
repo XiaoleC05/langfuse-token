@@ -103,10 +103,10 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
           customHeader
         ) : (
           <div className="flex items-center justify-between">
-            <p className="font-bold">Model</p>
+            <p className="font-bold">模型</p>
           </div>
         )}
-        <p className="text-xs">No LLM API key set in project. </p>
+        <p className="text-xs">项目中未设置 LLM API 密钥。</p>
         <CreateLLMApiKeyDialog
           open={createLlmApiKeyDialogOpen}
           setOpen={setCreateLlmApiKeyDialogOpen}
@@ -137,14 +137,14 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
         sideOffset={5}
       >
         <div className="mb-3">
-          <h4 className="mb-1 text-sm font-bold">Model Advanced Settings</h4>
+          <h4 className="mb-1 text-sm font-bold">模型高级设置</h4>
           <p className="text-muted-foreground text-xs">
-            Configure advanced parameters for your model.
+            为你的模型配置高级参数。
           </p>
         </div>
         <div className="space-y-4">
           <ModelParamsSlider
-            title="Temperature"
+            title="温度"
             modelParamsKey="temperature"
             formDisabled={formDisabled}
             enabled={modelParams.temperature.enabled}
@@ -153,11 +153,11 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
             min={0}
             max={modelParams.maxTemperature.value}
             step={0.01}
-            tooltip="The sampling temperature. Higher values will make the output more random, while lower values will make it more focused and deterministic."
+            tooltip="采样温度。较高的值会使输出更随机,较低的值会使输出更集中、更确定。"
             updateModelParam={updateModelParamValue}
           />
           <ModelParamsSlider
-            title="Output token limit"
+            title="输出 Token 上限"
             modelParamsKey="max_tokens"
             formDisabled={formDisabled}
             enabled={modelParams.max_tokens.enabled}
@@ -166,7 +166,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
             min={1}
             max={16384}
             step={1}
-            tooltip="The maximum number of tokens that can be generated in the chat completion."
+            tooltip="聊天补全中可生成的最大 Token 数。"
             updateModelParam={updateModelParamValue}
           />
           <ModelParamsSlider
@@ -179,13 +179,13 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
             min={0}
             max={1}
             step={0.01}
-            tooltip="An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both."
+            tooltip="一种与温度采样并列的采样方式,称为核采样(nucleus sampling),模型只考虑概率质量累计达到 top_p 的 Token。例如 0.1 表示仅考虑概率质量前 10% 的 Token。一般建议只调整 top_p 或温度其中之一,而非两者同时调整。"
             updateModelParam={updateModelParamValue}
           />
           {modelParams.adapter.value === LLMAdapter.VertexAI &&
             modelParams.maxReasoningTokens && (
               <ModelParamsSlider
-                title="Max. Reasoning Tokens"
+                title="最大推理 Token 数"
                 modelParamsKey="maxReasoningTokens"
                 formDisabled={formDisabled}
                 enabled={modelParams.maxReasoningTokens.enabled}
@@ -194,7 +194,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
                 min={-1}
                 max={24576}
                 step={1}
-                tooltip="Maximum tokens for model thinking/reasoning. Set to -1 for default (auto) thinking, 0 to disable. Only supported on Gemini 2.5+ models."
+                tooltip="模型思考/推理的最大 Token 数。设为 -1 表示默认(自动)思考,设为 0 表示禁用。仅 Gemini 2.5 及以上模型支持。"
                 updateModelParam={updateModelParamValue}
               />
             )}
@@ -276,15 +276,14 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
 
         {modelParams.model.value?.startsWith("o1-") ? (
           <p className="text-dark-yellow mt-1 text-xs">
-            For {modelParams.model.value}, the system message and the
-            temperature, max_tokens and top_p setting are not supported while it
-            is in beta.{" "}
+            {modelParams.model.value} 处于测试阶段,暂不支持系统消息以及
+            temperature、max_tokens 和 top_p 设置。{" "}
             <a
               href="https://platform.openai.com/docs/guides/reasoning/beta-limitations"
               target="_blank"
               rel="noreferrer noopener"
             >
-              More info ↗
+              了解更多 ↗
             </a>
           </p>
         ) : null}
@@ -299,7 +298,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
     >
       {!isEmbedded ? (
         <div className="flex items-center justify-between">
-          {customHeader ? customHeader : <p className="font-bold">Model</p>}
+          {customHeader ? customHeader : <p className="font-bold">模型</p>}
           {SettingsButton}
         </div>
       ) : customHeader ? (
@@ -314,7 +313,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
       <div className="space-y-4">
         <div className="space-y-3">
           <ModelParamsSelect
-            title="Provider"
+            title="提供商"
             modelParamsKey="provider"
             disabled={formDisabled}
             value={modelParams.provider.value}
@@ -323,7 +322,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
             layout="vertical"
           />
           <ModelParamsSelect
-            title="Model name"
+            title="模型名称"
             modelParamsKey="model"
             disabled={formDisabled}
             value={modelParams.model.value}
@@ -514,7 +513,7 @@ const ModelParamsSlider = ({
           />
           {setModelParamEnabled ? (
             <Switch
-              title={`Control sending the ${title} parameter`}
+              title={`控制是否发送 ${title} 参数`}
               disabled={formDisabled}
               checked={enabled}
               onCheckedChange={(checked) => {
@@ -568,22 +567,22 @@ const ProviderOptionsInput = ({
               (!enabled || formDisabled) && "text-muted-foreground",
             )}
           >
-            Additional options
+            附加选项
           </span>
           <Tooltip>
             <TooltipTrigger>
               <InfoIcon className="text-muted-foreground size-3" />
             </TooltipTrigger>
             <TooltipContent className="max-w-[200px] p-2">
-              Additional options to pass to the invocation. Please check your
-              provider&apos;s API reference for supported values.
+              传递给调用请求的附加选项。支持的取值请参阅你所用提供商的 API
+              参考文档。
             </TooltipContent>
           </Tooltip>
         </div>
         <div className="flex flex-row space-x-3">
           {setModelParamEnabled ? (
             <Switch
-              title="Control sending the additional options parameter"
+              title="控制是否发送附加选项参数"
               disabled={formDisabled}
               checked={enabled}
               onCheckedChange={(checked) => {
@@ -606,7 +605,7 @@ const ProviderOptionsInput = ({
                 updateModelParam("providerOptions", parsed);
                 setError(null);
               } catch {
-                setError("Invalid JSON Object");
+                setError("无效的 JSON 对象");
               }
             }}
             editable={enabled && !formDisabled}
@@ -693,7 +692,7 @@ function AddLlmConnectionSelectAction({ onOpen }: { onOpen: () => void }) {
       <SelectSeparator />
       <Button type="button" variant="secondary" onClick={onOpen}>
         <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-        Add LLM Connection
+        添加 LLM 连接
       </Button>
     </>
   );

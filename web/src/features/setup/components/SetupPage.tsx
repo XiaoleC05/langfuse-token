@@ -29,15 +29,15 @@ export function SetupPage() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Setup",
+        title: "初始设置",
         help: {
           description:
-            "Create a new organization. This will be used to manage your projects and teams.",
+            "创建新组织。组织用于管理你的项目和团队。",
         },
         ...(stepInt === 1 && {
           breadcrumb: [
             {
-              name: "Organizations",
+              name: "组织",
               href: "/",
             },
           ],
@@ -54,7 +54,7 @@ export function SetupPage() {
                   : "text-foreground font-bold",
               )}
             >
-              1. Create Organization
+              1. 创建组织
               {stepInt > 1 && <Check className="ml-1 inline-block h-3 w-3" />}
             </BreadcrumbPage>
           </BreadcrumbItem>
@@ -67,7 +67,7 @@ export function SetupPage() {
                   : "text-foreground font-bold",
               )}
             >
-              2. Create Project
+              2. 创建项目
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -77,9 +77,9 @@ export function SetupPage() {
           // 1. Create Org
           stepInt === 1 && (
             <div>
-              <Header title="New Organization" />
+              <Header title="新建组织" />
               <p className="text-muted-foreground mb-4 text-sm">
-                Organizations are used to manage your projects and teams.
+                组织用于管理你的项目和团队。
               </p>
               <NewOrganizationForm
                 onSuccess={(orgId) => {
@@ -93,11 +93,10 @@ export function SetupPage() {
           // 2. Create Project
           stepInt === 2 && organization && (
             <div>
-              <Header title="New Project" />
+              <Header title="新建项目" />
               <p className="text-muted-foreground mb-4 text-sm">
-                Projects are used to group traces, datasets, evals and prompts.
-                Environments can be separated using the built-in environment
-                feature.
+                项目用于对追踪、数据集、评估和提示词进行分组。
+                可使用内置的环境功能隔离不同环境。
               </p>
               <NewProjectForm
                 orgId={organization.id}

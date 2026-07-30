@@ -59,7 +59,7 @@ export async function handleUpdateMembership(
   const validatedBody = MembershipSchema.safeParse(req.body);
   if (!validatedBody.success) {
     return res.status(400).json({
-      error: "Invalid request body",
+      error: "请求体无效",
       details: validatedBody.error.issues,
     });
   }
@@ -84,7 +84,7 @@ export async function handleUpdateMembership(
 
   if (!orgMembership) {
     return res.status(404).json({
-      error: "User is not a member of this organization",
+      error: "该用户不是此组织的成员",
     });
   }
 
@@ -125,7 +125,7 @@ export async function handleDeleteMembership(
   const validatedBody = DeleteMembershipSchema.safeParse(req.body);
   if (!validatedBody.success) {
     return res.status(400).json({
-      error: "Invalid request body",
+      error: "请求体无效",
       details: validatedBody.error.issues,
     });
   }
@@ -149,14 +149,14 @@ export async function handleDeleteMembership(
 
   if (!membership) {
     return res.status(404).json({
-      error: "Project membership not found",
+      error: "未找到项目成员关系",
     });
   }
 
   // Verify the membership belongs to the correct organization
   if (membership.organizationMembership.orgId !== orgId) {
     return res.status(403).json({
-      error: "Project membership does not belong to this organization",
+      error: "该项目成员关系不属于此组织",
     });
   }
 
@@ -171,7 +171,7 @@ export async function handleDeleteMembership(
   });
 
   return res.status(200).json({
-    message: "Project membership deleted successfully",
+    message: "项目成员关系已删除",
     userId: validatedBody.data.userId,
   });
 }

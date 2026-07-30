@@ -134,7 +134,7 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
   selectedChannel: selectedChannelProp,
   onChannelSelect,
   disabled = false,
-  placeholder = "Select a channel",
+  placeholder = "选择频道",
   memberOnly = false,
   filterChannels,
   showRefreshButton = true,
@@ -285,7 +285,7 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
           <PopoverContent className="w-full p-0" align="start">
             <Command shouldFilter={false}>
               <CommandInput
-                placeholder="Search channels..."
+                placeholder="搜索频道..."
                 value={searchValue}
                 onValueChange={setSearchValue}
               />
@@ -300,9 +300,9 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
                       <Hash className="text-muted-foreground h-4 w-4" />
                       <span
                         className="flex-1 truncate"
-                        title={`Use &quot; ${effectiveName} &quot;`}
+                        title={`使用 &quot;${effectiveName}&quot;`}
                       >
-                        Use &quot;{effectiveName}&quot;
+                        使用 &quot;{effectiveName}&quot;
                       </span>
                     </CommandItem>
                   </CommandGroup>
@@ -310,7 +310,7 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
                 {!isLoadingChannels &&
                   !canUseTypedName &&
                   filteredChannels.length === 0 && (
-                    <CommandEmpty>No channels available.</CommandEmpty>
+                    <CommandEmpty>无可用频道。</CommandEmpty>
                   )}
                 <CommandGroup
                   className="p-0"
@@ -350,10 +350,9 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
                       <RefreshCw className="h-4 w-4 animate-spin" />
                       <span
                         className="flex-1 truncate"
-                        title="Loading Slack channels. This can take a while for large workspaces."
+                        title="正在加载Slack频道，对于大型工作区可能需要一些时间。"
                       >
-                        Loading Slack channels. This can take a while for large
-                        workspaces.
+                        正在加载Slack频道，对于大型工作区可能需要一些时间。
                       </span>
                     </CommandItem>
                   </CommandGroup>
@@ -380,16 +379,15 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
       {/* Channel stats */}
       {channelsData?.channels && !isLoadingChannels ? (
         <div className="text-muted-foreground text-xs">
-          {filteredChannels.length} of {channelsData.channels.length} channels
-          {memberOnly && " (member only)"}
+          {filteredChannels.length} / {channelsData.channels.length} 个频道
+          {memberOnly && "（仅成员）"}
         </div>
       ) : null}
 
       {error && (
         <Alert>
           <AlertDescription>
-            Failed to load channels. You can still enter a channel name
-            manually, or check your Slack connection and try again.
+            无法加载频道。您仍可手动输入频道名称，或检查Slack连接后重试。
           </AlertDescription>
         </Alert>
       )}
@@ -399,7 +397,7 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            Private channels are not visible. To access private channels,{" "}
+            私有频道不可见。要访问私有频道，{" "}
             <button
               type="button"
               className="font-bold underline"
@@ -411,9 +409,9 @@ export const ChannelSelector: React.FC<ChannelSelectorProps> = ({
                 )
               }
             >
-              re-authenticate your Slack integration
+              重新认证您的Slack集成
             </button>{" "}
-            to grant the required permissions.
+            以授予所需权限。
           </AlertDescription>
         </Alert>
       )}

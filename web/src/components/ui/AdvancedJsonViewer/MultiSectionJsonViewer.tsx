@@ -231,7 +231,7 @@ export const MultiSectionJsonViewer = forwardRef<
   );
 
   if (!tree) {
-    return <div className={className}>Building tree...</div>;
+    return <div className={className}>正在构建树…</div>;
   }
 
   return (

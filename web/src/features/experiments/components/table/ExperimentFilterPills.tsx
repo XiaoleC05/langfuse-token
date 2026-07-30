@@ -107,7 +107,7 @@ function FilterPillWithTarget({
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-1" align="start">
           <div className="text-muted-foreground px-2 py-1.5 text-xs font-bold">
-            Target Experiment
+            目标实验
           </div>
           <div className="space-y-0.5">
             {selectedExperimentNames.map((exp) => (

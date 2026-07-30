@@ -41,7 +41,7 @@ export default async function handler(
     traceException(e);
     logger.error("Health check failed", e);
     return res.status(503).json({
-      status: "Health check failed",
+      status: "健康检查失败",
       version: VERSION.replace("v", ""),
     });
   }

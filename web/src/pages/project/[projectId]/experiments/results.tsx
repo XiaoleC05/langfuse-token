@@ -74,7 +74,7 @@ export default function ExperimentResults() {
   // Show spinner while session loads or while redirecting when beta is off
   if (!isExperimentsBetaActive) {
     return (
-      <Page headerProps={{ title: "Experiments" }}>
+      <Page headerProps={{ title: "实验" }}>
         <div className="flex h-full items-center justify-center">
           <Spinner size="xl" variant="muted" />
         </div>
@@ -86,11 +86,11 @@ export default function ExperimentResults() {
     <Page
       headerProps={{
         title: hasBaseline
-          ? (experiment?.name ?? baselineId ?? "Results")
-          : "Results",
+          ? (experiment?.name ?? baselineId ?? "结果")
+          : "结果",
         itemType: "EXPERIMENT",
         breadcrumb: [
-          { name: "Experiments", href: `/project/${projectId}/experiments` },
+          { name: "实验", href: `/project/${projectId}/experiments` },
         ],
         tabsProps: {
           tabs: getExperimentRunTabs(projectId),
@@ -101,7 +101,7 @@ export default function ExperimentResults() {
             {hasBaseline && comparisonIds.length > 0 && (
               <Button variant="outline" onClick={clearBaseline}>
                 <X className="h-4 w-4" />
-                <span className="ml-2 hidden md:inline">Clear baseline</span>
+                <span className="ml-2 hidden md:inline">清除基线</span>
               </Button>
             )}
 

@@ -8,7 +8,7 @@ import { PostDatasetItemMcpInput } from "../schema";
 export const [upsertDatasetItemTool, handleUpsertDatasetItem] = defineTool({
   name: "upsertDatasetItem",
   description:
-    "Upsert a dataset item (one example in a dataset) by dataset ID. Item IDs are unique per project across all datasets, so an ID used in one dataset cannot be reused in another.",
+    "按数据集 ID 创建或更新数据集条目(数据集中的一个示例)。条目 ID 在项目内跨所有数据集唯一,因此在一个数据集中使用过的 ID 不能在另一个数据集中重复使用。",
   baseSchema: PostDatasetItemMcpInput,
   inputSchema: PostDatasetItemMcpInput,
   handler: async (input, context) =>

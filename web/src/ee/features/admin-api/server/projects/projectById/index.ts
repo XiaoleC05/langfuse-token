@@ -28,7 +28,7 @@ export async function handleUpdateProject(
       projectNameSchema.parse({ name });
     } catch {
       return res.status(400).json({
-        message: "Invalid project name. Should be between 3 and 60 characters.",
+        message: "项目名称无效。长度应在 3 到 60 个字符之间。",
       });
     }
 
@@ -38,7 +38,7 @@ export async function handleUpdateProject(
         parsedMetadata = JSON.parse(metadata);
       } catch (error) {
         return res.status(400).json({
-          message: `Invalid metadata. Should be a valid JSON object: ${error}`,
+          message: `元数据无效。应为有效的 JSON 对象:${error}`,
         });
       }
     }
@@ -49,7 +49,7 @@ export async function handleUpdateProject(
         Array.isArray(parsedMetadata))
     ) {
       return res.status(400).json({
-        message: "Invalid metadata. Should be a valid JSON object.",
+        message: "元数据无效。应为有效的 JSON 对象。",
       });
     }
 
@@ -59,7 +59,7 @@ export async function handleUpdateProject(
         projectRetentionSchema.parse({ retention });
       } catch {
         return res.status(400).json({
-          message: "Invalid retention value. Must be 0 or at least 3 days.",
+          message: "保留期值无效。必须为 0 或至少 3 天。",
         });
       }
 
@@ -73,7 +73,7 @@ export async function handleUpdateProject(
         if (!hasDataRetentionEntitlement) {
           return res.status(403).json({
             message:
-              "The data-retention entitlement is required to set a non-zero retention period.",
+              "设置非零保留期需要 data-retention 权益。",
           });
         }
       }
@@ -108,7 +108,7 @@ export async function handleUpdateProject(
     });
   } catch (error) {
     logger.error("Failed to update project", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "内部服务器错误" });
   }
 }
 
@@ -159,7 +159,7 @@ export async function handleDeleteProject(
     if (!projectDeleteQueue) {
       logger.error("ProjectDeleteQueue is not available");
       return res.status(500).json({
-        message: "Internal server error",
+        message: "内部服务器错误",
       });
     }
 
@@ -176,10 +176,10 @@ export async function handleDeleteProject(
     return res.status(202).json({
       success: true,
       message:
-        "Project deletion has been initiated and is being processed asynchronously",
+        "项目删除已启动，正在异步处理中",
     });
   } catch (error) {
     logger.error("Failed to delete project", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "内部服务器错误" });
   }
 }

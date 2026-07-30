@@ -79,7 +79,7 @@ export default function DocPopup({
               }}
               className="text-muted-foreground hover:text-primary mt-2 inline-flex items-center gap-1 text-xs underline underline-offset-2"
             >
-              Read docs
+              阅读文档
               <ExternalLink className="h-3 w-3" />
             </a>
           )}

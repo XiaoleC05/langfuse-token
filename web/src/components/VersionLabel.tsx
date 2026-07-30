@@ -61,7 +61,7 @@ export const VersionLabel = ({ className }: { className?: string }) => {
       : // no plan, oss
         {
           short: "OSS",
-          long: "Open Source",
+          long: "开源版",
         }
     : // null on cloud
       null;
@@ -80,6 +80,13 @@ export const VersionLabel = ({ className }: { className?: string }) => {
       : checkUpdate.data?.updateType === "minor"
         ? "text-dark-yellow"
         : undefined;
+
+  const updateTypeLabel =
+    checkUpdate.data?.updateType === "major"
+      ? "大"
+      : checkUpdate.data?.updateType === "minor"
+        ? "小"
+        : checkUpdate.data?.updateType;
 
   return (
     <DropdownMenu>
@@ -107,14 +114,14 @@ export const VersionLabel = ({ className }: { className?: string }) => {
         {hasUpdate ? (
           <>
             <DropdownMenuLabel>
-              New {checkUpdate.data?.updateType} version:{" "}
+              新{updateTypeLabel}版本:{" "}
               {checkUpdate.data?.latestRelease}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
           </>
         ) : !isLangfuseCloud ? (
           <>
-            <DropdownMenuLabel>This is the latest release</DropdownMenuLabel>
+            <DropdownMenuLabel>当前已是最新版本</DropdownMenuLabel>
             <DropdownMenuSeparator />
           </>
         ) : null}
@@ -133,14 +140,14 @@ export const VersionLabel = ({ className }: { className?: string }) => {
             target="_blank"
           >
             <SiGithub size={16} className="mr-2" />
-            Releases
+            发布版本
           </Link>
         </DropdownMenuItem>
         {!isLangfuseCloud && (
           <DropdownMenuItem asChild>
             <Link href="/background-migrations">
               <ArrowUp10 size={16} className="mr-2" />
-              Background Migrations
+              后台迁移
               {showBackgroundMigrationStatus && (
                 <StatusBadge
                   type={backgroundMigrationStatus.data?.status.toLowerCase()}
@@ -154,20 +161,20 @@ export const VersionLabel = ({ className }: { className?: string }) => {
         <DropdownMenuItem asChild>
           <Link href="https://langfuse.com/changelog" target="_blank">
             <Newspaper size={16} className="mr-2" />
-            Changelog
+            更新日志
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="https://langfuse.com/roadmap" target="_blank">
             <Map size={16} className="mr-2" />
-            Roadmap
+            路线图
           </Link>
         </DropdownMenuItem>
         {!isLangfuseCloud && (
           <DropdownMenuItem asChild>
             <Link href="https://langfuse.com/pricing-self-host" target="_blank">
               <Info size={16} className="mr-2" />
-              Compare Versions
+              版本对比
             </Link>
           </DropdownMenuItem>
         )}
@@ -180,7 +187,7 @@ export const VersionLabel = ({ className }: { className?: string }) => {
                 target="_blank"
               >
                 <HardDriveDownload size={16} className="mr-2" />
-                Update
+                更新
               </Link>
             </DropdownMenuItem>
           </>

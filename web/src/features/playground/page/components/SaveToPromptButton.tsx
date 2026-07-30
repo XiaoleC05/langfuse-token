@@ -104,11 +104,11 @@ export const SaveToPromptButton: React.FC<SaveToPromptButtonProps> = ({
                 )}
               >
                 <Save size={14} />
-                <span className="sr-only">Save as prompt</span>
+                <span className="sr-only">保存为提示词</span>
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
-          <TooltipContent className="text-xs">Save as prompt</TooltipContent>
+          <TooltipContent className="text-xs">保存为提示词</TooltipContent>
         </Tooltip>
         <PopoverTrigger asChild>
           <Button
@@ -119,22 +119,22 @@ export const SaveToPromptButton: React.FC<SaveToPromptButtonProps> = ({
             )}
           >
             <Save size={14} />
-            <span>Save as prompt</span>
+            <span>保存为提示词</span>
           </Button>
         </PopoverTrigger>
         <PopoverContent>
           <Button className="mt-2 w-full" onClick={handleNewPrompt}>
-            Save as new prompt
+            保存为新提示词
           </Button>
           <Divider />
           <InputCommand className="min-h-32">
             <InputCommandInput
-              placeholder="Search chat prompts..."
+              placeholder="搜索聊天提示词..."
               variant="bottom"
             />
             <InputCommandEmpty>
-              No chat prompt found
-              <DocPopup description="Prompts from the playground can only be saved to 'chat' prompts as they include multiple system/user messages." />
+              未找到聊天提示词
+              <DocPopup description="实验场的提示词只能保存为「聊天」类型提示词，因为它们包含多条系统/用户消息。" />
             </InputCommandEmpty>
             <InputCommandGroup className="mt-2">
               <InputCommandList>
@@ -175,7 +175,7 @@ export const SaveToPromptButton: React.FC<SaveToPromptButtonProps> = ({
             disabled={!Boolean(selectedPromptId)}
             onClick={handleNewPromptVersion}
           >
-            Save as new prompt version
+            保存为新提示词版本
           </Button>
         </PopoverContent>
       </Popover>
@@ -190,7 +190,7 @@ export function Divider() {
         <div className="flex-1 border-b-2 border-gray-200" />
         <div className="flex-1" />
       </div>
-      <p className="mx-2 text-sm text-gray-400">or</p>
+      <p className="mx-2 text-sm text-gray-400">或</p>
       <div className="flex flex-1 flex-col">
         <div className="flex-1 border-b-2 border-gray-200" />
         <div className="flex-1" />

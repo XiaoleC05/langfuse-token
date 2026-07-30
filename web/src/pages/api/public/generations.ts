@@ -54,7 +54,7 @@ export default withMiddlewares({
       }
       if (result.successes.length !== 1) {
         logger.error("Failed to create generation", { result });
-        throw new Error("Failed to create generation");
+        throw new Error("创建生成失败");
       }
       return { id: event.body.id };
     },
@@ -94,7 +94,7 @@ export default withMiddlewares({
       }
       if (result.successes.length !== 1) {
         logger.error("Failed to update generation", { result });
-        throw new Error("Failed to update generation");
+        throw new Error("更新生成失败");
       }
       return { id: event.body.id };
     },

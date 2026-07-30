@@ -72,7 +72,7 @@ export const NewProjectForm = ({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project name</FormLabel>
+              <FormLabel>项目名称</FormLabel>
               <FormControl>
                 <Input
                   placeholder="my-llm-project"
@@ -85,7 +85,7 @@ export const NewProjectForm = ({
           )}
         />
         <Button type="submit" loading={createProjectMutation.isPending}>
-          Create
+创建
         </Button>
       </form>
     </Form>

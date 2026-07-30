@@ -110,38 +110,38 @@ export const ChartViewPanel = React.memo(function ChartViewPanel({
       {open ? (
         <div className="flex w-full flex-col gap-3 overflow-y-auto border-t p-3 md:w-72 md:shrink-0 md:border-t-0 md:border-l">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold">Visualize</span>
+            <span className="text-sm font-bold">可视化</span>
             <Button
               variant="ghost"
               size="icon-xs"
-              aria-label="Collapse panel"
+              aria-label="收起面板"
               onClick={() => setOpen(false)}
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
-          <PanelField label="Chart type">
+          <PanelField label="图表类型">
             <ChartTypePicker
               value={config.chartType}
               onChange={onChartType}
               showLabels
             />
           </PanelField>
-          <PanelField label="Metric">
+          <PanelField label="指标">
             <MetricSelect value={config.metric} onChange={onMetric} />
           </PanelField>
-          <PanelField label="Aggregation">
+          <PanelField label="聚合方式">
             <AggregationSelect
               metric={config.metric}
               value={config.aggregation}
               onChange={onAggregation}
             />
           </PanelField>
-          <PanelField label="Breakdown">
+          <PanelField label="拆分维度">
             <BreakdownSelect value={config.breakdown} onChange={onBreakdown} />
           </PanelField>
           {granularitySlot ? (
-            <PanelField label="Granularity">{granularitySlot}</PanelField>
+            <PanelField label="粒度">{granularitySlot}</PanelField>
           ) : null}
         </div>
       ) : (
@@ -149,7 +149,7 @@ export const ChartViewPanel = React.memo(function ChartViewPanel({
           <Button
             variant="ghost"
             size="icon-xs"
-            aria-label="Expand panel"
+            aria-label="展开面板"
             onClick={() => setOpen(true)}
           >
             <ChevronLeft className="h-4 w-4" />

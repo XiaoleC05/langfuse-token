@@ -8,42 +8,42 @@ import { FileText, GitBranch, Zap, BarChart4 } from "lucide-react";
 export function PromptsOnboarding({ projectId }: { projectId: string }) {
   const valuePropositions: ValueProposition[] = [
     {
-      title: "Decoupled from code",
+      title: "与代码解耦",
       description:
-        "Deploy new prompts without application redeployment, making updates faster and easier",
+        "无需重新部署应用程序即可部署新提示词，使更新更快更简单",
       icon: <FileText className="h-4 w-4" />,
     },
     {
-      title: "Edit in UI or programmatically",
+      title: "UI 或编程方式编辑",
       description:
-        "Non-technical users can easily edit prompts in the UI. Developers can optionally update prompts programmatically via the API and SDKs",
+        "非技术用户可轻松在 UI 中编辑提示词。开发者可选择通过 API 和 SDK 以编程方式更新提示词",
       icon: <GitBranch className="h-4 w-4" />,
     },
     {
-      title: "Performance optimized",
+      title: "性能优化",
       description:
-        "Client-side caching prevents latency or availability issues for your applications",
+        "客户端缓存可避免应用程序的延迟或可用性问题",
       icon: <Zap className="h-4 w-4" />,
     },
     {
-      title: "Compare metrics",
+      title: "对比指标",
       description:
-        "Track latency, cost, and evaluation metrics across different prompt versions",
+        "跨不同提示词版本追踪延迟、成本和评估指标",
       icon: <BarChart4 className="h-4 w-4" />,
     },
   ];
 
   return (
     <SplashScreen
-      title="Get Started with Prompt Management"
-      description="Langfuse Prompt Management helps you centrally manage, version control, and collaboratively iterate on your prompts. Start using prompt management to improve your LLM application's performance and maintainability."
+      title="开始使用提示词管理"
+      description="Langfuse 提示词管理可帮助您集中管理、版本控制和协作迭代提示词。开始使用提示词管理来提升 LLM 应用程序的性能和可维护性。"
       valuePropositions={valuePropositions}
       primaryAction={{
-        label: "Create Prompt",
+        label: "创建提示词",
         href: `/project/${projectId}/prompts/new`,
       }}
       secondaryAction={{
-        label: "Learn More",
+        label: "了解更多",
         href: "https://langfuse.com/docs/prompt-management/get-started",
       }}
     />

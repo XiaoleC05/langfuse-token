@@ -72,7 +72,7 @@ export const GenerationOutput = () => {
           onClick={() => {
             setIsJson((prev) => !prev);
           }}
-          title="Toggle Input/Output JSON"
+          title="切换输入/输出 JSON"
         >
           <BracesIcon size={15} />
         </Button>
@@ -81,7 +81,7 @@ export const GenerationOutput = () => {
           size="icon"
           variant="secondary"
           onClick={!isCopied ? handleCopy : undefined}
-          title="Copy output"
+          title="复制输出"
         >
           {isCopied ? checkIcon : copyIcon}
         </Button>
@@ -90,11 +90,11 @@ export const GenerationOutput = () => {
           className="flex items-center gap-1 p-0 px-1 whitespace-nowrap"
           variant="secondary"
           onClick={!isAdded ? handleAddAssistantMessage : undefined}
-          title="Add as assistant message"
+          title="添加为助手消息"
           disabled={isAdded}
         >
           {isAdded ? checkIcon : plusIcon}
-          <span className="text-xs">Add to messages</span>
+          <span className="text-xs">添加到消息</span>
         </Button>
       </div>
     ) : null;
@@ -107,7 +107,7 @@ export const GenerationOutput = () => {
       >
         <div className="bg-muted sticky top-0 z-10 p-3">
           <div className="flex w-full items-center">
-            <p className="flex-1 text-xs font-bold">Output</p>
+            <p className="flex-1 text-xs font-bold">输出</p>
             {copyButton}
           </div>
         </div>

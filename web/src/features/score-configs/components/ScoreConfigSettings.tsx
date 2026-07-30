@@ -13,18 +13,18 @@ export function ScoreConfigSettings({ projectId }: { projectId: string }) {
 
   return (
     <div id="score-configs">
-      <Header title="Score Configs" />
+      <Header title="评分配置" />
       <p className="mb-2 text-sm">
-        Score configs define which scores are available for{" "}
+        评分配置定义了项目中可用于{" "}
         <a
           href="https://langfuse.com/docs/evaluation/evaluation-methods/annotation"
           className="underline"
           target="_blank"
           rel="noopener noreferrer"
         >
-          annotation
+          标注
         </a>{" "}
-        in your project. Please note that all score configs are immutable.
+        的评分。请注意,所有评分配置均不可更改。
       </p>
       <ScoreConfigsTable projectId={projectId} />
     </div>

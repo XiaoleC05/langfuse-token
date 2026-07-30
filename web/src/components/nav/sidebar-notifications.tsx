@@ -29,37 +29,37 @@ type SidebarNotification = {
 export const notifications: SidebarNotification[] = [
   {
     id: "lw5-1",
-    title: "Launch Week: Day 1",
+    title: "发布周：第 1 天",
     description:
-      "Run experiments inside GitHub Actions to test every PR against a Langfuse dataset.",
+      "在 GitHub Actions 中运行实验，针对 Langfuse 数据集测试每个 PR。",
     link: "https://langfuse.com/changelog/2026-05-25-experiment-ci-cd-gates",
-    linkTitle: "Learn more",
+    linkTitle: "了解更多",
     createdAt: "2026-05-25",
   },
   {
     id: "lw5-2",
-    title: "Launch Week: Day 2",
+    title: "发布周：第 2 天",
     description:
-      "Langfuse agent skill turns Langfuse into a headless platform to evaluate, query and instrument your application.",
+      "Langfuse Agent Skill 将 Langfuse 变为无头平台，用于评估、查询和埋点您的应用。",
     link: "https://langfuse.com/changelog/2026-05-26-langfuse-agent-skill",
-    linkTitle: "Learn more",
+    linkTitle: "了解更多",
     createdAt: "2026-05-26",
   },
   {
     id: "lw5-3",
-    title: "Launch Week: Day 3",
-    description: "Fast full-text search on observation I/O via the UI and API",
+    title: "发布周：第 3 天",
+    description: "通过 UI 和 API 对观测 I/O 进行快速全文搜索",
     link: "https://langfuse.com/changelog/2026-05-27-clickhouse-full-text-search-fast-mode",
-    linkTitle: "Learn more",
+    linkTitle: "了解更多",
     createdAt: "2026-05-27",
   },
   {
     id: "lw5-4",
-    title: "Launch Week: Day 4",
+    title: "发布周：第 4 天",
     description:
-      "Code evaluators let you score observations and experiments with Python/TypeScript checks.",
+      "代码评估器让您可以用 Python/TypeScript 检查来评分观测和实验。",
     link: "https://langfuse.com/changelog/2026-05-28-code-evaluators",
-    linkTitle: "Learn more",
+    linkTitle: "了解更多",
     createdAt: "2026-05-28",
   },
   {

@@ -23,12 +23,12 @@ export const DeleteAnnotationQueueButton = ({
       icon
       variant="ghost"
       size="icon-xs"
-      title="Delete"
-      aria-label="delete"
+      title="删除"
+      aria-label="删除"
       captureDeleteOpen={() => undefined}
       captureDeleteSuccess={() => undefined}
-      customDeletePrompt="This action cannot be undone and removes queue items attached to this queue. Scores added while annotating in this queue will not be deleted."
-      entityToDeleteName="annotation queue"
+      customDeletePrompt="此操作不可撤销，将移除此队列中的队列条目。在此队列中标注时添加的评分不会被删除。"
+      entityToDeleteName="标注队列"
       executeDeleteMutation={async (onSuccess) => {
         await deleteMutation.mutateAsync({
           projectId,

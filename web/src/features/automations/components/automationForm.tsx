@@ -57,15 +57,15 @@ import { Info } from "lucide-react";
 
 // Define Slack action schema
 const slackSchema = z.object({
-  channelId: z.string().min(1, "Channel is required"),
-  channelName: z.string().min(1, "Channel name is required"),
+  channelId: z.string().min(1, "频道为必填"),
+  channelName: z.string().min(1, "频道名称为必填"),
   messageTemplate: z.string().optional(),
 });
 
 // Define GitHub Dispatch action schema
 const githubDispatchSchema = z.object({
-  url: z.url("Invalid URL"),
-  eventType: z.string().min(1, "Event type is required").max(100),
+  url: z.url("URL 无效"),
+  eventType: z.string().min(1, "事件类型为必填").max(100),
   githubToken: z.string(),
   displayGitHubToken: z.string().optional(),
 });
@@ -112,7 +112,7 @@ const isSameOriginRedirect = (url: string): boolean => {
 
 /** safeRedirectPath defends against open-redirect by requiring the URL to resolve back to the current origin. */
 const safeRedirectPath = z.string().refine(isSameOriginRedirect, {
-  message: "redirectUrl must resolve to the same origin",
+  message: "redirectUrl 必须指向同一源",
 });
 
 /** createAutomationPrefillSchema validates a decoded prefill payload. */
@@ -172,8 +172,8 @@ export const automationCreateHref = (
 
 // Define schemas for form validation
 const baseFormSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  eventSource: z.string().min(1, "Event source is required"),
+  name: z.string().min(1, "名称为必填").max(100),
+  eventSource: z.string().min(1, "事件源为必填"),
   eventAction: z.array(z.string()),
   status: z.enum(["ACTIVE", "INACTIVE"]),
   filter: z.array(z.any()).optional(),
@@ -205,7 +205,7 @@ const formSchema = z
       ctx.addIssue({
         code: "custom",
         path: ["eventAction"],
-        message: "At least one event action is required",
+        message: "至少选择一个事件动作",
       });
     }
   });
@@ -229,7 +229,7 @@ const EventSourceField = ({
       name="eventSource"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Event Source</FormLabel>
+          <FormLabel>事件源</FormLabel>
           <Select
             onValueChange={(value) =>
               onSourceChange(value as TriggerEventSource)
@@ -239,7 +239,7 @@ const EventSourceField = ({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select an event source" />
+                <SelectValue placeholder="选择事件源" />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
@@ -251,12 +251,12 @@ const EventSourceField = ({
                 </SelectItem>
               )}
               <SelectItem disabled={true} value="planned">
-                More coming soon...
+                更多即将推出...
               </SelectItem>
             </SelectContent>
           </Select>
           <FormDescription>
-            The event that triggers this automation.
+            触发此自动化的事件。
           </FormDescription>
           <FormMessage />
         </FormItem>
@@ -279,26 +279,26 @@ const PromptTriggerFields = ({
       name="eventAction"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Event Action</FormLabel>
+          <FormLabel>事件动作</FormLabel>
           <FormControl>
             <MultiSelect
-              title="Event Actions"
-              label="Actions"
+              title="事件动作"
+              label="动作"
               values={field.value}
               onValueChange={field.onChange}
               options={[
                 {
                   value: "created",
-                  description: "Whenever a new prompt version is created",
+                  description: "创建新提示词版本时",
                 },
                 {
                   value: "updated",
                   description:
-                    "Whenever tags or labels on a prompt version are updated",
+                    "更新提示词版本的标签或标注时",
                 },
                 {
                   value: "deleted",
-                  description: "Whenever a prompt version is deleted",
+                  description: "删除提示词版本时",
                 },
               ]}
               className="my-0 w-auto overflow-hidden"
@@ -307,7 +307,7 @@ const PromptTriggerFields = ({
             />
           </FormControl>
           <FormDescription>
-            The actions on the event source that trigger this automation.
+            触发此自动化的事件源动作。
           </FormDescription>
           <FormMessage />
         </FormItem>
@@ -318,7 +318,7 @@ const PromptTriggerFields = ({
       name="filter"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Filter</FormLabel>
+          <FormLabel>筛选</FormLabel>
           <FormControl>
             <InlineFilterBuilder
               columns={webhookActionFilterOptions()}
@@ -328,7 +328,7 @@ const PromptTriggerFields = ({
             />
           </FormControl>
           <FormDescription>
-            Add conditions to narrow down when this trigger fires.
+            添加条件以缩小触发范围。
           </FormDescription>
           <FormMessage />
         </FormItem>
@@ -341,16 +341,16 @@ const PromptTriggerFields = ({
 const MonitorTriggerFields = ({ projectId }: { projectId: string }) => (
   <Alert>
     <Info className="h-4 w-4" />
-    <AlertTitle>How Monitors Connect</AlertTitle>
+    <AlertTitle>监视器如何连接</AlertTitle>
     <AlertDescription>
-      Add this automation to a monitor from the{" "}
+      从{" "}
       <Link
         href={`/project/${projectId}/monitors/new`}
         className="text-primary underline underline-offset-2"
       >
-        create monitors page
+        创建监视器页面
       </Link>
-      .
+      将此自动化添加到监视器。
     </AlertDescription>
   </Alert>
 );
@@ -521,8 +521,8 @@ export const AutomationForm = ({
   const onSubmit = async (data: FormValues) => {
     if (!hasAccess) {
       showErrorToast(
-        "Permission Denied",
-        "You don't have permission to modify automations.",
+        "权限不足",
+        "您没有修改自动化的权限。",
       );
       return;
     }
@@ -533,8 +533,8 @@ export const AutomationForm = ({
 
     if (!validation.isValid) {
       showErrorToast(
-        "Validation Error",
-        validation.errors?.join(", ") || "Please fill in all required fields",
+        "校验错误",
+        validation.errors?.join(", ") || "请填写所有必填字段",
       );
       return;
     }
@@ -564,8 +564,8 @@ export const AutomationForm = ({
       });
 
       showSuccessToast({
-        title: "Automation Updated",
-        description: `Successfully updated automation "${resolvedName}".`,
+        title: "自动化已更新",
+        description: `已成功更新自动化"${resolvedName}"。`,
       });
 
       onSuccess?.(automation.id);
@@ -583,8 +583,8 @@ export const AutomationForm = ({
       });
 
       showSuccessToast({
-        title: "Automation Created",
-        description: `Successfully created automation "${resolvedName}".`,
+        title: "自动化已创建",
+        description: `已成功创建自动化"${resolvedName}"。`,
       });
 
       onSuccess?.(
@@ -597,7 +597,7 @@ export const AutomationForm = ({
 
   // Update button text based on if we're editing an existing automation
   const submitButtonText =
-    isEditing && automation ? "Update Automation" : "Save Automation";
+    isEditing && automation ? "更新自动化" : "保存自动化";
 
   // Update required fields based on action type
   const handleActionTypeChange = (value: ActionTypes) => {
@@ -671,12 +671,12 @@ export const AutomationForm = ({
               <FormField
                 control={form.control}
                 name="name"
-                rules={{ required: "Name is required" }}
+                rules={{ required: "名称为必填" }}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Automation name"
+                        placeholder="自动化名称"
                         {...field}
                         autoFocus={!automation}
                         disabled={!hasAccess || !isEditing}
@@ -693,7 +693,7 @@ export const AutomationForm = ({
               name="status"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center gap-2">
-                  <FormLabel className="text-sm font-bold">Active</FormLabel>
+                  <FormLabel className="text-sm font-bold">已启用</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value === "ACTIVE"}
@@ -714,9 +714,9 @@ export const AutomationForm = ({
         {!isProjectNotification && (
           <Card>
             <CardHeader>
-              <CardTitle>Trigger</CardTitle>
+              <CardTitle>触发器</CardTitle>
               <CardDescription>
-                Configure when this automation should run.
+                配置自动化的触发时机。
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -741,9 +741,9 @@ export const AutomationForm = ({
 
         <Card>
           <CardHeader>
-            <CardTitle>Action</CardTitle>
+            <CardTitle>动作</CardTitle>
             <CardDescription>
-              Configure what happens when the trigger fires.
+              配置触发器触发时的操作。
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -752,7 +752,7 @@ export const AutomationForm = ({
               name="actionType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Action Type</FormLabel>
+                  <FormLabel>动作类型</FormLabel>
                   <Select
                     onValueChange={handleActionTypeChange}
                     value={field.value}
@@ -760,7 +760,7 @@ export const AutomationForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an action type" />
+                        <SelectValue placeholder="选择动作类型" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -774,17 +774,17 @@ export const AutomationForm = ({
                             : actionType === "SLACK"
                               ? "Slack"
                               : actionType === "GITHUB_DISPATCH"
-                                ? "GitHub Dispatch"
-                                : "Annotation Queue"}
+                                ? "GitHub 工作流调度"
+                                : "注释队列"}
                         </SelectItem>
                       ))}
                       <SelectItem disabled={true} value="planned">
-                        More coming soon...
+                        更多即将推出...
                       </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    The type of action to perform when the trigger fires.
+                    触发器触发时执行的动作类型。
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -825,7 +825,7 @@ export const AutomationForm = ({
             <div className="grow"></div>
             <div className="flex gap-3">
               <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
+                取消
               </Button>
               <Button
                 type="submit"

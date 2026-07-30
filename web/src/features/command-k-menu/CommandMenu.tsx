@@ -346,12 +346,12 @@ function CommandMenuComponent({
       }}
     >
       <CommandInput
-        placeholder="Type a command or search..."
+        placeholder="输入命令或搜索..."
         className="border-none focus:border-none focus:ring-0 focus:ring-transparent focus:outline-hidden"
         onValueChange={debouncedSearchChange}
       />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty>未找到结果。</CommandEmpty>
         <MainNavigationGroup navItems={navItems} onNavigate={handleNavigate} />
         <ProjectsGroup onNavigate={handleNavigate} />
         <DashboardsGroup onNavigate={handleNavigate} />

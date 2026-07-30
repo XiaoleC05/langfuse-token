@@ -110,10 +110,10 @@ export function ResetPasswordPage({
   if (!passwordResetAvailable)
     return (
       <ErrorPage
-        title="Not available"
-        message="Password reset is not configured on this instance"
+        title="不可用"
+        message="此实例未配置密码重置功能"
         additionalButton={{
-          label: "Setup instructions",
+          label: "配置说明",
           href: "https://langfuse.com/self-hosting/security/authentication-and-sso#auth-email-password",
         }}
       />
@@ -123,8 +123,8 @@ export function ResetPasswordPage({
   const pageTitle = isSetMode ? "设置密码" : "重置密码";
   const submitLabel = isSetMode ? "设置密码" : "更新密码";
   const successMessage = isSetMode
-    ? "Password set successfully. Redirecting ..."
-    : "Password successfully updated. Redirecting ...";
+    ? "密码设置成功。正在跳转…"
+    : "密码更新成功。正在跳转…";
 
   return (
     <>
@@ -146,7 +146,7 @@ export function ResetPasswordPage({
               <Button asChild variant="ghost">
                 <Link href="/auth/sign-in">
                   <ArrowLeft className="mr-2 h-3 w-3" />
-                  Back to sign in
+                  返回登录
                 </Link>
               </Button>
             </div>
@@ -165,7 +165,7 @@ export function ResetPasswordPage({
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>邮箱</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -176,7 +176,7 @@ export function ResetPasswordPage({
                             {...field}
                           />
                           {emailVerified.verified && (
-                            <span title="Email verified">
+                            <span title="邮箱已验证">
                               <ShieldCheck className="text-muted-green absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform" />
                             </span>
                           )}
@@ -213,8 +213,8 @@ export function ResetPasswordPage({
                         <FormItem>
                           <FormLabel>
                             {isSetMode
-                              ? "Confirm Password"
-                              : "Confirm New Password"}
+                              ? "确认密码"
+                              : "确认新密码"}
                           </FormLabel>
                           <FormControl>
                             <PasswordInput
@@ -274,13 +274,12 @@ export function ResetPasswordPage({
         </div>
         {!isSetMode && session.status !== "authenticated" && (
           <div className="text-muted-foreground mx-auto mt-10 max-w-lg text-center text-xs">
-            You will only receive an email if an account with this email exists
-            and you have signed up with email and password. If you used an
-            authentication provider like Google, Gitlab, Okta, or GitHub, please{" "}
+            仅当该邮箱存在账户且您曾使用邮箱和密码注册时，您才会收到邮件。
+            如果您使用了 Google、Gitlab、Okta 或 GitHub 等认证提供商，请{" "}
             <Link href="/auth/sign-in" className="underline">
-              sign in
+              登录
             </Link>
-            .
+            。
           </div>
         )}
       </div>

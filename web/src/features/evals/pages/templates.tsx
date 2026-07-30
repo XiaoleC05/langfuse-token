@@ -33,9 +33,9 @@ export default function TemplatesPage() {
   return (
     <Page
       headerProps={{
-        title: "Evaluators",
+        title: "评估器",
         help: {
-          description: "View all langfuse managed and custom evaluators.",
+          description: "查看所有 langfuse 管理的和自定义的评估器。",
           href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
         },
         tabsProps: {
@@ -63,7 +63,7 @@ export default function TemplatesPage() {
                 ) : (
                   <Lock className="mr-2 h-4 w-4" />
                 )}
-                Custom Evaluator
+                自定义评估器
               </Link>
             </Button>
           </>

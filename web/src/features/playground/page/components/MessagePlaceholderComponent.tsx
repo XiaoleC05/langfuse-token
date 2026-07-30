@@ -32,7 +32,7 @@ export const MessagePlaceholderComponent: React.FC<{
 
         // Basic validation: must be an array of objects
         if (!Array.isArray(parsed)) {
-          setError("Input must be an array of objects");
+          setError("输入必须是对象数组");
           return;
         }
 
@@ -43,7 +43,7 @@ export const MessagePlaceholderComponent: React.FC<{
         );
 
         if (!allObjects) {
-          setError("All items must be objects");
+          setError("所有项必须是对象");
           return;
         }
 
@@ -51,7 +51,7 @@ export const MessagePlaceholderComponent: React.FC<{
         updateMessagePlaceholderValue(name, parsed as ChatMessage[]);
         setError(null);
       } catch {
-        setError("Invalid JSON format");
+        setError("无效的 JSON 格式");
       }
     },
     [name, updateMessagePlaceholderValue],
@@ -69,13 +69,13 @@ export const MessagePlaceholderComponent: React.FC<{
             className={`min-w-[90px] truncate font-mono ${hasConflict ? "text-red-500" : ""}`}
             title={name}
           >
-            {name ? name : "Unnamed placeholder"}
+            {name ? name : "未命名占位符"}
           </p>
         </span>
         <Button
           variant="ghost"
           size="icon"
-          title="Delete placeholder"
+          title="删除占位符"
           disabled={isUsed}
           onClick={() => deleteMessagePlaceholder(name)}
           className="p-0"
@@ -101,7 +101,7 @@ export const MessagePlaceholderComponent: React.FC<{
 
       {hasConflict && (
         <p className="mt-1 text-xs text-red-500">
-          Placeholder name conflicts with variable. Names must be unique.
+          占位符名称与变量冲突。名称必须唯一。
         </p>
       )}
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}

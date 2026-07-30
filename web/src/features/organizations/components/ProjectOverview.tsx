@@ -81,7 +81,7 @@ const OrganizationProjectTiles = ({
                 <Link
                   href={`/project/${project.id}`}
                   className="absolute inset-0"
-                  aria-label={`Go to project ${project.name}`}
+                  aria-label={`前往项目 ${project.name}`}
                 />
               )}
               <CardHeader>

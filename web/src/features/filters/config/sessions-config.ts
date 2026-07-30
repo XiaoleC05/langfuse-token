@@ -27,34 +27,34 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "environment",
-      label: "Environment",
+      label: "环境",
     },
     {
       type: "string" as const,
       column: "id",
-      label: "Session ID",
+      label: "会话 ID",
     },
     {
       type: "categorical" as const,
       column: "userIds",
-      label: "User IDs",
+      label: "用户 ID",
     },
     {
       type: "categorical" as const,
       column: "tags",
-      label: "Trace Tags",
+      label: "追踪标签",
     },
     {
       type: "boolean" as const,
       column: "bookmarked",
-      label: "Bookmarked",
-      trueLabel: "Bookmarked",
-      falseLabel: "Not bookmarked",
+      label: "已收藏",
+      trueLabel: "已收藏",
+      falseLabel: "未收藏",
     },
     {
       type: "numeric" as const,
       column: "sessionDuration",
-      label: "Session Duration",
+      label: "会话时长",
       min: 0,
       max: 3600,
       unit: "s",
@@ -62,35 +62,35 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "countTraces",
-      label: "Traces Count",
+      label: "追踪数",
       min: 0,
       max: 1000,
     },
     {
       type: "numeric" as const,
       column: "inputTokens",
-      label: "Input Tokens",
+      label: "输入 Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "outputTokens",
-      label: "Output Tokens",
+      label: "输出 Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "totalTokens",
-      label: "Total Tokens",
+      label: "总 Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "inputCost",
-      label: "Input Cost",
+      label: "输入成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -98,7 +98,7 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "outputCost",
-      label: "Output Cost",
+      label: "输出成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -106,7 +106,7 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "totalCost",
-      label: "Total Cost",
+      label: "总成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -114,29 +114,29 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "keyValue" as const,
       column: "score_categories",
-      label: "Categorical Scores",
+      label: "分类评分",
     },
     {
       type: "numericKeyValue" as const,
       column: "scores_avg",
-      label: "Numeric Scores",
+      label: "数值评分",
     },
     {
       type: "booleanKeyValue" as const,
       column: "score_booleans",
-      label: "Boolean Scores",
+      label: "布尔评分",
     },
     {
       type: "numeric" as const,
       column: "commentCount",
-      label: "Comment Count",
+      label: "评论数",
       min: 0,
       max: 100,
     },
     {
       type: "string" as const,
       column: "commentContent",
-      label: "Comment Content",
+      label: "评论内容",
     },
   ],
 };
@@ -144,7 +144,7 @@ export const sessionFilterConfig: FilterConfig = {
 const sessionMetadataFacet: Facet = {
   type: "stringKeyValue",
   column: "metadata",
-  label: "Metadata",
+  label: "元数据",
 };
 
 export const sessionEventsFilterConfig: FilterConfig = {

@@ -45,8 +45,8 @@ export const UserAssignmentSection = ({
         utils.annotationQueueAssignments.invalidate();
         utils.annotationQueues.invalidate();
         showSuccessToast({
-          title: "Removed assignment",
-          description: "User removed from queue successfully",
+          title: "已移除分配",
+          description: "已成功将用户从队列中移除",
         });
       },
     });
@@ -99,7 +99,7 @@ export const UserAssignmentSection = ({
         searchResults={userSearch.searchResults}
         isLoading={userSearch.isLoading}
         disabled={!hasQueueAssignmentWriteAccess}
-        placeholder="Search users to add..."
+        placeholder="搜索要添加的用户..."
         hasMoreResults={userSearch.hasMoreResults}
         getItemKey={(user) => user.id}
         onOpenChange={(open) => {
@@ -132,7 +132,7 @@ export const UserAssignmentSection = ({
           );
         }}
         renderItem={(user, isSelected, onToggle) => {
-          const userName = user.name || "Unnamed User";
+          const userName = user.name || "未命名用户";
 
           return (
             <div
@@ -165,12 +165,12 @@ export const UserAssignmentSection = ({
         queueAssignmentsQuery.data?.totalCount > 0 && (
           <div className="space-y-2">
             <h4 className="text-muted-foreground text-sm">
-              Assigned to ({queueAssignmentsQuery.data?.totalCount})
+              已分配给（{queueAssignmentsQuery.data?.totalCount}）
             </h4>
             <div className="bg-background max-h-32 overflow-y-auto rounded-md border">
               {queueAssignmentsQuery.data?.assignments.map(
                 (user: any, index: number) => {
-                  const userName = user.name || "Unnamed User";
+                  const userName = user.name || "未命名用户";
 
                   return (
                     <div key={user.id}>
@@ -219,7 +219,7 @@ export const UserAssignmentSection = ({
                     <p className="text-xs italic">
                       {queueAssignmentsQuery.data.totalCount -
                         queueAssignmentsQuery.data.assignments.length}{" "}
-                      more assigned users
+                      更多已分配用户
                     </p>
                   </div>
                 </div>

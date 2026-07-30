@@ -53,13 +53,13 @@ const SetupTracingButton = () => {
     return (
       <Button disabled>
         <LockIcon className="mr-2 -ml-0.5 h-4 w-4" aria-hidden="true" />
-        Configure Tracing
+        配置追踪
       </Button>
     );
 
   return (
     <Link href={setupTracingRoute(project.id)}>
-      <Button>Configure Tracing</Button>
+      <Button>配置追踪</Button>
     </Link>
   );
 };

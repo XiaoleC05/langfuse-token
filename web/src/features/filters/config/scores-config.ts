@@ -35,29 +35,29 @@ export const scoreFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "environment",
-      label: "Environment",
+      label: "环境",
     },
     {
       type: "categorical" as const,
       column: "name",
-      label: "Name",
+      label: "名称",
     },
     {
       type: "categorical" as const,
       column: "source",
-      label: "Source",
+      label: "来源",
     },
     {
       type: "categorical" as const,
       column: "dataType",
-      label: "Data Type",
+      label: "数据类型",
     },
     {
       type: "numeric" as const,
       column: "value",
-      label: "Numeric Value",
+      label: "数值",
       tooltip:
-        "Filters scores by numeric value. For BOOLEAN scores, use the 'Boolean Value' filter below. For CATEGORICAL scores, use the 'Categorical Value' filter below.",
+        "按数值筛选评分。BOOLEAN 类型的评分请使用下方的「布尔值」筛选,CATEGORICAL 类型的评分请使用下方的「分类值」筛选。",
       min: 0,
       max: 1,
       step: 0.01,
@@ -65,46 +65,46 @@ export const scoreFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "booleanValue",
-      label: "Boolean Value",
-      tooltip: "Filters BOOLEAN scores by true or false.",
+      label: "布尔值",
+      tooltip: "按 true 或 false 筛选 BOOLEAN 类型的评分。",
       disableTextFilter: true,
     },
     {
       type: "categorical" as const,
       column: "stringValue",
-      label: "Categorical Value",
+      label: "分类值",
       tooltip:
-        "Filters scores by string value. Applies to CATEGORICAL data type scores only.",
+        "按字符串值筛选评分。仅适用于 CATEGORICAL 数据类型的评分。",
     },
     {
       type: "string" as const,
       column: "traceId",
-      label: "Trace ID",
+      label: "追踪 ID",
     },
     {
       type: "string" as const,
       column: "sessionId",
-      label: "Session ID",
+      label: "会话 ID",
     },
     {
       type: "categorical" as const,
       column: "traceName",
-      label: "Trace Name",
+      label: "追踪名称",
     },
     {
       type: "string" as const,
       column: "observationId",
-      label: "Observation ID",
+      label: "观测 ID",
     },
     {
       type: "categorical" as const,
       column: "userId",
-      label: "User ID",
+      label: "用户 ID",
     },
     {
       type: "categorical" as const,
       column: "tags",
-      label: "Trace Tags",
+      label: "追踪标签",
     },
   ],
 };

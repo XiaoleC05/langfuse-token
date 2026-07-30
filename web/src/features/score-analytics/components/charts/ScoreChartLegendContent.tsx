@@ -57,7 +57,7 @@ const LegendItem = ({
       onClick={onClick}
       disabled={!interactive}
       aria-pressed={visible}
-      aria-label={`${visible ? "Hide" : "Show"} ${label}`}
+      aria-label={`${visible ? "隐藏" : "显示"} ${label}`}
       className={cn(
         "flex items-center gap-1.5 text-sm transition-opacity",
         interactive && "cursor-pointer hover:opacity-80",
@@ -307,7 +307,7 @@ export const ScoreChartLegendContent = React.forwardRef<
 
       payload.forEach((item) => {
         const key = `${nameKey || item.dataKey || "value"}`;
-        let groupName = "Categories";
+        let groupName = "分类";
 
         // Try to extract score name from key (e.g., "sentiment-negative" → "sentiment")
         if (key.includes("-")) {
@@ -386,7 +386,7 @@ export const ScoreChartLegendContent = React.forwardRef<
 
       // Handle "__unmatched__" special case
       if (rawLabel === "__unmatched__" || rawLabel === "unmatched") {
-        return "Unmatched";
+        return "未匹配";
       }
 
       if (formatLabel) {
@@ -444,9 +444,9 @@ export const ScoreChartLegendContent = React.forwardRef<
                   variant="ghost"
                   size="sm"
                   className="text-muted-foreground hover:bg-accent h-6 shrink-0 gap-1 px-2 text-xs"
-                  aria-label={`Show all ${payload.length} categories`}
+                  aria-label={`显示全部 ${payload.length} 个分类`}
                 >
-                  <span>Show all {payload.length}</span>
+                  <span>显示全部 {payload.length}</span>
                   {hiddenCount > 0 && (
                     <span className="font-bold">(+{hiddenCount})</span>
                   )}
@@ -460,9 +460,9 @@ export const ScoreChartLegendContent = React.forwardRef<
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-bold">All Categories</p>
+                    <p className="text-sm font-bold">所有分类</p>
                     <span className="text-muted-foreground text-xs">
-                      {payload.length} total
+                      {payload.length} 总计
                     </span>
                   </div>
                   <div className="space-y-3">

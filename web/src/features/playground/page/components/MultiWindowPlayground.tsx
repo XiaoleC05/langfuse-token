@@ -203,11 +203,11 @@ function PlaygroundWindowContent({
                         className="h-7 gap-1.5 px-2.5 text-xs @xl:hidden"
                       >
                         <Plus size={14} />
-                        <span className="sr-only">New split window</span>
+                        <span className="sr-only">新建分屏窗口</span>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="text-xs">
-                      New split window
+                      新建分屏窗口
                     </TooltipContent>
                   </Tooltip>
                   <Button
@@ -216,7 +216,7 @@ function PlaygroundWindowContent({
                     className="hidden h-7 gap-1.5 px-2.5 text-xs @xl:flex"
                   >
                     <Plus size={14} />
-                    <span>New split window</span>
+                    <span>新建分屏窗口</span>
                   </Button>
                 </>
               )}
@@ -229,11 +229,11 @@ function PlaygroundWindowContent({
                       className="hover:bg-destructive/10 hover:text-destructive h-6 w-6 p-0"
                     >
                       <X size={14} />
-                      <span className="sr-only">Remove window</span>
+                      <span className="sr-only">移除窗口</span>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent className="text-xs">
-                    Remove window
+                    移除窗口
                   </TooltipContent>
                 </Tooltip>
               )}

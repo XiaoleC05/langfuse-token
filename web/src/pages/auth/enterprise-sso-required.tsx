@@ -83,7 +83,7 @@ export default function EnterpriseSsoRequiredPage() {
 
     const domain = values.email.split("@")[1]?.toLowerCase();
     if (!domain) {
-      form.setError("email", { message: "Invalid email address" });
+      form.setError("email", { message: "邮箱地址无效" });
       setLoading(false);
       return;
     }
@@ -110,7 +110,7 @@ export default function EnterpriseSsoRequiredPage() {
 
       if (response.status === 404) {
         setError(
-          "We couldn't find a custom Enterprise SSO configuration for this domain. Double-check your company email or contact your administrator.",
+          "未找到此域名的企业单点登录配置，请检查您的公司邮箱或联系管理员。",
         );
         return;
       }
@@ -120,12 +120,12 @@ export default function EnterpriseSsoRequiredPage() {
       } | null;
       setError(
         data?.message ??
-          "Unable to start the Enterprise SSO sign-in flow. Please try again.",
+          "无法启动企业单点登录流程，请重试。",
       );
     } catch (err) {
       captureUnknownError("auth.enterpriseSso", err);
       setError(
-        "Something went wrong while checking your Enterprise SSO configuration. Please try again.",
+        "检查企业单点登录配置时出错，请重试。",
       );
     } finally {
       setLoading(false);
@@ -133,13 +133,13 @@ export default function EnterpriseSsoRequiredPage() {
   }
 
   const description = friendlyProviderName
-    ? `You tried signing in with ${friendlyProviderName}, but this domain requires your company's custom Enterprise SSO.`
-    : "This domain requires your company's custom Enterprise SSO.";
+    ? `您尝试使用 ${friendlyProviderName} 登录，但此域名需要使用您公司的企业单点登录。`
+    : "此域名需要使用您公司的企业单点登录。";
 
   return (
     <>
       <Head>
-        <title>Enterprise SSO Required | Oxelia51</title>
+        <title>需要企业单点登录 | Oxelia51</title>
       </Head>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -147,11 +147,10 @@ export default function EnterpriseSsoRequiredPage() {
             <LangfuseIcon />
           </div>
           <h1 className="text-primary mt-6 text-center text-2xl font-bold">
-            Use your Enterprise SSO
+            使用企业单点登录
           </h1>
           <p className="text-muted-foreground mt-2 text-center text-sm leading-6">
-            {description} Enter your company email so we can send you to the
-            correct identity provider.
+            {description} 请输入您的公司邮箱，以便将您引导至正确的身份提供商。
           </p>
         </div>
 
@@ -163,7 +162,7 @@ export default function EnterpriseSsoRequiredPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>邮箱</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="jsdoe@example.com"
@@ -183,7 +182,7 @@ export default function EnterpriseSsoRequiredPage() {
                 loading={loading}
                 disabled={loading}
               >
-                Continue with Enterprise SSO
+                使用企业单点登录继续
               </Button>
             </form>
           </Form>
@@ -191,14 +190,14 @@ export default function EnterpriseSsoRequiredPage() {
             <div className="text-destructive mt-4 text-center text-sm font-bold">
               {error}
               <br />
-              Contact{" "}
+              联系{" "}
               <a
                 href="mailto:support@langfuse.com"
                 className="text-link hover:text-link-hover"
               >
                 support@langfuse.com
               </a>{" "}
-              if this keeps happening.
+              如果问题持续出现。
             </div>
           ) : null}
           <div className="text-muted-foreground mt-6 text-center text-sm">
@@ -206,13 +205,13 @@ export default function EnterpriseSsoRequiredPage() {
               href="/auth/sign-in"
               className="text-link hover:text-link-hover"
             >
-              Back to other sign-in options
+              返回其他登录选项
             </Link>
           </div>
         </div>
 
         <div className="text-muted-foreground mt-4 text-center text-xs">
-          Need help? Contact{" "}
+          需要帮助？请联系{" "}
           <a
             href="mailto:support@langfuse.com"
             className="text-link hover:text-link-hover"

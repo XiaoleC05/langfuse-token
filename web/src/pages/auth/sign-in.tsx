@@ -50,7 +50,7 @@ import { getSafeRedirectPath } from "@/src/utils/redirect";
 const credentialAuthForm = z.object({
   email: z.email(),
   password: z.string().min(8, {
-    message: "Password must be at least 8 characters long",
+    message: "密码至少需要8个字符",
   }),
 });
 
@@ -240,7 +240,7 @@ export function SSOButtons({
             <div className="border-border my-6 border-t"></div>
           ) : (
             <div className="text-muted-foreground my-6 text-center text-xs">
-              or {action} with
+              或使用以下方式{action === "sign in" ? "登录" : "注册"}
             </div>
           )
         ) : null}
@@ -432,7 +432,7 @@ export function SSOButtons({
                 label="WorkOS (organization)"
                 onClick={() => {
                   const organization = window.prompt(
-                    "Please enter your organization ID",
+                    "请输入您的组织 ID",
                   );
                   if (organization) {
                     capture("sign_in:button_click", { provider: "workos" });
@@ -452,7 +452,7 @@ export function SSOButtons({
                 label="WorkOS (connection)"
                 onClick={() => {
                   const connection = window.prompt(
-                    "Please enter your connection ID",
+                    "请输入您的连接 ID",
                   );
                   if (connection) {
                     capture("sign_in:button_click", { provider: "workos" });
@@ -528,7 +528,7 @@ const signInErrors = [
   {
     code: "OAuthAccountNotLinked",
     description:
-      "Please sign in with the same provider (e.g. Google, GitHub, Azure AD, etc.) that you used to create this account.",
+      "请使用您创建此账户时所用的同一提供商（如 Google、GitHub、Azure AD 等）登录。",
   },
 ];
 
@@ -626,7 +626,7 @@ export default function SignIn({
         redirect: false,
       });
       if (result === undefined) {
-        setCredentialsFormError("An unexpected error occurred.");
+        setCredentialsFormError("发生未知错误。");
         captureException(new Error("Sign in result is undefined"));
       } else if (!result.ok) {
         if (!result.error) {
@@ -637,12 +637,12 @@ export default function SignIn({
           );
         }
         setCredentialsFormError(
-          result?.error ?? "An unexpected error occurred.",
+          result?.error ?? "发生未知错误。",
         );
       }
     } catch (error) {
       captureUnknownError("auth.signIn.credentials", error);
-      setCredentialsFormError("An unexpected error occurred.");
+      setCredentialsFormError("发生未知错误。");
     }
   }
 
@@ -664,7 +664,7 @@ export default function SignIn({
     const email = emailSchema.safeParse(credentialsForm.getValues("email"));
     if (!email.success) {
       credentialsForm.setError("email", {
-        message: "Invalid email address",
+        message: "邮箱地址无效",
       });
       setContinueLoading(false);
       return;
@@ -712,7 +712,7 @@ export default function SignIn({
     } catch (error) {
       captureUnknownError("auth.signIn.checkSso", error);
       setCredentialsFormError(
-        "Unable to check SSO configuration. Please try again.",
+        "无法检查单点登录配置，请重试。",
       );
     } finally {
       setContinueLoading(false);
@@ -722,7 +722,7 @@ export default function SignIn({
   return (
     <>
       <Head>
-        <title>Sign in | Oxelia51</title>
+        <title>登录 | Oxelia51</title>
       </Head>
       <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -742,13 +742,12 @@ export default function SignIn({
 
         {isLangfuseCloud && (
           <div className="bg-card mt-4 -mb-4 rounded-lg p-3 text-center text-sm sm:mx-auto sm:w-full sm:max-w-[480px] sm:rounded-lg sm:px-6">
-            If you are experiencing issues signing in, please force refresh this
-            page (CMD + SHIFT + R) or clear your browser cache.{" "}
+            如果您在登录时遇到问题，请强制刷新此页面（CMD + SHIFT + R）或清除浏览器缓存。{" "}
             <a
               href="mailto:support@langfuse.com"
               className="text-link hover:text-link-hover cursor-pointer text-xs font-bold whitespace-nowrap"
             >
-              (contact us)
+              （联系我们）
             </a>
           </div>
         )}
@@ -805,7 +804,7 @@ export default function SignIn({
                                 href="/auth/reset-password"
                                 className="text-link hover:text-link-hover ml-1 text-xs"
                                 tabIndex={-1}
-                                title="What is this?"
+                                title="这是什么？"
                               >
                                 （忘记密码？）
                               </Link>
@@ -848,7 +847,7 @@ export default function SignIn({
                       : "hidden",
                   )}
                 >
-                  Last used
+                  上次使用
                 </div>
               </div>
             )}
@@ -856,9 +855,9 @@ export default function SignIn({
               <div className="text-destructive text-center text-sm font-bold">
                 {credentialsFormError}
                 <br />
-                Contact support if this error is unexpected.{" "}
+                如果此错误在意料之外，请联系支持。{" "}
                 {isLangfuseCloud &&
-                  "Make sure you are using the correct cloud data region."}
+                  "请确保您使用的是正确的云端数据区域。"}
               </div>
             ) : null}
             <SSOButtons
@@ -882,7 +881,7 @@ export default function SignIn({
             </p>
           ) : null}
         </div>
-        <CloudPrivacyNotice action="signing in" />
+        <CloudPrivacyNotice action="登录" />
         <div className="mt-6 flex justify-center pb-4">
           <FilingInfo variant="full" />
         </div>

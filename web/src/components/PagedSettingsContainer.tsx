@@ -60,7 +60,7 @@ export const PagedSettingsContainer = ({
             value={currentPage.slug}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select a page" />
+              <SelectValue placeholder="请选择页面" />
             </SelectTrigger>
             <SelectContent>
               {availablePages.map((page) => (

@@ -18,68 +18,68 @@ export const traceFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "environment",
-      label: "Environment",
+      label: "环境",
     },
     {
       type: "categorical" as const,
       column: "traceName",
-      label: "Trace Name",
+      label: "追踪名称",
     },
     {
       type: "string" as const,
       column: "id",
-      label: "Trace ID",
+      label: "追踪ID",
     },
     {
       type: "categorical" as const,
       column: "userId",
-      label: "User ID",
+      label: "用户ID",
     },
     {
       type: "categorical" as const,
       column: "sessionId",
-      label: "Session ID",
+      label: "会话ID",
     },
     {
       // Tags are a primary, user-defined filter — keep them near the identity
       // facets at the top of the sidebar rather than buried mid-list (LFE-10494).
       type: "categorical" as const,
       column: "traceTags",
-      label: "Tags",
+      label: "标签",
     },
     {
       type: "stringKeyValue" as const,
       column: "metadata",
-      label: "Metadata",
+      label: "元数据",
     },
     {
       type: "string" as const,
       column: "version",
-      label: "Version",
+      label: "版本",
     },
     {
       type: "string" as const,
       column: "release",
-      label: "Release",
+      label: "发布",
     },
     {
       type: "boolean" as const,
       column: "bookmarked",
-      label: "Bookmarked",
-      trueLabel: "Bookmarked",
-      falseLabel: "Not bookmarked",
+      label: "已收藏",
+      trueLabel: "已收藏",
+      falseLabel: "未收藏",
     },
     {
       type: "numeric" as const,
       column: "commentCount",
-      label: "Comment Count",
+      label: "评论数",
       min: 0,
       max: 100,
     },
     {
       type: "string" as const,
       column: "commentContent",
-      label: "Comment Content",
+      label: "评论内容",
     },
     {
       // Product direction is to call observation levels "Status" everywhere
@@ -87,13 +87,13 @@ export const traceFilterConfig: FilterConfig = {
       // `level` until the cross-surface rename lands).
       type: "categorical" as const,
       column: "level",
-      label: "Status",
+      label: "状态",
       renderIcon: renderLevelIcon,
     },
     {
       type: "numeric" as const,
       column: "latency",
-      label: "Latency",
+      label: "延迟",
       min: 0,
       max: 60,
       unit: "s",
@@ -101,28 +101,28 @@ export const traceFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "inputTokens",
-      label: "Input Tokens",
+      label: "输入Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "outputTokens",
-      label: "Output Tokens",
+      label: "输出Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "totalTokens",
-      label: "Total Tokens",
+      label: "总Token",
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "inputCost",
-      label: "Input Cost",
+      label: "输入成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -130,7 +130,7 @@ export const traceFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "outputCost",
-      label: "Output Cost",
+      label: "输出成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -138,7 +138,7 @@ export const traceFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "totalCost",
-      label: "Total Cost",
+      label: "总成本",
       min: 0,
       max: 100,
       unit: "$",
@@ -146,17 +146,17 @@ export const traceFilterConfig: FilterConfig = {
     {
       type: "keyValue" as const,
       column: "score_categories",
-      label: "Categorical Scores",
+      label: "分类评分",
     },
     {
       type: "numericKeyValue" as const,
       column: "scores_avg",
-      label: "Numeric Scores",
+      label: "数值评分",
     },
     {
       type: "booleanKeyValue" as const,
       column: "score_booleans",
-      label: "Boolean Scores",
+      label: "布尔评分",
     },
   ],
 };

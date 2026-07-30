@@ -67,7 +67,7 @@ function LegacyBadgeCell({ status }: { status: string }) {
   return (
     <div className="flex items-center gap-1.5">
       <Badge variant="warning">
-        Legacy
+        旧版
         {status === "ACTIVE" && (
           <Tooltip>
             <TooltipTrigger>
@@ -75,10 +75,9 @@ function LegacyBadgeCell({ status }: { status: string }) {
             </TooltipTrigger>
             <TooltipContent className="max-w-[280px]">
               <div className="space-y-1 text-sm">
-                <p className="font-bold">Action required</p>
+                <p className="font-bold">需要操作</p>
                 <p className="text-muted-foreground">
-                  This evaluator requires changes to benefit from new features
-                  and performance improvements. Please follow{" "}
+                  此评估器需要进行更改才能享受新功能和性能改进。请按照{" "}
                   <Link
                     href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
                     target="_blank"
@@ -88,11 +87,9 @@ function LegacyBadgeCell({ status }: { status: string }) {
                       e.stopPropagation();
                     }}
                   >
-                    this guide
+                    此指南
                   </Link>{" "}
-                  to upgrade to the new version. <br /> <br /> If you do not
-                  upgrade, your evaluator will continue to run, but you will not
-                  benefit from improvements.
+                  升级到新版本。<br /> <br /> 如果不升级，您的评估器将继续运行，但您将无法享受改进。
                 </p>
               </div>
             </TooltipContent>
@@ -176,7 +173,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
   const columns = [
     columnHelper.accessor("scoreName", {
       id: "scoreName",
-      header: "Generated Score Name",
+      header: "生成的评分名称",
       size: 200,
       cell: (row) => {
         const scoreName = row.getValue();
@@ -184,7 +181,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       },
     }),
     columnHelper.accessor("status", {
-      header: "Status",
+      header: "状态",
       id: "status",
       size: 80,
       loadingCell: <TableBadgeLoadingCell />,
@@ -215,7 +212,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       },
     }),
     columnHelper.accessor("result", {
-      header: "Result",
+      header: "结果",
       id: "result",
       size: 150,
       cell: (row) => {
@@ -229,7 +226,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       },
     }),
     columnHelper.accessor("logs", {
-      header: "Logs",
+      header: "日志",
       id: "logs",
       size: 150,
       loadingCell: <Skeleton className="h-6 w-16 rounded-md" />,
@@ -248,14 +245,14 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
             }}
           >
             <ExternalLinkIcon className="mr-1 h-3 w-3" />
-            View
+            查看
           </Button>
         );
       },
     }),
     columnHelper.accessor("template", {
       id: "template",
-      header: "Referenced Evaluator",
+      header: "关联评估器",
       size: 200,
       loadingCell: (
         <div className="flex items-center gap-2">
@@ -265,7 +262,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       ),
       cell: ({ row }) => {
         const template = row.original.template;
-        if (!template) return "template not found";
+        if (!template) return "模板未找到";
         return (
           <div className="flex items-center gap-2">
             <TableIdOrName value={template.name} />
@@ -278,19 +275,19 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
     }),
     columnHelper.accessor("createdAt", {
       id: "createdAt",
-      header: "Created At",
+      header: "创建时间",
       enableSorting: true,
       size: 150,
     }),
     columnHelper.accessor("updatedAt", {
       id: "updatedAt",
-      header: "Updated At",
+      header: "更新时间",
       enableSorting: true,
       size: 150,
     }),
     columnHelper.accessor("isLegacy", {
       id: "isLegacy",
-      header: "Eval Version",
+      header: "评估版本",
       size: 180,
       enableHiding: true,
       loadingCell: <TableBadgeLoadingCell />,
@@ -319,7 +316,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
     }),
     columnHelper.accessor("filter", {
       id: "filter",
-      header: "Filter",
+      header: "筛选",
       size: 200,
       enableHiding: true,
       cell: (row) => {
@@ -358,7 +355,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       },
     }),
     columnHelper.accessor("actions", {
-      header: "Actions",
+      header: "操作",
       id: "actions",
       size: 100,
       loadingCell: <TableIconButtonLoadingCell />,
@@ -369,12 +366,12 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
             <IconOnlyButton
               key={id}
               icon={<Pen className="h-4 w-4" />}
-              label="Edit"
+              label="编辑"
               aria-label="edit"
               disabledReason={
                 hasAccess
                   ? undefined
-                  : "You don't have permission to edit this evaluator."
+                  : "您没有编辑此评估器的权限。"
               }
               onClick={(e) => {
                 e.stopPropagation();
@@ -390,7 +387,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
               icon
               variant="ghost"
               size="icon-xs"
-              title="Delete"
+              title="删除"
             />
           </div>
         );
@@ -433,28 +430,26 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
               variant="warning"
               key="dismissed-eval-remapping-callouts"
             >
-              <span>New functionality has landed. </span>
+              <span>新功能已上线。</span>
               <span className="font-bold">
-                Some of your evaluators (marked &quot;Legacy&quot;) require
-                changes{" "}
+                您的部分评估器（标记为&quot;旧版&quot;）需要进行更改{" "}
               </span>
-              <span>to benefit from new features and improvements. </span>
+              <span>才能享受新功能和改进。</span>
               <Link
                 href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-dark-blue font-bold hover:opacity-80"
               >
-                Learn what is changing and how to upgrade
+                了解变更内容和升级方法
               </Link>
-              <span>.</span>
+              <span>。</span>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="ml-1 inline h-4 w-4 cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  Your evaluator will continue to work without upgrading, but
-                  you will not benefit from performance improvements.
+                  您的评估器在不升级的情况下将继续工作，但您将无法享受性能改进。
                 </TooltipContent>
               </Tooltip>
             </Callout>
@@ -526,7 +521,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       >
         <DialogContent className="max-h-[90vh] max-w-(--breakpoint-xl) overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit configuration</DialogTitle>
+            <DialogTitle>编辑配置</DialogTitle>
           </DialogHeader>
           {existingEvaluator.isLoading ? (
             <div className="flex items-center justify-center p-4">
@@ -553,9 +548,9 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
                 setEditConfigId(null);
                 utils.evals.allConfigs.invalidate();
                 showSuccessToast({
-                  title: "Evaluator updated successfully",
+                  title: "评估器更新成功",
                   description:
-                    "Changes will automatically be reflected future evaluator runs",
+                    "更改将自动反映到未来的评估器运行中",
                 });
               }}
             />

@@ -88,14 +88,14 @@ function DatasetCompareChartsLegacy() {
   return (
     <Page
       headerProps={{
-        title: `Compare experiments: ${dataset.data?.name ?? datasetId}`,
+        title: `对比实验：${dataset.data?.name ?? datasetId}`,
         tabsProps: {
           tabs: getDatasetRunCompareTabs(projectId, datasetId),
           activeTab: DATASET_RUN_COMPARE_TABS.CHARTS,
         },
         breadcrumb: [
           {
-            name: "Datasets",
+            name: "数据集",
             href: `/project/${projectId}/datasets`,
           },
           {
@@ -103,12 +103,12 @@ function DatasetCompareChartsLegacy() {
             href: `/project/${projectId}/datasets/${datasetId}`,
           },
           {
-            name: "Experiments",
+            name: "实验",
             href: `/project/${projectId}/datasets/${datasetId}/experiments`,
           },
         ],
         help: {
-          description: "Compare your experiments side by side",
+          description: "并排对比实验",
         },
         actionButtonsRight: (
           <>
@@ -124,7 +124,7 @@ function DatasetCompareChartsLegacy() {
                   onClick={() => capture("dataset_run:new_form_open")}
                 >
                   <FlaskConical className="h-4 w-4" />
-                  <span className="ml-2 hidden md:block">New experiment</span>
+                  <span className="ml-2 hidden md:block">新实验</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-h-[90vh] overflow-y-auto">
@@ -142,9 +142,9 @@ function DatasetCompareChartsLegacy() {
             </Dialog>
             <MultiSelectKeyValues
               key="select-runs"
-              title="Experiments"
+              title="实验"
               showSelectedValueStrings={false}
-              placeholder="Select runs to compare"
+              placeholder="选择要对比的运行"
               className="w-fit"
               variant="outline"
               hideClearButton
@@ -264,8 +264,8 @@ function DatasetCompareChartsLegacy() {
             ) : (
               <span className="text-muted-foreground -mt-2 text-sm">
                 {Boolean(chartDataMap?.size)
-                  ? "All charts hidden. Enable them in the Charts dropdown."
-                  : "Select more than one run to generate charts."}
+                  ? "所有图表已隐藏。在图表下拉菜单中启用它们。"
+                  : "选择多个运行以生成图表。"}
               </span>
             )}
           </div>
@@ -281,14 +281,14 @@ function DatasetCompareChartsLegacy() {
           <SidePanelContent className="overflow-y-auto p-1">
             <div className="w-full space-y-4">
               <div>
-                <SubHeaderLabel title="Description" />
+                <SubHeaderLabel title="描述" />
                 <span className="text-muted-foreground text-sm">
-                  {dataset.data?.description ?? "No description"}
+                  {dataset.data?.description ?? "无描述"}
                 </span>
               </div>
               {dataset.data?.metadata && (
                 <div>
-                  <SubHeaderLabel title="Metadata" />
+                  <SubHeaderLabel title="元数据" />
                   <MarkdownJsonView content={dataset.data?.metadata} />
                 </div>
               )}

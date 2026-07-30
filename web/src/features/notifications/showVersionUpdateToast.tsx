@@ -8,8 +8,7 @@ export const showVersionUpdateToast = () => {
         <div className="flex min-w-[300px] flex-1 flex-col gap-2">
           <div className="flex items-center gap-2">
             <div className="text-foreground/70 m-0 text-sm leading-tight font-bold">
-              We have released a new version of Langfuse. Please refresh your
-              browser to get the latest update.
+              我们已发布 Langfuse 的新版本，请刷新浏览器以获取最新更新。
             </div>
           </div>
           <Button
@@ -20,7 +19,7 @@ export const showVersionUpdateToast = () => {
               window.location.reload();
             }}
           >
-            Refresh page
+            刷新页面
           </Button>
         </div>
       </div>

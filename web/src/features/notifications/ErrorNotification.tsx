@@ -73,7 +73,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
               setOpen(true);
             }}
           >
-            Report issue to Langfuse team
+            向 Langfuse 团队报告问题
           </Button>
         )}
       </div>
@@ -94,7 +94,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
           e.stopPropagation();
           e.preventDefault();
         }}
-        aria-label="Close"
+        aria-label="关闭"
       >
         <X size={14} />
       </button>

@@ -174,13 +174,13 @@ function ExperimentsMultiSelectActionMenu({
     {
       id: ActionId.ExperimentCompare,
       type: BatchActionType.Create,
-      label: "Compare",
-      description: "Compare selected experiments",
+      label: "对比",
+      description: "对比选定的实验",
       icon: <GitCompareArrows className="h-4 w-4 sm:mr-2" />,
       customDialog: true,
       disabled: tooManySelected,
       disabledReason: tooManySelected
-        ? "Select only up to 5 experiments to compare"
+        ? "最多选择 5 个实验进行对比"
         : undefined,
       accessCheck: {
         scope: "project:read",
@@ -191,8 +191,8 @@ function ExperimentsMultiSelectActionMenu({
           {
             id: ActionId.ObservationBatchEvaluation,
             type: BatchActionType.Create,
-            label: "Run Evaluator",
-            description: "Run evaluators on selected experiments",
+            label: "运行评估器",
+            description: "在选定的实验上运行评估器",
             icon: <LightbulbIcon className="h-4 w-4 sm:mr-2" />,
             customDialog: true,
             accessCheck: {
@@ -384,7 +384,7 @@ export default function ExperimentsTable({
             experimentIds: experiments.rows.map((e) => e.id),
           })
         : [],
-    prefix: "Trace",
+    prefix: "追踪",
     isFilterDataPending: experiments.status === "loading",
     defaultHidden: true,
   });
@@ -421,7 +421,7 @@ export default function ExperimentsTable({
           })
         : [],
     rawKey: true,
-    prefix: "Experiment",
+    prefix: "实验",
     isFilterDataPending: experiments.status === "loading",
   });
 
@@ -592,7 +592,7 @@ export default function ExperimentsTable({
       size: 100,
       enableHiding: true,
       headerTooltip: {
-        description: "Average duration of the root span per experiment item.",
+        description: "每个数据项根 span 的平均持续时间。",
       },
       cell: ({ row }) => {
         const value: number | undefined = row.getValue("latencyAvg");
@@ -614,7 +614,7 @@ export default function ExperimentsTable({
     },
     {
       accessorKey: "traceItemScores",
-      header: "Trace Item Scores",
+      header: "追踪数据项评分",
       id: "traceItemScores",
       enableHiding: true,
       defaultHidden: true,
@@ -627,7 +627,7 @@ export default function ExperimentsTable({
     },
     {
       accessorKey: "observationItemScores",
-      header: "Observation Item Scores",
+      header: "观测数据项评分",
       id: "observationItemScores",
       enableHiding: true,
       defaultHidden: true,
@@ -640,7 +640,7 @@ export default function ExperimentsTable({
     },
     {
       accessorKey: "experimentScores",
-      header: "Experiment-Level Scores",
+      header: "实验级评分",
       id: "experimentScores",
       enableHiding: true,
       defaultHidden: true,
@@ -781,7 +781,7 @@ export default function ExperimentsTable({
               <AccordionItem value="charts" className="border-t">
                 <AccordionTrigger className="px-3 pt-2 pb-1 hover:no-underline">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold">Charts</span>
+                    <span className="text-sm font-bold">图表</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="max-h-[40dvh] overflow-x-auto px-3 pt-1 pb-1">

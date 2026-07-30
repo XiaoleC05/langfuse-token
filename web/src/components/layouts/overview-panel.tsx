@@ -26,7 +26,7 @@ const OverviewPanelToggle = React.forwardRef<
     variant="outline"
     size="icon"
     onClick={() => onOpenChange(!open)}
-    title={open ? "Hide details" : "Show details"}
+    title={open ? "隐藏详情" : "显示详情"}
     className={className}
     {...props}
   >

@@ -23,7 +23,7 @@ export function ExperimentPeekFooter({ projectId }: { projectId: string }) {
     experimentNames.find((e) => e.experimentId === currentExperimentId)
       ?.experimentName ??
     currentExperimentId?.slice(0, 8) ??
-    "Unknown";
+    "未知";
   const colorStyles = currentExperimentId
     ? getExperimentColorStyles(currentExperimentId, allExperimentIds)
     : undefined;
@@ -42,7 +42,7 @@ export function ExperimentPeekFooter({ projectId }: { projectId: string }) {
           size="sm"
           className={cn("shrink-0 font-bold", colorStyles?.badgeClass)}
         >
-          {currentIndex === 0 ? "Baseline" : "Comp"}
+          {currentIndex === 0 ? "基线" : "对比"}
         </Badge>
       </div>
       <div className="flex items-center gap-1">
@@ -51,7 +51,7 @@ export function ExperimentPeekFooter({ projectId }: { projectId: string }) {
           className="gap-1.5 px-2"
           disabled={!hasPrev}
           onClick={goToPrev}
-          title="Previous experiment"
+          title="上一个实验"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
@@ -63,7 +63,7 @@ export function ExperimentPeekFooter({ projectId }: { projectId: string }) {
           className="gap-1.5 px-2"
           disabled={!hasNext}
           onClick={goToNext}
-          title="Next experiment"
+          title="下一个实验"
         >
           <ArrowRight className="h-4 w-4" />
         </Button>

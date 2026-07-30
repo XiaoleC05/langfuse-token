@@ -43,7 +43,7 @@ const BaseDateRangeDropdown = <T extends string>({
   return (
     <Select value={selectedOption} onValueChange={onSelectionChange}>
       <SelectTrigger className="hover:bg-accent hover:text-accent-foreground w-fit font-bold focus:ring-0 focus:ring-offset-0">
-        <SelectValue placeholder="Select">
+        <SelectValue placeholder="请选择">
           <div className="flex items-center gap-2">
             <span className="bg-muted w-10 rounded px-1.5 py-0.5 text-center text-xs">
               {getAbbreviatedTimeRange(selectedOption)}
@@ -82,7 +82,7 @@ const BaseDateRangeDropdown = <T extends string>({
               </HoverCardTrigger>
               <HoverCardPortal>
                 <HoverCardContent className="w-60 text-sm" side="right">
-                  This time range is not available in your current plan.
+                  你当前的套餐不支持该时间范围。
                 </HoverCardContent>
               </HoverCardPortal>
             </HoverCard>

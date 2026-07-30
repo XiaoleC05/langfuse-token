@@ -126,7 +126,7 @@ export const MonitorChartPreview = ({
         value: warningThreshold,
         operator: thresholdOperator,
         color: "yellow" as const,
-        label: "Warning",
+        label: "警告",
       });
     }
     if (alertThreshold != null && Number.isFinite(alertThreshold)) {
@@ -134,7 +134,7 @@ export const MonitorChartPreview = ({
         value: alertThreshold,
         operator: thresholdOperator,
         color: "red" as const,
-        label: "Alert",
+        label: "告警",
       });
     }
     return ordered;
@@ -158,7 +158,7 @@ export const MonitorChartPreview = ({
       <CardContent className="flex h-full flex-col pt-4">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold tracking-tight">Live Preview</h3>
+            <h3 className="text-lg font-bold tracking-tight">实时预览</h3>
             <p className="text-muted-foreground text-sm">
               {renderChartSubtitle({
                 view,

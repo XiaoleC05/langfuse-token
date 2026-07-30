@@ -1,8 +1,7 @@
 "use client";
 
-import capitalize from "lodash/capitalize";
 import { type ReactCodeMirrorRef } from "@uiw/react-codemirror";
-import { ChatMessageType, type ChatMessageWithId } from "@langfuse/shared";
+import { ChatMessageType, ChatMessageRole, type ChatMessageWithId } from "@langfuse/shared";
 import { EditorState } from "@codemirror/state";
 import { SearchQuery } from "@codemirror/search";
 import { type RefObject } from "react";
@@ -110,14 +109,30 @@ function getMessageSearchText(message: ChatMessageWithId) {
 
 function getMessageSearchLabel(message: ChatMessageWithId, index: number) {
   if (message.type === ChatMessageType.Placeholder) {
-    return `Placeholder ${index + 1}`;
+    return `占位符 ${index + 1}`;
   }
 
   if ("role" in message) {
-    return `${capitalize(message.role)} message ${index + 1}`;
+    const roleLabel = (() => {
+      switch (message.role) {
+        case ChatMessageRole.System:
+          return "系统";
+        case ChatMessageRole.Developer:
+          return "开发者";
+        case ChatMessageRole.Assistant:
+          return "助手";
+        case ChatMessageRole.User:
+          return "用户";
+        case ChatMessageRole.Tool:
+          return "工具";
+        default:
+          return message.role;
+      }
+    })();
+    return `${roleLabel} 消息 ${index + 1}`;
   }
 
-  return `Message ${index + 1}`;
+  return `消息 ${index + 1}`;
 }
 
 function getMatchKey(match: Omit<MessageSearchMatch, "key">) {

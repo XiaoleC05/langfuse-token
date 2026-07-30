@@ -23,14 +23,13 @@ export const CrashModal = ({
 
       <div className="mt-4 min-w-0">
         <h1 className="text-2xl font-bold tracking-tight">
-          Something went wrong
+          出错了
         </h1>
         <p className="text-muted-foreground mt-2 text-sm leading-5">
           {statusCode ? (
             <span className="text-foreground mr-2 font-bold whitespace-nowrap">
               Error {statusCode}
-            </span>
-          ) : null}
+            </span>          ) : null}
           {description}
         </p>
 
@@ -51,7 +50,7 @@ export const CrashModal = ({
 
         {showReturnHome ? (
           <Button asChild className="mt-6">
-            <Link href="/">Return home</Link>
+            <Link href="/">返回首页</Link>
           </Button>
         ) : null}
       </div>

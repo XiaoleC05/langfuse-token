@@ -55,10 +55,10 @@ function FaqLink({ href, children }: { href: string; children: ReactNode }) {
 
 function AffectedCell({ count }: { count: MigrationCountState }) {
   if (count.status === "loading") {
-    return <span className="text-foreground-tertiary">Checking…</span>;
+    return <span className="text-foreground-tertiary">检查中…</span>;
   }
   if (count.status === "error") {
-    return <span className="text-foreground-tertiary">Unavailable</span>;
+    return <span className="text-foreground-tertiary">不可用</span>;
   }
   if (count.count === 0) {
     return <span className="text-foreground-tertiary">0</span>;
@@ -69,12 +69,12 @@ function AffectedCell({ count }: { count: MigrationCountState }) {
 function StatusPill({ readiness }: { readiness: ProjectMigrationReadiness }) {
   const label =
     readiness === "ready"
-      ? "Ready"
+      ? "就绪"
       : readiness === "checking"
-        ? "Checking"
+        ? "检查中"
         : readiness === "unavailable"
-          ? "Unavailable"
-          : "Action needed";
+          ? "不可用"
+          : "需要操作";
 
   return (
     <span
@@ -125,7 +125,7 @@ function SortableHead({
           {label}
         </span>
         {orderBy?.column === column && (
-          <span className="ml-1" title="Sort by this column">
+          <span className="ml-1" title="按此列排序">
             {orderBy.order === "ASC" ? "▲" : "▼"}
           </span>
         )}
@@ -257,13 +257,13 @@ function OrgStatusSection({
             <TableHeader>
               <TableRow>
                 <SortableHead
-                  label="Project"
+                  label="项目"
                   column="name"
                   orderBy={orderBy}
                   onSort={handleSort}
                 />
                 <SortableHead
-                  label="Status"
+                  label="状态"
                   column="status"
                   orderBy={orderBy}
                   onSort={handleSort}
@@ -275,25 +275,25 @@ function OrgStatusSection({
                   onSort={handleSort}
                 />
                 <SortableHead
-                  label="Affected Evals"
+                  label="受影响的评估"
                   column="evals"
                   orderBy={orderBy}
                   onSort={handleSort}
                 />
                 <SortableHead
-                  label="Affected APIs"
+                  label="受影响的 API"
                   column="apis"
                   orderBy={orderBy}
                   onSort={handleSort}
                 />
                 <SortableHead
-                  label="Affected Exports"
+                  label="受影响的导出"
                   column="exports"
                   orderBy={orderBy}
                   onSort={handleSort}
                 />
                 <SortableHead
-                  label="Last trace"
+                  label="最后追踪"
                   column="lastTrace"
                   orderBy={orderBy}
                   onSort={handleSort}
@@ -332,33 +332,33 @@ function OrgStatusSection({
                     </TableCell>
                     <TableCell density="comfortable">
                       {row.status.sdk.status === "latest" ? (
-                        <span className="text-foreground-tertiary">Latest</span>
+                        <span className="text-foreground-tertiary">最新</span>
                       ) : row.status.sdk.status === "otel_realtime" ? (
                         <span className="text-foreground-tertiary">
-                          OTel real-time
+                          OTel 实时
                         </span>
                       ) : row.status.sdk.status === "checking" ? (
                         <span className="text-foreground-tertiary">
-                          Checking…
+                          检查中…
                         </span>
                       ) : row.status.sdk.status === "unknown" ? (
                         <span className="text-foreground-tertiary">
-                          Unknown
+                          未知
                         </span>
                       ) : row.status.sdk.status === "otel_header_required" ? (
                         <span>
-                          {row.status.sdk.delayedOtelIngestionCount} OTel header{" "}
+                          {row.status.sdk.delayedOtelIngestionCount} OTel 标头{" "}
                           {row.status.sdk.delayedOtelIngestionCount === 1
-                            ? "required"
-                            : "issues"}
+                            ? "需要更新"
+                            : "存在问题"}
                         </span>
                       ) : row.status.sdk.status === "error" ? (
                         <span className="text-foreground-tertiary">
-                          Unavailable
+                          不可用
                         </span>
                       ) : (
                         <span>
-                          {row.status.sdk.upgradeRequiredCount} outdated
+                          {row.status.sdk.upgradeRequiredCount} 已过时
                         </span>
                       )}
                     </TableCell>
@@ -380,7 +380,7 @@ function OrgStatusSection({
                     </TableCell>
                     <TableCell density="comfortable">
                       <span className="text-dark-blue flex items-center justify-end gap-1 whitespace-nowrap opacity-0 transition-opacity group-hover/row:opacity-100">
-                        Review <ArrowRight className="h-3 w-3 shrink-0" />
+                        复查 <ArrowRight className="h-3 w-3 shrink-0" />
                       </span>
                     </TableCell>
                   </TableRow>
@@ -423,68 +423,68 @@ function V4MigrationStatusPageContent() {
 
   const faqItems: { q: string; a: ReactNode }[] = [
     {
-      q: "Why is this happening?",
+      q: "为什么需要迁移？",
       a: (
         <>
-          We rebuilt the tracing and evaluation engine around{" "}
-          <FaqLink href={DATA_MODEL_URL}>observations</FaqLink>. The new engine
-          is real-time and holds up much better at scale.
+          我们围绕{" "}
+          <FaqLink href={DATA_MODEL_URL}>观察单元 (observations)</FaqLink> 重新构建了追踪和评估引擎。
+          新引擎是实时的，在大规模场景下表现更加出色。
         </>
       ),
     },
     {
-      q: "What's in it for me?",
+      q: "对我有什么好处？",
       a: (
         <>
-          Your{" "}
-          <FaqLink href={OBSERVATIONS_FAQ_URL}>data shows up instantly</FaqLink>
-          , everything loads faster, and you get{" "}
+          你的{" "}
+          <FaqLink href={OBSERVATIONS_FAQ_URL}>数据即时呈现</FaqLink>
+          ，加载速度更快，并且你可以使用{" "}
           <FaqLink href={V4_DOCS_URL}>
-            features we could not build on the old engine
+            旧引擎无法构建的新功能
           </FaqLink>
-          , like full-text search, alerting, and observation-level evals.
+          ，比如全文搜索、告警和观察级评估。
         </>
       ),
     },
     {
-      q: "Do I have to do this?",
+      q: "我必须迁移吗？",
       a: (
         <>
-          Yes, eventually. The{" "}
-          <FaqLink href={SDK_UPGRADE_URL}>old SDKs</FaqLink>, trace-level evals,
-          and APIs are frozen and stop working on{" "}
-          <span className="underline">Oct 1</span>. They keep running until
-          then, but we&apos;re no longer fixing bugs in them.
+          是的，最终必须迁移。{" "}
+          <FaqLink href={SDK_UPGRADE_URL}>旧版 SDK</FaqLink>、追踪级评估
+          和 API 已冻结，并将在{" "}
+          <span className="underline">10 月 1 日</span> 停止工作。在此之前它们仍可运行，
+          但我们不再修复其中的错误。
         </>
       ),
     },
     {
-      q: "How much work is it?",
+      q: "工作量有多大？",
       a: (
         <>
-          Less than you&apos;d think. For most projects it&apos;s{" "}
+          比你想象的要少。对于大多数项目，只需{" "}
           <button
             type="button"
             onClick={handleCopyPrompt}
             className="text-dark-blue hover:underline"
           >
-            one prompt
+            一条提示词
           </button>
-          : the agent updates your SDK, repoints your evals, and migrates your
-          API calls, checking with you before it changes anything.
+          ：代理会更新你的 SDK、重定向你的评估，并迁移你的
+          API 调用，在更改任何内容之前会先与你确认。
         </>
       ),
     },
     {
-      q: "What if I do nothing?",
+      q: "如果什么都不做会怎样？",
       a: (
         <>
-          On <span className="underline">Oct 1</span>, old SDKs stop sending
-          data, and the{" "}
+          到 <span className="underline">10 月 1 日</span>，旧版 SDK 将停止发送
+          数据，{" "}
           <FaqLink href={API_REFERENCE_URL}>
-            deprecated evals and endpoints
+            已弃用的评估和接口
           </FaqLink>{" "}
-          start returning errors.
+          将开始返回错误。
         </>
       ),
     },
@@ -513,23 +513,23 @@ function V4MigrationStatusPageContent() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Migration status",
+        title: "迁移状态",
       }}
     >
       <div className="flex flex-col gap-6 pt-2 pb-24">
         <Card className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 p-6">
           <div className="flex min-w-0 flex-col gap-2.5">
             <p className="text-base font-bold">
-              Langfuse v4 is here. Real-time and up to 165× faster
+              Langfuse v4 来了。实时且速度提升高达 165 倍
             </p>
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
               {isChecking ? (
                 <span className="text-muted-foreground text-sm">
-                  Checking project status…
+                  正在检查项目状态…
                 </span>
               ) : totalProjects === 0 ? (
                 <span className="text-muted-foreground text-sm">
-                  No active projects
+                  没有活跃项目
                 </span>
               ) : (
                 <>
@@ -537,7 +537,7 @@ function V4MigrationStatusPageContent() {
                     {readyProjects}
                   </span>
                   <span className="text-muted-foreground text-sm">
-                    of {totalProjects} projects migrated
+                    / {totalProjects} 个项目已迁移
                   </span>
                 </>
               )}
@@ -546,8 +546,8 @@ function V4MigrationStatusPageContent() {
           {shouldShowUpdateAllButton && (
             <RainbowButton onClick={handleCopyPrompt}>
               <Copy className="mr-1.5 h-4 w-4 shrink-0" />
-              <span className="min-w-0 truncate" title="Update all with agents">
-                Update all with agents
+              <span className="min-w-0 truncate" title="使用代理全部更新">
+                使用代理全部更新
               </span>
             </RainbowButton>
           )}
@@ -562,7 +562,7 @@ function V4MigrationStatusPageContent() {
         ))}
 
         <div className="mt-6">
-          <p className="text-base font-bold">What&apos;s new in v4</p>
+          <p className="text-base font-bold">v4 的新特性</p>
           <div className="flex flex-col gap-6 pt-4">
             <div className="divide-y">
               {faqItems.map(({ q, a }) => (

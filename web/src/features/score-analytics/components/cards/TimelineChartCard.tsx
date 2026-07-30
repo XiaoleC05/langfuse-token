@@ -179,7 +179,7 @@ export function TimelineChartCard() {
 
     // Interval description
     parts.push(
-      `${dataType === "NUMERIC" ? "Average" : "Count"} by ${interval.count} ${interval.unit}${interval.count > 1 ? "s" : ""}`,
+      `${dataType === "NUMERIC" ? "平均值" : "计数"} by ${interval.count} ${interval.unit}${interval.count > 1 ? "s" : ""}`,
     );
 
     // Overall average for numeric
@@ -188,14 +188,14 @@ export function TimelineChartCard() {
       overallAverage !== null &&
       overallAverage > 0
     ) {
-      parts.push(`Overall avg: ${overallAverage.toFixed(3)}`);
+      parts.push(`总体平均值: ${overallAverage.toFixed(3)}`);
     }
 
     // Matched count for two-score mode
     if (mode === "two" && statistics.comparison) {
       if (activeTab === "matched") {
         parts.push(
-          `${statistics.comparison.matchedCount.toLocaleString()} matched`,
+          `${statistics.comparison.matchedCount.toLocaleString()} 条已匹配`,
         );
       }
     }
@@ -208,8 +208,8 @@ export function TimelineChartCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Trend Over Time</CardTitle>
-          <CardDescription>Loading chart...</CardDescription>
+          <CardTitle>时间趋势</CardTitle>
+          <CardDescription>加载图表中...</CardDescription>
         </CardHeader>
         <CardContent className="flex h-[340px] grow items-center justify-center">
           <Spinner size="xl" variant="muted" />
@@ -223,11 +223,11 @@ export function TimelineChartCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Trend Over Time</CardTitle>
-          <CardDescription>No data available</CardDescription>
+          <CardTitle>时间趋势</CardTitle>
+          <CardDescription>无可用数据</CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground flex h-[340px] items-center justify-center text-sm">
-          Select a score to view trends
+          选择一个评分以查看趋势
         </CardContent>
       </Card>
     );
@@ -262,7 +262,7 @@ export function TimelineChartCard() {
     ? score2.name === score1.name
       ? `${score2.source} · ${score2.name}`
       : score2.name
-    : "Score 2";
+    : "评分 2";
 
   return (
     <Card>
@@ -271,7 +271,7 @@ export function TimelineChartCard() {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <CardTitle className="flex items-center gap-2">
-                Trend Over Time
+                时间趋势
                 {data.samplingMetadata.isSampled && (
                   <SamplingDetailsHoverCard
                     samplingMetadata={data.samplingMetadata}
@@ -303,10 +303,10 @@ export function TimelineChartCard() {
                   {truncateLabel(score2FullLabel)}
                 </TabsTrigger>
                 <TabsTrigger value="all" className="h-5 px-2 text-xs">
-                  all
+                  全部
                 </TabsTrigger>
                 <TabsTrigger value="matched" className="h-5 px-2 text-xs">
-                  matched
+                  已匹配
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -338,7 +338,7 @@ export function TimelineChartCard() {
           />
         ) : (
           <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
-            No time series data available for the selected time range
+            所选时间范围内无时间序列数据可用
           </div>
         )}
       </CardContent>

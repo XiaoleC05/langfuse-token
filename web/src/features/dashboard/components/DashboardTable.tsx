@@ -54,12 +54,12 @@ function CloneDashboardButton({
       utils.dashboard.invalidate();
       capture("dashboard:clone_dashboard", { source: "list_clone_button" });
       showSuccessToast({
-        title: "Dashboard cloned",
-        description: "The dashboard has been cloned successfully",
+        title: "仪表板已克隆",
+        description: "仪表板已成功克隆",
       });
     },
     onError: (e) => {
-      showErrorToast("Failed to clone dashboard", e.message);
+      showErrorToast("克隆仪表板失败", e.message);
     },
   });
 
@@ -83,7 +83,7 @@ function CloneDashboardButton({
       onClick={handleCloneDashboard}
     >
       <Copy className="mr-2 h-4 w-4" />
-      Clone
+      克隆
     </Button>
   );
 }
@@ -111,7 +111,7 @@ function EditDashboardButton({
         onClick={() => setIsDialogOpen(true)}
       >
         <Edit className="mr-2 h-4 w-4" />
-        Edit
+        编辑
       </Button>
 
       <EditDashboardDialog
@@ -155,7 +155,7 @@ function LockedEditDashboardButton({
         }}
       >
         <Edit className="mr-2 h-4 w-4" />
-        Edit
+        编辑
       </Button>
 
       <CloneFirstDialog
@@ -213,7 +213,7 @@ export function DashboardTable() {
   const columnHelper = createColumnHelper<DashboardTableRow>();
   const dashboardColumns = [
     columnHelper.accessor("name", {
-      header: "Name",
+      header: "名称",
       id: "name",
       enableSorting: true,
       size: 200,
@@ -228,7 +228,7 @@ export function DashboardTable() {
       },
     }),
     columnHelper.accessor("description", {
-      header: "Description",
+      header: "描述",
       id: "description",
       size: 300,
       cell: (row) => {
@@ -237,7 +237,7 @@ export function DashboardTable() {
     }),
     columnHelper.display({
       id: "ownerTag",
-      header: "Owner",
+      header: "所有者",
       size: 80,
       cell: (row) => {
         return row.row.original.owner === "LANGFUSE" ? (
@@ -249,13 +249,13 @@ export function DashboardTable() {
           </span>
         ) : (
           <span className="flex gap-1 px-2 py-0.5 text-xs">
-            <UserIcon className="h-3 w-3" /> Project
+            <UserIcon className="h-3 w-3" /> 项目
           </span>
         );
       },
     }),
     columnHelper.accessor("createdAt", {
-      header: "Created At",
+      header: "创建时间",
       id: "createdAt",
       enableSorting: true,
       size: 150,
@@ -265,7 +265,7 @@ export function DashboardTable() {
       },
     }),
     columnHelper.accessor("updatedAt", {
-      header: "Updated At",
+      header: "更新时间",
       id: "updatedAt",
       enableSorting: true,
       size: 150,
@@ -276,7 +276,7 @@ export function DashboardTable() {
     }),
     columnHelper.display({
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       cell: (row) => {
         const id = row.row.original.id;

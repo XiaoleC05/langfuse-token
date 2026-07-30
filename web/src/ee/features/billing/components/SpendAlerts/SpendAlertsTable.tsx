@@ -74,44 +74,44 @@ export function SpendAlertsTable({ orgId }: SpendAlertsTableProps) {
     {
       accessorKey: "title",
       id: "title",
-      header: "Title",
+      header: "标题",
       cell: ({ row }) => row.original.title,
       size: 160,
     },
     {
       accessorKey: "Limit",
       id: "limit",
-      header: "Limit (USD)",
+      header: "限额 (USD)",
       size: 140,
       cell: ({ row }) => usdFormatter(row.original.threshold, 2, 2),
     },
     {
       accessorKey: "status",
       id: "status",
-      header: "Status",
+      header: "状态",
       size: 110,
       cell: ({ row }) => (
         <Badge variant={row.original.triggeredAt ? "destructive" : "secondary"}>
-          {row.original.triggeredAt ? "Triggered" : "Active"}
+          {row.original.triggeredAt ? "已触发" : "活跃"}
         </Badge>
       ),
     },
     {
       accessorKey: "lastTriggered",
       id: "lastTriggered",
-      header: "Last Triggered",
+      header: "上次触发",
       size: 160,
       cell: ({ row }) =>
         row.original.triggeredAt
           ? formatDistanceToNow(new Date(row.original.triggeredAt), {
               addSuffix: true,
             })
-          : "Never",
+          : "从未",
     },
     {
       accessorKey: "actions",
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 120,
       cell: ({ row }) => (
         <DropdownMenu>
@@ -123,14 +123,14 @@ export function SpendAlertsTable({ orgId }: SpendAlertsTableProps) {
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => setEditingAlert(row.original.id)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              编辑
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => setDeletingAlert(row.original.id)}
               className="text-destructive"
             >
               <Trash2 className="mr-2 h-4 w-4" />
-              Delete
+              删除
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -293,10 +293,10 @@ export default function AutomationsPage() {
 
   const renderAutomationNotFoundError = (message: string) => (
     <ErrorPage
-      title="Webhook not found"
+      title="未找到 Webhook"
       message={message}
       additionalButton={{
-        label: "Back to Webhooks",
+        label: "返回 Webhook 列表",
         onClick: () => {
           setUrlParams({
             view: "list",
@@ -312,7 +312,7 @@ export default function AutomationsPage() {
     // Handle 404 errors for edit view
     if (view === "edit" && editingAutomationError?.data?.code === "NOT_FOUND") {
       return renderAutomationNotFoundError(
-        "The webhook you're trying to edit doesn't exist or has been deleted.",
+        "您尝试编辑的 Webhook 不存在或已被删除。",
       );
     }
 
@@ -323,7 +323,7 @@ export default function AutomationsPage() {
       automationDetailError?.data?.code === "NOT_FOUND"
     ) {
       return renderAutomationNotFoundError(
-        "The webhook you're looking for doesn't exist or has been deleted.",
+        "您查找的 Webhook 不存在或已被删除。",
       );
     }
 
@@ -374,10 +374,9 @@ export default function AutomationsPage() {
       <div className="h-full p-6">
         <div className="text-muted-foreground flex h-full items-center justify-center">
           <div className="text-center">
-            <h3 className="text-lg font-bold">Select an automation</h3>
+            <h3 className="text-lg font-bold">选择一个自动化</h3>
             <p className="mt-2 text-sm">
-              Choose an automation from the sidebar to view its details and
-              execution history.
+              从侧栏选择一个自动化，查看其详情和执行历史。
             </p>
           </div>
         </div>
@@ -388,17 +387,17 @@ export default function AutomationsPage() {
   return (
     <Page
       headerProps={{
-        title: "Automations",
+        title: "自动化",
         breadcrumb: [
           {
-            name: "Prompts",
+            name: "提示词",
             href: `/project/${projectId}/prompts/`,
           },
         ],
         actionButtonsRight: (
           <Button onClick={handleCreateAutomation}>
             <Plus className="mr-2 h-4 w-4" />
-            Create Automation
+            创建自动化
           </Button>
         ),
       }}
@@ -426,10 +425,9 @@ export default function AutomationsPage() {
       >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Webhook Secret Created</DialogTitle>
+            <DialogTitle>Webhook 密钥已创建</DialogTitle>
             <DialogDescription>
-              Your automation has been created successfully. Please copy the
-              webhook secret below - it will only be shown once.
+              自动化已创建成功。请复制下方的 Webhook 密钥 —— 它仅显示一次。
             </DialogDescription>
           </DialogHeader>
           <DialogBody>
@@ -439,7 +437,7 @@ export default function AutomationsPage() {
           </DialogBody>
           <DialogFooter>
             <Button onClick={dismissSecretDialog}>
-              {"I've saved the secret"}
+              {"我已保存密钥"}
             </Button>
           </DialogFooter>
         </DialogContent>

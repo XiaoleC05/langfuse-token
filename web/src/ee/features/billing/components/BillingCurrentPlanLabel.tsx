@@ -9,12 +9,12 @@ export const BillingCurrentPlanLabel = () => {
 
   return (
     <div>
-      <>Current plan: {planLabel} </>
+      <>当前套餐:{planLabel} </>
       {cancellation?.isCancelled && cancellation.date && (
         <>
-          <span>(will end on </span>
+          <span>(将于 </span>
           <LocalIsoDate date={cancellation.date} accuracy="day" />
-          <span>)</span>
+          <span> 结束)</span>
         </>
       )}
     </div>

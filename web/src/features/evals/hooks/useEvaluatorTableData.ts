@@ -130,11 +130,11 @@ export const useEvaluatorTableData = ({
             !lazyExecutionCounts.jobExecutionCountsByEvaluatorId[jobConfig.id],
           maintainer: jobConfig.evalTemplate
             ? jobConfig.evalTemplate.projectId
-              ? "User maintained"
+              ? "用户维护"
               : jobConfig.evalTemplate.name.startsWith(RAGAS_TEMPLATE_PREFIX)
-                ? "Langfuse and Ragas maintained"
-                : "Langfuse maintained"
-            : "Not available",
+                ? "Langfuse 与 Ragas 维护"
+                : "Langfuse 维护"
+            : "不可用",
           totalCost: costData,
           isLegacy: isLegacyEvalTarget(jobConfig.targetObject),
         } satisfies EvaluatorDataRow;

@@ -67,7 +67,7 @@ export function DatasetRunItemsByItemTable(props: {
   const columns: LangfuseColumnDef<DatasetRunItemByItemRowData>[] = [
     {
       accessorKey: "datasetRunName",
-      header: "Run Name",
+      header: "运行名称",
       id: "datasetRunName",
       size: 150,
       isPinnedLeft: true,
@@ -79,7 +79,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "runAt",
-      header: "Run At",
+      header: "运行时间",
       id: "runAt",
       size: 150,
       cell: ({ row }) => {
@@ -90,7 +90,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "input",
-      header: "Trace Input",
+      header: "追踪输入",
       id: "input",
       size: 200,
       enableHiding: true,
@@ -113,7 +113,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "output",
-      header: "Trace Output",
+      header: "追踪输出",
       id: "output",
       size: 200,
       enableHiding: true,
@@ -136,7 +136,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "expectedOutput",
-      header: "Expected Output",
+      header: "预期输出",
       id: "expectedOutput",
       size: 200,
       enableHiding: true,
@@ -152,7 +152,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "trace",
-      header: "Trace",
+      header: "追踪",
       id: "trace",
       size: 60,
       cell: ({ row }) => {
@@ -176,7 +176,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "latency",
-      header: "Latency",
+      header: "延迟",
       id: "latency",
       size: 70,
       enableHiding: true,
@@ -188,7 +188,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "totalCost",
-      header: "Cost",
+      header: "成本",
       id: "totalCost",
       size: 60,
       enableHiding: true,
@@ -200,7 +200,7 @@ export function DatasetRunItemsByItemTable(props: {
     },
     {
       accessorKey: "scores",
-      header: "Scores",
+      header: "评分",
       id: "scores",
       enableHiding: true,
       defaultHidden: true,

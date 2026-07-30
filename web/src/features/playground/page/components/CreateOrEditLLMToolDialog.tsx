@@ -35,7 +35,7 @@ import { showErrorToast } from "@/src/features/notifications/showErrorToast";
 
 const formSchema = z.object({
   name: LLMToolNameSchema,
-  description: z.string().min(1, "Description is required"),
+  description: z.string().min(1, "描述为必填项"),
   parameters: JSONSchemaFormSchema,
 });
 
@@ -142,8 +142,8 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
       form.setValue("parameters", prettified);
     } catch {
       showErrorToast(
-        "Failed to prettify JSON",
-        "Please verify your input is valid JSON",
+        "格式化 JSON 失败",
+        "请验证输入是否为有效的 JSON",
         "WARNING",
       );
     }
@@ -160,10 +160,10 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
       >
         <DialogHeader>
           <DialogTitle>
-            {existingLlmTool ? "Edit LLM Tool" : "Create LLM Tool"}
+            {existingLlmTool ? "编辑 LLM 工具" : "创建 LLM 工具"}
           </DialogTitle>
           <DialogDescription>
-            Define a tool for LLM function calling
+            为 LLM 函数调用定义工具
           </DialogDescription>
         </DialogHeader>
 
@@ -179,9 +179,9 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>名称</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., get_weather" {...field} />
+                        <Input placeholder="例如：get_weather" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -193,14 +193,13 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>描述</FormLabel>
                       <FormDescription>
-                        This description will be sent to the LLM to help it
-                        understand the tool&apos;s purpose and functionality.
+                        此描述将发送给 LLM，帮助其理解工具的用途和功能。
                       </FormDescription>
                       <FormControl>
                         <Textarea
-                          placeholder="Describe the tool's purpose and usage"
+                          placeholder="描述工具的用途和使用方式"
                           className="max-h-[120px] focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                           {...field}
                           onKeyDown={(e) => {
@@ -218,17 +217,16 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                   name="parameters"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Parameters (JSON Schema)</FormLabel>
+                      <FormLabel>参数（JSON 结构）</FormLabel>
                       <FormDescription>
-                        Define the structure of your tool parameters using JSON
-                        Schema format.{" "}
+                        使用 JSON Schema 格式定义工具参数的结构。{" "}
                         <a
                           href="https://json-schema.org/learn/miscellaneous-examples"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
                         >
-                          See JSON Schema examples here
+                          查看 JSON Schema 示例
                           <ArrowUpRight className="h-3 w-3" />
                         </a>
                       </FormDescription>
@@ -248,12 +246,12 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                             onClick={prettifyJson}
                             className="absolute top-3 right-3 text-xs"
                           >
-                            Prettify
+                            格式化
                           </Button>
                         </div>
                       </FormControl>
                       <p className="text-muted-foreground text-xs">
-                        Parameters must be a valid JSON Schema object
+                        参数必须是有效的 JSON Schema 对象
                       </p>
                       <FormMessage />
                     </FormItem>
@@ -265,8 +263,7 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
             <DialogFooter className="bg-modal sticky bottom-0 mt-4 flex flex-col gap-2 border-t pt-4">
               <div className="flex w-full flex-col gap-2">
                 <p className="text-muted-foreground text-xs">
-                  Note: Changes to tools are reflected to all members of this
-                  project.
+                  注意：工具变更将对本项目的所有成员生效。
                 </p>
                 <div className="flex items-center justify-between gap-2">
                   {existingLlmTool && (
@@ -276,7 +273,7 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                       onClick={handleDelete}
                       className="mr-auto"
                     >
-                      Delete
+                      删除
                     </Button>
                   )}
                   <Button
@@ -284,9 +281,9 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                     variant="outline"
                     onClick={() => setOpen(false)}
                   >
-                    Cancel
+                    取消
                   </Button>
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">保存</Button>
                 </div>
               </div>
             </DialogFooter>

@@ -75,13 +75,13 @@ export function DeleteProjectButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive-secondary" disabled={!hasAccess}>
-          Delete Project
+          删除项目
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">
-            Delete Project
+            删除项目
           </DialogTitle>
           <DialogDescription className=" ">
             {`To confirm, type "${confirmMessage}" in the input box `}
@@ -110,7 +110,7 @@ export function DeleteProjectButton() {
                 loading={deleteProject.isPending}
                 className="w-full"
               >
-                Delete project
+                删除项目
               </Button>
             </DialogFooter>
           </form>

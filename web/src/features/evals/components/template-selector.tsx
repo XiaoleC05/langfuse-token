@@ -152,8 +152,8 @@ export const TemplateSelector = ({
 
   const triggerLabel =
     activeEvaluators.length > 0
-      ? `${activeEvaluators.length} active evaluators`
-      : "Select evaluators";
+      ? `${activeEvaluators.length} 个活跃评估器`
+      : "选择评估器";
 
   return (
     <>
@@ -176,7 +176,7 @@ export const TemplateSelector = ({
         <PopoverContent className="w-[300px] p-0" align="start">
           <InputCommand>
             <InputCommandInput
-              placeholder="Search evaluators..."
+              placeholder="搜索评估器..."
               className="h-9"
               value={search}
               onValueChange={setSearch}
@@ -193,13 +193,13 @@ export const TemplateSelector = ({
             >
               <InputCommandList className="max-h-full overflow-visible overflow-x-hidden">
                 {!hasResults && (
-                  <InputCommandEmpty>No evaluator found.</InputCommandEmpty>
+                  <InputCommandEmpty>未找到评估器。</InputCommandEmpty>
                 )}
 
                 {filteredTemplates.custom.length > 0 && (
                   <>
                     <InputCommandGroup
-                      heading="Custom evaluators"
+                      heading="自定义评估器"
                       className="max-h-full"
                     >
                       {filteredTemplates.custom.map(([familyKey, template]) => {
@@ -226,7 +226,7 @@ export const TemplateSelector = ({
                             {template.name}
                             {isLegacy && (
                               <Badge variant="outline" className="ml-2 text-xs">
-                                legacy
+                                旧版
                               </Badge>
                             )}
                             {isInvalid && (
@@ -235,7 +235,7 @@ export const TemplateSelector = ({
                                   <AlertCircle className="ml-1 h-4 w-4 text-yellow-500" />
                                 </TooltipTrigger>
                                 <TooltipContent className="max-h-[50dvh] overflow-y-auto text-xs break-normal whitespace-normal">
-                                  <p>Requires project-level evaluation model</p>
+                                  <p>需要项目级别的评估模型</p>
                                   <Link
                                     href={`/project/${projectId}/evals/default-model`}
                                     className="mt-2 flex items-center gap-1 text-blue-600 hover:underline"
@@ -243,17 +243,17 @@ export const TemplateSelector = ({
                                     rel="noopener noreferrer"
                                   >
                                     <ExternalLinkIcon className="h-3 w-3" />
-                                    Configure default model
+                                    配置默认模型
                                   </Link>
                                 </TooltipContent>
                               </Tooltip>
                             )}
                             {isInactive && (
                               <div
-                                title="The evaluator has been used in the past but is currently paused. It will not run against outputs created in this dataset run. You can reactivate it if you wish"
+                                title="该评估器过去曾被使用，但目前已暂停。它不会对此数据集运行中的输出执行评估。您可以根据需要重新激活。"
                                 className="text-muted-foreground ml-2 text-xs"
                               >
-                                Paused
+                                已暂停
                               </div>
                             )}
                             {isActive && (
@@ -270,8 +270,8 @@ export const TemplateSelector = ({
                                 className="ml-auto"
                                 title={
                                   isInvalid
-                                    ? "Configure default model first"
-                                    : "Configure evaluator"
+                                    ? "请先配置默认模型"
+                                    : "配置评估器"
                                 }
                                 disabled={isInvalid || disabled}
                               >
@@ -290,7 +290,7 @@ export const TemplateSelector = ({
 
                 {filteredTemplates.langfuse.length > 0 && (
                   <InputCommandGroup
-                    heading="Langfuse managed evaluators"
+                    heading="Langfuse 官方评估器"
                     className="max-h-full min-h-0"
                   >
                     {filteredTemplates.langfuse.map(([familyKey, template]) => {
@@ -320,7 +320,7 @@ export const TemplateSelector = ({
                           />
                           {isLegacy && (
                             <Badge variant="outline" className="ml-2 text-xs">
-                              legacy
+                              旧版
                             </Badge>
                           )}
                           {isInvalid && (
@@ -329,7 +329,7 @@ export const TemplateSelector = ({
                                 <AlertCircle className="ml-1 h-4 w-4 text-yellow-500" />
                               </TooltipTrigger>
                               <TooltipContent className="max-h-[50dvh] overflow-y-auto text-xs break-normal whitespace-normal">
-                                <p>Requires project-level evaluation model</p>
+                                <p>需要项目级别的评估模型</p>
                                 <Link
                                   href={`/project/${projectId}/evals/default-model`}
                                   className="mt-2 flex items-center gap-1 text-blue-600 hover:underline"
@@ -337,7 +337,7 @@ export const TemplateSelector = ({
                                   rel="noopener noreferrer"
                                 >
                                   <ExternalLinkIcon className="h-3 w-3" />
-                                  Configure default model
+                                  配置默认模型
                                 </Link>
                               </TooltipContent>
                             </Tooltip>
@@ -347,7 +347,7 @@ export const TemplateSelector = ({
                               title="The evaluator has been used in the past but is currently paused. It will not run against outputs created in this dataset run. You can reactivate it if you wish"
                               className="text-muted-foreground ml-2 text-xs"
                             >
-                              Paused
+                              已暂停
                             </div>
                           )}
                           {isActive && (
@@ -389,7 +389,7 @@ export const TemplateSelector = ({
                       );
                     }}
                   >
-                    Create custom evaluator
+                    创建自定义评估器
                     <ExternalLink className="ml-auto h-4 w-4" />
                   </InputCommandItem>
                   {!hasDefaultModel && (

@@ -39,7 +39,7 @@ export function MatchedTierCard({ tier }: MatchedTierCardProps) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-muted-foreground text-xs font-bold tracking-wide uppercase">
-          Matched Pricing Tier
+          匹配的定价层级
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -47,17 +47,17 @@ export function MatchedTierCard({ tier }: MatchedTierCardProps) {
           <span className="text-base font-bold">{tier.name}</span>
           {tier.isDefault && (
             <Badge variant="secondary" className="text-xs">
-              Default
+              默认
             </Badge>
           )}
           <span className="text-muted-foreground text-xs">
-            Priority: {tier.priority}
+            优先级：{tier.priority}
           </span>
         </div>
 
         <div>
           <div className="text-muted-foreground mb-2 text-xs font-bold">
-            Prices (per {priceUnit}):
+            价格（每 {priceUnit}）：
           </div>
           <div className="space-y-1.5">
             {Object.entries(tier.prices).map(([usageType, price]) => (

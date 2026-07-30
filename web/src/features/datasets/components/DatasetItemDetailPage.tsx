@@ -112,7 +112,7 @@ export const DatasetItemDetailPage = ({
     if (!hasAccess || mutDelete.isPending) return;
     if (
       window.confirm(
-        "Are you sure you want to delete this item? This will also delete all run items that belong to this item.",
+        "确定要删除此条目吗？这将同时删除属于此条目的所有运行条目。",
       )
     ) {
       capture("dataset_item:delete");
@@ -131,13 +131,13 @@ export const DatasetItemDetailPage = ({
         title: itemId,
         itemType: "DATASET_ITEM",
         breadcrumb: [
-          { name: "Datasets", href: `/project/${projectId}/datasets` },
+          { name: "数据集", href: `/project/${projectId}/datasets` },
           {
             name: dataset.data?.name ?? datasetId,
             href: `/project/${projectId}/datasets/${datasetId}`,
           },
           {
-            name: "Items",
+            name: "条目",
             href: `/project/${projectId}/datasets/${datasetId}/items`,
           },
         ],
@@ -162,13 +162,13 @@ export const DatasetItemDetailPage = ({
                     <div className="space-y-2">
                       <h4 className="leading-none font-bold">
                         {item.data.status === DatasetStatus.ACTIVE
-                          ? "Archive this item?"
-                          : "Unarchive this item?"}
+                          ? "归档此条目？"
+                          : "取消归档此条目？"}
                       </h4>
                       <p className="text-muted-foreground text-sm">
                         {item.data.status === DatasetStatus.ACTIVE
-                          ? "Archiving an item will exclude it from new dataset runs."
-                          : "Unarchiving an item will include it back in new dataset runs."}
+                          ? "归档条目将使其排除在新的数据集运行之外。"
+                          : "取消归档将使其重新包含在新的数据集运行中。"}
                       </p>
                     </div>
                     <Button
@@ -182,10 +182,10 @@ export const DatasetItemDetailPage = ({
                       size="sm"
                     >
                       {mutUpdate.isPending
-                        ? "Processing..."
+                        ? "处理中..."
                         : item.data.status === DatasetStatus.ACTIVE
-                          ? "Archive"
-                          : "Unarchive"}
+                          ? "归档"
+                          : "取消归档"}
                     </Button>
                   </div>
                 </PopoverContent>
@@ -195,7 +195,7 @@ export const DatasetItemDetailPage = ({
               <Button variant="ghost" size="icon-xs" asChild>
                 <Link
                   href={`/project/${projectId}/traces/${item.data.sourceTraceId}`}
-                  title={`View source ${item.data.sourceObservationId ? "observation" : "trace"}`}
+                  title={`查看来源${item.data.sourceObservationId ? "观测" : "追踪"}`}
                 >
                   <ListTree className="h-4 w-4" />
                 </Link>
@@ -240,7 +240,7 @@ export const DatasetItemDetailPage = ({
                   disabled={!hasAccess || isViewingOldVersion || !item.data}
                 >
                   <Pencil className="mr-2 h-4 w-4" />
-                  Edit
+                  编辑
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={handleDelete}
@@ -253,7 +253,7 @@ export const DatasetItemDetailPage = ({
                   className="text-destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {mutDelete.isPending ? "Deleting..." : "Delete"}
+                  {mutDelete.isPending ? "删除中..." : "删除"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

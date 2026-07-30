@@ -76,11 +76,11 @@ export const EvaluatorDetail = () => {
     allTemplates.isLoading ||
     !allTemplates.data
   ) {
-    return <div className="p-3">Loading...</div>;
+    return <div className="p-3">加载中...</div>;
   }
 
   if (evaluator.data && evaluator.data.evalTemplate === null) {
-    return <div>Evaluator not found</div>;
+    return <div>未找到评估器</div>;
   }
 
   const existingEvaluator =
@@ -101,11 +101,11 @@ export const EvaluatorDetail = () => {
       headerProps={{
         title: evaluator.data
           ? `${evaluator.data.scoreName}: ${evaluator.data.id}`
-          : "Loading...",
+          : "加载中...",
         itemType: "EVALUATOR",
         breadcrumb: [
           {
-            name: "LLM-as-a-Judge Evaluators",
+            name: "LLM-as-a-Judge 评估器",
             href: `/project/${router.query.projectId as string}/evals`,
           },
         ],
@@ -146,11 +146,10 @@ export const EvaluatorDetail = () => {
             <div className="mx-3 mt-3">
               <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Unsupported filters</AlertTitle>
+                <AlertTitle>不支持的筛选器</AlertTitle>
                 <AlertDescription>
-                  This evaluator contains deprecated or unsupported filters. The
-                  filters must be removed. Until the filters are removed, the
-                  evaluator is paused and will not be run.{" "}
+                  此评估器包含已弃用或不支持的筛选器。必须移除这些筛选器。
+                  在移除筛选器之前，评估器将暂停运行，不会执行。{" "}
                 </AlertDescription>
               </Alert>
             </div>

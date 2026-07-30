@@ -71,8 +71,7 @@ export function ToolCallInvocationsView({
             {/* Arguments view */}
             <div className="py-2 [&_.io-message-content]:px-0">
               <div className="text-muted-foreground mb-1.5 text-xs font-bold">
-                Arguments
-              </div>
+                参数</div>
               <PrettyJsonView
                 json={parsedArguments}
                 currentView="pretty"

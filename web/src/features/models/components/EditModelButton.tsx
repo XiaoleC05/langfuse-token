@@ -20,10 +20,10 @@ export const EditModelButton = ({
       <Button
         variant="outline"
         disabled={!hasAccess}
-        title="Edit model"
+        title="编辑模型"
         className="flex items-center"
       >
-        <span>Edit</span>
+        <span>编辑</span>
       </Button>
     </UpsertModelFormDialog>
   );

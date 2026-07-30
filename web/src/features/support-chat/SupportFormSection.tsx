@@ -103,7 +103,7 @@ function validateFiles(files: File[] | undefined): {
   if (files.length > maxFiles) {
     return {
       isValid: false,
-      error: `Please upload at most ${maxFiles} files.`,
+      error: `请最多上传 ${maxFiles} 个文件。`,
     };
   }
 
@@ -113,7 +113,7 @@ function validateFiles(files: File[] | undefined): {
     const maxMB = (maxFileSizeBytes / (1024 * 1024)).toFixed(0);
     return {
       isValid: false,
-      error: `File "${oversizedFile.name}" is too large. Maximum file size is ${maxMB}MB per file.`,
+      error: `文件 "${oversizedFile.name}" 过大。每个文件最大 ${maxMB}MB。`,
     };
   }
 
@@ -124,7 +124,7 @@ function validateFiles(files: File[] | undefined): {
     const maxMB = (maxCombinedBytes / (1024 * 1024)).toFixed(0);
     return {
       isValid: false,
-      error: `Total attachment size (${totalMB}MB) exceeds the limit of ${maxMB}MB.`,
+      error: `附件总大小 (${totalMB}MB) 超过了 ${maxMB}MB 的限制。`,
     };
   }
 
@@ -148,7 +148,7 @@ function formatFileError(error: Error): string {
     msg.includes("10mb") ||
     msg.includes("too large")
   ) {
-    return `File is too large. Maximum file size is ${maxMB}MB per file.`;
+    return `文件过大。每个文件最大 ${maxMB}MB。`;
   }
 
   // File count errors
@@ -157,20 +157,20 @@ function formatFileError(error: Error): string {
     msg.includes("maxfiles") ||
     msg.includes("5 files")
   ) {
-    return `Too many files. Maximum ${maxFiles} files allowed.`;
+    return `文件数量过多。最多允许 ${maxFiles} 个文件。`;
   }
 
   // Combined size errors
   if (msg.includes("total") && (msg.includes("50mb") || msg.includes("size"))) {
-    return `Total attachment size exceeds limit. Maximum combined size is ${maxCombinedMB}MB.`;
+    return `附件总大小超过限制。最大合并大小为 ${maxCombinedMB}MB。`;
   }
 
   // File type errors
   if (msg.includes("file type") || msg.includes("accept")) {
-    return "File type not supported. Please select a different file.";
+    return "不支持该文件类型。请选择其他文件。";
   }
 
-  return error.message || "File upload failed. Please try again.";
+  return error.message || "文件上传失败。请重试。";
 }
 
 export function SupportFormSection({
@@ -250,8 +250,8 @@ export function SupportFormSection({
         // attachments) intact so the user can retry instead of wiping it.
         if (data.pylonIssueFailed) {
           showErrorToast(
-            "Support request was not sent",
-            "Please contact support@langfuse.com",
+            "支持请求未发送",
+            "请联系 support@langfuse.com",
           );
           return;
         }
@@ -293,7 +293,7 @@ export function SupportFormSection({
       const body = await res.json().catch(() => ({}));
       throw new Error(
         (body as { error?: string }).error ??
-          "Failed to upload attachments to Pylon.",
+          "上传附件到 Pylon 失败。",
       );
     }
 
@@ -372,7 +372,7 @@ export function SupportFormSection({
       setIsSubmittingLocal(false);
       form.setError("message", {
         type: "manual",
-        message: err?.message ?? "Failed to submit support request.",
+        message: err?.message ?? "提交支持请求失败。",
       });
     }
   };
@@ -387,11 +387,10 @@ export function SupportFormSection({
   return (
     <div className="mt-1 flex flex-col gap-3">
       <div className="flex items-center gap-2 text-base font-bold">
-        E-Mail a Support Engineer
+        发送邮件给支持工程师
       </div>
       <p className="text-muted-foreground text-sm">
-        Details speed things up. The clearer your request, the quicker you get
-        the answer you need.
+        详细信息能加快处理速度。您的请求越清晰，就能越快得到所需的答案。
       </p>
 
       <Form {...form}>
@@ -405,7 +404,7 @@ export function SupportFormSection({
             name="messageType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message Type</FormLabel>
+                <FormLabel>消息类型</FormLabel>
                 <FormControl>
                   <RadioGroup
                     className="grid grid-cols-3 gap-2"
@@ -428,7 +427,7 @@ export function SupportFormSection({
                   </RadioGroup>
                 </FormControl>
                 <FormDescription className="sr-only">
-                  Choose the type of your message.
+                  选择您的消息类型。
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -442,11 +441,11 @@ export function SupportFormSection({
             name="severity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Priority</FormLabel>
+                <FormLabel>优先级</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a priority" />
+                      <SelectValue placeholder="选择优先级" />
                     </SelectTrigger>
                     <SelectContent>
                       {SEVERITIES.map((s) =>
@@ -470,8 +469,8 @@ export function SupportFormSection({
                             </TooltipTrigger>
                             <TooltipContent className="max-w-xs">
                               {s === SEVERITY_1
-                                ? "Severity 1 is available on the Enterprise plan."
-                                : "Severity 2 is available on the Enterprise plan."}
+                                ? "严重级别 1 适用于企业版计划。"
+                                : "严重级别 2 适用于企业版计划。"}
                             </TooltipContent>
                           </Tooltip>
                         ),
@@ -490,19 +489,19 @@ export function SupportFormSection({
             name="topic"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Topic</FormLabel>
+                <FormLabel>主题</FormLabel>
                 <FormControl>
                   <Select
                     value={(field.value as string | undefined) ?? undefined}
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a topic" />
+                      <SelectValue placeholder="选择主题" />
                     </SelectTrigger>
                     <SelectContent>
                       <div className="p-2">
                         <div className="text-muted-foreground mb-2 text-xs font-bold">
-                          Product Features
+                          产品功能
                         </div>
                         {productFeatureTopics.map((t) => (
                           <SelectItem key={t} value={t}>
@@ -512,7 +511,7 @@ export function SupportFormSection({
                       </div>
                       <div className="border-t p-2">
                         <div className="text-muted-foreground mb-2 text-xs font-bold">
-                          Operations
+                          运维
                         </div>
                         {TopicGroups.Operations.map((t) => (
                           <SelectItem key={t} value={t}>
@@ -535,11 +534,11 @@ export function SupportFormSection({
               name="integrationType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Integration Type (optional)</FormLabel>
+                  <FormLabel>集成类型（可选）</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select integration type" />
+                        <SelectValue placeholder="选择集成类型" />
                       </SelectTrigger>
                       <SelectContent>
                         {INTEGRATION_TYPES.map((it) => (
@@ -562,10 +561,9 @@ export function SupportFormSection({
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message</FormLabel>
+                <FormLabel>消息</FormLabel>
                 <div className="text-muted-foreground text-xs">
-                  We will email you at your account address. Replies may take up
-                  to one business day.
+                  我们将发送邮件到您的账户邮箱。回复可能需要一个工作日。
                 </div>
                 <FormControl>
                   <div className="relative w-full">
@@ -574,8 +572,8 @@ export function SupportFormSection({
                       rows={8}
                       placeholder={
                         isProductFeatureTopic
-                          ? "Please explain as fully as possible what you're aiming to do, and what you'd like help with.\n\nIf your question involves a specific trace, prompt, score, etc. please include a link to it."
-                          : "Please explain as fully as possible what you're aiming to do, and what you'd like help with."
+                          ? "请尽可能详细地说明您想要做什么，以及您需要什么帮助。\n\n如果您的问题涉及特定的 trace、prompt、score 等，请附上链接。"
+                          : "请尽可能详细地说明您想要做什么，以及您需要什么帮助。"
                       }
                     />
                   </div>
@@ -587,9 +585,7 @@ export function SupportFormSection({
                     role="status"
                     aria-live="polite"
                   >
-                    The message seems short — adding a bit more context can help
-                    us get you a quicker, smarter answer. You can submit again
-                    as is, or add more details.
+                    消息似乎较短——提供更多上下文可以帮助我们更快、更准确地为您解答。您可以按当前内容重新提交，或补充更多细节。
                   </p>
                 )}
 
@@ -609,7 +605,7 @@ export function SupportFormSection({
                   }
                   onError={(error) => {
                     const userMessage = formatFileError(error);
-                    showErrorToast("File Upload Error", userMessage, "WARNING");
+                    showErrorToast("文件上传错误", userMessage, "WARNING");
                   }}
                   src={files}
                 >
@@ -621,13 +617,13 @@ export function SupportFormSection({
                         className="truncate"
                         title={
                           hasFiles
-                            ? `${files!.length} file${files!.length > 1 ? "s" : ""} • ${totalMB} MB`
-                            : "Attach files"
+                            ? `${files!.length} 个文件 • ${totalMB} MB`
+                            : "添加附件"
                         }
                       >
                         {hasFiles
-                          ? `${files!.length} file${files!.length > 1 ? "s" : ""} • ${totalMB} MB`
-                          : "Attach files"}
+                          ? `${files!.length} 个文件 • ${totalMB} MB`
+                          : "添加附件"}
                       </span>
                     </div>
                   </DropzoneEmptyState>
@@ -635,8 +631,8 @@ export function SupportFormSection({
                   <DropzoneContent>
                     <div className="flex w-full cursor-pointer items-center justify-start gap-2 p-2 text-xs">
                       <Paperclip className="h-4 w-4" />
-                      <span className="truncate" title="Attach files">
-                        Attach files
+                      <span className="truncate" title="添加附件">
+                        添加附件
                       </span>
                     </div>
                   </DropzoneContent>
@@ -645,7 +641,7 @@ export function SupportFormSection({
                 {files && files.length > 0 && (
                   <div className="p-0 text-left text-sm font-bold">
                     <div className="text-muted-foreground mb-2 text-xs font-bold">
-                      Attached files
+                      已添加的附件
                     </div>
                     {files?.map((file) => (
                       <div
@@ -661,7 +657,7 @@ export function SupportFormSection({
                           }
                           className="p-0"
                         >
-                          <span className="sr-only">Remove file</span>
+                          <span className="sr-only">删除文件</span>
                           <Trash2 className="h-3.5 w-3.5" />
                         </Button>
                         {file.name}
@@ -685,7 +681,7 @@ export function SupportFormSection({
               }}
               className="w-full"
             >
-              Cancel
+              取消
             </Button>
 
             <Button
@@ -696,20 +692,19 @@ export function SupportFormSection({
               {isSubmittingLocal ? (
                 <span className="inline-flex items-center gap-2">
                   <Spinner size="sm" />
-                  Submitting…
+                  提交中…
                 </span>
               ) : messageIsShortAfterWarning ? (
-                "Submit Anyways"
+                "仍然提交"
               ) : (
-                "Submit"
+                "提交"
               )}
             </Button>
           </div>
 
           {isSubmittingLocal && (
             <div className="text-muted-foreground text-xs">
-              This can take a few seconds — hang tight while we submit your
-              request.
+              这可能需要几秒钟——请稍候，我们正在提交您的请求。
             </div>
           )}
         </form>
@@ -720,19 +715,17 @@ export function SupportFormSection({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Confirm Severity 1 (Critical Business Impact)
+              确认严重级别 1（重大业务影响）
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Please confirm that your issue has critical business impact. This
-              means it severely impacts your use of Langfuse in production, such
-              as loss of production data, ingestion issues, or prompt fetching
-              issues.
+              请确认您的问题具有重大业务影响。这意味着它严重影响了您在生产环境中对 Langfuse
+              的使用，例如生产数据丢失、数据摄取问题或提示词获取问题。
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>取消</AlertDialogCancel>
             <AlertDialogAction onClick={() => submitForm(form.getValues())}>
-              Confirm &amp; Submit
+              确认并提交
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

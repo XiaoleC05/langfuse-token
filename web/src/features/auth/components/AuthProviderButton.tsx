@@ -34,7 +34,7 @@ export function AuthProviderButton({
           showLastUsedBadge ? "visible" : "invisible",
         )}
       >
-        Last used
+        上次使用
       </div>
     </div>
   );

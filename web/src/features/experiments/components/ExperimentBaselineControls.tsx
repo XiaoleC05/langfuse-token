@@ -35,9 +35,9 @@ export function ExperimentBaselineControls({
           options={baselineOptions}
           value={baselineId}
           onValueChange={onBaselineChange}
-          placeholder={baselineName ?? baselineId ?? "Select baseline..."}
-          emptyText="No experiments found"
-          searchPlaceholder="Search experiments..."
+          placeholder={baselineName ?? baselineId ?? "选择基线..."}
+          emptyText="未找到实验"
+          searchPlaceholder="搜索实验..."
           disabled={isLoading}
           className="h-9"
         />
@@ -49,7 +49,7 @@ export function ExperimentBaselineControls({
           size="sm"
           onClick={onBaselineClear}
           disabled={isLoading}
-          title="Clear baseline"
+          title="清除基线"
         >
           <X className="h-4 w-4" />
         </Button>

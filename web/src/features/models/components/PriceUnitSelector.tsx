@@ -32,7 +32,7 @@ export const PriceUnitSelector = () => {
           onValueChange={(value: PriceUnit) => setPriceUnit(value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select unit" />
+            <SelectValue placeholder="选择单位" />
           </SelectTrigger>
           <SelectContent>
             {Object.values(PriceUnit).map((unit) => (

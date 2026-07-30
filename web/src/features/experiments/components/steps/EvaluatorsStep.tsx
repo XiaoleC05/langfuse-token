@@ -31,12 +31,12 @@ export const EvaluatorsStep: React.FC<EvaluatorsStepProps> = ({
   return (
     <div className="space-y-6">
       <StepHeader
-        title="Evaluators (Optional)"
-        description="Configure evaluators to automatically score experiment results. You can add multiple evaluators to assess different aspects of your LLM outputs."
+        title="评估器（可选）"
+        description="配置评估器以自动为实验结果评分。你可以添加多个评估器来评估 LLM 输出的不同方面。"
       />
 
       <FormItem>
-        <FormLabel>Select Evaluators</FormLabel>
+        <FormLabel>选择评估器</FormLabel>
         {hasEvalReadAccess && datasetId ? (
           <TemplateSelector
             projectId={projectId}
@@ -49,8 +49,8 @@ export const EvaluatorsStep: React.FC<EvaluatorsStepProps> = ({
         ) : (
           <p className="text-muted-foreground text-sm">
             {!hasEvalReadAccess
-              ? "You don't have permission to manage evaluators"
-              : "Please select a dataset first to configure evaluators"}
+              ? "你没有管理评估器的权限"
+              : "请先选择数据集以配置评估器"}
           </p>
         )}
         <FormMessage />
@@ -69,8 +69,8 @@ export const EvaluatorsStep: React.FC<EvaluatorsStepProps> = ({
           <DialogContent className="max-h-[90vh] max-w-(--breakpoint-md) overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {selectedEvaluatorData.evaluator.id ? "Edit" : "Configure"}{" "}
-                Evaluator
+                {selectedEvaluatorData.evaluator.id ? "编辑" : "配置"}
+                评估器
               </DialogTitle>
             </DialogHeader>
             <EvaluatorForm

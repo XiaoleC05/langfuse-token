@@ -42,7 +42,7 @@ export const TracingSetup = ({
   return (
     <div className="space-y-8">
       <div>
-        <SubHeader title="1. Get API keys" />
+        <SubHeader title="1. 获取 API 密钥" />
         {apiKeys ? (
           <ApiKeyDetailContent
             scope="project"
@@ -55,8 +55,7 @@ export const TracingSetup = ({
         ) : (
           <div className="flex flex-col gap-4">
             <p className="text-muted-foreground text-sm">
-              You need to create an API key to start tracing your application.
-              You can create more keys later in the project settings.
+              您需要创建 API 密钥才能开始追踪您的应用。您稍后可以在项目设置中创建更多密钥。
             </p>
             <div className="flex gap-2">
               <Button
@@ -64,13 +63,13 @@ export const TracingSetup = ({
                 loading={mutCreateApiKey.isPending}
                 className="self-start"
               >
-                Create new API key
+                创建新 API 密钥
               </Button>
               <ActionButton
                 href={`/project/${projectId}/settings/api-keys`}
                 variant="secondary"
               >
-                Manage API keys
+                管理 API 密钥
               </ActionButton>
             </div>
           </div>
@@ -79,17 +78,16 @@ export const TracingSetup = ({
 
       <div>
         <SubHeader
-          title="2. Add tracing to your application"
+          title="2. 将追踪接入您的应用"
           status={hasTracingConfigured ? "active" : "pending"}
         />
         <p className="text-muted-foreground mb-4 text-sm">
-          Langfuse relies on OpenTelemetry to instrument your application and
-          export LLM application/agent traces to Langfuse. You can use one of
-          our SDKs or 50+ framework integrations. Please follow the quickstart
-          in the documentation to add Langfuse to your application.
+          Langfuse 基于 OpenTelemetry 对您的应用进行插桩，并将 LLM 应用/代理追踪导出到
+          Langfuse。您可以使用我们的任一 SDK 或 50 多个框架集成。请按照文档中的快速入门将
+          Langfuse 接入您的应用。
         </p>
         <ActionButton href="https://langfuse.com/docs/observability/get-started">
-          Quickstart guide
+          快速入门指南
         </ActionButton>
       </div>
     </div>
@@ -131,10 +129,10 @@ export default function TracesSetupPage() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Tracing Setup",
+        title: "追踪设置",
         help: {
           description:
-            "Setup tracing to track and analyze your LLM calls. You can create API keys and integrate Langfuse with your application.",
+            "设置追踪以跟踪和分析您的 LLM 调用。您可以创建 API 密钥并将 Langfuse 集成到您的应用中。",
           href: "https://langfuse.com/docs/observability/overview",
         },
       }}

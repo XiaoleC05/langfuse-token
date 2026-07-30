@@ -119,14 +119,14 @@ function filterTableRows(
 function getEmptyValueDisplay(value: unknown): string | null {
   if (value === null) return "null";
   if (value === undefined) return "undefined";
-  if (value === "") return "empty string";
+  if (value === "") return "空字符串";
   if (
     typeof value === "object" &&
     value !== null &&
     !Array.isArray(value) &&
     Object.keys(value).length === 0
   ) {
-    return "empty object";
+    return "空对象";
   }
   return null;
 }
@@ -490,7 +490,7 @@ function JsonPrettyTable({
   const columns: LangfuseColumnDef<JsonTableRow, unknown>[] = [
     {
       accessorKey: "key",
-      header: "Path",
+      header: "路径",
       size: 35,
       cell: ({ row }) => {
         // we need to calculate the indentation here for a good line break
@@ -582,7 +582,7 @@ function JsonPrettyTable({
     },
     {
       accessorKey: "value",
-      header: "Value",
+      header: "值",
       size: 65,
       cell: ({ row }) => (
         <ValueCell
@@ -1289,7 +1289,7 @@ export function PrettyJsonView(props: {
               <Skeleton className="h-3 w-2/3" />
               {props.isParsing && (
                 <div className="text-muted-foreground mt-2 text-xs">
-                  Parsing in background...
+                  正在后台解析...
                 </div>
               )}
             </div>
@@ -1397,7 +1397,7 @@ export function PrettyJsonView(props: {
       {shouldRenderStandaloneMedia && remainingMarkdownMedia.length > 0 && (
         <>
           <div className="text-muted-foreground my-1 px-2 py-1 text-xs">
-            Media
+            媒体
           </div>
           <div className="flex flex-wrap gap-2 pt-1 pb-4">
             {remainingMarkdownMedia.map((m) => (
@@ -1416,7 +1416,7 @@ export function PrettyJsonView(props: {
         !isMarkdownMode && (
           <>
             <div className="text-muted-foreground my-1 px-2 py-1 text-xs">
-              Media
+              媒体
             </div>
             <div className="flex flex-wrap gap-2 pt-1 pb-4">
               {props.media.map((m) => (
@@ -1456,7 +1456,7 @@ export function PrettyJsonView(props: {
                   onClick={() => expandAllRef.current?.()}
                   className="hover:bg-border -mr-2"
                   title={
-                    allRowsExpanded ? "Collapse all rows" : "Expand all rows"
+                    allRowsExpanded ? "折叠所有行" : "展开所有行"
                   }
                 >
                   {allRowsExpanded ? (
@@ -1472,7 +1472,7 @@ export function PrettyJsonView(props: {
                   size="icon-xs"
                   onClick={handleJsonToggleCollapse}
                   className="hover:bg-border -mr-2"
-                  title={jsonIsCollapsed ? "Expand all" : "Collapse all"}
+                  title={jsonIsCollapsed ? "全部展开" : "全部折叠"}
                 >
                   {jsonIsCollapsed ? (
                     <UnfoldVertical className="h-3 w-3" />
@@ -1534,6 +1534,6 @@ function stringifyJsonNode(node: unknown) {
     );
   } catch (error) {
     console.error("JSON stringify error", error);
-    return "Error: JSON.stringify failed";
+    return "错误:JSON.stringify 失败";
   }
 }

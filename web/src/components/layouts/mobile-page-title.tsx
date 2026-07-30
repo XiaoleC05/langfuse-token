@@ -127,7 +127,7 @@ export const MobilePageTitle = ({
               <Button
                 variant="outline"
                 size="icon"
-                aria-label="More actions"
+                aria-label="更多操作"
                 className="ml-auto shrink-0"
               >
                 <MoreHorizontal className="h-4 w-4" />

@@ -102,7 +102,7 @@ export const EvalTemplateDetail = () => {
         itemType: "EVALUATOR",
         breadcrumb: [
           {
-            name: "Evaluator Library",
+            name: "评估器库",
             href: `/project/${router.query.projectId as string}/evals/templates`,
           },
         ],
@@ -119,14 +119,14 @@ export const EvalTemplateDetail = () => {
               <>
                 <IconOnlyButton
                   icon={<TrashIcon className="h-4 w-4" />}
-                  label="Delete"
-                  aria-label="delete"
+                  label="删除"
+                  aria-label="删除"
                   variant="outline"
                   size="icon"
                   disabledReason={
                     hasDeleteAccess
                       ? undefined
-                      : "You don't have permission to delete this evaluator."
+                      : "您没有删除此评估器的权限。"
                   }
                   onClick={() => {
                     capture("eval_templates:delete_form_open", {
@@ -155,7 +155,7 @@ export const EvalTemplateDetail = () => {
       }}
     >
       {allTemplates.isLoading || !allTemplates.data || !template.data ? (
-        <div className="p-3">Loading...</div>
+        <div className="p-3">加载中...</div>
       ) : isEditing ? (
         <div className="overflow-y-auto p-3 pt-1">
           <EvalTemplateForm
@@ -177,10 +177,10 @@ export const EvalTemplateDetail = () => {
               setIsEditing={setIsEditing}
             />
           </div>
-          <SidePanel mobileTitle="Change history" id="change-history">
+          <SidePanel mobileTitle="变更历史" id="change-history">
             <SidePanelHeader>
               <SidePanelTitle className="text-base font-bold">
-                Change history
+                变更历史
               </SidePanelTitle>
             </SidePanelHeader>
             <SidePanelContent>
@@ -254,7 +254,7 @@ export function EvalVersionDropdown(props: {
       defaultValue={props.defaultOption ? props.defaultOption.id : undefined}
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Version" />
+        <SelectValue placeholder="版本" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
@@ -296,7 +296,7 @@ export function UpdateTemplate({
       <div className="flex items-center gap-2">
         <LangfuseIcon size={16} />
         <span className="text-muted-foreground text-sm font-bold">
-          View only
+          仅查看
         </span>
       </div>
     );
@@ -304,7 +304,7 @@ export function UpdateTemplate({
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm font-bold">Edit mode</span>
+      <span className="text-sm font-bold">编辑模式</span>
       <Switch
         checked={isEditing}
         onCheckedChange={handlePromptEdit}

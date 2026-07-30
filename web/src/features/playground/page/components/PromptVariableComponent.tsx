@@ -34,8 +34,8 @@ export const PromptVariableComponent: React.FC<{
     <Circle size={16} color="grey" />
   );
   const isUsedTooltip = isUsed
-    ? "Variable is in use"
-    : "Variable is not in use";
+    ? "变量正在使用中"
+    : "变量未使用";
 
   return (
     <div className="p-1">
@@ -52,7 +52,7 @@ export const PromptVariableComponent: React.FC<{
         <Button
           variant="ghost"
           size="icon"
-          title="Delete variable"
+          title="删除变量"
           disabled={isUsed}
           onClick={handleDeleteVariable}
           className="p-0"
@@ -74,7 +74,7 @@ export const PromptVariableComponent: React.FC<{
 
       {hasConflict && (
         <p className="mt-1 text-xs text-red-500">
-          Variable name conflicts with placeholder. Names must be unique.
+          变量名称与占位符冲突。名称必须唯一。
         </p>
       )}
     </div>

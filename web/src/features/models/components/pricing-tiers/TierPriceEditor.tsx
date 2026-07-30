@@ -23,15 +23,15 @@ export function TierPriceEditor({
 
   return (
     <div className="space-y-3">
-      <FormLabel>Prices</FormLabel>
+      <FormLabel>价格</FormLabel>
       <div className="text-muted-foreground grid grid-cols-2 gap-1 text-sm">
-        <span>Usage type</span>
-        <span>Price</span>
+        <span>用量类型</span>
+        <span>价格</span>
       </div>
       {Object.entries(prices).map(([key, value], index) => (
         <div key={index} className="grid grid-cols-2 gap-1">
           <Input
-            placeholder="Key (e.g. input, output)"
+            placeholder="键（例如 input、output）"
             value={key}
             disabled={!isDefault}
             onChange={(e) => {
@@ -53,7 +53,7 @@ export function TierPriceEditor({
           <div className="flex gap-1">
             <Input
               type="number"
-              placeholder="Price per unit"
+              placeholder="每单位价格"
               value={value as number}
               step="0.000001"
               onChange={(e) => {
@@ -67,7 +67,7 @@ export function TierPriceEditor({
               <Button
                 type="button"
                 variant="outline"
-                title="Remove price"
+                title="移除价格"
                 size="icon"
                 onClick={() => {
                   const newPrices = { ...prices };
@@ -101,7 +101,7 @@ export function TierPriceEditor({
           className="flex items-center gap-1"
         >
           <PlusCircle className="h-4 w-4" />
-          <span>Add Price</span>
+          <span>添加价格</span>
         </Button>
       )}
       <PricePreview prices={prices} />

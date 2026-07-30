@@ -661,7 +661,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "itemId",
       id: "itemId",
-      header: "Item ID",
+      header: "数据项 ID",
       size: 150,
       enableHiding: true,
       cell: ({ row }) => {
@@ -672,7 +672,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "observationId",
       id: "observationId",
-      header: () => renderExperimentSpecificHeader("Observation ID"),
+      header: () => renderExperimentSpecificHeader("观测 ID"),
       size: 180,
       enableHiding: true,
       cell: ({ row }) => {
@@ -789,7 +789,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "experimentId",
       id: "experimentId",
-      header: () => renderExperimentSpecificHeader("Experiment"),
+      header: () => renderExperimentSpecificHeader("实验"),
       size: 150,
       defaultHidden: true,
       enableHiding: true,
@@ -819,7 +819,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "input",
       id: "input",
-      header: "Input",
+      header: "输入",
       size: 300,
       enableHiding: true,
       cell: ({ row }) => {
@@ -835,7 +835,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "expectedOutput",
       id: "expectedOutput",
-      header: "Expected Output",
+      header: "预期输出",
       size: 300,
       enableHiding: true,
       cell: ({ row }) => {
@@ -852,7 +852,7 @@ export default function ExperimentItemsTable({
     {
       accessorKey: "output",
       id: "output",
-      header: "Output",
+      header: "输出",
       size: 300,
       enableHiding: true,
       cell: ({ row }) => {
@@ -870,7 +870,7 @@ export default function ExperimentItemsTable({
     },
     {
       accessorKey: "observationScores",
-      header: "Observation Scores",
+      header: "观测评分",
       id: "observationScores",
       enableHiding: true,
       defaultHidden: true,
@@ -883,7 +883,7 @@ export default function ExperimentItemsTable({
     },
     {
       accessorKey: "traceScores",
-      header: "Trace Scores",
+      header: "追踪评分",
       id: "traceScores",
       enableHiding: true,
       defaultHidden: true,
@@ -1049,8 +1049,8 @@ export default function ExperimentItemsTable({
         {
           id: ActionId.ObservationBatchEvaluation,
           type: BatchActionType.Create,
-          label: "Evaluate",
-          description: "Run evaluators on selected items",
+          label: "评估",
+          description: "在选定的数据项上运行评估器",
           icon: <LightbulbIcon className="h-4 w-4 sm:mr-2" />,
           customDialog: true,
           accessCheck: {
@@ -1169,7 +1169,7 @@ export default function ExperimentItemsTable({
               ) : (
                 <div className="flex flex-1 items-center justify-center">
                   <span className="text-muted-foreground text-sm">
-                    Please select a baseline experiment.
+                                        请选择一个基线实验。
                   </span>
                 </div>
               )
@@ -1194,7 +1194,7 @@ export default function ExperimentItemsTable({
                 noResultsMessage={
                   !hasSelectedRuns ? (
                     <span className="text-muted-foreground text-sm">
-                      Please select a baseline experiment.
+                                          请选择一个基线实验。
                     </span>
                   ) : undefined
                 }

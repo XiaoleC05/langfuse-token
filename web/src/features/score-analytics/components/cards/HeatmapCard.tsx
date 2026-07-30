@@ -50,7 +50,7 @@ function HeatmapTooltipContent({
       <div className="border-border border-b pb-2">
         <p className="text-muted-foreground text-sm font-bold">
           {dataType === "NUMERIC"
-            ? `Bin ${cell.row}×${cell.col}`
+            ? `区间 ${cell.row}×${cell.col}`
             : `${cell.metadata?.rowCategory as string} → ${cell.metadata?.colCategory as string}`}
         </p>
       </div>
@@ -58,11 +58,11 @@ function HeatmapTooltipContent({
       {/* Primary Metrics Section */}
       <div className="space-y-1">
         <p className="text-foreground text-base font-bold">
-          {cell.value.toLocaleString()} observations
+          {cell.value.toLocaleString()} 条记录
         </p>
         <p className="text-muted-foreground text-xs">
           {percentage.toFixed(1)}% of {totalMatchedPairs.toLocaleString()}{" "}
-          matched pairs
+          条已匹配对
         </p>
       </div>
 
@@ -162,8 +162,8 @@ export function HeatmapCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Score Comparison</CardTitle>
-          <CardDescription>Loading heatmap...</CardDescription>
+          <CardTitle>评分对比</CardTitle>
+          <CardDescription>加载热力图中...</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col items-center justify-center pl-1">
           <Spinner size="xl" variant="muted" />
@@ -177,11 +177,11 @@ export function HeatmapCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Score Comparison</CardTitle>
-          <CardDescription>No data available</CardDescription>
+          <CardTitle>评分对比</CardTitle>
+          <CardDescription>无可用数据</CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground flex flex-1 flex-col items-center justify-center pl-0 text-sm">
-          Select a score to view comparison
+          选择一个评分以查看对比
         </CardContent>
       </Card>
     );
@@ -195,16 +195,16 @@ export function HeatmapCard() {
   const totalMatchedPairs = statistics.comparison?.matchedCount ?? 0;
 
   const title =
-    dataType === "NUMERIC" ? "Score Comparison Heatmap" : "Confusion Matrix";
+    dataType === "NUMERIC" ? "评分对比热力图" : "混淆矩阵";
 
   const description =
     mode === "single"
       ? dataType === "NUMERIC"
-        ? "Distribution of matched score pairs showing correlation patterns"
-        : "Agreement matrix between categorical scores"
+        ? "已匹配评分对的分布，显示相关性模式"
+        : "分类评分之间的一致性矩阵"
       : dataType === "NUMERIC"
-        ? `${totalMatchedPairs.toLocaleString()} matched pairs showing correlation patterns`
-        : `${totalMatchedPairs.toLocaleString()} matched pairs showing agreement`;
+        ? `${totalMatchedPairs.toLocaleString()} 条已匹配对，显示相关性模式`
+        : `${totalMatchedPairs.toLocaleString()} 条已匹配对，显示一致性`;
 
   // Single score mode - show placeholder
   if (mode === "single") {
@@ -223,7 +223,7 @@ export function HeatmapCard() {
             showAxisLabels={true}
           />
           <p className="text-muted-foreground text-center text-sm">
-            Select a second score to view comparison heatmap
+            选择第二个评分以查看对比热力图
           </p>
         </CardContent>
       </Card>

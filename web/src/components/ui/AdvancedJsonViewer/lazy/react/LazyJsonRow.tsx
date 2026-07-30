@@ -86,7 +86,7 @@ function LazyJsonRowImpl({
           ) : (
             <button
               type="button"
-              aria-label={row.expanded ? "Collapse" : "Expand"}
+              aria-label={row.expanded ? "折叠" : "展开"}
               className="text-muted-foreground hover:text-foreground flex h-4 w-4 items-center justify-center"
               onClick={() => onToggle(row.nodeId, row.expanded)}
             >
@@ -137,8 +137,8 @@ function LazyJsonRowImpl({
       {!isContainer && row.truncatedPreview ? (
         <button
           type="button"
-          aria-label="Copy full value"
-          title="Copy full value"
+          aria-label="复制完整值"
+          title="复制完整值"
           className="text-muted-foreground hover:text-foreground ml-1 shrink-0 opacity-0 group-hover:opacity-100"
           onClick={() => onCopyValue(row.nodeId)}
         >

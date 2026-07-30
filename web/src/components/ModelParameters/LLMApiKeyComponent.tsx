@@ -17,9 +17,9 @@ export const LLMApiKeyComponent = (p: {
   if (!hasAccess) {
     return (
       <div>
-        <Label className="text-xs font-bold">API key</Label>
+        <Label className="text-xs font-bold">API 密钥</Label>
         <p className="text-muted-foreground text-sm">
-          LLM API Key only visible to Owner and Admin roles.
+          LLM API 密钥仅对所有者(Owner)和管理员(Admin)角色可见。
         </p>
       </div>
     );
@@ -32,8 +32,8 @@ export const LLMApiKeyComponent = (p: {
   if (apiKeys.isPending) {
     return (
       <div>
-        <Label className="text-xs font-bold">API key</Label>
-        <p className="text-muted-foreground text-sm">Loading...</p>
+        <Label className="text-xs font-bold">API 密钥</Label>
+        <p className="text-muted-foreground text-sm">加载中…</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ export const LLMApiKeyComponent = (p: {
 
   return (
     <div className="space-y-2 text-xs">
-      <Label className="text-xs font-bold">API key</Label>
+      <Label className="text-xs font-bold">API 密钥</Label>
       <div>
         {apiKey ? (
           <Link href={`/project/${p.projectId}/settings/llm-connections`}>

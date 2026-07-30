@@ -144,14 +144,14 @@ export const ScoreRow = ({
 
           <div className="space-y-2 text-xs">
             <ScoreDetailRow
-              label="Value"
+              label="值"
               value={resolveScoreValue(aggregate)}
             />
-            <ScoreDetailRow label="Source" value={source} />
+            <ScoreDetailRow label="来源" value={source} />
 
             {aggregate.comment && (
               <ScoreDetailRow
-                label="Comment"
+                label="评论"
                 value={
                   <span
                     title={aggregate.comment}

@@ -105,8 +105,8 @@ export const DashboardTable = ({
               maxLength={collapsedCount ?? collapse.collapsed}
               expandText={
                 rows.length > collapse.expanded
-                  ? `Show top ${collapse.expanded}`
-                  : "Show all"
+                  ? `显示前 ${collapse.expanded} 项`
+                  : "显示全部"
               }
             />
           ) : null}

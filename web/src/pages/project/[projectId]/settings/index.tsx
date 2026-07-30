@@ -24,7 +24,7 @@ import { BatchExportsSettingsPage } from "@/src/features/batch-exports/component
 import { BatchActionsSettingsPage } from "@/src/features/batch-actions/components/BatchActionsSettingsPage";
 import { AuditLogsSettingsPage } from "@/src/ee/features/audit-log-viewer/AuditLogsSettingsPage";
 import { ModelsSettings } from "@/src/features/models/components/ModelSettings";
-import ConfigureRetention from "@/src/features/projects/components/ConfigureRetention";
+import 配置Retention from "@/src/features/projects/components/配置Retention";
 import ContainerPage from "@/src/components/layouts/container-page";
 import ProtectedLabelsSettings from "@/src/features/prompts/components/ProtectedLabelsSettings";
 import { SiSlack } from "react-icons/si";
@@ -88,11 +88,11 @@ export const getProjectSettingsPages = ({
       <div className="flex flex-col gap-6">
         <HostNameProject />
         <RenameProject />
-        {showRetentionSettings && <ConfigureRetention />}
+        {showRetentionSettings && <配置Retention />}
         <div>
-          <Header title="Debug Information" />
+          <Header title="调试信息" />
           <JSONView
-            title="Metadata"
+            title="元数据"
             json={{
               project: {
                 name: project.name,
@@ -113,15 +113,15 @@ export const getProjectSettingsPages = ({
         <SettingsDangerZone
           items={[
             {
-              title: "Transfer ownership",
+              title: "转移所有权",
               description:
-                "Transfer this project to another organization where you have the ability to create projects.",
+                "将此项目转移到您可以创建项目的其他组织。",
               button: <TransferProjectButton />,
             },
             {
-              title: "Delete this project",
+              title: "删除此项目",
               description:
-                "Once you delete a project, there is no going back. Please be certain.",
+                "一旦删除项目，将无法恢复。请谨慎操作。",
               button: <DeleteProjectButton />,
             },
           ]}
@@ -200,7 +200,7 @@ export const getProjectSettingsPages = ({
     cmdKKeywords: ["invite", "user"],
     content: (
       <div>
-        <Header title="Project Members" />
+        <Header title="项目成员" />
         <MembersTable
           orgId={organization.id}
           project={{ id: project.id, name: project.name }}
@@ -279,7 +279,7 @@ export default function SettingsPage() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Project Settings",
+        title: "项目设置",
       }}
     >
       <PagedSettingsContainer
@@ -302,14 +302,13 @@ const Integrations = (props: { projectId: string }) => {
 
   return (
     <div>
-      <Header title="Integrations" />
+      <Header title="集成" />
       <div className="space-y-6">
         <Card className="p-3">
           {}
           <PostHogLogo className="text-foreground mb-4 w-40" />
           <p className="text-primary mb-4 text-sm">
-            We have teamed up with PostHog (OSS product analytics) to make
-            Langfuse Events/Metrics available in your Posthog Dashboards.
+            我们已与 PostHog（开源产品分析工具）合作，让 Langfuse 事件/指标可以在您的 PostHog 仪表盘中查看。
           </p>
           <div className="flex items-center gap-2">
             <ActionButton
@@ -317,14 +316,14 @@ const Integrations = (props: { projectId: string }) => {
               hasAccess={hasAccess}
               href={`/project/${props.projectId}/settings/integrations/posthog`}
             >
-              Configure
+              配置
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
                 href="https://langfuse.com/integrations/analytics/posthog"
                 target="_blank"
               >
-                Integration Docs ↗
+                集成文档 ↗
               </Link>
             </Button>
           </div>
@@ -333,8 +332,7 @@ const Integrations = (props: { projectId: string }) => {
         <Card className="p-3">
           <MixpanelLogo className="text-foreground mb-4 w-20" />
           <p className="text-primary mb-4 text-sm">
-            Integrate with Mixpanel to sync your Langfuse traces, generations,
-            and scores for advanced product analytics and insights.
+            集成 Mixpanel 以同步您的 Langfuse 追踪、生成和评分数据，用于高级产品分析与洞察。
           </p>
           <div className="flex items-center gap-2">
             <ActionButton
@@ -342,14 +340,14 @@ const Integrations = (props: { projectId: string }) => {
               hasAccess={hasAccess}
               href={`/project/${props.projectId}/settings/integrations/mixpanel`}
             >
-              Configure
+              配置
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
                 href="https://langfuse.com/integrations/analytics/mixpanel"
                 target="_blank"
               >
-                Integration Docs ↗
+                集成文档 ↗
               </Link>
             </Button>
           </div>
@@ -358,9 +356,7 @@ const Integrations = (props: { projectId: string }) => {
         <Card className="p-3">
           <span className="font-bold">Blob Storage</span>
           <p className="text-primary mb-4 text-sm">
-            Configure scheduled exports of your trace data to S3 compatible
-            storages or Azure Blob Storage. Set up a scheduled export to your
-            own storage for data analysis or backup purposes.
+            配置将追踪数据定期导出到 S3 兼容存储或 Azure Blob Storage。设置计划导出到您自己的存储，用于数据分析或备份。
           </p>
           <div className="flex items-center gap-2">
             <ActionButton
@@ -369,14 +365,14 @@ const Integrations = (props: { projectId: string }) => {
               hasEntitlement={allowBlobStorageIntegration}
               href={`/project/${props.projectId}/settings/integrations/blobstorage`}
             >
-              Configure
+              配置
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
                 href="https://langfuse.com/docs/query-traces#blob-storage"
                 target="_blank"
               >
-                Integration Docs ↗
+                集成文档 ↗
               </Link>
             </Button>
           </div>
@@ -388,8 +384,7 @@ const Integrations = (props: { projectId: string }) => {
             <span className="font-bold">Slack</span>
           </div>
           <p className="text-primary mb-4 text-sm">
-            Connect a Slack workspace and create channel automations to receive
-            Langfuse alerts natively in Slack.
+            连接 Slack 工作区并创建频道自动化，以在 Slack 中原生接收 Langfuse 告警。
           </p>
           <div className="flex items-center gap-2">
             <ActionButton
@@ -397,7 +392,7 @@ const Integrations = (props: { projectId: string }) => {
               hasAccess={hasAccess}
               href={`/project/${props.projectId}/settings/integrations/slack`}
             >
-              Configure
+              配置
             </ActionButton>
           </div>
         </Card>

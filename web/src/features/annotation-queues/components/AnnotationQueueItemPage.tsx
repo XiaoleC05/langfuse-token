@@ -367,7 +367,7 @@ export const AnnotationQueueItemPage: React.FC<{
   }
 
   if (!relevantItem && !(itemId && seenItemIds.includes(itemId))) {
-    return <div>No more items left to annotate!</div>;
+    return <div>没有更多需要标注的条目了！</div>;
   }
 
   const renderContent = () => {
@@ -386,9 +386,8 @@ export const AnnotationQueueItemPage: React.FC<{
         <Card className="flex h-full w-full flex-col items-center justify-center overflow-hidden border-none">
           <SearchXIcon className="text-muted-foreground mb-2 h-8 w-8" />
           <span className="text-muted-foreground max-w-96 text-sm text-wrap">
-            Item has been <strong>deleted from annotation queue</strong>.
-            Previously added scores and underlying reference trace are
-            unaffected by this action.
+            该条目已<strong>从标注队列中删除</strong>。
+            之前添加的评分和底层引用追踪不受此操作影响。
           </span>
         </Card>
       );
@@ -442,14 +441,14 @@ export const AnnotationQueueItemPage: React.FC<{
                     shortcutPulse === "back" &&
                       "border-primary/60 bg-accent/60 ring-primary/20 ring-2",
                   )}
-                  aria-label="Previous item"
+                  aria-label="上一个条目"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   <KeyboardShortcut>←</KeyboardShortcut>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <span>Previous item</span>
+                <span>上一个条目</span>
                 <KeyboardShortcut className="ml-2">←</KeyboardShortcut>
               </TooltipContent>
             </Tooltip>
@@ -459,22 +458,22 @@ export const AnnotationQueueItemPage: React.FC<{
                 className="h-4 px-1 text-[9px]"
                 keys={[modLabel, "↵"]}
               />
-              complete + next ·
+              完成并下一个 ·
               <KeyboardShortcut className="h-4 min-w-4 px-1 text-[9px]">
                 →
               </KeyboardShortcut>
-              skip
+              跳过
             </span>
             <button
               type="button"
               onClick={() => setShowShortcuts(true)}
               className="text-muted-foreground hover:text-foreground hidden items-center gap-1 text-[11px] transition-colors lg:flex"
-              aria-label="Show keyboard shortcuts"
+              aria-label="显示键盘快捷键"
             >
               <KeyboardShortcut className="h-4 min-w-4 px-1 text-[9px]">
                 ?
               </KeyboardShortcut>
-              shortcuts
+              快捷键
             </button>
           </div>
         )}
@@ -493,14 +492,14 @@ export const AnnotationQueueItemPage: React.FC<{
                       "border-primary/60 bg-accent/60 ring-primary/20 ring-2",
                   )}
                   variant="outline"
-                  aria-label="Skip to next item"
+                  aria-label="跳到下一个条目"
                 >
                   <ArrowRight className="h-4 w-4" />
                   <KeyboardShortcut>→</KeyboardShortcut>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <span>Skip to next item</span>
+                <span>跳到下一个条目</span>
                 <KeyboardShortcut className="ml-2">→</KeyboardShortcut>
               </TooltipContent>
             </Tooltip>
@@ -522,7 +521,7 @@ export const AnnotationQueueItemPage: React.FC<{
                       objectData.isError
                     }
                   >
-                    <span>Mark Completed</span>
+                    <span>标记完成</span>
                     {!isSingleItem && (
                       <KeyboardShortcut
                         className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
@@ -534,8 +533,8 @@ export const AnnotationQueueItemPage: React.FC<{
                 <TooltipContent>
                   <span>
                     {isSingleItem
-                      ? "Mark completed"
-                      : "Mark completed + go to next item"}
+                      ? "标记完成"
+                      : "标记完成并转到下一个条目"}
                   </span>
                   {!isSingleItem && (
                     <KeyboardShortcut className="ml-2" keys={[modLabel, "↵"]} />
@@ -544,7 +543,7 @@ export const AnnotationQueueItemPage: React.FC<{
               </Tooltip>
             ) : (
               <div className="border-dark-green bg-light-green inline-flex h-9 w-full items-center justify-center rounded-md border px-8 text-sm font-bold">
-                Completed
+                已完成
               </div>
             ))}
         </div>
@@ -554,57 +553,57 @@ export const AnnotationQueueItemPage: React.FC<{
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-base">
               <Keyboard className="h-4 w-4" />
-              Keyboard shortcuts
+              键盘快捷键
             </DialogTitle>
           </DialogHeader>
           <DialogBody className="gap-4 py-3">
             <div>
               <p className="text-muted-foreground mb-1 text-xs font-bold tracking-wide uppercase">
-                Navigate
+                导航
               </p>
-              <ShortcutRow label="Complete & go to next item">
+              <ShortcutRow label="完成并转到下一个条目">
                 <KeyboardShortcut keys={[modLabel, "↵"]} />
               </ShortcutRow>
-              <ShortcutRow label="Skip to next item">
+              <ShortcutRow label="跳到下一个条目">
                 <KeyboardShortcut>→</KeyboardShortcut>
               </ShortcutRow>
-              <ShortcutRow label="Previous item">
+              <ShortcutRow label="上一个条目">
                 <KeyboardShortcut>←</KeyboardShortcut>
               </ShortcutRow>
             </div>
             <div>
               <p className="text-muted-foreground mb-1 text-xs font-bold tracking-wide uppercase">
-                Score the item
+                评分条目
               </p>
-              <ShortcutRow label="Move between score fields">
+              <ShortcutRow label="在评分字段间移动">
                 <KeyboardShortcut>↑</KeyboardShortcut>
                 <KeyboardShortcut>↓</KeyboardShortcut>
               </ShortcutRow>
-              <ShortcutRow label="Select an option on the focused field">
+              <ShortcutRow label="选择当前字段的选项">
                 <KeyboardShortcut>1</KeyboardShortcut>
                 <span className="text-muted-foreground text-xs">–</span>
                 <KeyboardShortcut>9</KeyboardShortcut>
               </ShortcutRow>
-              <ShortcutRow label="Edit a field / open a dropdown">
+              <ShortcutRow label="编辑字段 / 打开下拉菜单">
                 <KeyboardShortcut>↵</KeyboardShortcut>
               </ShortcutRow>
-              <ShortcutRow label="Commit a number / leave a text field">
+              <ShortcutRow label="提交数字 / 离开文本字段">
                 <KeyboardShortcut>Esc</KeyboardShortcut>
                 <span className="text-muted-foreground text-xs">/</span>
                 <KeyboardShortcut>Tab</KeyboardShortcut>
               </ShortcutRow>
             </div>
             <p className="text-muted-foreground border-t pt-3 text-xs">
-              Bare{" "}
+              在文本字段（如反馈）中直接按{" "}
               <KeyboardShortcut className="h-4 px-1 text-[9px]">
                 ↵
               </KeyboardShortcut>{" "}
-              inside a text field (e.g. Feedback) inserts a new line — use{" "}
+              会插入新行 — 使用{" "}
               <KeyboardShortcut
                 className="h-4 px-1 text-[9px]"
                 keys={[modLabel, "↵"]}
               />{" "}
-              to complete.
+              来完成。
             </p>
           </DialogBody>
         </DialogContent>

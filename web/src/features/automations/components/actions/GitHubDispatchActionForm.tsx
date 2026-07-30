@@ -29,11 +29,11 @@ export const GitHubDispatchActionForm: React.FC<
       <FormField
         control={form.control}
         name="githubDispatch.url"
-        rules={{ required: "Repository Dispatch URL is required" }}
+        rules={{ required: "仓库工作流调度 URL 为必填" }}
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center">
-              Repository Dispatch URL{" "}
+              仓库工作流调度 URL{" "}
               <span className="text-destructive ml-1">*</span>
             </FormLabel>
             <FormControl>
@@ -44,14 +44,14 @@ export const GitHubDispatchActionForm: React.FC<
               />
             </FormControl>
             <FormDescription>
-              GitHub API endpoint for repository dispatch.{" "}
+              用于仓库工作流调度的 GitHub API 端点。{" "}
               <Link
                 href="https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center hover:underline"
               >
-                Learn more <ExternalLink className="ml-1 h-3 w-3" />
+                了解更多 <ExternalLink className="ml-1 h-3 w-3" />
               </Link>
             </FormDescription>
             <FormMessage />
@@ -62,11 +62,11 @@ export const GitHubDispatchActionForm: React.FC<
       <FormField
         control={form.control}
         name="githubDispatch.eventType"
-        rules={{ required: "Event type is required" }}
+        rules={{ required: "事件类型为必填" }}
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center">
-              Event Type <span className="text-destructive ml-1">*</span>
+              事件类型 <span className="text-destructive ml-1">*</span>
             </FormLabel>
             <FormControl>
               <Input
@@ -76,10 +76,9 @@ export const GitHubDispatchActionForm: React.FC<
               />
             </FormControl>
             <FormDescription>
-              Event type for GitHub Actions workflow triggers. This will be used
-              in the{" "}
+              GitHub Actions 工作流触发器的事件类型。此项将用于工作流文件中的{" "}
               <code className="text-xs">on.repository_dispatch.types</code>{" "}
-              filter in your workflow file.
+              筛选条件。
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -92,7 +91,7 @@ export const GitHubDispatchActionForm: React.FC<
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center">
-              GitHub Personal Access Token
+              GitHub 个人访问令牌
               {!displayGitHubToken && (
                 <span className="text-destructive ml-1">*</span>
               )}
@@ -106,10 +105,9 @@ export const GitHubDispatchActionForm: React.FC<
               />
             </FormControl>
             <FormDescription>
-              GitHub PAT with <code className="text-xs">repo</code> scope for
-              repository dispatch.
+              具有 <code className="text-xs">repo</code> 权限的 GitHub 个人访问令牌，用于仓库工作流调度。
               {displayGitHubToken
-                ? " Leave empty to keep existing token."
+                ? " 留空以保留现有令牌。"
                 : ""}{" "}
               <Link
                 href="https://github.com/settings/tokens/new?scopes=repo&description=Langfuse%20Automation"
@@ -117,7 +115,7 @@ export const GitHubDispatchActionForm: React.FC<
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center hover:underline"
               >
-                Create token <ExternalLink className="ml-1 h-3 w-3" />
+                创建令牌 <ExternalLink className="ml-1 h-3 w-3" />
               </Link>
             </FormDescription>
             <FormMessage />

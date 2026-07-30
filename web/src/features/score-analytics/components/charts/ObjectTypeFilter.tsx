@@ -8,11 +8,11 @@ import {
 import { type ObjectType } from "@/src/features/score-analytics/lib/analytics-url-state";
 
 const OBJECT_TYPE_OPTIONS: Array<{ value: ObjectType; label: string }> = [
-  { value: "all", label: "All Objects" },
-  { value: "trace", label: "Traces" },
-  { value: "session", label: "Sessions" },
-  { value: "observation", label: "Observations" },
-  { value: "dataset_run", label: "Dataset Runs" },
+  { value: "all", label: "所有对象" },
+  { value: "trace", label: "跟踪" },
+  { value: "session", label: "会话" },
+  { value: "observation", label: "观测" },
+  { value: "dataset_run", label: "数据集运行" },
 ];
 
 interface ObjectTypeFilterProps {
@@ -28,8 +28,8 @@ export function ObjectTypeFilter({
 }: ObjectTypeFilterProps) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className={className} aria-label="Object type">
-        <SelectValue placeholder="Object type" />
+      <SelectTrigger className={className} aria-label="对象类型">
+        <SelectValue placeholder="对象类型" />
       </SelectTrigger>
       <SelectContent>
         {OBJECT_TYPE_OPTIONS.map((option) => (

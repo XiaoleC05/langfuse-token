@@ -40,7 +40,7 @@ export function ApiKeyCreateDialogContent(
     return (
       <DialogContent closeOnInteractionOutside>
         <DialogHeader>
-          <DialogTitle>API Keys</DialogTitle>
+          <DialogTitle>API 密钥</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <ApiKeyDetailContent
@@ -60,15 +60,15 @@ export function ApiKeyCreateDialogContent(
   return (
     <DialogContent closeOnInteractionOutside>
       <DialogHeader>
-        <DialogTitle>Create API Keys</DialogTitle>
+        <DialogTitle>创建 API 密钥</DialogTitle>
       </DialogHeader>
       <DialogBody>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="note">Note (optional)</Label>
+            <Label htmlFor="note">备注（可选）</Label>
             <Input
               id="note"
-              placeholder="Production key"
+              placeholder="生产环境密钥"
               value={note}
               onChange={(e) => onNoteChange(e.target.value)}
               onKeyDown={(e) => {
@@ -83,7 +83,7 @@ export function ApiKeyCreateDialogContent(
       </DialogBody>
       <DialogFooter>
         <Button onClick={onSubmit} loading={isPending}>
-          Create API keys
+          Create API 密钥
         </Button>
       </DialogFooter>
     </DialogContent>

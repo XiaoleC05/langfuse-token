@@ -97,7 +97,7 @@ export function CreateApiKeyButton(props: {
       <DialogTrigger asChild>
         <Button variant="secondary">
           <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-          Create new API keys
+          创建新的 API 密钥
         </Button>
       </DialogTrigger>
       <ApiKeyCreateDialogContent

@@ -37,25 +37,24 @@ export const ExportScheduleFields = ({
         name="exportFrequency"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Export Frequency</FormLabel>
+            <FormLabel>导出频率</FormLabel>
             <FormControl>
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select frequency" />
+                  <SelectValue placeholder="选择频率" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="every_20_minutes">
-                    Every 20 Minutes
+                    每20分钟
                   </SelectItem>
-                  <SelectItem value="hourly">Hourly</SelectItem>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="hourly">每小时</SelectItem>
+                  <SelectItem value="daily">每天</SelectItem>
+                  <SelectItem value="weekly">每周</SelectItem>
                 </SelectContent>
               </Select>
             </FormControl>
             <FormDescription>
-              How often the data should be exported. Changes are taken into
-              consideration from the next run onwards.
+              数据导出频率。更改将从下次运行时起生效。
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -67,11 +66,11 @@ export const ExportScheduleFields = ({
         name="fileType"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>File Type</FormLabel>
+            <FormLabel>文件类型</FormLabel>
             <FormControl>
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select file type" />
+                  <SelectValue placeholder="选择文件类型" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="PARQUET">Parquet</SelectItem>
@@ -83,8 +82,8 @@ export const ExportScheduleFields = ({
             </FormControl>
             <FormDescription>
               {field.value === BlobStorageIntegrationFileType.PARQUET
-                ? "Apache Parquet — a columnar binary format encoded and compressed by ClickHouse. Gzip compression does not apply."
-                : "The file format for exported data."}
+                ? "Apache Parquet — 由ClickHouse编码和压缩的列式二进制格式。Gzip压缩不适用。"
+                : "导出数据的文件格式。"}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -96,29 +95,28 @@ export const ExportScheduleFields = ({
         name="exportMode"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Export Mode</FormLabel>
+            <FormLabel>导出模式</FormLabel>
             <FormControl>
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select export mode" />
+                  <SelectValue placeholder="选择导出模式" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={BlobStorageExportMode.FULL_HISTORY}>
-                    Full history
+                    完整历史
                   </SelectItem>
                   <SelectItem value={BlobStorageExportMode.FROM_TODAY}>
-                    Today
+                    今日
                   </SelectItem>
                   <SelectItem value={BlobStorageExportMode.FROM_CUSTOM_DATE}>
-                    Custom date
+                    自定义日期
                   </SelectItem>
                 </SelectContent>
               </Select>
             </FormControl>
             <FormDescription>
-              Choose when to start exporting data. &quot;Today&quot; and
-              &quot;Custom date&quot; modes will not include historical data
-              before the specified date.
+              选择从何时开始导出数据。&quot;今日&quot;和
+              &quot;自定义日期&quot;模式将不包含指定日期之前的历史数据。
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -131,7 +129,7 @@ export const ExportScheduleFields = ({
           name="exportStartDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Export Start Date</FormLabel>
+              <FormLabel>导出开始日期</FormLabel>
               <FormControl>
                 <Input
                   type="date"
@@ -150,11 +148,11 @@ export const ExportScheduleFields = ({
                       : null;
                     field.onChange(date);
                   }}
-                  placeholder="Select start date"
+                  placeholder="选择开始日期"
                 />
               </FormControl>
               <FormDescription>
-                Data before this date will not be included in exports
+                此日期之前的数据将不会包含在导出中
               </FormDescription>
               <FormMessage />
             </FormItem>

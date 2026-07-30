@@ -258,12 +258,12 @@ export const MonitorForm = ({
     onSuccess: async (_data, variables) => {
       await utils.monitors.invalidate();
       showSuccessToast({
-        title: "Monitor created",
-        description: `"${variables.name}" is now active.`,
+        title: "监控已创建",
+        description: `"${variables.name}" 已激活。`,
       });
       router.replace(`/project/${projectId}/monitors`);
     },
-    onError: (e) => showErrorToast("Failed to create monitor", e.message),
+    onError: (e) => showErrorToast("创建监控失败", e.message),
   });
 
   /** updateMutation saves edits to an existing monitor and returns to the monitors list on success. */
@@ -271,12 +271,12 @@ export const MonitorForm = ({
     onSuccess: async (_data, variables) => {
       await utils.monitors.invalidate();
       showSuccessToast({
-        title: "Monitor saved",
-        description: `Your changes to "${variables.name}" have been applied.`,
+        title: "监控已保存",
+        description: `对 "${variables.name}" 的更改已生效。`,
       });
       router.replace(`/project/${projectId}/monitors`);
     },
-    onError: (e) => showErrorToast("Failed to save monitor", e.message),
+    onError: (e) => showErrorToast("保存监控失败", e.message),
   });
 
   /** onSubmit normalizes filter columns into view-space and dispatches the create or update mutation. */
@@ -445,21 +445,21 @@ export const MonitorForm = ({
         <div className="h-full min-h-0 w-full min-w-107.5 md:w-1/3">
           <Card className="flex h-full flex-col">
             <CardHeader>
-              <CardTitle>Monitor Configuration</CardTitle>
+              <CardTitle>监控器配置</CardTitle>
               <CardDescription>
-                Receive notifications when a metric crosses a threshold. (eg.
-                &ldquo;sudden cost increase&rdquo;, &ldquo;accuracy has
-                dropped&rdquo;)
+                当指标超过阈值时接收通知。（例如
+                &ldquo;成本突然增加&rdquo;、&ldquo;准确率
+                下降&rdquo;）
               </CardDescription>
             </CardHeader>
             <CardContent className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-0">
-              <Section title="Metric Definition" step={1}>
+              <Section title="指标定义" step={1}>
                 <FormField
                   control={form.control}
                   name="view"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>View</FormLabel>
+                      <FormLabel>视图</FormLabel>
                       <Select
                         value={field.value}
                         onValueChange={(next) => {
@@ -521,7 +521,7 @@ export const MonitorForm = ({
                     const measures = viewDeclarations.v2[view]?.measures ?? {};
                     return (
                       <FormItem>
-                        <FormLabel>Measure</FormLabel>
+                        <FormLabel>测量值</FormLabel>
                         <Select
                           value={field.value}
                           onValueChange={(next) => {
@@ -579,7 +579,7 @@ export const MonitorForm = ({
                     name="metric.aggregation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Aggregation</FormLabel>
+                        <FormLabel>聚合</FormLabel>
                         <Select
                           value={field.value}
                           onValueChange={field.onChange}
@@ -608,7 +608,7 @@ export const MonitorForm = ({
                   name="filters"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Filters</FormLabel>
+                      <FormLabel>筛选</FormLabel>
                       <FormControl>
                         <InlineFilterBuilder
                           columns={filterColumns}
@@ -628,14 +628,14 @@ export const MonitorForm = ({
                 )}
               </Section>
 
-              <Section title="Alert Conditions" step={2}>
+              <Section title="告警条件" step={2}>
                 <FormField
                   control={form.control}
                   name="thresholdOperator"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center gap-2 space-y-0">
                       <span className="text-muted-foreground text-sm whitespace-nowrap">
-                        Trigger when the value is
+                        当数值满足以下条件时触发
                       </span>
                       <Select
                         value={field.value}
@@ -679,7 +679,7 @@ export const MonitorForm = ({
                           severity={MonitorSeveritySchema.enum.ALERT}
                         />
                         <span className="text-sm whitespace-nowrap">
-                          Threshold
+                          阈值
                         </span>
                         <span className="mr-1.5 ml-1 font-mono text-xs font-bold">
                           {
@@ -723,7 +723,7 @@ export const MonitorForm = ({
                           severity={MonitorSeveritySchema.enum.WARNING}
                         />
                         <span className="text-sm whitespace-nowrap">
-                          Threshold
+                          阈值
                         </span>
                         <span className="mr-1.5 ml-1 font-mono text-xs font-bold">
                           {
@@ -738,7 +738,7 @@ export const MonitorForm = ({
                           <Input
                             type="number"
                             className="flex-1"
-                            placeholder="optional"
+                            placeholder="可选"
                             value={field.value ?? ""}
                             onChange={(e) => {
                               const raw = e.target.value;
@@ -763,7 +763,7 @@ export const MonitorForm = ({
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center gap-2 space-y-0">
                       <span className="text-muted-foreground text-sm whitespace-nowrap">
-                        Over the past
+                        在过去的
                       </span>
                       <Select
                         value={field.value}
@@ -789,7 +789,7 @@ export const MonitorForm = ({
                 <Accordion type="single" collapsible>
                   <AccordionItem value="advanced" className="border-b-0">
                     <AccordionTrigger className="justify-start gap-2 py-2 text-sm font-bold [&>svg]:order-first [&>svg]:-rotate-90 [&[data-state=open]>svg]:rotate-0">
-                      Advanced Options
+                      高级选项
                     </AccordionTrigger>
                     <AccordionContent className="space-y-6 px-1 pt-2">
                       <FormField
@@ -825,13 +825,13 @@ export const MonitorForm = ({
                 </Accordion>
               </Section>
 
-              <Section title="Notifications" step={3} className="pb-2">
+              <Section title="通知" step={3} className="pb-2">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>名称</FormLabel>
                       <FormControl>
                         <Input
                           maxLength={200}
@@ -874,7 +874,7 @@ export const MonitorForm = ({
                               className="gap-1"
                             >
                               <Plus className="h-3 w-3" />
-                              Add tag
+                              添加标签
                             </Button>
                           }
                         />
@@ -888,10 +888,10 @@ export const MonitorForm = ({
                   name="triggerIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Automations</FormLabel>
+                      <FormLabel>自动化</FormLabel>
                       <FormMessage />
                       <FormDescription>
-                        Send Alerts to Slack, Webhooks, and GitHub Actions.
+                        将告警发送至 Slack、Webhook 和 GitHub Actions。
                       </FormDescription>
                       <FormControl>
                         <MonitorAutomationsPanel
@@ -914,7 +914,7 @@ export const MonitorForm = ({
                   className="w-full"
                   disabled={!hasAccess || submitting}
                 >
-                  {isEdit ? "Save Monitor" : "Create Monitor"}
+                  {isEdit ? "保存监控" : "创建监控"}
                 </Button>
               </div>
             </CardFooter>
@@ -999,7 +999,7 @@ const NoDataField = ({
   disabled?: boolean;
 }) => (
   <div className="space-y-2">
-    <Label>When there is no data</Label>
+    <Label>当没有数据时</Label>
     <Select
       value={value.mode}
       onValueChange={(mode) =>
@@ -1022,24 +1022,24 @@ const NoDataField = ({
       <SelectContent>
         <SelectItem value={MonitorNoDataModeSchema.enum.SUBSTITUTE_ZERO}>
           <span className="inline-flex items-center gap-1.5">
-            Treat missing data as
+            将缺失数据视为
             <code className="bg-secondary rounded border px-0.5">0</code>
           </span>
         </SelectItem>
         <SelectItem value={MonitorNoDataModeSchema.enum.LAST_SEVERITY}>
           <span className="inline-flex items-center gap-1.5">
-            Keep the previous
+            保持之前的
             <Badge
               variant="secondary"
               className="bg-muted-foreground text-background hover:bg-muted-foreground w-20 justify-center py-1"
             >
-              SEVERITY
+              严重程度
             </Badge>
           </span>
         </SelectItem>
         <SelectItem value={MonitorNoDataModeSchema.enum.SHOW_NO_DATA}>
           <span className="inline-flex items-center gap-1.5">
-            Show severity
+            显示严重程度
             <MonitorSeverityBadge
               severity={MonitorSeveritySchema.enum.NO_DATA}
             />
@@ -1047,7 +1047,7 @@ const NoDataField = ({
         </SelectItem>
         <SelectItem value={MonitorNoDataModeSchema.enum.NOTIFY_NO_DATA}>
           <span className="inline-flex items-center gap-1.5">
-            Notify after sustained
+            持续后通知
             <MonitorSeverityBadge
               severity={MonitorSeveritySchema.enum.NO_DATA}
             />
@@ -1057,7 +1057,7 @@ const NoDataField = ({
     </Select>
     {value.mode === MonitorNoDataModeSchema.enum.NOTIFY_NO_DATA && (
       <div className="flex items-center gap-2">
-        <Label className="text-muted-foreground text-xs">Notify after</Label>
+        <Label className="text-muted-foreground text-xs">通知等待时间</Label>
         <Input
           type="number"
           min={1}
@@ -1072,7 +1072,7 @@ const NoDataField = ({
           disabled={disabled}
           className="w-24"
         />
-        <Label className="text-muted-foreground text-xs">minutes</Label>
+        <Label className="text-muted-foreground text-xs">分钟</Label>
       </div>
     )}
   </div>
@@ -1089,7 +1089,7 @@ const RenotifyField = ({
   disabled?: boolean;
 }) => (
   <div className="space-y-2">
-    <Label>Renotify</Label>
+    <Label>重新通知</Label>
     <Select
       value={value.mode}
       onValueChange={(mode) =>
@@ -1105,14 +1105,14 @@ const RenotifyField = ({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="OFF">Off (alert only on transitions)</SelectItem>
-        <SelectItem value="EVERY">Re-alert at a regular interval</SelectItem>
+        <SelectItem value="OFF">关闭（仅在状态转换时告警）</SelectItem>
+        <SelectItem value="EVERY">按固定间隔重新告警</SelectItem>
       </SelectContent>
     </Select>
     {value.mode === "EVERY" && (
       <div className="flex items-center gap-2">
         <Label className="text-muted-foreground text-xs">
-          Re-alert every (minutes)
+          重新告警间隔（分钟）
         </Label>
         <Input
           type="number"

@@ -9,7 +9,7 @@ export const posthogIntegrationFormSchema = z.object({
     .string()
     .refine((v) => v === "" || v.startsWith("phc_"), {
       message:
-        "PostHog 'Project API Key' must start with 'phc_'. You can find it in the PostHog project settings.",
+        "PostHog 'Project API Key' 必须以 'phc_' 开头。你可以在 PostHog 项目设置中找到它。",
     })
     .optional(),
   enabled: z.boolean(),

@@ -72,21 +72,21 @@ export const RemoteExperimentTriggerModal = ({
       onSuccess: (data) => {
         if (data.success && data.skipped) {
           showErrorToast(
-            "Trigger is disabled",
-            "Enable the trigger in settings to run remote experiments.",
+            "触发器已禁用",
+            "请在设置中启用触发器以运行远程实验。",
             "WARNING",
           );
         } else if (data.success) {
           showSuccessToast({
-            title: "Remote experiment triggered",
+            title: "远程实验已触发",
             description:
-              "Your remote experiment may take a few minutes to complete.",
+              "您的远程实验可能需要几分钟才能完成。",
           });
         } else {
           showErrorToast(
-            "Failed to trigger remote experiment",
+            "触发远程实验失败",
             data.error ||
-              "Please try again or check your remote experiment configuration.",
+              "请重试或检查您的远程实验配置。",
           );
         }
         setShowTriggerModal(false);
@@ -99,7 +99,7 @@ export const RemoteExperimentTriggerModal = ({
         JSON.parse(data.payload);
       } catch {
         form.setError("payload", {
-          message: "Invalid JSON format",
+          message: "无效的 JSON 格式",
         });
         return;
       }
@@ -124,12 +124,12 @@ export const RemoteExperimentTriggerModal = ({
           onClick={() => setShowTriggerModal(false)}
           className="inline-block self-start"
         >
-          ← Back
+          ← 返回
         </Button>
-        <DialogTitle>Run remote dataset run</DialogTitle>
+        <DialogTitle>运行远程数据集运行</DialogTitle>
         <DialogDescription>
-          This action will send the following information to{" "}
-          <strong>{remoteExperimentConfig.url}</strong>.
+          此操作将发送以下信息至{" "}
+          <strong>{remoteExperimentConfig.url}</strong>。
         </DialogDescription>
       </DialogHeader>
 
@@ -142,11 +142,10 @@ export const RemoteExperimentTriggerModal = ({
                 name="payload"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Config</FormLabel>
+                    <FormLabel>配置</FormLabel>
                     <FormDescription>
-                      Confirm the config you want to send to the remote dataset
-                      run URL along with the{" "}
-                      <strong>{dataset.data?.name}</strong> dataset information.
+                      确认您要发送至远程数据集运行 URL 的配置，以及{" "}
+                      <strong>{dataset.data?.name}</strong> 数据集信息。
                     </FormDescription>
                     <FormControl>
                       <CodeMirrorEditor
@@ -173,7 +172,7 @@ export const RemoteExperimentTriggerModal = ({
                 onClick={() => setShowTriggerModal(false)}
                 disabled={runRemoteExperimentMutation.isPending}
               >
-                Cancel
+                取消
               </Button>
               <Button
                 type="submit"
@@ -184,7 +183,7 @@ export const RemoteExperimentTriggerModal = ({
                     <Spinner size="sm" />
                   </div>
                 )}
-                Run
+                运行
               </Button>
             </div>
           </DialogFooter>

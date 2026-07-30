@@ -131,7 +131,7 @@ export function ScoreTimeSeriesCategoricalChart({
   if (chartData.length === 0 || categories.length === 0) {
     return (
       <div className="text-muted-foreground flex h-[200px] items-center justify-center text-sm">
-        No time series data available
+        无时间序列数据可用
       </div>
     );
   }
@@ -144,7 +144,7 @@ export function ScoreTimeSeriesCategoricalChart({
   if (!hasAnyData) {
     return (
       <div className="text-muted-foreground flex h-[200px] items-center justify-center text-sm">
-        No data points available for the selected time range
+        所选时间范围内无数据点可用
       </div>
     );
   }
@@ -165,7 +165,7 @@ export function ScoreTimeSeriesCategoricalChart({
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          label={{ value: "Count", angle: -90, position: "insideLeft" }}
+          label={{ value: "计数", angle: -90, position: "insideLeft" }}
           niceTicks="auto"
           tickFormatter={(value) => value.toLocaleString()}
         />

@@ -19,12 +19,12 @@ export function V4MigrationProjectChip({
   const readiness = status ? getProjectMigrationReadiness(status) : "checking";
   const label =
     readiness === "ready"
-      ? "Up to date"
+      ? "已是最新"
       : readiness === "checking"
-        ? "Checking"
+        ? "检查中"
         : readiness === "unavailable"
-          ? "Check status"
-          : "Update";
+          ? "检查状态"
+          : "更新";
 
   const handleClick = () => {
     capture("v4_migration:project_chip_clicked");

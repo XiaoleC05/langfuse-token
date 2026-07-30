@@ -13,10 +13,10 @@ type LangfuseErrorPageProps = ErrorProps & {
 };
 
 const statusTitles: Record<number, string> = {
-  400: "Bad Request",
-  404: "This page could not be found",
-  405: "Method Not Allowed",
-  500: "Internal Server Error",
+  400: "请求错误",
+  404: "无法找到该页面",
+  405: "不允许的请求方法",
+  500: "服务器内部错误",
 };
 
 const ErrorPage = ({
@@ -29,17 +29,17 @@ const ErrorPage = ({
   const resolvedTitle =
     title ??
     (statusCode ? statusTitles[statusCode] : undefined) ??
-    "An unexpected error has occurred";
+    "发生了未知错误";
 
   const description = statusCode
-    ? `${resolvedTitle}.`
-    : `Application error: a client-side exception has occurred${
-        hostname ? ` while loading ${hostname}` : ""
-      } (see the browser console for more information).`;
+    ? `${resolvedTitle}。`
+    : `应用错误：客户端发生异常${
+        hostname ? `，加载 ${hostname} 时` : ""
+      }（详见浏览器控制台）。`;
 
   const documentTitle = statusCode
     ? `${statusCode}: ${resolvedTitle}`
-    : "Application error: a client-side exception has occurred";
+    : "应用错误：客户端发生异常";
 
   return (
     <>

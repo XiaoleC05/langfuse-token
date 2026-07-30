@@ -92,8 +92,8 @@ const calculateSegmentDiff = (oldString: string, newString: string) => {
 const DiffViewer: React.FC<DiffViewerProps> = ({
   oldString,
   newString,
-  oldLabel = "Original Version",
-  newLabel = "New Version",
+  oldLabel = "原始版本",
+  newLabel = "新版本",
   oldSubLabel,
   newSubLabel,
   className,
@@ -192,7 +192,7 @@ const DiffViewer: React.FC<DiffViewerProps> = ({
   };
 
   if (oldString === newString) {
-    return <div className="text-muted-foreground text-sm">No changes</div>;
+    return <div className="text-muted-foreground text-sm">无改动</div>;
   }
 
   return (

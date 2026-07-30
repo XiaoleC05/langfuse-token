@@ -62,7 +62,7 @@ export default function RemapEvaluatorPage() {
       router.push(`/project/${projectId}/evals`);
     },
     onError: (err) => {
-      setError(err.message ?? "Failed to update old eval configuration");
+      setError(err.message ?? "更新旧评估配置失败");
     },
   });
 
@@ -73,7 +73,7 @@ export default function RemapEvaluatorPage() {
       router.push(`/project/${projectId}/evals`);
     },
     onError: (err) => {
-      setError(err.message ?? "Failed to delete old eval configuration");
+      setError(err.message ?? "删除旧评估配置失败");
     },
   });
 
@@ -142,10 +142,10 @@ export default function RemapEvaluatorPage() {
       withPadding
       scrollable
       headerProps={{
-        title: "Upgrade Evaluator",
+        title: "升级评估器",
         breadcrumb: [
           {
-            name: "Running Evaluators",
+            name: "运行中的评估器",
             href: `/project/${projectId}/evals`,
           },
         ],
@@ -154,17 +154,16 @@ export default function RemapEvaluatorPage() {
       <div className="space-y-4">
         <div>
           <p className="text-muted-foreground text-sm">
-            Review your legacy evaluator on the left and configure the new eval
-            settings on the right.{" "}
+            在左侧查看旧版评估器，在右侧配置新的评估设置。{" "}
             <a
               href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"
             >
-              Follow our step-by-step guide
+              查看我们的分步指南
             </a>{" "}
-            to upgrade successfully.
+            以顺利完成升级。
           </p>
           {mappedConfig ? (
             <Alert
@@ -174,8 +173,8 @@ export default function RemapEvaluatorPage() {
               <AlertDescription>
                 <div className="flex flex-col gap-2">
                   {isEventTarget(mappedConfig.targetObject ?? "event")
-                    ? "Running observation-targeting evaluators requires JS SDK ≥ 4.0.0 or Python SDK ≥ 3.0.0."
-                    : "Running observation-targeting evaluators requires JS SDK ≥ 4.4.0 or Python SDK ≥ 3.9.0."}
+                    ? "运行基于观测的评估器需要 JS SDK ≥ 4.0.0 或 Python SDK ≥ 3.0.0。"
+                    : "运行基于观测的评估器需要 JS SDK ≥ 4.4.0 或 Python SDK ≥ 3.9.0。"}
                 </div>
               </AlertDescription>
             </Alert>
@@ -191,7 +190,7 @@ export default function RemapEvaluatorPage() {
           ) : !oldConfig || !evalTemplate ? (
             <Alert variant="destructive">
               <AlertDescription>
-                Failed to load eval configuration or template.
+                加载评估配置或模板失败。
               </AlertDescription>
             </Alert>
           ) : (
@@ -200,13 +199,13 @@ export default function RemapEvaluatorPage() {
               <div className="space-y-4 p-3">
                 <div className="flex items-center gap-2 pb-2">
                   <h3 className="text-lg font-bold">
-                    Legacy Configuration{" "}
+                    旧版配置{" "}
                     {isTraceTarget(oldConfig.targetObject)
-                      ? "(runs on traces)"
+                      ? "(在追踪上运行)"
                       : ""}
                   </h3>
                   <span className="text-muted-foreground text-xs">
-                    Read-only
+                    只读
                   </span>
                 </div>
                 <InnerEvaluatorForm
@@ -230,9 +229,9 @@ export default function RemapEvaluatorPage() {
               {/* RIGHT: Editable new config form */}
               <div className="space-y-4 p-3">
                 <h3 className="pb-2 text-lg font-bold">
-                  New Configuration{" "}
+                  新配置{" "}
                   {isTraceTarget(oldConfig.targetObject)
-                    ? "(runs on observations)"
+                    ? "(在观测上运行)"
                     : ""}
                 </h3>
                 <InnerEvaluatorForm
@@ -257,10 +256,10 @@ export default function RemapEvaluatorPage() {
                           className="mt-3 rounded-l-md rounded-r-none"
                         >
                           {legacyAction === "keep-active"
-                            ? "Save & keep legacy active"
+                            ? "保存并保持旧版激活"
                             : legacyAction === "mark-inactive"
-                              ? "Save & mark legacy inactive"
-                              : "Save & delete legacy"}
+                              ? "保存并标记旧版为停用"
+                              : "保存并删除旧版"}
                         </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -277,19 +276,19 @@ export default function RemapEvaluatorPage() {
                               onClick={() => setLegacyAction("keep-active")}
                             >
                               {legacyAction === "keep-active" && "✓ "}
-                              Save & keep legacy active
+                              保存并保持旧版激活
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => setLegacyAction("mark-inactive")}
                             >
                               {legacyAction === "mark-inactive" && "✓ "}
-                              Save & mark legacy inactive
+                              保存并标记旧版为停用
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => setLegacyAction("delete")}
                             >
                               {legacyAction === "delete" && "✓ "}
-                              Save & delete legacy
+                              保存并删除旧版
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

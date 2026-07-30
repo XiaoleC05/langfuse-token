@@ -27,12 +27,12 @@ export function RetryBackgroundMigration({
     api.backgroundMigrations.retry.useMutation({
       onSuccess: () => {
         utils.backgroundMigrations.invalidate();
-        toast.success("Migration scheduled for retry");
+        toast.success("迁移已安排重试");
         setIsOpen(false);
         setAdminApiKey("");
       },
       onError: (error) => {
-        toast.error(error?.message || "Failed to retry migration");
+        toast.error(error?.message || "重试迁移失败");
       },
       onSettled: () => {
         setIsLoading(false);
@@ -41,7 +41,7 @@ export function RetryBackgroundMigration({
 
   const handleRetry = async () => {
     if (!adminApiKey.trim()) {
-      toast.error("Admin API key is required");
+      toast.error("管理员 API 密钥为必填项");
       return;
     }
     setIsLoading(true);
@@ -63,20 +63,19 @@ export function RetryBackgroundMigration({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96">
-        <h2 className="mb-3 font-bold">Retry Background Migration</h2>
+        <h2 className="mb-3 font-bold">重试后台迁移</h2>
         <p className="mb-4 text-sm">
-          This action schedules the migration for retry. Restart the worker
-          containers to re-initiate the migration.
+          此操作将安排迁移重试。重启 Worker 容器以重新发起迁移。
         </p>
 
         <div className="mb-4">
           <Label htmlFor="admin-api-key" className="text-sm font-bold">
-            Admin API Key
+            管理员 API 密钥
           </Label>
           <Input
             id="admin-api-key"
             type="password"
-            placeholder="Enter admin API key"
+            placeholder="输入管理员 API 密钥"
             value={adminApiKey}
             onChange={(e) => setAdminApiKey(e.target.value)}
             className="mt-1"

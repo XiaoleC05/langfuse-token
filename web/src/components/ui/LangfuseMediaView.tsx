@@ -70,7 +70,7 @@ export const LangfuseMediaView = ({
   }
 
   if (!mediaData) {
-    const text = "Invalid Langfuse Media Tag";
+    const text = "无效的 Langfuse 媒体标签";
 
     return (
       <div className="flex items-center gap-2">
@@ -238,8 +238,8 @@ function FileViewer({
             variant="outline"
             size="icon"
             onClick={openInNewTab}
-            aria-label={`Open ${fileName} in new tab`}
-            title={`Open ${fileName} in new tab`}
+            aria-label={`在新标签页打开 ${fileName}`}
+            title={`在新标签页打开 ${fileName}`}
             className="shrink-0"
           >
             <ExternalLink className="h-4 w-4" />
@@ -251,8 +251,8 @@ function FileViewer({
           onClick={() => (isPreviewable ? expandPreview() : openInNewTab())}
           aria-label={
             isPreviewable
-              ? `Show ${fileName} inline`
-              : `Open ${fileName} in new tab`
+              ? `内联显示 ${fileName}`
+              : `在新标签页打开 ${fileName}`
           }
           aria-expanded={isPreviewable ? isExpanded : undefined}
           title={fileName}
@@ -271,7 +271,7 @@ function AudioPlayer({ src }: { src?: string }) {
   return (
     <audio controls className="w-full" preload="metadata">
       <source src={src} />
-      Your browser does not support the audio element.
+      你的浏览器不支持音频元素。
     </audio>
   );
 }
@@ -282,7 +282,7 @@ function VideoPlayer({ src }: { src?: string }) {
   return (
     <video controls className="w-full" preload="metadata" playsInline>
       <source src={src} />
-      Your browser does not support the video element.
+      你的浏览器不支持视频元素。
     </video>
   );
 }

@@ -29,7 +29,7 @@ export function AIFeaturesDisabledNotice({
       <p className="text-muted-foreground text-sm">
         {children}
         {!canUpdateOrgSettings
-          ? " Ask your organization administrator to enable AI features in organization settings."
+          ? " 请联系您的组织管理员在组织设置中启用AI功能。"
           : null}
       </p>
       {canUpdateOrgSettings && organizationId ? (
@@ -39,7 +39,7 @@ export function AIFeaturesDisabledNotice({
           size="sm"
           className="w-fit"
         >
-          Enable in Organization Settings
+          在组织设置中启用
           <ExternalLink className="ml-2 h-4 w-4" />
         </Button>
       ) : null}

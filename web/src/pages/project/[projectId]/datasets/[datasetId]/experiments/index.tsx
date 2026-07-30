@@ -98,10 +98,10 @@ export default function Dataset() {
     }
 
     showSuccessToast({
-      title: "Experiment triggered successfully",
-      description: "Waiting for experiment to complete...",
+      title: "实验触发成功",
+      description: "等待实验完成...",
       link: {
-        text: "View experiment",
+        text: "查看实验",
         href: isExperimentsBetaActive
           ? singleRunToExperimentsUrl(projectId, data.runId)
           : `/project/${projectId}/datasets/${data.datasetId}/compare?runs=${data.runId}`,
@@ -184,7 +184,7 @@ export default function Dataset() {
                     onClick={() => capture("dataset_run:new_form_open")}
                   >
                     <FlaskConical className="h-4 w-4" />
-                    <span className="ml-2 hidden md:block">Run experiment</span>
+                    <span className="ml-2 hidden md:block">运行实验</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
@@ -261,7 +261,7 @@ export default function Dataset() {
                   onClick={() => capture("dataset_run:new_form_open")}
                 >
                   <FlaskConical className="h-4 w-4" />
-                  <span className="ml-2 hidden md:block">Run experiment</span>
+                  <span className="ml-2 hidden md:block">运行实验</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
@@ -350,7 +350,7 @@ export default function Dataset() {
                   <DropdownMenuItem asChild>
                     <Link href={`/project/${projectId}/evals?target=dataset`}>
                       <Bot className="mr-2 ml-1 h-4 w-4" />
-                      Manage Evaluators
+                      管理评估器
                     </Link>
                   </DropdownMenuItem>
                 )}
@@ -379,8 +379,8 @@ export default function Dataset() {
           <DialogContent className="max-h-[90vh] max-w-(--breakpoint-md) overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {selectedEvaluatorData.evaluator.id ? "Edit" : "Configure"}{" "}
-                Evaluator
+                {selectedEvaluatorData.evaluator.id ? "编辑" : "配置"}{" "}
+                评估器
               </DialogTitle>
             </DialogHeader>
             <EvaluatorForm

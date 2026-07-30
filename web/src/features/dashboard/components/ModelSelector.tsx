@@ -52,8 +52,8 @@ export const ModelSelectorPopover = ({
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0">
         <InputCommand>
-          <InputCommandInput placeholder="Search models..." variant="bottom" />
-          <InputCommandEmpty>No model found.</InputCommandEmpty>
+          <InputCommandInput placeholder="搜索模型..." variant="bottom" />
+          <InputCommandEmpty>未找到模型。</InputCommandEmpty>
           <InputCommandGroup>
             <InputCommandItem onSelect={handleSelectAll}>
               <Check
@@ -63,7 +63,7 @@ export const ModelSelectorPopover = ({
                 )}
               />
               <span>
-                <p className="font-bold">Select All</p>
+                <p className="font-bold">全选</p>
               </span>
             </InputCommandItem>
             <InputCommandSeparator className="my-1" />
@@ -88,7 +88,7 @@ export const ModelSelectorPopover = ({
                     )}
                   />
                   {!model.model || model.model === "" ? (
-                    <i>none</i>
+                    <i>无</i>
                   ) : (
                     model.model
                   )}
@@ -128,8 +128,8 @@ export const useModelSelection = (
   const isAllSelected = selectedModels.length === allModels.length;
 
   const buttonText = isAllSelected
-    ? "All models"
-    : `${selectedModels.length} selected`;
+    ? "全部模型"
+    : `已选 ${selectedModels.length} 项`;
 
   const handleSelectAll = () => {
     setSelectedModels(isAllSelected ? [] : [...allModels.map((m) => m.model)]);

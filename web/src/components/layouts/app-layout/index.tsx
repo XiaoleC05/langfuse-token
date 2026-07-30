@@ -95,10 +95,10 @@ export function AppLayout(props: PropsWithChildren) {
     // every mount (thousands of events / hundreds of users of pure noise).
     return (
       <ErrorPage
-        title="Project Not Found"
-        message="The project you are trying to access does not exist or you do not have access to it."
+        title="未找到项目"
+        message="你尝试访问的项目不存在,或者你没有访问该项目的权限。"
         additionalButton={{
-          label: "Go to Home",
+          label: "返回首页",
           href: "/",
         }}
       />

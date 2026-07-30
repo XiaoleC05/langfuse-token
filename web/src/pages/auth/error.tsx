@@ -6,9 +6,9 @@ export default function AuthError() {
   const { error } = router.query;
   const errorMessage = error
     ? decodeURIComponent(String(error))
-    : "An authentication error occurred. Please reach out to support.";
+    : "发生身份验证错误，请联系支持。";
 
   return (
-    <ErrorPageWithSentry title="Authentication Error" message={errorMessage} />
+    <ErrorPageWithSentry title="身份验证错误" message={errorMessage} />
   );
 }

@@ -71,9 +71,9 @@ export function TransferProjectButton() {
   const transferProject = api.projects.transfer.useMutation({
     onSuccess: async () => {
       showSuccessToast({
-        title: "Project transferred",
+        title: "项目已转移",
         description:
-          "The project is successfully transferred to the new organization. Redirecting...",
+          "项目已成功转移到新组织，正在重定向...",
       });
       await new Promise((resolve) => setTimeout(resolve, 5000));
       session.update();
@@ -102,28 +102,25 @@ export function TransferProjectButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive-secondary" disabled={!hasAccess}>
-          Transfer Project
+          转移项目
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">
-            Transfer Project
+            转移项目
           </DialogTitle>
           <Alert className="mt-2">
             <TriangleAlert className="h-4 w-4" />
-            <AlertTitle>Warning</AlertTitle>
+            <AlertTitle>警告</AlertTitle>
             <AlertDescription>
-              Transferring the project will move it to a different organization:
+              转移项目将把它移动到不同的组织：
               <ul className="list-disc pl-4">
                 <li>
-                  Members who are not part of the new organization will lose
-                  access.
+                  不属于新组织的成员将失去访问权限。
                 </li>
                 <li>
-                  The project remains fully operational as API keys, settings,
-                  and data will remain unchanged. All features (e.g. tracing,
-                  prompt management) will continue to work without interruption.
+                  项目将保持完全正常运行，API密钥、设置和数据不会改变。所有功能（如追踪、提示词管理）将持续运行不中断。
                 </li>
               </ul>
             </AlertDescription>
@@ -137,7 +134,7 @@ export function TransferProjectButton() {
                 name="projectId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select New Organization</FormLabel>
+                    <FormLabel>选择新组织</FormLabel>
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
@@ -145,7 +142,7 @@ export function TransferProjectButton() {
                         disabled={transferProject.isPending}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select organization" />
+                          <SelectValue placeholder="选择组织" />
                         </SelectTrigger>
                         <SelectContent>
                           {organizationsToTransferTo
@@ -159,8 +156,7 @@ export function TransferProjectButton() {
                       </Select>
                     </FormControl>
                     <FormDescription>
-                      Transfer this project to another organization where you
-                      have the ability to create projects.
+                      将此项目转移到您有能力创建项目的另一个组织。
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -171,7 +167,7 @@ export function TransferProjectButton() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm</FormLabel>
+                    <FormLabel>确认</FormLabel>
                     <FormControl>
                       <Input placeholder={confirmMessage} {...field} />
                     </FormControl>
@@ -190,7 +186,7 @@ export function TransferProjectButton() {
                 loading={transferProject.isPending}
                 className="w-full"
               >
-                Transfer project
+                转移项目
               </Button>
             </DialogFooter>
           </form>

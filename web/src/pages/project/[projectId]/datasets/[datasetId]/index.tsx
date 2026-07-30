@@ -20,5 +20,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function RedirectPage() {
-  return <div>Redirecting...</div>;
+  return <div>重定向中...</div>;
 }

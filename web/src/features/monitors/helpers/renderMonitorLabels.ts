@@ -12,9 +12,9 @@ import { operatorLabels, viewLabels, windowLabels } from "./monitorLabels";
 
 /** proseWindowLabels overrides windowLabels for prose, dropping the redundant "1" on singular units. */
 const proseWindowLabels: Partial<Record<MonitorWindow, string>> = {
-  "1h": "hour",
-  "1d": "day",
-  "1w": "week",
+  "1h": "小时",
+  "1d": "天",
+  "1w": "周",
 };
 
 /** windowLabel renders a window for prose, e.g. "hour" or "5 minutes". */
@@ -24,9 +24,18 @@ const windowLabel = (window: MonitorWindow): string =>
 /** aggregationLabel renders an aggregation as a leading word, e.g. "Sum" or "p95". */
 export const aggregationLabel = (
   aggregation: z.infer<typeof metricAggregations>,
-): string =>
+): string => {
   // startCase mangles percentile tokens ("p95" -> "P 95"); keep them verbatim.
-  /^p\d+$/.test(aggregation) ? aggregation : startCase(aggregation);
+  if (/^p\d+$/.test(aggregation)) return aggregation;
+  const map: Record<string, string> = {
+    sum: "总和",
+    avg: "平均值",
+    min: "最小值",
+    max: "最大值",
+    count: "计数",
+  };
+  return map[aggregation] ?? startCase(aggregation);
+};
 
 /** metricSubject renders the noun a metric measures, e.g. "Observations Latency" or "Observations" for a bare count. */
 const metricSubject = (view: MonitorView, measure: string): string =>
@@ -39,9 +48,9 @@ const renderMetricDescription = (
   view: MonitorView,
   metric: { measure: string; aggregation: z.infer<typeof metricAggregations> },
 ): string =>
-  `${aggregationLabel(metric.aggregation)} of ${metricSubject(view, metric.measure)}`;
+  `${metricSubject(view, metric.measure)} ${aggregationLabel(metric.aggregation)}`;
 
-/** renderNamePlaceholder renders the auto-suggested monitor name, e.g. "Sum of Observations Latency is below 100". */
+/** renderNamePlaceholder renders the auto-suggested monitor name, e.g. "Observations Latency 总和 低于 100". */
 export const renderNamePlaceholder = ({
   view,
   metric,
@@ -57,10 +66,10 @@ export const renderNamePlaceholder = ({
     alertThreshold != null && Number.isFinite(alertThreshold)
       ? alertThreshold
       : 0;
-  return `${renderMetricDescription(view, metric)} is ${operatorLabels[thresholdOperator]} ${value}`;
+  return `${renderMetricDescription(view, metric)} ${operatorLabels[thresholdOperator]} ${value}`;
 };
 
-/** renderChartSubtitle renders the preview subtitle, e.g. "Sum of Observations Latency every 5 minutes". */
+/** renderChartSubtitle renders the preview subtitle, e.g. "Observations Latency 总和 每 5 分钟". */
 export const renderChartSubtitle = ({
   view,
   metric,
@@ -70,4 +79,4 @@ export const renderChartSubtitle = ({
   metric: { measure: string; aggregation: z.infer<typeof metricAggregations> };
   window: MonitorWindow;
 }): string =>
-  `${renderMetricDescription(view, metric)} every ${windowLabel(window)}`;
+  `${renderMetricDescription(view, metric)} 每 ${windowLabel(window)}`;

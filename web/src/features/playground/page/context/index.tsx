@@ -362,7 +362,7 @@ export const PlaygroundProvider: React.FC<PlaygroundProviderProps> = ({
         );
 
         if (finalMessages.length === 0) {
-          throw new Error("Please add at least one message with content.");
+          throw new Error("请添加至少一条有内容的消息。");
         }
 
         const leftOverVariables = extractVariables(
@@ -372,16 +372,16 @@ export const PlaygroundProvider: React.FC<PlaygroundProviderProps> = ({
         );
 
         if (!modelParams.provider.value || !modelParams.model.value) {
-          throw new Error("Please select a model");
+          throw new Error("请选择一个模型");
         }
 
         if (leftOverVariables.length > 0) {
-          throw Error("Error replacing variables. Please check your inputs.");
+          throw Error("替换变量时出错。请检查您的输入。");
         }
 
         if (tools.length > 0 && structuredOutputSchema) {
           throw new Error(
-            "Cannot use both tools and structured output at the same time",
+            "不能同时使用工具和结构化输出",
           );
         }
 
@@ -470,8 +470,8 @@ export const PlaygroundProvider: React.FC<PlaygroundProviderProps> = ({
         });
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : "An error occurred";
-        showErrorToast("Error", errorMessage);
+          err instanceof Error ? err.message : "发生错误";
+        showErrorToast("错误", errorMessage);
       } finally {
         setIsStreaming(false);
       }
@@ -958,7 +958,7 @@ function getFinalMessages(
   const missingVariables = promptVariables.filter((v) => !v.value && v.isUsed);
   if (missingVariables.length > 0) {
     throw new Error(
-      `Please set a value for the following variables: ${missingVariables
+      `请为以下变量设置值：${missingVariables
         .map((v) => v.name)
         .join(", ")}`,
     );
@@ -969,7 +969,7 @@ function getFinalMessages(
   );
   if (missingPlaceholders.length > 0) {
     throw new Error(
-      `Please set values for the following message placeholders: ${missingPlaceholders
+      `请为以下消息占位符设置值：${missingPlaceholders
         .map((p) => p.name)
         .join(", ")}`,
     );

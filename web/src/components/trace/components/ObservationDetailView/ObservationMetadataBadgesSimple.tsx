@@ -15,7 +15,7 @@ export function LatencyBadge({
 
   return (
     <Badge variant="tertiary">
-      Latency: {formatIntervalSeconds(latencySeconds)}
+      延迟: {formatIntervalSeconds(latencySeconds)}
     </Badge>
   );
 }
@@ -29,7 +29,7 @@ export function TimeToFirstTokenBadge({
 
   return (
     <Badge variant="tertiary">
-      Time to first token: {formatIntervalSeconds(timeToFirstToken)}
+      首个 Token 时间: {formatIntervalSeconds(timeToFirstToken)}
     </Badge>
   );
 }
@@ -41,7 +41,7 @@ export function EnvironmentBadge({
 }) {
   if (!environment) return null;
 
-  return <Badge variant="tertiary">Env: {environment}</Badge>;
+  return <Badge variant="tertiary">环境: {environment}</Badge>;
 }
 
 export function VersionBadge({
@@ -51,7 +51,7 @@ export function VersionBadge({
 }) {
   if (!version) return null;
 
-  return <Badge variant="tertiary">Version: {version}</Badge>;
+  return <Badge variant="tertiary">版本: {version}</Badge>;
 }
 
 export function LevelBadge({ level }: { level: string | null | undefined }) {

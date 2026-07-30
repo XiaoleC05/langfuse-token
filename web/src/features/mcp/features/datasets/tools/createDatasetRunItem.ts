@@ -15,13 +15,13 @@ const CreateDatasetRunItemBaseSchema = z.object({
     .string()
     .optional()
     .describe(
-      "Observation ID linked to this run item. Provide this or traceId.",
+      "关联到此运行条目的观测 ID。提供此参数或 traceId。",
     ),
   traceId: z
     .string()
     .optional()
     .describe(
-      "Trace ID linked to this run item. Provide this or observationId.",
+      "关联到此运行条目的追踪 ID。提供此参数或 observationId。",
     ),
   datasetVersion: z.string().optional(),
   createdAt: z.iso.datetime({ offset: true }).optional(),

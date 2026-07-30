@@ -32,8 +32,8 @@ import { usePostHogClientCapture } from "@/src/features/posthog-analytics/usePos
 function unknownScoresMessage(names: string[]): string {
   const quoted = names.map((n) => `"${n}"`).join(", ");
   return names.length === 1
-    ? `No score named ${quoted} exists in this project — that filter was not applied.`
-    : `No scores named ${quoted} exist in this project — those filters were not applied.`;
+    ? `该项目中不存在名为 ${quoted} 的评分——该筛选条件未被应用。`
+    : `该项目中不存在名为 ${quoted} 的评分——这些筛选条件未被应用。`;
 }
 
 export function SearchBarAiPrompt({
@@ -87,8 +87,8 @@ export function SearchBarAiPrompt({
   const refineContext = useStore(store, (s) => s.draft).trim();
   const refining = refineContext.length > 0;
   const placeholder = refining
-    ? "Refine your filters — e.g. only errors, or drop the env filter"
-    : "Describe the filters you want — e.g. slow production errors from today";
+    ? "优化您的筛选条件 — 例如：仅显示错误，或移除环境筛选"
+    : "描述您想要的筛选条件 — 例如：今天生产环境中慢速的错误";
 
   const generateFilter = api.searchBar.generateFilter.useMutation();
   const pending = generateFilter.isPending;
@@ -143,7 +143,7 @@ export function SearchBarAiPrompt({
           reason: "stale",
           isV4: true,
         });
-        setError("Filters changed while generating — try again.");
+        setError("筛选条件在生成过程中已更改——请重试。");
         return;
       }
       if (result.filters.length === 0) {
@@ -158,7 +158,7 @@ export function SearchBarAiPrompt({
         setError(
           result.unknownScoreNames.length > 0
             ? unknownScoresMessage(result.unknownScoreNames)
-            : "Couldn't build filters from that — try rephrasing.",
+            : "无法根据此描述构建筛选条件——请尝试重新表述。",
         );
         return;
       }
@@ -173,7 +173,7 @@ export function SearchBarAiPrompt({
         // Partial apply: the rest of the filters went through, so exit as
         // usual but surface which score clause was dropped and why.
         showErrorToast(
-          "Score filter skipped",
+          "评分筛选已跳过",
           unknownScoresMessage(result.unknownScoreNames),
           "WARNING",
         );
@@ -192,7 +192,7 @@ export function SearchBarAiPrompt({
         reason: "error",
         isV4: true,
       });
-      setError("Couldn't reach the AI service. Please try again.");
+      setError("无法连接到AI服务，请重试。");
     }
   };
 
@@ -214,7 +214,7 @@ export function SearchBarAiPrompt({
             onMouseDown={(event) => event.preventDefault()}
             className="text-muted-foreground mb-1.5 flex min-w-0 items-center gap-1.5 pl-1 text-xs"
           >
-            <span className="shrink-0">Refining</span>
+            <span className="shrink-0">正在优化</span>
             <code
               className="bg-muted text-foreground/80 min-w-0 truncate rounded px-1.5 py-0.5 font-mono text-[11px]"
               title={refineContext}
@@ -228,8 +228,8 @@ export function SearchBarAiPrompt({
               you're in a sub-mode you can leave. */}
           <button
             type="button"
-            aria-label="Back to search"
-            title="Back (Esc)"
+            aria-label="返回搜索"
+            title="返回 (Esc)"
             onMouseDown={(event) => event.preventDefault()}
             onClick={onExit}
             className="text-muted-foreground hover:text-foreground hover:bg-accent -ml-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md"
@@ -242,7 +242,7 @@ export function SearchBarAiPrompt({
             value={value}
             disabled={pending}
             placeholder={placeholder}
-            aria-label="Ask AI to build filters"
+            aria-label="让AI构建筛选条件"
             data-testid="search-bar-ai-input"
             spellCheck={false}
             autoComplete="off"
@@ -279,20 +279,20 @@ export function SearchBarAiPrompt({
                 className="h-3.5 w-3.5 animate-spin"
                 aria-hidden="true"
               />
-              Generating…
+              生成中…
             </span>
           ) : (
             <div className="flex shrink-0 items-center gap-1.5">
               {value.trim().length > 0 && (
-                <KeyboardShortcut title="Press Enter to generate">
+                <KeyboardShortcut title="按 Enter 生成">
                   ↵
                 </KeyboardShortcut>
               )}
               <KeyboardShortcut>esc</KeyboardShortcut>
               <button
                 type="button"
-                aria-label="Generate filters"
-                title="Generate filters (Enter)"
+                aria-label="生成筛选条件"
+                title="生成筛选条件 (Enter)"
                 data-testid="search-bar-ai-submit"
                 disabled={value.trim().length === 0}
                 onMouseDown={(event) => event.preventDefault()}

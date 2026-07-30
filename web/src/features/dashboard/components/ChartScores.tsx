@@ -113,8 +113,8 @@ export function ChartScores(props: {
   return (
     <DashboardCard
       className={props.className}
-      title="Scores"
-      description="Moving average per score"
+      title="评分"
+      description="各项评分的移动平均值"
       isLoading={props.isLoading || scores.isPending}
     >
       {!isEmptyTimeSeries({ data: extractedScores }) ? (
@@ -134,7 +134,7 @@ export function ChartScores(props: {
       ) : (
         <NoDataOrLoading
           isLoading={props.isLoading || scores.isPending}
-          description="Scores evaluate LLM quality and can be created manually or using the SDK."
+          description="评分用于评估 LLM 质量，可以手动创建或通过 SDK 创建。"
           href="https://langfuse.com/docs/evaluation/overview"
           className="h-auto grow"
         />

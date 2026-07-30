@@ -75,7 +75,7 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
   disabled = false,
   variant = "destructive",
   size = "sm",
-  buttonText = "Disconnect",
+  buttonText = "断开连接",
   onSuccess,
   onError,
   showConfirmation = true,
@@ -91,8 +91,8 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
       setIsDialogOpen(false);
 
       showSuccessToast({
-        title: "Slack Disconnected",
-        description: "Successfully disconnected from your Slack workspace.",
+        title: "Slack 已断开连接",
+        description: "已成功断开与Slack工作区的连接。",
       });
 
       onSuccess?.();
@@ -100,9 +100,9 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
     onError: (error: any) => {
       setIsDisconnecting(false);
 
-      const errorMessage = error.message || "Failed to disconnect from Slack";
+      const errorMessage = error.message || "无法断开Slack连接";
 
-      showErrorToast("Disconnection Failed", errorMessage);
+      showErrorToast("断开连接失败", errorMessage);
 
       onError?.(new Error(errorMessage));
     },
@@ -140,7 +140,7 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
       ) : (
         <Unlink className={showText ? "mr-2 h-4 w-4" : "h-4 w-4"} />
       )}
-      {showText && (isDisconnecting ? "Disconnecting..." : buttonText)}
+      {showText && (isDisconnecting ? "断开连接中..." : buttonText)}
     </>
   );
 
@@ -161,25 +161,23 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="text-destructive h-5 w-5" />
-              Disconnect Slack Integration
+              断开Slack集成
             </DialogTitle>
             <DialogDescription className="space-y-2">
               <p>
-                Are you sure you want to disconnect your Slack workspace from
-                this project?
+                确定要从该项目断开您的Slack工作区吗？
               </p>
               <div className="bg-muted space-y-2 rounded-md p-3">
-                <p className="text-sm font-bold">This will:</p>
+                <p className="text-sm font-bold">这将：</p>
                 <ul className="ml-4 space-y-1 text-sm">
-                  <li>• Remove the bot from your Slack workspace</li>
-                  <li>• Disable all existing Slack automations</li>
-                  <li>• Stop all future Slack notifications</li>
-                  <li>• Delete stored workspace credentials</li>
+                  <li>• 从您的Slack工作区移除机器人</li>
+                  <li>• 禁用所有现有的Slack自动化任务</li>
+                  <li>• 停止所有未来的Slack通知</li>
+                  <li>• 删除存储的工作区凭据</li>
                 </ul>
               </div>
               <p className="text-muted-foreground text-sm">
-                You can reconnect at any time, but you&apos;ll need to
-                reconfigure your automations.
+                您可以随时重新连接，但需要重新配置自动化任务。
               </p>
             </DialogDescription>
           </DialogHeader>
@@ -189,7 +187,7 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
               onClick={() => setIsDialogOpen(false)}
               disabled={isDisconnecting}
             >
-              Cancel
+              取消
             </Button>
             <Button
               variant="destructive"
@@ -201,7 +199,7 @@ export const SlackDisconnectButton: React.FC<SlackDisconnectButtonProps> = ({
                   <div className="mr-2">
                     <Spinner size="sm" />
                   </div>
-                  Disconnecting...
+                  断开连接中...
                 </>
               ) : (
                 <>

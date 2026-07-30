@@ -140,7 +140,7 @@ export function JSONView(props: {
               collapseStringMode="word"
               customizeCollapseStringUI={(fullSTring, truncated) =>
                 truncated ? (
-                  <div className="opacity-50">{`\n...expand (${Math.max(fullSTring.length - collapseStringsAfterLength, 0)} more characters)`}</div>
+                  <div className="opacity-50">{`\n...展开(还有 ${Math.max(fullSTring.length - collapseStringsAfterLength, 0)} 个字符)`}</div>
                 ) : (
                   ""
                 )
@@ -165,7 +165,7 @@ export function JSONView(props: {
       {props.media && props.media.length > 0 && (
         <>
           <div className="text-muted-foreground my-1 px-0 py-1 text-xs">
-            Media
+            媒体
           </div>
           <div className="flex flex-wrap gap-2 pt-1 pb-4">
             {props.media.map((m) => (
@@ -203,7 +203,7 @@ export function JSONView(props: {
                 size="icon-xs"
                 onClick={handleToggleCollapse}
                 className="hover:bg-border -mr-2"
-                title={isCollapsed ? "Expand all" : "Collapse all"}
+                title={isCollapsed ? "全部展开" : "全部折叠"}
               >
                 {isCollapsed ? (
                   <UnfoldVertical className="h-3 w-3" />
@@ -419,6 +419,6 @@ export function stringifyJsonNode(node: unknown) {
     );
   } catch (error) {
     console.error("JSON stringify error", error);
-    return "Error: JSON.stringify failed";
+    return "错误:JSON.stringify 失败";
   }
 }

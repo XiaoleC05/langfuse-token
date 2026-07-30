@@ -164,12 +164,12 @@ const EvalTemplateRowActionsMenu = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon-xs" aria-label="actions">
-            <span className="sr-only relative">Open menu</span>
+            <span className="sr-only relative">打开菜单</span>
             <MoreVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>操作</DropdownMenuLabel>
           {showClone ? (
             <DropdownMenuItem
               aria-label="clone"
@@ -180,7 +180,7 @@ const EvalTemplateRowActionsMenu = ({
               }}
             >
               <Copy className="mr-2 h-4 w-4" />
-              Clone
+              克隆
             </DropdownMenuItem>
           ) : null}
           {showEditAndDelete ? (
@@ -194,7 +194,7 @@ const EvalTemplateRowActionsMenu = ({
                 }}
               >
                 <Pen className="mr-2 h-4 w-4" />
-                Edit
+                编辑
               </DropdownMenuItem>
               <DropdownMenuItem
                 aria-label="delete"
@@ -208,7 +208,7 @@ const EvalTemplateRowActionsMenu = ({
                 }}
               >
                 <Trash className="mr-2 h-4 w-4" />
-                Delete
+                删除
               </DropdownMenuItem>
             </>
           ) : null}
@@ -321,13 +321,13 @@ export default function EvalsTemplateTable({
       setPendingCloneSubmission(null);
       setShowReferenceUpdateDialog(false);
       showSuccessToast({
-        title: "Evaluator cloned successfully",
+        title: "评估器克隆成功",
         description:
-          "This evaluator is now available and maintained on project level.",
+          "此评估器现已在项目级别可用并由项目维护。",
       });
     },
     onError: (error) => {
-      showErrorToast("Error cloning evaluator", error.message);
+      showErrorToast("克隆评估器时出错", error.message);
     },
   });
 
@@ -367,7 +367,7 @@ export default function EvalsTemplateTable({
 
   const columns = [
     columnHelper.accessor("name", {
-      header: "Name",
+      header: "名称",
       id: "name",
       cell: (row) => {
         const name = row.getValue();
@@ -376,7 +376,7 @@ export default function EvalsTemplateTable({
     }),
     columnHelper.accessor("type", {
       id: "type",
-      header: "Type",
+      header: "类型",
       size: 120,
       cell: ({ row }) => (
         <TemplateTypeBadge
@@ -387,7 +387,7 @@ export default function EvalsTemplateTable({
     }),
     columnHelper.accessor("resultType", {
       id: "resultType",
-      header: "Score Result Type",
+      header: "评分结果类型",
       size: 120,
       cell: (row) => {
         const resultType = row.getValue();
@@ -401,7 +401,7 @@ export default function EvalsTemplateTable({
     }),
     columnHelper.accessor("maintainer", {
       id: "maintainer",
-      header: "Maintainer",
+      header: "维护者",
       size: 150,
       cell: (row) => {
         return (
@@ -415,7 +415,7 @@ export default function EvalsTemplateTable({
       },
     }),
     columnHelper.accessor("latestCreatedAt", {
-      header: "Last Edited",
+      header: "最后编辑",
       id: "latestCreatedAt",
       size: 80,
       cell: (row) => {
@@ -423,7 +423,7 @@ export default function EvalsTemplateTable({
       },
     }),
     columnHelper.accessor("usageCount", {
-      header: "Usage Count",
+      header: "使用次数",
       id: "usageCount",
       enableHiding: true,
       size: 80,
@@ -433,7 +433,7 @@ export default function EvalsTemplateTable({
       },
     }),
     columnHelper.accessor("latestVersion", {
-      header: "Latest Version",
+      header: "最新版本",
       id: "latestVersion",
       enableHiding: true,
       size: 80,
@@ -452,7 +452,7 @@ export default function EvalsTemplateTable({
       },
     }),
     columnHelper.accessor("actions", {
-      header: "Actions",
+      header: "操作",
       id: "actions",
       size: 100,
       cell: ({ row }) => {
@@ -471,7 +471,7 @@ export default function EvalsTemplateTable({
               disabled={isInvalid}
               title={
                 isInvalid
-                  ? "Evaluator requires project-level evaluation model. Set it up and start running evaluations."
+                  ? "评估器需要项目级别的评估模型。请设置模型后开始运行评估。"
                   : undefined
               }
               hasAccess={hasAccess}
@@ -492,7 +492,7 @@ export default function EvalsTemplateTable({
                 }
               }}
             >
-              Use Evaluator
+              使用评估器
             </ActionButton>
             {hasMenuItems && id ? (
               <EvalTemplateRowActionsMenu
@@ -636,7 +636,7 @@ export default function EvalsTemplateTable({
           }
         >
           <DialogHeader>
-            <DialogTitle>Edit evaluator</DialogTitle>
+            <DialogTitle>编辑评估器</DialogTitle>
           </DialogHeader>
           <EvalTemplateForm
             projectId={projectId}
@@ -648,8 +648,8 @@ export default function EvalsTemplateTable({
               setEditTemplateId(null);
               utils.evals.templateNames.invalidate();
               showSuccessToast({
-                title: "Evaluator updated successfully",
-                description: "You can now use this evaluator.",
+                title: "评估器更新成功",
+                description: "您现在可以使用此评估器。",
               });
             }}
           />
@@ -673,7 +673,7 @@ export default function EvalsTemplateTable({
           }
         >
           <DialogHeader>
-            <DialogTitle>Clone evaluator</DialogTitle>
+            <DialogTitle>克隆评估器</DialogTitle>
           </DialogHeader>
           <EvalTemplateForm
             projectId={projectId}
@@ -717,9 +717,9 @@ export default function EvalsTemplateTable({
               setPendingCloneSubmission(null);
               utils.evals.templateNames.invalidate();
               showSuccessToast({
-                title: "Evaluator cloned successfully",
+                title: "评估器克隆成功",
                 description:
-                  "This evaluator is now available and maintained on project level. ",
+                  "此评估器现已在项目级别可用并由项目维护。",
               });
             }}
           />
@@ -738,14 +738,12 @@ export default function EvalsTemplateTable({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Update running evaluators?</DialogTitle>
+            <DialogTitle>更新运行中的评估器？</DialogTitle>
             <DialogDescription>
-              Do you want all running evaluators attached to the original
-              Langfuse evaluator to reference your new project-level version?
+              您是否希望将所有连接到原始 Langfuse 评估器的运行中评估器，都改为引用您新的项目级版本？
               <br />
               <br />
-              <strong>Warning:</strong> This might break workflows if you have
-              changed variables or other critical aspects of the template.
+              <strong>警告：</strong>如果您更改了变量或模板的其他关键方面，这可能会中断工作流程。
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -755,14 +753,14 @@ export default function EvalsTemplateTable({
                 submitPendingClone(false);
               }}
             >
-              No, keep as is
+              否，保持原样
             </Button>
             <Button
               onClick={() => {
                 submitPendingClone(true);
               }}
             >
-              Yes, update all references
+              是，更新所有引用
             </Button>
           </DialogFooter>
         </DialogContent>

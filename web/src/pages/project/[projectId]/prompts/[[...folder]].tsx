@@ -83,7 +83,7 @@ export default function PromptsWithFolder() {
         title: "提示词",
         help: {
           description:
-            "Manage and version your prompts in Langfuse. Edit and update them via the UI and SDK. Retrieve the production version via the SDKs. Learn more in the docs.",
+            "在 Langfuse 中管理和版本化您的提示词。通过 UI 和 SDK 编辑和更新它们。通过 SDK 获取生产版本。在文档中了解更多。",
           href: "https://langfuse.com/docs/prompt-management/get-started",
         },
         actionButtonsRight: (
@@ -104,7 +104,7 @@ export default function PromptsWithFolder() {
                   : undefined
               }
             >
-              New prompt
+              新建提示词
             </ActionButton>
           </>
         ),

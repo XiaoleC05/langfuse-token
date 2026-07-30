@@ -14,12 +14,12 @@ export const evaluatorFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "status",
-      label: "Status",
+      label: "状态",
     },
     {
       type: "categorical" as const,
       column: "target",
-      label: "Target",
+      label: "目标",
     },
   ],
 };

@@ -21,7 +21,7 @@ export function EvaluatorPromptPreview(props: EvaluatorPromptPreviewProps) {
         onWheel={(event) => event.stopPropagation()}
       >
         <p className="text-muted-foreground mb-2 text-xs">
-          Prompt preview with the first selected observation
+          使用第一个所选观测的提示词预览
         </p>
         <pre
           className="bg-muted/20 max-h-[320px] overflow-y-auto rounded-md border p-2 text-xs wrap-break-word whitespace-pre-wrap"

@@ -7,7 +7,7 @@ import { defineTool } from "../../../core/define-tool";
 import { runMcpTool } from "../../../core/run-mcp-tool";
 
 const GetMonitorInputSchema = z.object({
-  monitorId: z.string().describe("ID of the monitor to retrieve."),
+  monitorId: z.string().describe("要获取的监控 ID。"),
 });
 
 export const [getMonitorTool, handleGetMonitor] = defineTool({

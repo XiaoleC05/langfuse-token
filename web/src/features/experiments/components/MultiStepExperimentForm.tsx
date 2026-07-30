@@ -124,11 +124,11 @@ export const MultiStepExperimentForm = ({
   );
 
   const steps = [
-    { id: "prompt", label: "Prompt & Model" },
-    { id: "dataset", label: "Dataset" },
-    { id: "evaluators", label: "Evaluators" },
-    { id: "details", label: "Experiment run details" },
-    { id: "review", label: "Review" },
+    { id: "prompt", label: "提示词与模型" },
+    { id: "dataset", label: "数据集" },
+    { id: "evaluators", label: "评估器" },
+    { id: "details", label: "实验运行详情" },
+    { id: "review", label: "审核" },
   ];
 
   const hasEvalReadAccess = useHasProjectAccess({
@@ -245,8 +245,8 @@ export const MultiStepExperimentForm = ({
     onSuccess: handleExperimentSuccess ?? (() => {}),
     onError: (error) => {
       showErrorToast(
-        error.message || "Failed to trigger dataset run",
-        "Please try again.",
+        error.message || "触发数据集运行失败",
+        "请重试。",
       );
     },
     onSettled: handleExperimentSettled ?? (() => {}),
@@ -470,18 +470,17 @@ export const MultiStepExperimentForm = ({
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Run Experiment</DialogTitle>
+        <DialogTitle>运行实验</DialogTitle>
         <DialogDescription>
-          Run an experiment to evaluate prompts and model configurations against
-          a dataset. See{" "}
+          运行实验以在数据集上评估提示词和模型配置。查看{" "}
           <Link
             href="https://langfuse.com/docs/evaluation/dataset-runs/native-run"
             target="_blank"
             className="underline"
           >
-            documentation
+            文档
           </Link>{" "}
-          to learn more.
+          了解更多。
         </DialogDescription>
       </DialogHeader>
       {enableLegacyNameValidation && (
@@ -586,7 +585,7 @@ export const MultiStepExperimentForm = ({
                 disabled={activeStep === "prompt"}
               >
                 <ChevronLeft className="mr-2 h-4 w-4" />
-                Previous
+                上一步
               </Button>
 
               <div className="flex gap-2">
@@ -602,7 +601,7 @@ export const MultiStepExperimentForm = ({
                       }
                     }}
                   >
-                    Next
+                    下一步
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 ) : (
@@ -616,7 +615,7 @@ export const MultiStepExperimentForm = ({
                     }
                     loading={form.formState.isSubmitting}
                   >
-                    Run Experiment
+                    运行实验
                   </Button>
                 )}
               </div>

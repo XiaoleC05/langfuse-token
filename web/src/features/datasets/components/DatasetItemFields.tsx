@@ -106,7 +106,7 @@ export const DatasetItemFields = ({
             name={"input" as FieldPath<DatasetItemFormValues>}
             render={({ field }) => (
               <DatasetItemField
-                label="Input"
+                label="输入"
                 value={field.value}
                 schema={dataset?.inputSchema}
                 schemaType="input"
@@ -129,7 +129,7 @@ export const DatasetItemFields = ({
           />
         ) : (
           <DatasetItemField
-            label="Input"
+            label="输入"
             value={inputValue}
             schema={dataset?.inputSchema}
             schemaType="input"
@@ -146,7 +146,7 @@ export const DatasetItemFields = ({
             name={"expectedOutput" as FieldPath<DatasetItemFormValues>}
             render={({ field }) => (
               <DatasetItemField
-                label="Expected output"
+                label="预期输出"
                 value={field.value}
                 schema={dataset?.expectedOutputSchema}
                 schemaType="expectedOutput"
@@ -169,7 +169,7 @@ export const DatasetItemFields = ({
           />
         ) : (
           <DatasetItemField
-            label="Expected output"
+            label="预期输出"
             value={expectedOutputValue}
             schema={dataset?.expectedOutputSchema}
             schemaType="expectedOutput"
@@ -187,7 +187,7 @@ export const DatasetItemFields = ({
           name={"metadata" as FieldPath<DatasetItemFormValues>}
           render={({ field }) => (
             <DatasetItemField
-              label="Metadata"
+              label="元数据"
               value={field.value}
               editable={editable}
               onChange={(v) => {
@@ -205,7 +205,7 @@ export const DatasetItemFields = ({
         />
       ) : (
         <DatasetItemField
-          label="Metadata"
+          label="元数据"
           value={metadataValue}
           editable={false}
         />

@@ -30,7 +30,7 @@ export const UploadDatasetCsvButton = (props: {
           trackingEventName="dataset_item:upload_csv_button_click"
           icon={<UploadIcon className="h-4 w-4" aria-hidden="true" />}
         >
-          Upload CSV
+          上传 CSV
         </ActionButton>
       </DialogTrigger>
     </CsvUploadDialog>

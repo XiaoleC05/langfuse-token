@@ -71,15 +71,15 @@ export function MonitorsTable() {
       await utils.monitors.invalidate();
       showSuccessToast({
         title:
-          variables.status === "PAUSED" ? "Monitor paused" : "Monitor resumed",
+          variables.status === "PAUSED" ? "监控已暂停" : "监控已恢复",
         description:
           variables.status === "PAUSED"
-            ? "Evaluations are halted until you resume."
-            : "Evaluations have resumed.",
+            ? "评估已停止，待恢复后继续。"
+            : "评估已恢复。",
       });
     },
     onError: (e) =>
-      showErrorToast("Failed to update monitor status", e.message),
+      showErrorToast("更新监控状态失败", e.message),
   });
 
   /** paginationState is the bound page index + size, defaulting to 50 per page and synced to the `pageIndex`/`pageSize` URL params. */
@@ -117,7 +117,18 @@ export function MonitorsTable() {
         .toReversed()
         .map((value) => ({
           value,
-          displayValue: value.replace(/_/g, " "),
+          displayValue:
+            value === "ALERT"
+              ? "告警"
+              : value === "WARNING"
+                ? "警告"
+                : value === "OK"
+                  ? "正常"
+                  : value === "NO_DATA"
+                    ? "无数据"
+                    : value === "PAUSED"
+                      ? "已暂停"
+                      : value,
         })),
       tags: filterOptions.data?.tags.map((t) => ({ value: t.value })) ?? [],
     }),
@@ -160,7 +171,7 @@ export function MonitorsTable() {
   const columns: LangfuseColumnDef<MonitorRow>[] = [
     {
       accessorKey: "severity",
-      header: "Severity",
+      header: "严重程度",
       id: "severity",
       enableSorting: true,
       enableResizing: false,
@@ -174,7 +185,7 @@ export function MonitorsTable() {
     },
     {
       accessorKey: "name",
-      header: "Name",
+      header: "名称",
       id: "name",
       enableSorting: true,
       enableResizing: false,
@@ -194,7 +205,7 @@ export function MonitorsTable() {
       ? [
           {
             accessorKey: "tags",
-            header: "Tags",
+            header: "标签",
             id: "tags",
             enableSorting: false,
             enableResizing: false,
@@ -221,7 +232,7 @@ export function MonitorsTable() {
       : []),
     {
       accessorKey: "actions",
-      header: "Actions",
+      header: "操作",
       id: "actions",
       enableSorting: false,
       enableResizing: false,
@@ -310,8 +321,8 @@ function MonitorRowActions({
       variant="ghost"
       size={collapsed ? "default" : "icon"}
       disabled={!hasCUDAccess}
-      aria-label="Edit monitor"
-      title="Edit"
+      aria-label="编辑监控"
+      title="编辑"
       className={cn(!collapsed && rowActionIconColors)}
     >
       <Link
@@ -319,7 +330,7 @@ function MonitorRowActions({
         onClick={(e) => e.stopPropagation()}
       >
         <SquarePen className="h-4 w-4" aria-hidden="true" />
-        {collapsed ? <span className="ml-2">Edit</span> : null}
+        {collapsed ? <span className="ml-2">编辑</span> : null}
       </Link>
     </Button>
   );
@@ -329,8 +340,8 @@ function MonitorRowActions({
       variant="ghost"
       size={collapsed ? "default" : "icon"}
       disabled={!hasCUDAccess || isStatusPending}
-      aria-label={isPaused ? "Resume monitor" : "Pause monitor"}
-      title={isPaused ? "Resume" : "Pause"}
+      aria-label={isPaused ? "恢复监控" : "暂停监控"}
+      title={isPaused ? "恢复" : "暂停"}
       className={cn(!collapsed && rowActionIconColors)}
       onClick={(e) => {
         e.stopPropagation();
@@ -343,7 +354,7 @@ function MonitorRowActions({
         <PauseCircle className="h-4.5 w-4.5" aria-hidden="true" />
       )}
       {collapsed ? (
-        <span className="ml-2">{isPaused ? "Resume" : "Pause"}</span>
+        <span className="ml-2">{isPaused ? "恢复" : "暂停"}</span>
       ) : null}
     </Button>
   );
@@ -355,7 +366,7 @@ function MonitorRowActions({
       isTableAction
       icon={!collapsed}
       variant="ghost"
-      title="Delete"
+      title="删除"
       className={cn(!collapsed && rowActionIconColors)}
     />
   );
@@ -365,7 +376,7 @@ function MonitorRowActions({
       <div onClick={(e) => e.stopPropagation()}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size="xs" variant="ghost" aria-label="Monitor actions">
+            <Button size="xs" variant="ghost" aria-label="监控操作">
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>

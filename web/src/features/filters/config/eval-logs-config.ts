@@ -14,17 +14,17 @@ export const evalLogFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "status",
-      label: "Status",
+      label: "状态",
     },
     {
       type: "string" as const,
       column: "traceId",
-      label: "Trace ID",
+      label: "追踪 ID",
     },
     {
       type: "string" as const,
       column: "executionTraceId",
-      label: "Execution Trace ID",
+      label: "执行追踪 ID",
     },
   ],
 };

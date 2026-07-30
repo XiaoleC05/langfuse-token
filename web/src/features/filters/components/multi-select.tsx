@@ -351,7 +351,7 @@ export function MultiSelect({
                     onSelect={() => onValueChange([])}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    清除筛选
                   </InputCommandItem>
                 </InputCommandGroup>
               </>

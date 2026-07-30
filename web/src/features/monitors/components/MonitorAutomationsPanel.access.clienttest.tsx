@@ -63,7 +63,7 @@ describe("MonitorAutomationsPanel access gating", () => {
         onTriggerIdsChange={vi.fn()}
       />,
     );
-    expect(screen.getByRole("button", { name: /automation/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /自动化/i })).toBeDisabled();
   });
 
   it("write access: the add-automation trigger is enabled", () => {
@@ -76,7 +76,7 @@ describe("MonitorAutomationsPanel access gating", () => {
       />,
     );
     expect(
-      screen.getByRole("button", { name: /automation/i }),
+      screen.getByRole("button", { name: /自动化/i }),
     ).not.toBeDisabled();
   });
 });

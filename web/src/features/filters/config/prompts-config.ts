@@ -14,22 +14,22 @@ export const promptFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "type",
-      label: "Type",
+      label: "类型",
     },
     {
       type: "categorical" as const,
       column: "labels",
-      label: "Labels",
+      label: "标记",
     },
     {
       type: "categorical" as const,
       column: "tags",
-      label: "Tags",
+      label: "标签",
     },
     {
       type: "numeric" as const,
       column: "version",
-      label: "Version",
+      label: "版本",
       min: 1,
       max: 100,
     },

@@ -9,6 +9,6 @@ type LoadingLayoutProps = {
   message?: string;
 };
 
-export function LoadingLayout({ message = "Loading" }: LoadingLayoutProps) {
+export function LoadingLayout({ message = "加载中" }: LoadingLayoutProps) {
   return <Spinner message={message} />;
 }

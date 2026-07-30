@@ -40,7 +40,7 @@ export const MobileTopBar = ({
             variant="ghost"
             size="icon"
             className="h-9 w-9"
-            aria-label="Open menu"
+            aria-label="打开菜单"
             onClick={() => toggleSidebar()}
           >
             <Menu className="size-5" />

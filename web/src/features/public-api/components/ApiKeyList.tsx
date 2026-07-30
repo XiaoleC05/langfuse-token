@@ -72,11 +72,11 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
   if (!hasAccess) {
     return (
       <div>
-        <Header title="API Keys" />
+        <Header title="API 密钥" />
         <Alert>
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            You do not have permission to view API keys for this {scope}.
+            您没有查看此{scope}的 API 密钥的权限。
           </AlertDescription>
         </Alert>
       </div>
@@ -86,9 +86,9 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
   return (
     <div className="space-y-4">
       <Header
-        title={startCase(`${scope} API keys`)}
+        title={scope === "project" ? "项目 API 密钥" : "组织 API 密钥"}
         help={{
-          description: `Learn more about ${scope} API keys`,
+          description: `了解更多关于${scope === "project" ? "项目" : "组织"} API 密钥的信息`,
           href:
             scope === "project"
               ? "https://langfuse.com/docs/api#authentication"
@@ -99,21 +99,21 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
       <CodeView
         content={envCode}
         title=".env"
-        copiedToClipboardMessage="Secrets are not included, create a new key to copy them."
+        copiedToClipboardMessage="不包含密钥，创建新密钥以复制。"
       />
       <Card className="mb-4 overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="text-primary hidden md:table-cell">
-                Created
+                创建时间
               </TableHead>
               <TableHead className="text-primary hidden md:table-cell">
-                Created By
+                创建者
               </TableHead>
-              <TableHead className="text-primary">Note</TableHead>
-              <TableHead className="text-primary">Public Key</TableHead>
-              <TableHead className="text-primary">Secret Key</TableHead>
+              <TableHead className="text-primary">备注</TableHead>
+              <TableHead className="text-primary">公钥</TableHead>
+              <TableHead className="text-primary">密钥</TableHead>
               {/* <TableHead className="text-primary">Last used</TableHead> */}
               <TableHead />
             </TableRow>
@@ -126,7 +126,7 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
                   colSpan={6}
                   className="text-center"
                 >
-                  None
+                  无
                 </TableCell>
               </TableRow>
             ) : (
@@ -256,9 +256,9 @@ function DeleteApiKeyButton(props: {
           <TrashIcon className="h-4 w-4" />
         </Button>
       }
-      title="Delete API key"
-      description="Are you sure you want to delete this API key? This action cannot be undone."
-      confirmLabel="Permanently delete"
+      title="删除 API 密钥"
+      description="确定要删除此 API 密钥吗？此操作无法撤销。"
+      confirmLabel="永久删除"
       loading={mutDeleteOrgApiKey.isPending || mutDeleteProjectApiKey.isPending}
       onConfirm={handleDelete}
     />
@@ -270,7 +270,7 @@ function ApiKeyCreatedBy({ apiKey }: { apiKey: ApiKeyCreator }) {
     const { name, email } = apiKey.createdByUser;
     return (
       <span className="truncate" title={email ?? undefined}>
-        {name ?? email ?? "Unknown user"}
+        {name ?? email ?? "未知用户"}
       </span>
     );
   }
@@ -278,7 +278,7 @@ function ApiKeyCreatedBy({ apiKey }: { apiKey: ApiKeyCreator }) {
     return (
       <span
         className="truncate font-mono"
-        title={`Created via API by key ${apiKey.createdByApiKey.publicKey}`}
+        title={`通过 API 由密钥 ${apiKey.createdByApiKey.publicKey} 创建`}
       >
         {apiKey.createdByApiKey.publicKey}
       </span>
@@ -357,7 +357,7 @@ function ApiKeyNote({
       onClick={() => setIsEditing(true)}
       className="hover:bg-secondary/50 -mx-2 cursor-pointer rounded px-2 py-1"
     >
-      {note || "Click to add note"}
+      {note || "点击添加备注"}
     </div>
   );
 }

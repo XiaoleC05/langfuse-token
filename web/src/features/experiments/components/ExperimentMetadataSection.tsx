@@ -24,7 +24,7 @@ export const ExperimentMetadataSection = ({
             type="button"
             className="flex w-full items-center justify-between text-left"
           >
-            <span className="text-sm font-bold">Metadata</span>
+            <span className="text-sm font-bold">元数据</span>
             {isOpen ? (
               <ChevronDown className="text-muted-foreground h-4 w-4" />
             ) : (

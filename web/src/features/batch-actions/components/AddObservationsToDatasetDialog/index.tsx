@@ -67,7 +67,7 @@ export function AddObservationsToDatasetDialog(
       <DialogContent className="flex max-h-[90vh] max-w-6xl flex-col">
         <DialogHeader>
           <DialogTitle>
-            Add {displayCount} Observation(s) to dataset
+            将 {displayCount} 个观测添加到数据集
             {!["select", "create", "choice"].includes(step)
               ? " " + state.dataset.name
               : ""}
@@ -168,7 +168,7 @@ export function AddObservationsToDatasetDialog(
               {showBackButton && (
                 <Button type="button" variant="ghost" onClick={goBack}>
                   <ChevronLeft className="mr-1 h-4 w-4" />
-                  Back
+                  返回
                 </Button>
               )}
             </div>

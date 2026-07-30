@@ -57,9 +57,9 @@ export function DistributionBooleanCard() {
           distribution1Data: distribution.score1,
           distribution2Data: undefined,
           categories: distribution.categories ?? [],
-          description: `${statistics.score1.total.toLocaleString()} observations${
+          description: `${statistics.score1.total.toLocaleString()} 条记录${
             statistics.score1.mode
-              ? ` | Most frequent: ${statistics.score1.mode.category} (${statistics.score1.mode.count.toLocaleString()})`
+              ? ` | 最常见: ${statistics.score1.mode.category} (${statistics.score1.mode.count.toLocaleString()})`
               : ""
           }`,
         };
@@ -72,14 +72,14 @@ export function DistributionBooleanCard() {
             distribution1Data: distribution.score1Individual,
             distribution2Data: undefined,
             categories: distribution.categories ?? [],
-            description: `${score1.name} - ${statistics.score1.total.toLocaleString()} observations`,
+            description: `${score1.name} - ${statistics.score1.total.toLocaleString()} 条记录`,
           };
         case "score2":
           return {
             distribution1Data: distribution.score2Individual,
             distribution2Data: undefined,
             categories: distribution.score2Categories ?? [],
-            description: `${score2?.name ?? "Score 2"} - ${statistics.score2?.total.toLocaleString()} observations`,
+            description: `${score2?.name ?? "评分 2"} - ${statistics.score2?.total.toLocaleString()} 条记录`,
           };
         case "all":
           return {
@@ -93,7 +93,7 @@ export function DistributionBooleanCard() {
             distribution1Data: distribution.score1Matched,
             distribution2Data: distribution.score2Matched,
             categories: distribution.categories ?? [],
-            description: `${score1.name} vs ${score2?.name} - ${statistics.comparison?.matchedCount.toLocaleString()} matched`,
+            description: `${score1.name} vs ${score2?.name} - ${statistics.comparison?.matchedCount.toLocaleString()} 条已匹配`,
           };
       }
     }, [data, activeTab, params]);
@@ -124,8 +124,8 @@ export function DistributionBooleanCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Distribution</CardTitle>
-          <CardDescription>Loading chart...</CardDescription>
+          <CardTitle>分布</CardTitle>
+          <CardDescription>加载图表中...</CardDescription>
         </CardHeader>
         <CardContent className="flex h-[340px] flex-col items-center justify-center pl-0">
           <Spinner size="xl" variant="muted" />
@@ -139,11 +139,11 @@ export function DistributionBooleanCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Distribution</CardTitle>
-          <CardDescription>No data available</CardDescription>
+          <CardTitle>分布</CardTitle>
+          <CardDescription>无可用数据</CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground flex h-[340px] flex-col items-center justify-center pl-0 text-sm">
-          Select a score to view distribution
+          选择一个评分以查看分布
         </CardContent>
       </Card>
     );
@@ -172,7 +172,7 @@ export function DistributionBooleanCard() {
     ? score2.name === score1.name
       ? `${score2.source} · ${score2.name}`
       : score2.name
-    : "Score 2";
+    : "评分 2";
 
   return (
     <Card>
@@ -181,7 +181,7 @@ export function DistributionBooleanCard() {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <CardTitle className="flex items-center gap-2">
-                Distribution
+                分布
                 {data.samplingMetadata.isSampled && (
                   <SamplingDetailsHoverCard
                     samplingMetadata={data.samplingMetadata}
@@ -213,10 +213,10 @@ export function DistributionBooleanCard() {
                   {truncateLabel(score2FullLabel)}
                 </TabsTrigger>
                 <TabsTrigger value="all" className="h-5 px-2 text-xs">
-                  all
+                  全部
                 </TabsTrigger>
                 <TabsTrigger value="matched" className="h-5 px-2 text-xs">
-                  matched
+                  已匹配
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -249,7 +249,7 @@ export function DistributionBooleanCard() {
           />
         ) : (
           <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
-            No distribution data available for the selected time range
+            所选时间范围内无分布数据可用
           </div>
         )}
       </CardContent>

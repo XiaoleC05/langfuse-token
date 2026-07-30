@@ -44,8 +44,8 @@ export function StatisticsCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Statistics</CardTitle>
-          <CardDescription>Loading statistics...</CardDescription>
+          <CardTitle>统计</CardTitle>
+          <CardDescription>加载统计数据中...</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center py-12">
           <Spinner size="xl" variant="muted" />
@@ -59,11 +59,11 @@ export function StatisticsCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Statistics</CardTitle>
-          <CardDescription>No data available</CardDescription>
+          <CardTitle>统计</CardTitle>
+          <CardDescription>无可用数据</CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground py-12 text-center text-sm">
-          Select a score to view statistics
+          选择一个评分以查看统计数据
         </CardContent>
       </Card>
     );
@@ -109,7 +109,7 @@ export function StatisticsCard() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Statistics
+          统计
           {data.samplingMetadata.isSampled && (
             <SamplingDetailsHoverCard
               samplingMetadata={data.samplingMetadata}
@@ -121,7 +121,7 @@ export function StatisticsCard() {
         <CardDescription>
           {score2
             ? `${score1.name} vs ${score2.name}`
-            : `${score1.name} - Select a second score for comparison`}
+            : `${score1.name} - 选择第二个评分进行对比`}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -133,18 +133,18 @@ export function StatisticsCard() {
           {dataType === "NUMERIC" ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <MetricCard
-                label="Total"
+                label="总计"
                 value={
                   showScore1Data
                     ? statistics.score1.total.toLocaleString()
                     : "--"
                 }
-                helpText={`Total number of ${score1.name} scores`}
+                helpText={`${score1.name} 评分的总数`}
                 isPlaceholder={!showScore1Data}
                 isContext
               />
               <MetricCard
-                label="Mean"
+                label="平均值"
                 value={
                   showScore1Data && statistics.score1.mean !== null
                     ? statistics.score1.mean.toFixed(2)
@@ -152,12 +152,12 @@ export function StatisticsCard() {
                       ? "--"
                       : "N/A"
                 }
-                helpText={`Average value for ${score1.name}`}
+                helpText={`${score1.name} 的平均值`}
                 isPlaceholder={!showScore1Data}
                 isContext
               />
               <MetricCard
-                label="Std Dev"
+                label="标准差"
                 value={
                   showScore1Data && statistics.score1.std !== null
                     ? statistics.score1.std.toFixed(2)
@@ -165,7 +165,7 @@ export function StatisticsCard() {
                       ? "--"
                       : "N/A"
                 }
-                helpText={`Standard deviation for ${score1.name}`}
+                helpText={`${score1.name} 的标准差`}
                 isPlaceholder={!showScore1Data}
                 isContext
               />
@@ -173,18 +173,18 @@ export function StatisticsCard() {
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <MetricCard
-                label="Total"
+                label="总计"
                 value={
                   showScore1Data
                     ? statistics.score1.total.toLocaleString()
                     : "--"
                 }
-                helpText={`Total number of ${score1.name} scores`}
+                helpText={`${score1.name} 评分的总数`}
                 isPlaceholder={!showScore1Data}
                 isContext
               />
               <MetricCard
-                label="Mode"
+                label="众数"
                 value={
                   showScore1Data && statistics.score1.mode
                     ? `${statistics.score1.mode.category} (${statistics.score1.mode.count.toLocaleString()})`
@@ -192,12 +192,12 @@ export function StatisticsCard() {
                       ? "--"
                       : "N/A"
                 }
-                helpText="Most frequent category and its count"
+                helpText="最常见分类及其计数"
                 isPlaceholder={!showScore1Data}
                 isContext
               />
               <MetricCard
-                label="Mode %"
+                label="众数占比"
                 value={
                   showScore1Data && statistics.score1.modePercentage !== null
                     ? `${statistics.score1.modePercentage.toFixed(1)}%`
@@ -205,7 +205,7 @@ export function StatisticsCard() {
                       ? "--"
                       : "N/A"
                 }
-                helpText="Percentage of observations with the most frequent category"
+                helpText="最常见分类的观测值占比"
                 isPlaceholder={!showScore1Data}
                 isContext
               />
@@ -217,24 +217,24 @@ export function StatisticsCard() {
         {showScore2Section && (
           <div>
             <h4 className="mb-2 text-xs font-bold">
-              {score2?.name ?? "Score 2"}
+              {score2?.name ?? "评分 2"}
               {score2?.source ? ` (${score2.source})` : ""}
             </h4>
             {dataType === "NUMERIC" ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <MetricCard
-                  label="Total"
+                  label="总计"
                   value={
                     showScore2Data && statistics.score2
                       ? statistics.score2.total.toLocaleString()
                       : "--"
                   }
-                  helpText={`Total number of ${score2?.name ?? "Score 2"} scores`}
+                  helpText={`${score2?.name ?? "评分 2"} 评分的总数`}
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
                 <MetricCard
-                  label="Mean"
+                  label="平均值"
                   value={
                     showScore2Data &&
                     statistics.score2 &&
@@ -244,12 +244,12 @@ export function StatisticsCard() {
                         ? "--"
                         : "N/A"
                   }
-                  helpText={`Average value for ${score2?.name ?? "Score 2"}`}
+                  helpText={`${score2?.name ?? "评分 2"} 的平均值`}
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
                 <MetricCard
-                  label="Std Dev"
+                  label="标准差"
                   value={
                     showScore2Data &&
                     statistics.score2 &&
@@ -259,7 +259,7 @@ export function StatisticsCard() {
                         ? "--"
                         : "N/A"
                   }
-                  helpText={`Standard deviation for ${score2?.name ?? "Score 2"}`}
+                  helpText={`${score2?.name ?? "评分 2"} 的标准差`}
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
@@ -267,18 +267,18 @@ export function StatisticsCard() {
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <MetricCard
-                  label="Total"
+                  label="总计"
                   value={
                     showScore2Data && statistics.score2
                       ? statistics.score2.total.toLocaleString()
                       : "--"
                   }
-                  helpText={`Total number of ${score2?.name ?? "Score 2"} scores`}
+                  helpText={`${score2?.name ?? "评分 2"} 评分的总数`}
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
                 <MetricCard
-                  label="Mode"
+                  label="众数"
                   value={
                     showScore2Data && statistics.score2?.mode
                       ? `${statistics.score2.mode.category} (${statistics.score2.mode.count.toLocaleString()})`
@@ -286,12 +286,12 @@ export function StatisticsCard() {
                         ? "--"
                         : "N/A"
                   }
-                  helpText="Most frequent category and its count"
+                  helpText="最常见分类及其计数"
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
                 <MetricCard
-                  label="Mode %"
+                  label="众数占比"
                   value={
                     showScore2Data &&
                     statistics.score2 &&
@@ -301,7 +301,7 @@ export function StatisticsCard() {
                         ? "--"
                         : "N/A"
                   }
-                  helpText="Percentage of observations with the most frequent category"
+                  helpText="最常见分类的观测值占比"
                   isPlaceholder={!showScore2Data}
                   isContext
                 />
@@ -313,19 +313,19 @@ export function StatisticsCard() {
         {/* Section 3: Comparison Metrics - Always show to set expectations */}
         {showComparisonSection && (
           <div>
-            <h4 className="mb-2 text-xs font-bold">Comparison</h4>
+            <h4 className="mb-2 text-xs font-bold">对比</h4>
             {dataType === "NUMERIC" ? (
               <div className="space-y-4">
                 {/* First row: Matched, Pearson, Spearman */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <MetricCard
-                    label="Matched"
+                    label="已匹配"
                     value={
                       showComparisonMetrics && statistics.comparison
                         ? statistics.comparison.matchedCount.toLocaleString()
                         : "--"
                     }
-                    helpText="Number of observations with both scores"
+                    helpText="同时拥有两个评分的观测值数量"
                     warning={
                       hasCartesianProduct
                         ? {
@@ -333,20 +333,17 @@ export function StatisticsCard() {
                             content: (
                               <div className="space-y-2 text-xs">
                                 <p className="font-bold">
-                                  Matched count exceeds individual score counts
-                                  due to Cartesian product
+                                  由于笛卡尔积，已匹配数量超过了单个评分的计数
                                 </p>
                                 <p>
-                                  This occurs when multiple scores of the same
-                                  name/source exist on a single attachment point
-                                  (trace/observation/session/run). Each
-                                  combination creates a match.
+                                  当同一个挂载点（跟踪/观测/会话/运行）上存在多个具有相同
+                                  名称/来源的评分时，就会发生这种情况。每种组合都会产生一个匹配。
                                 </p>
                                 <p className="text-muted-foreground">
-                                  <strong>Example:</strong> If one trace has 2
-                                  &quot;gpt4&quot; scores and 3
-                                  &quot;gemini&quot; scores, this creates 6
-                                  matched pairs (2 × 3 = 6).
+                                  <strong>示例：</strong>如果一条跟踪有 2
+                                  个 &quot;gpt4&quot; 评分和 3 个
+                                  &quot;gemini&quot; 评分，则将产生 6
+                                  个已匹配对 (2 × 3 = 6)。
                                 </p>
                               </div>
                             ),
@@ -357,7 +354,7 @@ export function StatisticsCard() {
                     isPlaceholder={!showComparisonMetrics}
                   />
                   <MetricCard
-                    label="Pearson r"
+                    label="皮尔逊 r"
                     value={
                       showComparisonMetrics &&
                       statistics.comparison &&
@@ -376,11 +373,11 @@ export function StatisticsCard() {
                           )
                         : undefined
                     }
-                    helpText="Linear correlation (-1 to 1)"
+                    helpText="线性相关性 (-1 到 1)"
                     isPlaceholder={!showComparisonMetrics}
                   />
                   <MetricCard
-                    label="Spearman ρ"
+                    label="斯皮尔曼 ρ"
                     value={
                       showComparisonMetrics &&
                       statistics.comparison &&
@@ -399,7 +396,7 @@ export function StatisticsCard() {
                           )
                         : undefined
                     }
-                    helpText="Rank correlation (-1 to 1)"
+                    helpText="秩相关性 (-1 到 1)"
                     isPlaceholder={!showComparisonMetrics}
                   />
                 </div>
@@ -424,7 +421,7 @@ export function StatisticsCard() {
                         ? interpretMAE(statistics.comparison.mae)
                         : undefined
                     }
-                    helpText="Mean Absolute Error"
+                    helpText="平均绝对误差"
                     isPlaceholder={!showComparisonMetrics}
                   />
                   <MetricCard
@@ -445,7 +442,7 @@ export function StatisticsCard() {
                         ? interpretRMSE(statistics.comparison.rmse)
                         : undefined
                     }
-                    helpText="Root Mean Square Error"
+                    helpText="均方根误差"
                     isPlaceholder={!showComparisonMetrics}
                   />
                 </div>
@@ -455,13 +452,13 @@ export function StatisticsCard() {
                 {/* First row: Matched, Agreement */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <MetricCard
-                    label="Matched"
+                    label="已匹配"
                     value={
                       showComparisonMetrics && statistics.comparison
                         ? statistics.comparison.matchedCount.toLocaleString()
                         : "--"
                     }
-                    helpText="Number of observations with both scores"
+                    helpText="同时拥有两个评分的观测值数量"
                     warning={
                       hasCartesianProduct
                         ? {
@@ -469,20 +466,17 @@ export function StatisticsCard() {
                             content: (
                               <div className="space-y-2 text-xs">
                                 <p className="font-bold">
-                                  Matched count exceeds individual score counts
-                                  due to Cartesian product
+                                  由于笛卡尔积，已匹配数量超过了单个评分的计数
                                 </p>
                                 <p>
-                                  This occurs when multiple scores of the same
-                                  name/source exist on a single attachment point
-                                  (trace/observation/session/run). Each
-                                  combination creates a match.
+                                  当同一个挂载点（跟踪/观测/会话/运行）上存在多个具有相同
+                                  名称/来源的评分时，就会发生这种情况。每种组合都会产生一个匹配。
                                 </p>
                                 <p className="text-muted-foreground">
-                                  <strong>Example:</strong> If one trace has 2
-                                  &quot;gpt4&quot; scores and 3
-                                  &quot;gemini&quot; scores, this creates 6
-                                  matched pairs (2 × 3 = 6).
+                                  <strong>示例：</strong>如果一条跟踪有 2
+                                  个 &quot;gpt4&quot; 评分和 3 个
+                                  &quot;gemini&quot; 评分，则将产生 6
+                                  个已匹配对 (2 × 3 = 6)。
                                 </p>
                               </div>
                             ),
@@ -493,7 +487,7 @@ export function StatisticsCard() {
                     isPlaceholder={!showComparisonMetrics}
                   />
                   <MetricCard
-                    label="Agreement"
+                    label="一致性"
                     value={
                       showComparisonMetrics && overallAgreement !== null
                         ? `${(overallAgreement * 100).toFixed(1)}%`
@@ -506,7 +500,7 @@ export function StatisticsCard() {
                         ? interpretOverallAgreement(overallAgreement)
                         : undefined
                     }
-                    helpText="Overall agreement percentage"
+                    helpText="总体一致性百分比"
                     isPlaceholder={!showComparisonMetrics}
                   />
                 </div>
@@ -527,11 +521,11 @@ export function StatisticsCard() {
                         ? interpretCohensKappa(cohensKappa)
                         : undefined
                     }
-                    helpText="Inter-rater reliability (-1 to 1)"
+                    helpText="评分者间信度 (-1 到 1)"
                     isPlaceholder={!showComparisonMetrics}
                   />
                   <MetricCard
-                    label="F1 Score"
+                    label="F1 分数"
                     value={
                       showComparisonMetrics && f1Score !== null
                         ? f1Score.toFixed(3)
@@ -544,7 +538,7 @@ export function StatisticsCard() {
                         ? interpretF1Score(f1Score)
                         : undefined
                     }
-                    helpText="Weighted F1 score (0 to 1)"
+                    helpText="加权 F1 分数 (0 到 1)"
                     isPlaceholder={!showComparisonMetrics}
                   />
                 </div>

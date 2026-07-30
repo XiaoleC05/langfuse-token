@@ -138,7 +138,7 @@ function DatasetCompareRunsTableInternal(props: {
   const columns: LangfuseColumnDef<DatasetCompareRunRowData>[] = [
     {
       accessorKey: "id",
-      header: "Item id",
+      header: "条目ID",
       id: "id",
       size: 90,
       enableHiding: true,
@@ -155,7 +155,7 @@ function DatasetCompareRunsTableInternal(props: {
     },
     {
       accessorKey: "input",
-      header: "Input",
+      header: "输入",
       id: "input",
       size: 200,
       enableHiding: true,
@@ -172,7 +172,7 @@ function DatasetCompareRunsTableInternal(props: {
     },
     {
       accessorKey: "expectedOutput",
-      header: "Expected Output",
+      header: "预期输出",
       id: "expectedOutput",
       size: 200,
       enableHiding: true,
@@ -192,7 +192,7 @@ function DatasetCompareRunsTableInternal(props: {
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       id: "metadata",
       size: 200,
       enableHiding: true,
@@ -238,7 +238,7 @@ function DatasetCompareRunsTableInternal(props: {
                 onClick={() => setIsFieldsDropdownOpen(!isFieldsDropdownOpen)}
               >
                 <LayoutList className="mr-2 h-4 w-4" />
-                <span>Fields</span>
+                <span>字段</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -248,19 +248,19 @@ function DatasetCompareRunsTableInternal(props: {
                 checked={isFieldSelected("output")}
                 onCheckedChange={() => toggleField("output")}
               >
-                Output
+                输出
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={isFieldSelected("scores")}
                 onCheckedChange={() => toggleField("scores")}
               >
-                Scores
+                评分
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={isFieldSelected("resourceMetrics")}
                 onCheckedChange={() => toggleField("resourceMetrics")}
               >
-                Latency and cost
+                延迟与成本
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -306,9 +306,9 @@ function DatasetCompareRunsTableInternal(props: {
         noResultsMessage={
           hasActiveRunFilters ? (
             <div className="text-muted-foreground flex flex-col items-center gap-1 text-sm">
-              <span>No dataset run items match the current filters.</span>
+              <span>没有数据集运行条目匹配当前过滤条件。</span>
               <span className="text-xs">
-                Adjust or clear filters to compare items again.
+                调整或清除过滤条件以重新对比条目。
               </span>
             </div>
           ) : undefined

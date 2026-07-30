@@ -70,7 +70,7 @@ export const BlobStorageIntegrationContainer = ({
       utils.blobStorageIntegration.invalidate();
     },
     onError: (error) => {
-      showErrorToast("Failed to save integration", error.message);
+      showErrorToast("保存集成失败", error.message);
     },
   });
   const mutDelete = api.blobStorageIntegration.delete.useMutation({
@@ -87,11 +87,11 @@ export const BlobStorageIntegrationContainer = ({
     onSuccess: (data) => {
       showSuccessToast({
         title: data.message,
-        description: `Test file: ${data.testFileName}`,
+        description: `测试文件：${data.testFileName}`,
       });
     },
     onError: (error) => {
-      showErrorToast("Validation failed", error.message);
+      showErrorToast("验证失败", error.message);
     },
   });
 
@@ -136,28 +136,28 @@ export const BlobStorageIntegrationContainer = ({
         variant="secondary"
         loading={mutValidate.isPending}
         disabled={!config}
-        title="Test your saved configuration by uploading a small test file to your storage"
+        title="上传小测试文件到存储以验证配置"
         onClick={() => {
           mutValidate.mutate({ projectId });
         }}
       >
-        Validate
+        验证
       </Button>
       <Button
         variant="secondary"
         loading={mutRunNow.isPending}
         disabled={!config?.enabled}
-        title="Trigger an immediate export of all data since the last sync"
+        title="立即导出上次同步以来的所有数据"
         onClick={() => {
           if (
             confirm(
-              "Are you sure you want to run the blob storage export now? This will export all data since the last sync.",
+              "确定要立即运行Blob存储导出吗？将导出上次同步以来的所有数据。",
             )
           )
             mutRunNow.mutate({ projectId });
         }}
       >
-        Run Now
+        立即运行
       </Button>
       <Button
         variant="ghost"
@@ -166,13 +166,13 @@ export const BlobStorageIntegrationContainer = ({
         onClick={() => {
           if (
             confirm(
-              "Are you sure you want to reset the Blob Storage integration for this project?",
+              "确定要重置此项目的Blob存储集成吗？",
             )
           )
             mutDelete.mutate({ projectId });
         }}
       >
-        Reset
+        重置
       </Button>
     </BlobStorageIntegrationForm>
   );

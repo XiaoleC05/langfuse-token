@@ -90,33 +90,33 @@ export default function Dashboard() {
 
   const filterColumns: ColumnDefinition[] = [
     {
-      name: "Trace Name",
+      name: "追踪名称",
       id: "traceName",
       type: "stringOptions",
       options: nameOptions,
       internal: "internalValue",
     },
     {
-      name: "Tags",
+      name: "标签",
       id: "tags",
       type: "arrayOptions",
       options: tagsOptions,
       internal: "internalValue",
     },
     {
-      name: "User",
+      name: "用户",
       id: "user",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Release",
+      name: "发布",
       id: "release",
       type: "string",
       internal: "internalValue",
     },
     {
-      name: "Version",
+      name: "版本",
       id: "version",
       type: "string",
       internal: "internalValue",
@@ -169,7 +169,7 @@ export default function Dashboard() {
     : (homeDashboard.data?.dashboard ?? null);
   const dashboardId =
     displayedDashboard?.id ?? peekId ?? LANGFUSE_HOME_DASHBOARD_ID;
-  const dashboardName = displayedDashboard?.name ?? "Langfuse Home";
+  const dashboardName = displayedDashboard?.name ?? "Langfuse 首页";
   const dashboardOwner = displayedDashboard?.owner ?? "LANGFUSE";
   // Show a loading state until the home resolution (or peek fetch) settles —
   // rendering the curated fallback early would flash the wrong layout and
@@ -192,7 +192,7 @@ export default function Dashboard() {
       setPeekId(null);
     },
     onError: (e) => {
-      showErrorToast("Failed to set the default Home dashboard", e.message);
+      showErrorToast("设置默认首页仪表板失败", e.message);
     },
   });
 
@@ -275,8 +275,8 @@ export default function Dashboard() {
           actionButtonsLeft: (
             <>
               <MultiSelect
-                title="Environment"
-                label="Env"
+                title="环境"
+                label="环境"
                 values={selectedEnvironments}
                 onValueChange={useDebounce(setSelectedEnvironments)}
                 options={environmentOptions.map((env) => ({
@@ -314,7 +314,7 @@ export default function Dashboard() {
                 <Button
                   variant="outline"
                   loading={setHomeDashboard.isPending}
-                  title="Show this dashboard on Home for everyone in this project"
+                  title="将此仪表板设为项目全员首页"
                   onClick={() => {
                     capture("dashboard:home_dashboard_set_default", {
                       dashboard_id: dashboardId,
@@ -329,13 +329,13 @@ export default function Dashboard() {
                     });
                   }}
                 >
-                  Set default
+                  设为默认
                 </Button>
               )}
               <Button
                 variant="outline"
                 size="icon"
-                title="Edit this dashboard in Dashboards"
+                title="在仪表板中编辑此仪表板"
                 asChild
               >
                 <Link
@@ -349,7 +349,7 @@ export default function Dashboard() {
                 >
                   <PencilIcon className="h-4 w-4" />
                   <span className="sr-only">
-                    Edit this dashboard in Dashboards
+                    在仪表板中编辑此仪表板
                   </span>
                 </Link>
               </Button>

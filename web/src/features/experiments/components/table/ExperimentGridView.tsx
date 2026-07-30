@@ -113,7 +113,7 @@ export const ExperimentGridView = ({
                 size="sm"
                 className={cn("shrink-0 font-bold", colorStyles?.badgeClass)}
               >
-                {isBaseline ? "Baseline" : "Comp"}
+                {isBaseline ? "基线" : "对比"}
               </Badge>
             )}
           </div>
@@ -184,7 +184,7 @@ export const ExperimentGridView = ({
       {
         accessorKey: "input",
         id: "input",
-        header: "Input",
+        header: "输入",
         size: 200,
         cell: ({ row }) => (
           <MemoizedIOTableCell
@@ -198,7 +198,7 @@ export const ExperimentGridView = ({
       {
         accessorKey: "expectedOutput",
         id: "expectedOutput",
-        header: "Expected Output",
+        header: "预期输出",
         size: 200,
         cell: ({ row }) => (
           <MemoizedIOTableCell

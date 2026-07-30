@@ -66,7 +66,7 @@ export const throwIfExceedsLimit = (
     const limit = hasEntitlementLimit(p);
     throw new TRPCError({
       code: "FORBIDDEN",
-      message: `Usage (${p.currentUsage}) exceeds the limit (${limit}) for entitlement: ${p.entitlementLimit}`,
+      message: `用量 (${p.currentUsage}) 超出权益 ${p.entitlementLimit} 的上限 (${limit})`,
     });
   }
 };

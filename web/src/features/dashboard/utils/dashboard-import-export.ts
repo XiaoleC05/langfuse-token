@@ -73,7 +73,7 @@ export function parsePastedPreset(text: string): PastedPresetParseResult {
   ) {
     return {
       status: "invalid",
-      reason: `This card uses format version ${payload.version}; this Langfuse version supports up to ${PRESET_FILE_FORMAT_VERSION}.`,
+      reason: `此卡片使用格式版本 ${payload.version};当前 Langfuse 版本最高支持 ${PRESET_FILE_FORMAT_VERSION}。`,
     };
   }
 

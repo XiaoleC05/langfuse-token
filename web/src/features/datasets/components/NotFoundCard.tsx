@@ -12,9 +12,9 @@ export const NotFoundCard = ({
       <Card className="flex h-full w-full items-center justify-start overflow-hidden rounded-sm px-2">
         <p
           className="text-muted-foreground truncate text-xs"
-          title={`The ${itemType} is either still being processed or has been deleted.`}
+          title={`该 ${itemType} 可能仍在处理中,或已被删除。`}
         >
-          The {itemType} is either still being processed or has been deleted.
+          该 {itemType} 可能仍在处理中,或已被删除。
         </p>
       </Card>
     );

@@ -151,7 +151,7 @@ function DatasetItemsView() {
               variant="outline"
               size="icon"
               onClick={() => setIsVersionPanelOpen(!isVersionPanelOpen)}
-              title="Version History"
+              title="版本历史"
             >
               <History className="h-4 w-4" />
             </Button>
@@ -179,7 +179,7 @@ function DatasetItemsView() {
               open: isVersionPanelOpen,
               onOpenChange: handlePanelOpenChange,
             }}
-            mobileTitle="Version History"
+            mobileTitle="版本历史"
           >
             <SidePanelContent className="h-full">
               <DatasetVersionHistoryPanel

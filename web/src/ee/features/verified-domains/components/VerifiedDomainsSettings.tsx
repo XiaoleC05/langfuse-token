@@ -64,7 +64,7 @@ const addDomainSchema = z.object({
         /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/.test(
           v,
         ),
-      { message: "Must be a valid domain (e.g. acme.com)" },
+      { message: "域名格式无效（例如 acme.com）" },
     ),
 });
 
@@ -79,10 +79,9 @@ export const VerifiedDomainsSettings = ({ orgId }: { orgId: string }) => {
 
   const heading = (
     <>
-      <Header title="Verified Domains" />
+      <Header title="已验证域名" />
       <p className="text-muted-foreground mb-4 text-sm">
-        You can only configure SSO for domains your organization owns. Verify a
-        domain via DNS to enable SSO for it.
+        您只能为组织拥有的域名配置单点登录(SSO)。通过 DNS 验证域名以启用单点登录(SSO)。
       </p>
     </>
   );
@@ -93,10 +92,9 @@ export const VerifiedDomainsSettings = ({ orgId }: { orgId: string }) => {
         {heading}
         <Alert>
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Not available</AlertTitle>
+          <AlertTitle>不可用</AlertTitle>
           <AlertDescription>
-            Verified Domains and Enterprise SSO are not available on your plan.
-            Please upgrade to access this feature.
+            已验证域名和企业级单点登录(SSO)在您的套餐中不可用。请升级以使用此功能。
           </AlertDescription>
         </Alert>
       </div>
@@ -108,10 +106,9 @@ export const VerifiedDomainsSettings = ({ orgId }: { orgId: string }) => {
       <div>
         {heading}
         <Alert>
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            You do not have permission to manage verified domains for this
-            organization.
+            您没有权限管理此组织的已验证域名。
           </AlertDescription>
         </Alert>
       </div>
@@ -121,12 +118,11 @@ export const VerifiedDomainsSettings = ({ orgId }: { orgId: string }) => {
   return (
     <div className="space-y-6">
       <Header
-        title="Verified Domains"
+        title="已验证域名"
         actionButtons={<AddDomainButton orgId={orgId} />}
       />
       <p className="text-muted-foreground text-sm">
-        You can only configure SSO for domains your organization owns. Verify a
-        domain via DNS to enable SSO for it.
+        您只能为组织拥有的域名配置单点登录(SSO)。通过 DNS 验证域名以启用单点登录(SSO)。
       </p>
       <DomainsTable orgId={orgId} />
     </div>
@@ -141,10 +137,10 @@ function DomainsTable({ orgId }: { orgId: string }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-primary pl-2.5">Domain</TableHead>
-            <TableHead className="text-primary">Status</TableHead>
+            <TableHead className="text-primary pl-2.5">域名</TableHead>
+            <TableHead className="text-primary">状态</TableHead>
             <TableHead className="text-primary hidden md:table-cell">
-              Added
+              添加时间
             </TableHead>
             <TableHead />
           </TableRow>
@@ -157,7 +153,7 @@ function DomainsTable({ orgId }: { orgId: string }) {
                 colSpan={4}
                 className="py-12 text-center text-sm"
               >
-                No domains added yet
+                尚未添加域名
               </TableCell>
             </TableRow>
           ) : (
@@ -189,12 +185,12 @@ function DomainRow({ orgId, row }: { orgId: string; row: DomainRowData }) {
       utils.verifiedDomain.list.invalidate({ orgId });
       utils.ssoConfig.get.invalidate({ orgId });
       showSuccessToast({
-        title: "Domain verified",
-        description: `${row.domain} is now verified.`,
+        title: "域名已验证",
+        description: `${row.domain} 已验证通过。`,
       });
     },
     onError: (err) => {
-      showErrorToast("Verification failed", err.message);
+      showErrorToast("验证失败", err.message);
     },
   });
 
@@ -221,9 +217,9 @@ function DomainRow({ orgId, row }: { orgId: string; row: DomainRowData }) {
         </TableCell>
         <TableCell density="comfortable">
           {row.verifiedAt ? (
-            <Badge variant="default">Verified</Badge>
+            <Badge variant="default">已验证</Badge>
           ) : (
-            <Badge variant="secondary">Pending verification</Badge>
+            <Badge variant="secondary">待验证</Badge>
           )}
         </TableCell>
         <TableCell density="comfortable" className="hidden md:table-cell">
@@ -239,7 +235,7 @@ function DomainRow({ orgId, row }: { orgId: string; row: DomainRowData }) {
               onClick={() => verifyMutation.mutate({ orgId, id: row.id })}
               loading={verifyMutation.isPending}
             >
-              Verify
+              验证
             </Button>
           )}
           <DeleteDomainButton
@@ -274,15 +270,15 @@ function DnsInstructions({
   return (
     <div className="space-y-3">
       <p className="text-sm font-bold">
-        Add the following TXT record to your DNS provider:
+        请在您的 DNS 服务商处添加以下 TXT 记录：
       </p>
       <Card className="overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16">Type</TableHead>
-              <TableHead className="w-54">Host</TableHead>
-              <TableHead>Value</TableHead>
+              <TableHead className="w-16">类型</TableHead>
+              <TableHead className="w-54">主机</TableHead>
+              <TableHead>值</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -305,8 +301,8 @@ function DnsInstructions({
         </Table>
       </Card>
       <p className="text-muted-foreground text-xs">
-        DNS changes may take up to 24h to propagate. After adding the record,
-        click <span className="font-bold">Verify</span>.
+        DNS 变更可能需要最多 24 小时才能生效。添加记录后，
+        点击<span className="font-bold">验证</span>。
       </p>
     </div>
   );
@@ -325,9 +321,9 @@ function AddDomainButton({ orgId }: { orgId: string }) {
     onSuccess: () => {
       utils.verifiedDomain.list.invalidate({ orgId });
       showSuccessToast({
-        title: "Domain added",
+        title: "域名已添加",
         description:
-          "Add the DNS TXT record shown in the table, then click Verify.",
+          "请添加表格中显示的 DNS TXT 记录，然后点击验证。",
       });
       form.reset();
       setOpen(false);
@@ -344,11 +340,11 @@ function AddDomainButton({ orgId }: { orgId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">Add Domain</Button>
+        <Button size="sm">添加域名</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a domain</DialogTitle>
+          <DialogTitle>添加域名</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -358,7 +354,7 @@ function AddDomainButton({ orgId }: { orgId: string }) {
                 name="domain"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Domain</FormLabel>
+                    <FormLabel>域名</FormLabel>
                     <FormControl>
                       <Input placeholder="acme.com" autoFocus {...field} />
                     </FormControl>
@@ -373,10 +369,10 @@ function AddDomainButton({ orgId }: { orgId: string }) {
                 variant="ghost"
                 onClick={() => setOpen(false)}
               >
-                Cancel
+                取消
               </Button>
               <Button type="submit" loading={createMutation.isPending}>
-                Add
+                添加
               </Button>
             </DialogFooter>
           </form>
@@ -403,38 +399,38 @@ function DeleteDomainButton({
     onSuccess: () => {
       utils.verifiedDomain.list.invalidate({ orgId });
       showSuccessToast({
-        title: "Domain removed",
-        description: `${domain} has been removed.`,
+        title: "域名已移除",
+        description: `${domain} 已被移除。`,
       });
     },
     onError: (err) => {
-      showErrorToast("Failed to remove domain", err.message);
+      showErrorToast("移除域名失败", err.message);
     },
   });
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon-xs" aria-label={`Delete ${domain}`}>
+        <Button variant="ghost" size="icon-xs" aria-label={`移除 ${domain}`}>
           <TrashIcon className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove {domain}?</AlertDialogTitle>
+          <AlertDialogTitle>移除 {domain}？</AlertDialogTitle>
           <AlertDialogDescription>
             {verified
-              ? "If an SSO configuration exists for this domain, you must remove it first. The domain can be re-verified later."
-              : "This removes the pending claim. The domain can be re-added and verified later."}
+              ? "如果该域名存在单点登录(SSO)配置，您必须先移除它。域名可以稍后重新验证。"
+              : "此操作将移除待处理的声明。域名可以稍后重新添加和验证。"}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>取消</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => deleteMutation.mutate({ orgId, id })}
             disabled={deleteMutation.isPending}
           >
-            Remove
+            移除
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

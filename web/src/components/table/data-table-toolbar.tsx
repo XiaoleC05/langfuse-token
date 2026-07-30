@@ -171,27 +171,27 @@ function getSearchDescription(
 ): React.ReactNode {
   const fields = metadataFields?.join(", ") ?? "";
   const performanceWarning = !hidePerformanceWarning
-    ? " For improved performance, please filter the table down."
+    ? "为提高性能,请先筛选表格数据。"
     : "";
 
   if (tableAllowsFullTextSearch && searchType?.includes("content")) {
     return (
       <p className="text-primary text-xs font-normal">
-        Searches in Input/Output and {fields}.{performanceWarning}
+        在输入/输出和 {fields} 中搜索。{performanceWarning}
       </p>
     );
   }
   if (tableAllowsFullTextSearch && searchType?.includes("input")) {
     return (
       <p className="text-primary text-xs font-normal">
-        Searches in Input and {fields}.{performanceWarning}
+        在输入和 {fields} 中搜索。{performanceWarning}
       </p>
     );
   }
   if (tableAllowsFullTextSearch && searchType?.includes("output")) {
     return (
       <p className="text-primary text-xs font-normal">
-        Searches in Output and {fields}.{performanceWarning}
+        在输出和 {fields} 中搜索。{performanceWarning}
       </p>
     );
   }

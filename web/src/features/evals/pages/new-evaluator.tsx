@@ -150,7 +150,7 @@ export default function NewEvaluatorPage() {
   const isProviderStepComplete = step === "run" && selectedTemplateIsLlm;
 
   if (!hasAccess) {
-    return <div>You do not have access to this page.</div>;
+    return <div>您没有访问此页面的权限。</div>;
   }
 
   return (
@@ -158,10 +158,10 @@ export default function NewEvaluatorPage() {
       withPadding
       scrollable
       headerProps={{
-        title: "Set up evaluator",
+        title: "设置评估器",
         breadcrumb: [
           {
-            name: "Running Evaluators",
+            name: "运行中的评估器",
             href: `/project/${projectId}/evals`,
           },
         ],
@@ -180,7 +180,7 @@ export default function NewEvaluatorPage() {
                   : "text-foreground font-bold",
               )}
             >
-              1. Select Evaluator
+              1. 选择评估器
               {step !== "select" && (
                 <Check className="ml-1 inline-block h-3 w-3" />
               )}
@@ -195,7 +195,7 @@ export default function NewEvaluatorPage() {
                   : "text-muted-foreground",
               )}
             >
-              2. Set up LLM connection
+              2. 设置 LLM 连接
               {isProviderStepComplete && (
                 <Check className="ml-1 inline-block h-3 w-3" />
               )}
@@ -211,7 +211,7 @@ export default function NewEvaluatorPage() {
               )}
             >
               <div className="flex flex-row">
-                3. Run Evaluator
+                3. 运行评估器
                 {currentTemplate && (
                   <div className="flex flex-row gap-2">
                     <span>
@@ -254,10 +254,10 @@ export default function NewEvaluatorPage() {
             {hasNewerTemplate && latestTemplate && currentTemplate ? (
               <Alert variant="info">
                 <Info className="h-4 w-4" />
-                <AlertTitle>Selected Evaluator has been updated</AlertTitle>
+                <AlertTitle>所选评估器已更新</AlertTitle>
                 <AlertDescription className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <span>
-                    Click to use the latest version of your evaluator{" "}
+                    点击使用最新版本的评估器{" "}
                     {latestTemplate.name}.
                   </span>
                   <Button
@@ -267,7 +267,7 @@ export default function NewEvaluatorPage() {
                     className="w-fit"
                     onClick={handleUseUpdatedEvaluator}
                   >
-                    Use updated evaluator
+                    使用更新后的评估器
                   </Button>
                 </AlertDescription>
               </Alert>

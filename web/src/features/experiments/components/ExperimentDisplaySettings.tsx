@@ -33,25 +33,25 @@ export function ExperimentDisplaySettings({
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           <Settings2 className="h-4 w-4" />
-          <span className="ml-2 hidden md:inline">Display</span>
+          <span className="ml-2 hidden md:inline">显示</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Layout</DropdownMenuLabel>
+        <DropdownMenuLabel>布局</DropdownMenuLabel>
         <DropdownMenuItem onClick={() => onLayoutChange("grid")}>
           {layout === "grid" && <Check className="mr-2 h-4 w-4" />}
           {layout !== "grid" && <span className="mr-2 h-4 w-4" />}
-          Grid
+          网格
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onLayoutChange("list")}>
           {layout === "list" && <Check className="mr-2 h-4 w-4" />}
           {layout !== "list" && <span className="mr-2 h-4 w-4" />}
-          List
+          列表
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuLabel>Item Visibility</DropdownMenuLabel>
+        <DropdownMenuLabel>数据项可见性</DropdownMenuLabel>
         <DropdownMenuItem
           onClick={() => onItemVisibilityChange("baseline-only")}
           disabled={isItemVisibilityDisabled}
@@ -62,7 +62,7 @@ export function ExperimentDisplaySettings({
           {itemVisibility !== "baseline-only" && (
             <span className="mr-2 h-4 w-4" />
           )}
-          Show only items in baseline
+          仅显示基线中的数据项
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => onItemVisibilityChange("all")}
@@ -70,7 +70,7 @@ export function ExperimentDisplaySettings({
         >
           {itemVisibility === "all" && <Check className="mr-2 h-4 w-4" />}
           {itemVisibility !== "all" && <span className="mr-2 h-4 w-4" />}
-          Show all items
+          显示全部数据项
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

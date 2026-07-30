@@ -74,11 +74,11 @@ function WidgetActionsCell({
     onError: (error) => {
       if (error.data?.code === "CONFLICT") {
         showErrorToast(
-          "Widget in use",
-          "Widget is still in use. Please remove it from all dashboards before deleting it.",
+          "小部件使用中",
+          "小部件仍在使用中。请先从所有仪表盘中移除后再删除。",
         );
       } else {
-        showErrorToast("Failed to delete widget", error.message);
+        showErrorToast("删除小部件失败", error.message);
       }
     },
   });
@@ -124,8 +124,8 @@ function WidgetActionsCell({
       });
     } catch (error) {
       showErrorToast(
-        "Failed to download widget",
-        error instanceof Error ? error.message : "Unknown error",
+        "下载小部件失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     }
   };
@@ -143,8 +143,8 @@ function WidgetActionsCell({
       });
     } catch (error) {
       showErrorToast(
-        "Failed to copy widget",
-        error instanceof Error ? error.message : "Unknown error",
+        "复制小部件失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     }
   };
@@ -168,13 +168,13 @@ function WidgetActionsCell({
       });
       utils.dashboardWidgets.invalidate();
       showSuccessToast({
-        title: "Widget duplicated",
-        description: `Created "${exportSource.name} (Copy)".`,
+        title: "小部件已复制",
+        description: `已创建"${exportSource.name} (副本)"。`,
       });
     } catch (error) {
       showErrorToast(
-        "Failed to duplicate widget",
-        error instanceof Error ? error.message : "Unknown error",
+        "复制小部件失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     }
   };
@@ -183,22 +183,22 @@ function WidgetActionsCell({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="xs" aria-label="Widget actions">
+          <Button variant="ghost" size="xs" aria-label="小部件操作">
             <MoreVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={handleCopyToClipboard}>
             <Copy className="mr-2 h-4 w-4" />
-            Copy to clipboard
+            复制到剪贴板
           </DropdownMenuItem>
           <DropdownMenuItem disabled={!hasCUDAccess} onClick={handleDuplicate}>
             <CopyPlus className="mr-2 h-4 w-4" />
-            Duplicate
+            复制
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleDownloadJson}>
             <FileJson className="mr-2 h-4 w-4" />
-            Download as JSON
+            下载为 JSON
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -207,16 +207,16 @@ function WidgetActionsCell({
             className="text-destructive focus:text-destructive"
           >
             <Trash className="mr-2 h-4 w-4" />
-            Delete
+            删除
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <ConfirmDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        title="Delete widget"
-        description="This action permanently deletes this widget. If the widget is currently used in any dashboard, you will need to remove it from those dashboards first."
-        confirmLabel="Delete Widget"
+        title="删除小部件"
+        description="此操作将永久删除该小部件。如果小部件正在任何仪表盘中使用，您需要先从这些仪表盘中将其移除。"
+        confirmLabel="删除小部件"
         loading={mutDeleteWidget.isPending}
         onConfirm={() => {
           if (!projectId) {
@@ -275,7 +275,7 @@ export function DashboardWidgetTable() {
   const columnHelper = createColumnHelper<WidgetTableRow>();
   const widgetColumns = [
     columnHelper.accessor("name", {
-      header: "Name",
+      header: "名称",
       id: "name",
       enableSorting: true,
       size: 200,
@@ -290,7 +290,7 @@ export function DashboardWidgetTable() {
       },
     }),
     columnHelper.accessor("description", {
-      header: "Description",
+      header: "描述",
       id: "description",
       size: 300,
       cell: (row) => {
@@ -298,7 +298,7 @@ export function DashboardWidgetTable() {
       },
     }),
     columnHelper.accessor("view", {
-      header: "View Type",
+      header: "视图类型",
       id: "view",
       enableSorting: true,
       size: 100,
@@ -307,7 +307,7 @@ export function DashboardWidgetTable() {
       },
     }),
     columnHelper.accessor("chartType", {
-      header: "Chart Type",
+      header: "图表类型",
       id: "chartType",
       enableSorting: true,
       size: 100,
@@ -315,7 +315,7 @@ export function DashboardWidgetTable() {
         getChartTypeDisplayName(row.getValue() as DashboardWidgetChartType),
     }),
     columnHelper.accessor("createdAt", {
-      header: "Created At",
+      header: "创建时间",
       id: "createdAt",
       enableSorting: true,
       size: 150,
@@ -325,7 +325,7 @@ export function DashboardWidgetTable() {
       },
     }),
     columnHelper.accessor("updatedAt", {
-      header: "Updated At",
+      header: "更新时间",
       id: "updatedAt",
       enableSorting: true,
       size: 150,
@@ -336,7 +336,7 @@ export function DashboardWidgetTable() {
     }),
     columnHelper.display({
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       cell: (row) => {
         const id = row.row.original.id;

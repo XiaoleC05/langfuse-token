@@ -33,7 +33,7 @@ export default function Datasets() {
           title: "数据集",
           help: {
             description:
-              "Datasets in Langfuse are a collection of inputs (and expected outputs) of an LLM application. They are used to benchmark new releases before deployment to production. See docs to learn more.",
+              "数据集是 Langfuse 中 LLM 应用程序的输入（及预期输出）集合，用于在生产部署前对新版本进行基准测试。详见文档。",
             href: "https://langfuse.com/docs/evaluation/dataset-runs/datasets",
           },
         }}
@@ -50,7 +50,7 @@ export default function Datasets() {
         title: "数据集",
         help: {
           description:
-            "Datasets in Langfuse are a collection of inputs (and expected outputs) of an LLM application. They are used to benchmark new releases before deployment to production. See docs to learn more.",
+            "数据集是 Langfuse 中 LLM 应用程序的输入（及预期输出）集合，用于在生产部署前对新版本进行基准测试。详见文档。",
           href: "https://langfuse.com/docs/evaluation/dataset-runs/datasets",
         },
         actionButtonsRight: (

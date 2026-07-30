@@ -61,7 +61,7 @@ export const InlineEditText = ({
         ref={focusInput}
         value={draft}
         placeholder={placeholder}
-        aria-label={ariaLabel ?? "Edit text"}
+        aria-label={ariaLabel ?? "编辑文本"}
         onChange={(e) => setDraft(e.target.value)}
         onBlur={commit}
         onKeyDown={(e) => {
@@ -89,8 +89,8 @@ export const InlineEditText = ({
         setDraft(value);
         setEditing(true);
       }}
-      aria-label={ariaLabel ?? "Edit text"}
-      title="Click to edit"
+      aria-label={ariaLabel ?? "编辑文本"}
+      title="点击编辑"
       className="hover:bg-accent/50 focus-visible:ring-ring inline-flex h-[1lh] max-w-full items-center rounded-sm px-1 text-left align-bottom [font:inherit] focus-visible:ring-2 focus-visible:outline-hidden"
     >
       <span

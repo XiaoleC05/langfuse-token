@@ -104,7 +104,7 @@ export const UpsertModelFormDialog = (({
       tokenizerConfig: null,
       pricingTiers: [
         {
-          name: "Standard",
+          name: "标准",
           isDefault: true,
           priority: 0,
           conditions: [],
@@ -203,8 +203,8 @@ export const UpsertModelFormDialog = (({
       form.reset();
       setOpen(false);
       showSuccessToast({
-        title: `Model ${props.action === "edit" ? "updated" : "created"}`,
-        description: `The model '${upsertedModel.modelName}' has been successfully ${props.action === "edit" ? "updated" : "created"}. New generations will use these model prices.`,
+        title: `模型${props.action === "edit" ? "更新" : "创建"}成功`,
+        description: `模型「${upsertedModel.modelName}」已成功${props.action === "edit" ? "更新" : "创建"}。新的生成将使用这些模型价格。`,
       });
       router.push(
         `/project/${props.projectId}/settings/models/${upsertedModel.id}`,
@@ -251,7 +251,7 @@ export const UpsertModelFormDialog = (({
     if (!defaultTier) return;
 
     append({
-      name: `Custom Tier ${fields.length}`,
+      name: `自定义层级 ${fields.length}`,
       isDefault: false,
       priority: fields.length,
       conditions: [
@@ -283,8 +283,8 @@ export const UpsertModelFormDialog = (({
         className={props.className}
         title={
           props.action === "create"
-            ? "Create model definition"
-            : "Edit model definition"
+            ? "创建模型定义"
+            : "编辑模型定义"
         }
       >
         {children}
@@ -293,17 +293,17 @@ export const UpsertModelFormDialog = (({
         <DialogHeader>
           <DialogTitle>
             {props.action === "create"
-              ? "Create Model"
+              ? "创建模型"
               : props.action === "clone"
-                ? "Clone Model"
-                : "Edit Model"}
+                ? "克隆模型"
+                : "编辑模型"}
           </DialogTitle>
           {props.action === "edit" && (
             <DialogDescription>{props.modelData.modelName}</DialogDescription>
           )}
           {props.action === "create" && (
             <DialogDescription>
-              Create a new model configuration to track generation costs.
+              创建新的模型配置以追踪生成成本。
             </DialogDescription>
           )}
         </DialogHeader>
@@ -319,11 +319,9 @@ export const UpsertModelFormDialog = (({
                 disabled={props.action === "edit"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Model Name</FormLabel>
+                    <FormLabel>模型名称</FormLabel>
                     <FormDescription>
-                      The name of the model. This will be used to reference the
-                      model in the API. You can track price changes of models by
-                      using the same name and match pattern.
+                      模型的名称。将用于在 API 中引用该模型。您可以通过使用相同的名称和匹配模式来追踪模型的价格变化。
                     </FormDescription>
                     <FormControl>
                       <Input {...field} />
@@ -337,12 +335,10 @@ export const UpsertModelFormDialog = (({
                 name="matchPattern"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Match pattern</FormLabel>
+                    <FormLabel>匹配模式</FormLabel>
                     <FormDescription>
-                      Regular expression (Postgres syntax) to match ingested
-                      generations (model attribute) to this model definition.
-                      For an exact, case-insensitive match to a model name, use
-                      the expression: (?i)^(modelname)$
+                      用于将已摄入的生成（模型属性）与此模型定义匹配的正则表达式（Postgres 语法）。
+                      要进行精确且不区分大小写的匹配，请使用表达式：(?i)^(modelname)$
                     </FormDescription>
                     <FormControl>
                       <Input {...field} />
@@ -365,7 +361,7 @@ export const UpsertModelFormDialog = (({
                 name="tokenizerId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tokenizer</FormLabel>
+                    <FormLabel>分词器</FormLabel>
                     <Select
                       onValueChange={(tokenizerId) => {
                         field.onChange(tokenizerId);
@@ -377,7 +373,7 @@ export const UpsertModelFormDialog = (({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a unit" />
+                          <SelectValue placeholder="选择单位" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -389,18 +385,17 @@ export const UpsertModelFormDialog = (({
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      Optionally, Langfuse can tokenize the input and output of
-                      a generation if no unit counts are ingested. This is
-                      useful for e.g. streamed OpenAI completions. For details
-                      on the supported tokenizers, see the{" "}
+                      可选地，如果未摄入单位计数，Langfuse 可以对生成的输入和输出进行分词。
+                      这对于例如流式 OpenAI 补全非常有用。有关支持的分词器的详细信息，请参阅
+                      {" "}
                       <Link
                         href="https://langfuse.com/docs/model-usage-and-cost"
                         className="underline"
                         target="_blank"
                       >
-                        docs
+                        文档
                       </Link>
-                      .
+                      。
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -412,23 +407,23 @@ export const UpsertModelFormDialog = (({
                   name="tokenizerConfig"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tokenizer Config</FormLabel>
+                      <FormLabel>分词器配置</FormLabel>
                       <CodeMirrorEditor
                         mode="json"
                         value={field.value ?? "{}"}
                         onChange={field.onChange}
                       />
                       <FormDescription>
-                        The config for the tokenizer. Required for openai. See
-                        the{" "}
+                        分词器的配置。openai 必需。有关详细信息，请参阅
+                        {" "}
                         <Link
                           href="https://langfuse.com/docs/model-usage-and-cost"
                           className="underline"
                           target="_blank"
                         >
-                          docs
-                        </Link>{" "}
-                        for details.
+                          文档
+                        </Link>
+                        。
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -443,17 +438,17 @@ export const UpsertModelFormDialog = (({
                 variant="outline"
                 onClick={() => setOpen(false)}
               >
-                Cancel
+                取消
               </Button>
 
               <Button type="submit" loading={upsertModelMutation.isPending}>
-                Submit
+                提交
               </Button>
             </DialogFooter>
           </form>
           {formError ? (
             <p className="text-destructive my-2 text-center text-sm font-bold">
-              <span className="font-bold">Error:</span> {formError}
+              <span className="font-bold">错误：</span> {formError}
             </p>
           ) : null}
         </Form>

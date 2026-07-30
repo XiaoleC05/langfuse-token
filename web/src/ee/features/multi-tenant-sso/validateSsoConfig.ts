@@ -107,14 +107,14 @@ export async function validateSsoConfig(
   } catch {
     throw new TRPCError({
       code: "PRECONDITION_FAILED",
-      message: `Could not reach ${discoveryUrl}. Verify the issuer URL is correct and reachable from the public internet.`,
+      message: `无法访问 ${discoveryUrl}。请确认 issuer URL 正确且可从公网访问。`,
     });
   }
 
   if (!resp.ok) {
     throw new TRPCError({
       code: "PRECONDITION_FAILED",
-      message: `OIDC discovery at ${discoveryUrl} returned ${resp.status}. Verify the issuer URL is correct.`,
+      message: `OIDC 发现地址 ${discoveryUrl} 返回了 ${resp.status}。请确认 issuer URL 正确。`,
     });
   }
 
@@ -124,7 +124,7 @@ export async function validateSsoConfig(
   } catch {
     throw new TRPCError({
       code: "PRECONDITION_FAILED",
-      message: `OIDC discovery at ${discoveryUrl} did not return valid JSON.`,
+      message: `OIDC 发现地址 ${discoveryUrl} 未返回有效的 JSON。`,
     });
   }
 

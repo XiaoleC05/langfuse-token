@@ -67,7 +67,7 @@ export const GetDatasetItemsMcpInput = GetDatasetItemsMcpRuntimeInput.refine(
     return true;
   },
   {
-    message: "datasetId is required when version parameter is provided",
+    message: "提供 version 参数时必须同时提供 datasetId",
     path: ["datasetId"],
   },
 );

@@ -192,8 +192,8 @@ export const JumpToPlaygroundButton: React.FC<JumpToPlaygroundButtonProps> = (
   };
 
   const tooltipMessage = isAvailable
-    ? "Test in LLM playground"
-    : "Test in LLM playground is not available since messages are not in valid ChatML format or tool calls have been used. If you think this is not correct, please open a GitHub issue.";
+    ? "在 LLM 实验场中测试"
+    : "消息格式不是有效的 ChatML 格式或已使用工具调用，无法在 LLM 实验场中测试。如果您认为这不正确，请在 GitHub 上提交问题。";
 
   const isMenu = props.layout === "menu";
 
@@ -222,11 +222,11 @@ export const JumpToPlaygroundButton: React.FC<JumpToPlaygroundButtonProps> = (
             }
           />
           {isMenu ? (
-            <span className="text-sm">Test in playground</span>
+            <span className="text-sm">在实验场中测试</span>
           ) : (
             <>
               <span className={cn("hidden md:inline", props.className)}>
-                Playground
+                实验场
               </span>
               <ChevronDown className="h-3 w-3" />
             </>
@@ -236,17 +236,17 @@ export const JumpToPlaygroundButton: React.FC<JumpToPlaygroundButtonProps> = (
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => handlePlaygroundAction(true)}>
           <Terminal className="mr-2 h-4 w-4" />
-          Fresh playground
+          新建实验场
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handlePlaygroundAction(false)}>
           <Terminal className="mr-2 h-4 w-4" />
-          Add to existing
+          添加到现有
         </DropdownMenuItem>
         {props.source === "generation" && (
           <>
             <DropdownMenuSeparator />
             <div className="flex items-center justify-between px-2 py-1.5">
-              <span className="text-sm">Include output</span>
+              <span className="text-sm">包含输出</span>
               <Switch
                 checked={includeOutput}
                 onCheckedChange={setIncludeOutput}
@@ -559,7 +559,7 @@ function parseStructuredOutputSchema(
         return {
           id: Math.random().toString(36).substring(2),
           name: parseStructuredOutputSchema.data.json_schema.name,
-          description: "Schema parsed from generation",
+          description: "从生成解析的结构",
           schema: parseStructuredOutputSchema.data.json_schema.schema,
         };
     }
@@ -582,7 +582,7 @@ function parseStructuredOutputSchema(
         return {
           id: Math.random().toString(36).substring(2),
           name: parseStructuredOutputSchema.data.json_schema.name,
-          description: "Schema parsed from generation",
+          description: "从生成解析的结构",
           schema: parseStructuredOutputSchema.data.json_schema.schema,
         };
     }

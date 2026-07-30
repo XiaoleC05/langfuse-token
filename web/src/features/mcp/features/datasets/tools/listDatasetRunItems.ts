@@ -10,7 +10,7 @@ import { GetDatasetRunItemsMcpInput } from "../schema";
 export const [listDatasetRunItemsTool, handleListDatasetRunItems] = defineTool({
   name: "listDatasetRunItems",
   description:
-    "List dataset run items, each linking one dataset item to a trace or observation within a dataset run, by dataset ID and run ID.",
+    "按数据集 ID 和运行 ID 列出数据集运行条目,每个条目在数据集运行中将一个数据集条目关联到追踪或观测。",
   baseSchema: GetDatasetRunItemsMcpInput,
   inputSchema: GetDatasetRunItemsMcpInput,
   handler: async (input, context) =>

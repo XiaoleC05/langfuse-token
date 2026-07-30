@@ -73,7 +73,7 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
   const runEvaluationMutation =
     api.batchAction.runEvaluation.create.useMutation({
       onError: (error) => {
-        showErrorToast("Failed to schedule evaluation", error.message);
+        showErrorToast("安排评估失败", error.message);
       },
     });
 
@@ -81,9 +81,9 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
   // For experiments source, displayCount is experiment count, not item count
   const isExperimentsSource = sourceTable === SourceTable.EXPERIMENTS;
   const scopeLabel =
-    sourceTable === SourceTable.EVENTS ? "observation" : "experiment item";
+    sourceTable === SourceTable.EVENTS ? "观测" : "实验项";
   const evaluatorScopeLabel =
-    targetObject === EvalTargetObject.EVENT ? "observation" : "experiment";
+    targetObject === EvalTargetObject.EVENT ? "观测" : "实验";
   const experimentItemsExperimentCount =
     sourceTable === SourceTable.EXPERIMENT_ITEMS
       ? (props.experimentCount ?? 0)
@@ -176,15 +176,15 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
     }
 
     showSuccessToast({
-      title: "Evaluation queued",
+      title: "评估已排入队列",
       description: isExperimentsSource
-        ? `Scheduled evaluation for items from ${displayCount} selected experiment${displayCount === 1 ? "" : "s"} with ${selectedEvaluators.length} ${selectedEvaluators.length === 1 ? "evaluator" : "evaluators"}.`
+        ? `已为 ${displayCount} 个所选实验中的项目安排评估，使用 ${selectedEvaluators.length} 个${selectedEvaluators.length === 1 ? "评估器" : "评估器"}。`
         : sourceTable === SourceTable.EXPERIMENT_ITEMS
-          ? `Scheduled evaluation for up to ${displayCount} experiment item${displayCount === 1 ? "" : "s"} across ${experimentItemsExperimentCount} experiment${experimentItemsExperimentCount === 1 ? "" : "s"} with ${selectedEvaluators.length} ${selectedEvaluators.length === 1 ? "evaluator" : "evaluators"}.`
-          : `Scheduled evaluation for ${displayCount} selected ${scopeLabel}${displayCount === 1 ? "" : "s"} with ${selectedEvaluators.length} ${selectedEvaluators.length === 1 ? "evaluator" : "evaluators"}.`,
+          ? `已为最多 ${displayCount} 个实验项（跨 ${experimentItemsExperimentCount} 个实验）安排评估，使用 ${selectedEvaluators.length} 个${selectedEvaluators.length === 1 ? "评估器" : "评估器"}。`
+          : `已为 ${displayCount} 个所选${scopeLabel}安排评估，使用 ${selectedEvaluators.length} 个${selectedEvaluators.length === 1 ? "评估器" : "评估器"}。`,
       link: {
         href: `/project/${projectId}/settings/batch-actions`,
-        text: "View batch actions",
+        text: "查看批量操作",
       },
     });
 
@@ -198,15 +198,15 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
           <DialogHeader>
             <DialogTitle>
               {isExperimentsSource
-                ? `Evaluate items from ${displayCount} experiment${displayCount === 1 ? "" : "s"}`
+                ? `评估 ${displayCount} 个实验中的项目`
                 : sourceTable === SourceTable.EXPERIMENT_ITEMS
-                  ? `Evaluate up to ${displayCount} experiment item${displayCount === 1 ? "" : "s"} across ${experimentItemsExperimentCount} experiment${experimentItemsExperimentCount === 1 ? "" : "s"}`
-                  : `Evaluate ${displayCount} ${scopeLabel}${displayCount === 1 ? "" : "s"}`}
+                  ? `评估最多 ${displayCount} 个实验项（跨 ${experimentItemsExperimentCount} 个实验）`
+                  : `评估 ${displayCount} 个${scopeLabel}`}
             </DialogTitle>
             <DialogDescription>
               {step === "confirm"
-                ? "Review your evaluation configuration before running."
-                : `Select one or more ${evaluatorScopeLabel}-scoped evaluators.`}
+                ? "运行前请检查您的评估配置。"
+                : `选择一个或多个${evaluatorScopeLabel}范围的评估器。`}
             </DialogDescription>
           </DialogHeader>
 
@@ -257,7 +257,7 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
                 disabled={runEvaluationMutation.isPending}
               >
                 <ChevronLeft className="mr-1 h-4 w-4" />
-                Back
+                返回
               </Button>
             ) : (
               <div />
@@ -268,9 +268,9 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
                 onClick={() => setStep("confirm")}
                 disabled={selectedEvaluators.length === 0}
               >
-                Continue{" "}
+                继续{" "}
                 {selectedEvaluators.length > 0
-                  ? `with ${selectedEvaluators.length} evaluator(s)`
+                  ? `使用 ${selectedEvaluators.length} 个评估器`
                   : null}
               </Button>
             ) : (
@@ -278,7 +278,7 @@ export function RunEvaluationDialog(props: RunEvaluationDialogProps) {
                 onClick={onSubmit}
                 loading={runEvaluationMutation.isPending}
               >
-                Run Evaluation
+                运行评估
               </Button>
             )}
           </DialogFooter>

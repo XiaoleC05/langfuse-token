@@ -3,8 +3,8 @@ import * as z from "zod";
 
 const organizationName = StringNoHTML.min(
   3,
-  "Must have at least 3 characters",
-).max(60, "Must have at most 60 characters");
+  "至少需要 3 个字符",
+).max(60, "最多 60 个字符");
 
 export const organizationFormSchema = z.object({
   name: organizationName,

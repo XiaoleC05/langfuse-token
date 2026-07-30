@@ -17,7 +17,7 @@ export const BookACallButton = () => {
         }}
       >
         <CalendarDays className="h-4 w-4" />
-        Book a call
+        预约通话
       </Link>
     </SidebarMenuButton>
   );

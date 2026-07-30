@@ -14,13 +14,13 @@ export const monitorFilterConfig: FilterConfig = {
     {
       type: "categorical" as const,
       column: "severity",
-      label: "Severity",
+      label: "严重程度",
       disableTextFilter: true,
     },
     {
       type: "categorical" as const,
       column: "tags",
-      label: "Tags",
+      label: "标签",
     },
   ],
 };

@@ -11,7 +11,7 @@ describe("renderNamePlaceholder", () => {
         thresholdOperator: "LT",
         alertThreshold: 100,
       }),
-    ).toBe("Sum of Observations Latency is below 100");
+    ).toBe("观测数据 Latency 总和 低于 100");
   });
 
   it("percentile aggregation: kept verbatim, not start-cased into 'P 95'", () => {
@@ -22,7 +22,7 @@ describe("renderNamePlaceholder", () => {
         thresholdOperator: "GT",
         alertThreshold: 100,
       }),
-    ).toBe("p95 of Observations Latency is above 100");
+    ).toBe("观测数据 Latency p95 高于 100");
   });
 
   it("bare count: omits the measure", () => {
@@ -33,7 +33,7 @@ describe("renderNamePlaceholder", () => {
         thresholdOperator: "GT",
         alertThreshold: 5,
       }),
-    ).toBe("Count of Observations is above 5");
+    ).toBe("观测数据 计数 高于 5");
   });
 
   it("missing threshold: defaults the value to 0", () => {
@@ -44,6 +44,6 @@ describe("renderNamePlaceholder", () => {
         thresholdOperator: "GT",
         alertThreshold: null,
       }),
-    ).toBe("Count of Observations is above 0");
+    ).toBe("观测数据 计数 高于 0");
   });
 });

@@ -42,7 +42,7 @@ export function RequestResetPasswordEmailButton({
       if (res?.error) {
         setErrorMessage(
           res.error === "AccessDenied"
-            ? "This email is not associated with any account."
+            ? "该邮箱未关联任何账户。"
             : res.error,
         );
       } else if (res?.ok) {
@@ -50,7 +50,7 @@ export function RequestResetPasswordEmailButton({
       }
     } catch (error) {
       console.error("Error sending reset password email:", error);
-      setErrorMessage("An unexpected error occurred. Please try again.");
+      setErrorMessage("发生意外错误，请重试。");
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +71,7 @@ export function RequestResetPasswordEmailButton({
       window.location.href = url;
     } catch (error) {
       console.error("Error verifying code:", error);
-      setErrorMessage("An unexpected error occurred. Please try again.");
+      setErrorMessage("发生意外错误，请重试。");
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +82,7 @@ export function RequestResetPasswordEmailButton({
       {isEmailSent ? (
         <div>
           <label htmlFor="otp-code" className="mb-2 block text-sm font-bold">
-            Check your inbox for the code
+            请查看收件箱中的验证码
           </label>
           <Input
             id="otp-code"
@@ -91,7 +91,7 @@ export function RequestResetPasswordEmailButton({
             maxLength={6}
             value={code}
             onChange={(e) => setCode(e.target.value.trim())}
-            placeholder="One time passcode"
+            placeholder="一次性验证码"
             className="mb-8 w-full"
           />
           <Button
@@ -101,7 +101,7 @@ export function RequestResetPasswordEmailButton({
             disabled={!code || code.length !== 6}
             variant={variant}
           >
-            Verify code
+            验证验证码
           </Button>
         </div>
       ) : (
@@ -113,8 +113,8 @@ export function RequestResetPasswordEmailButton({
           variant={variant}
         >
           {session.status === "authenticated"
-            ? "Verify email to change password"
-            : "Request password reset"}
+            ? "验证邮箱以更改密码"
+            : "请求密码重置"}
         </Button>
       )}
       {errorMessage && (

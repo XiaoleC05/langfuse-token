@@ -59,14 +59,14 @@ const GetMonitorErrorPage = ({ error }: { error: APIError }) => {
   if (error?.data?.code == "NOT_FOUND") {
     return (
       <ErrorPage
-        title="Monitor not found"
-        message="This monitor doesn't exist or has been deleted."
+        title="未找到监控"
+        message="该监控不存在或已被删除。"
       />
     );
   }
 
   return (
-    <ErrorPage title="Monitor could not be edited" message={error.message} />
+    <ErrorPage title="无法编辑监控" message={error.message} />
   );
 };
 
@@ -79,6 +79,6 @@ const EditMonitorLoadingPage = ({ projectId }: { projectId: string }) => (
 
 /** getHeaderProps returns the page header properties for the EditMonitors page */
 const getHeaderProps = (projectId: string, monitorName?: string) => ({
-  title: `Edit Monitor${monitorName ? " - " + monitorName : ""}`,
-  breadcrumb: [{ name: "Monitors", href: `/project/${projectId}/monitors` }],
+  title: `编辑监控${monitorName ? " - " + monitorName : ""}`,
+  breadcrumb: [{ name: "监控", href: `/project/${projectId}/monitors` }],
 });

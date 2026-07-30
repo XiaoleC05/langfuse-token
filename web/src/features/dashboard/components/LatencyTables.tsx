@@ -30,8 +30,8 @@ const LATENCY_TABLE_KINDS: Record<
   }
 > = {
   traces: {
-    title: "Trace latency percentiles",
-    nameHeader: "Trace Name",
+    title: "追踪延迟百分位",
+    nameHeader: "追踪名称",
     buildQuery: (globalFilterState, fromTimestamp, toTimestamp) => ({
       view: "traces",
       dimensions: [{ field: "name" }],
@@ -50,8 +50,8 @@ const LATENCY_TABLE_KINDS: Record<
     }),
   },
   generations: {
-    title: "Generation latency percentiles",
-    nameHeader: "Generation Name",
+    title: "生成延迟百分位",
+    nameHeader: "生成名称",
     buildQuery: (globalFilterState, fromTimestamp, toTimestamp) => ({
       view: "observations",
       dimensions: [{ field: "name" }],
@@ -78,8 +78,8 @@ const LATENCY_TABLE_KINDS: Record<
     }),
   },
   observations: {
-    title: "Observation latency percentiles",
-    nameHeader: "Observation",
+    title: "观测延迟百分位",
+    nameHeader: "观测",
     buildQuery: (globalFilterState, fromTimestamp, toTimestamp) => ({
       view: "observations",
       dimensions: [{ field: "type" }, { field: "name" }],

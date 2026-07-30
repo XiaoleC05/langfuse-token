@@ -22,7 +22,7 @@ const ListMonitorsBaseSchema = z.object({
   filter: z
     .array(McpAdvancedFilterBaseSchema)
     .optional()
-    .describe("Filter monitors by severity or tags."),
+    .describe("按严重级别或标签筛选监控。"),
 });
 
 const ListMonitorsInputSchema = ListMonitorsSchema.omit({

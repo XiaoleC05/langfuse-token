@@ -173,7 +173,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "version",
       id: "version",
-      header: "Version",
+      header: "版本",
       isPinnedLeft: true,
       size: 80,
       cell: ({ row }) => {
@@ -189,7 +189,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "labels",
       id: "labels",
-      header: "Labels",
+      header: "标签",
       isPinnedLeft: true,
       size: 160,
       cell: ({ row }) => {
@@ -210,7 +210,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "medianLatency",
       id: "medianLatency",
-      header: "Median latency",
+      header: "中位延迟",
       size: 140,
       cell: ({ row }) => {
         const latency: number | undefined | null =
@@ -229,7 +229,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "medianInputTokens",
       id: "medianInputTokens",
-      header: "Median input tokens",
+      header: "中位输入 Token",
       size: 160,
       enableHiding: true,
       cell: ({ row }) => {
@@ -245,7 +245,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "medianOutputTokens",
       id: "medianOutputTokens",
-      header: "Median output tokens",
+      header: "中位输出 Token",
       size: 170,
       enableHiding: true,
       cell: ({ row }) => {
@@ -260,7 +260,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "medianCost",
       id: "medianCost",
-      header: "Median cost",
+      header: "中位成本",
       size: 120,
       cell: ({ row }) => {
         const value: number | undefined | null = row.getValue("medianCost");
@@ -275,7 +275,7 @@ export default function PromptVersionTable({
     {
       accessorKey: "generationCount",
       id: "generationCount",
-      header: "Generations count",
+      header: "生成次数",
       size: 150,
       enableHiding: true,
       cell: ({ row }) => {
@@ -291,7 +291,7 @@ export default function PromptVersionTable({
     },
     {
       accessorKey: "traceScores",
-      header: "Trace Scores",
+      header: "Trace 评分",
       id: "traceScores",
       enableHiding: true,
       columns: traceScoreColumns,
@@ -303,7 +303,7 @@ export default function PromptVersionTable({
     },
     {
       accessorKey: "generationScores",
-      header: "Generation Scores",
+      header: "Generation 评分",
       id: "generationScores",
       enableHiding: true,
       columns: generationScoreColumns,
@@ -316,12 +316,12 @@ export default function PromptVersionTable({
     {
       accessorKey: "lastUsed",
       id: "lastUsed",
-      header: "Last used",
+      header: "最近使用",
       enableHiding: true,
       size: 150,
       headerTooltip: {
         description:
-          "This is calculated based on the selected date range, not the full usage history.",
+          "此数据基于所选日期范围计算，并非完整使用历史。",
       },
       cell: ({ row }) => {
         const value: number | undefined | null = row.getValue("lastUsed");
@@ -334,12 +334,12 @@ export default function PromptVersionTable({
     {
       accessorKey: "firstUsed",
       id: "firstUsed",
-      header: "First used",
+      header: "首次使用",
       size: 150,
       enableHiding: true,
       headerTooltip: {
         description:
-          "This is calculated based on the selected date range, not the full usage history.",
+          "此数据基于所选日期范围计算，并非完整使用历史。",
       },
       cell: ({ row }) => {
         const value: number | undefined | null = row.getValue("firstUsed");
@@ -389,9 +389,9 @@ export default function PromptVersionTable({
               "Generation",
             ),
             lastUsed:
-              prompt.lastUsed?.toLocaleString() ?? "No linked generation yet",
+              prompt.lastUsed?.toLocaleString() ?? "暂无关联生成",
             firstUsed:
-              prompt.firstUsed?.toLocaleString() ?? "No linked generation yet",
+              prompt.firstUsed?.toLocaleString() ?? "暂无关联生成",
           };
         })
       : [];
@@ -403,19 +403,19 @@ export default function PromptVersionTable({
         itemType: "PROMPT",
         help: {
           description:
-            "You can use this prompt within your application through the Langfuse SDKs and integrations. Refer to the documentation for more information.",
+            "您可以通过 Langfuse SDK 和集成在应用程序中使用此提示词。请参阅文档了解更多信息。",
           href: "https://langfuse.com/docs/prompt-management/get-started",
         },
         breadcrumb: [
           {
-            name: "Prompts",
+            name: "提示词",
             href: `/project/${projectId}/prompts/`,
           },
           {
             name: promptName ?? router.query.promptName,
             href: `/project/${projectId}/prompts/${encodeURIComponent(promptName)}`,
           },
-          { name: `Metrics` },
+          { name: `指标` },
         ],
         actionButtonsRight: (
           <DetailPageNav

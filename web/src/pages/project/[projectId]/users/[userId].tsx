@@ -14,7 +14,7 @@ import Page from "@/src/components/layouts/page";
 import { useV4Beta } from "@/src/features/events/hooks/useV4Beta";
 import { ObservationsEventsTable } from "@/src/features/events/components";
 
-const tabs = ["Traces", "Sessions", "Scores"] as const;
+const tabs = ["追踪", "会话", "评分"] as const;
 
 export default function UserPage() {
   const router = useRouter();
@@ -47,11 +47,11 @@ export default function UserPage() {
 
   const renderTabContent = () => {
     switch (currentTab as (typeof tabs)[number]) {
-      case "Sessions":
+      case "会话":
         return <SessionsTab userId={userId} projectId={projectId} />;
-      case "Traces":
+      case "追踪":
         return <TracesTab userId={userId} projectId={projectId} />;
-      case "Scores":
+      case "评分":
         return <ScoresTab userId={userId} projectId={projectId} />;
       default:
         return null;
@@ -72,7 +72,7 @@ export default function UserPage() {
     <Page
       headerProps={{
         title: userId,
-        breadcrumb: [{ name: "Users", href: `/project/${projectId}/users` }],
+        breadcrumb: [{ name: "用户", href: `/project/${projectId}/users` }],
         itemType: "USER",
         actionButtonsRight: (
           <>
@@ -81,7 +81,7 @@ export default function UserPage() {
               variant="secondary"
               icon={<LayoutDashboard className="h-4 w-4" />}
             >
-              Dashboard
+              仪表板
             </ActionButton>
             <DetailPageNav
               currentId={encodeURIComponent(userId)}
@@ -98,27 +98,27 @@ export default function UserPage() {
         {user.data && (
           <div className="flex flex-wrap gap-2 px-4 py-4">
             <Badge variant="outline">
-              Observations:{" "}
+              观测数：{" "}
               {compactNumberFormatter(user.data.totalObservations)}
             </Badge>
             <Badge variant="outline">
-              Traces: {compactNumberFormatter(user.data.totalTraces)}
+              追踪数： {compactNumberFormatter(user.data.totalTraces)}
             </Badge>
             <Badge variant="outline">
-              Total Tokens: {compactNumberFormatter(user.data.totalTokens)}
+              Token 总数： {compactNumberFormatter(user.data.totalTokens)}
             </Badge>
             <Badge variant="outline">
               <span className="flex items-center gap-1">
-                Total Cost: {usdFormatter(user.data.sumCalculatedTotalCost)}
+                总费用： {usdFormatter(user.data.sumCalculatedTotalCost)}
               </span>
             </Badge>
             <Badge variant="outline">
-              Active:{" "}
+              活跃：{" "}
               {user.data.firstTrace
                 ? `${user.data.firstTrace.toLocaleString()} - ${user.data.lastTrace?.toLocaleString()}`
                 : isBetaEnabled
-                  ? "No activity yet"
-                  : "No traces yet"}
+                  ? "暂无活动"
+                  : "暂无追踪"}
             </Badge>
           </div>
         )}
@@ -128,7 +128,7 @@ export default function UserPage() {
         <div>
           <div className="sm:hidden">
             <label htmlFor="tabs" className="sr-only">
-              Select a tab
+              选择标签页
             </label>
             <select
               id="tabs"
@@ -144,7 +144,7 @@ export default function UserPage() {
           </div>
           <div className="hidden sm:block">
             <div className="border-border border-b">
-              <nav className="-mb-px flex" aria-label="Tabs">
+              <nav className="-mb-px flex" aria-label="标签页">
                 {tabs.map((tab) => (
                   <button
                     key={tab}

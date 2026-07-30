@@ -15,7 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const SKILLS_INSTALL_COMMAND =
-  "Install the Langfuse AI skill from github.com/langfuse/skills and use it to add tracing to this application with Langfuse following best practices.";
+  "从 github.com/langfuse/skills 安装 Langfuse AI 技能，并使用它按照最佳实践为此应用添加 Langfuse 追踪。";
 const MANUAL_TRACING_DOCS_URL =
   "https://langfuse.com/docs/observability/get-started";
 
@@ -35,7 +35,7 @@ function CopyableSnippet({
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch {
-      toast.error("Failed to copy to clipboard");
+      toast.error("复制到剪贴板失败");
     }
   };
 
@@ -51,7 +51,7 @@ function CopyableSnippet({
         onClick={() => handleCopy()}
       >
         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-        {copied ? "Copied" : "Copy prompt"}
+        {copied ? "已复制" : "复制提示词"}
       </Button>
     </div>
   );
@@ -92,16 +92,16 @@ export function TracesSetupOnboardingCard({
 
   return (
     <SplashScreen
-      waitingFor="Waiting for first trace"
-      title="Time to log your first trace, it only takes a minute"
-      description="Get your API keys first, then ask your coding agent to add observability with Langfuse to your application."
+      waitingFor="等待第一条追踪"
+      title="是时候记录第一条追踪了，只需一分钟"
+      description="先获取 API 密钥，然后让编程代理为你的应用添加 Langfuse 可观测性。"
       videoSrc="https://static.langfuse.com/prod-assets/onboarding/traces-overview-v1.mp4"
       videoPosition="bottom"
       steps={[
         {
-          title: "Create API keys",
+          title: "创建 API 密钥",
           description:
-            "Your application needs API keys to send traces to Langfuse.",
+            "你的应用需要 API 密钥才能向 Langfuse 发送追踪。",
           content: apiKeys ? (
             <ApiKeyDetailContent
               scope="project"
@@ -119,7 +119,7 @@ export function TracesSetupOnboardingCard({
                   loading={mutCreateApiKey.isPending}
                   className="self-start"
                 >
-                  Create new API key
+                  创建新的 API 密钥
                 </Button>
               ) : (
                 <Button disabled className="self-start">
@@ -127,28 +127,28 @@ export function TracesSetupOnboardingCard({
                     className="mr-2 -ml-0.5 h-4 w-4"
                     aria-hidden="true"
                   />
-                  Create new API key
+                  创建新的 API 密钥
                 </Button>
               )}
               <ActionButton
                 href={`/project/${projectId}/settings/api-keys`}
                 variant="secondary"
               >
-                Manage API keys
+                管理 API 密钥
               </ActionButton>
             </div>
           ),
         },
         {
-          title: "Add tracing with your coding agent",
+          title: "使用编程代理添加追踪",
           badge: (
             <Badge variant="tertiary" className="gap-1">
               <Sparkles className="h-3 w-3" />
-              Recommended
+              推荐
             </Badge>
           ),
           description:
-            "Paste this prompt into Claude, Cursor, Copilot, or another coding agent.",
+            "将此提示词粘贴到 Claude、Cursor、Copilot 或其他编程代理中。",
           content: (
             <>
               <CopyableSnippet
@@ -172,16 +172,16 @@ export function TracesSetupOnboardingCard({
                     })
                   }
                 >
-                  or follow our docs to set up tracing manually
+                  或按照文档手动设置追踪
                 </Link>
               </div>
             </>
           ),
         },
         {
-          title: "Run your app — traces will appear here",
+          title: "运行你的应用 — 追踪将在此显示",
           description:
-            "Once your app makes an LLM call, traces show up within seconds.",
+            "一旦你的应用进行 LLM 调用，追踪将在几秒内显示。",
         },
       ]}
     />

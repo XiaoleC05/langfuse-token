@@ -48,7 +48,7 @@ export const AddToDashboardButton = React.memo(function AddToDashboardButton({
           // Surface failures instead of leaving the dialog open with no feedback;
           // keep it open so the user can retry or pick another dashboard.
           onError: (error) =>
-            showErrorToast("Failed to add chart to dashboard", error.message),
+            showErrorToast("添加图表到仪表板失败", error.message),
         },
       );
     },
@@ -67,7 +67,7 @@ export const AddToDashboardButton = React.memo(function AddToDashboardButton({
         disabled={createWidget.isPending}
       >
         <LayoutDashboard className="h-3.5 w-3.5" />
-        Add to dashboard
+        添加到仪表板
       </Button>
       <SelectDashboardDialog
         open={open}

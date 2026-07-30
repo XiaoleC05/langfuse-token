@@ -8,7 +8,7 @@ import { GetDatasetsMcpInput } from "../schema";
 export const [listDatasetsTool, handleListDatasets] = defineTool({
   name: "listDatasets",
   description:
-    "List datasets, named collections of input and optional expected-output examples for experiments and evaluations. Optionally filter by dataset name to find a dataset ID.",
+    "列出数据集(用于实验和评估的输入及可选期望输出示例的命名集合)。可按数据集名称筛选以查找数据集 ID。",
   baseSchema: GetDatasetsMcpInput,
   inputSchema: GetDatasetsMcpInput,
   handler: async (input, context) =>

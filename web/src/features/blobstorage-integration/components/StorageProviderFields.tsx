@@ -42,25 +42,25 @@ export const StorageProviderFields = ({
         name="type"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Storage Provider</FormLabel>
+            <FormLabel>存储提供商</FormLabel>
             <FormControl>
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select provider" />
+                  <SelectValue placeholder="选择提供商" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="S3">AWS S3</SelectItem>
                   <SelectItem value="S3_COMPATIBLE">
-                    S3 Compatible Storage
+                    S3兼容存储
                   </SelectItem>
                   <SelectItem value="AZURE_BLOB_STORAGE">
-                    Azure Blob Storage
+                    Azure Blob存储
                   </SelectItem>
                 </SelectContent>
               </Select>
             </FormControl>
             <FormDescription>
-              Choose your cloud storage provider
+              选择您的云存储提供商
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -74,16 +74,16 @@ export const StorageProviderFields = ({
           <FormItem>
             <FormLabel>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Container Name"
-                : "Bucket Name"}
+                ? "容器名称"
+                : "存储桶名称"}
             </FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
             <FormDescription>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Azure container name (3-63 chars, lowercase letters, numbers, and hyphens only)"
-                : "The S3 bucket name"}
+                ? "Azure容器名称（3-63个字符，仅限小写字母、数字和连字符）"
+                : "S3存储桶名称"}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -97,14 +97,14 @@ export const StorageProviderFields = ({
           name="endpoint"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Endpoint URL</FormLabel>
+              <FormLabel>端点URL</FormLabel>
               <FormControl>
                 <Input {...field} value={field.value || ""} />
               </FormControl>
               <FormDescription>
                 {integrationType === "AZURE_BLOB_STORAGE"
-                  ? "Azure Blob Storage endpoint URL (e.g., https://accountname.blob.core.windows.net)"
-                  : "S3 compatible endpoint URL (e.g., https://play.min.io)"}
+                  ? "Azure Blob存储端点URL（例如：https://accountname.blob.core.windows.net）"
+                  : "S3兼容端点URL（例如：https://play.min.io）"}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -119,14 +119,14 @@ export const StorageProviderFields = ({
           name="region"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Region</FormLabel>
+              <FormLabel>区域</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
               <FormDescription>
                 {integrationType === "S3"
-                  ? "AWS region (e.g., us-east-1)"
-                  : "S3 compatible storage region"}
+                  ? "AWS区域（例如：us-east-1）"
+                  : "S3兼容存储区域"}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -141,7 +141,7 @@ export const StorageProviderFields = ({
           name="forcePathStyle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Force Path Style</FormLabel>
+              <FormLabel>强制路径样式</FormLabel>
               <FormControl>
                 <div className="mt-1 ml-4">
                   <Switch
@@ -151,7 +151,7 @@ export const StorageProviderFields = ({
                 </div>
               </FormControl>
               <FormDescription>
-                Enable for MinIO and some other S3 compatible providers
+                为MinIO和其他S3兼容提供商启用
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -166,13 +166,13 @@ export const StorageProviderFields = ({
           <FormItem>
             <FormLabel>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Storage Account Name"
+                ? "存储账户名称"
                 : integrationType === "S3"
-                  ? "AWS Access Key ID"
-                  : "Access Key ID"}
+                  ? "AWS访问密钥ID"
+                  : "访问密钥ID"}
               {/* Show optional indicator for S3 types on self-hosted instances with entitlement */}
               {isSelfHosted && integrationType === "S3" && (
-                <span className="text-muted-foreground"> (optional)</span>
+                <span className="text-muted-foreground">（可选）</span>
               )}
             </FormLabel>
             <FormControl>
@@ -180,12 +180,12 @@ export const StorageProviderFields = ({
             </FormControl>
             <FormDescription>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Your Azure storage account name"
+                ? "您的Azure存储账户名称"
                 : integrationType === "S3"
                   ? isSelfHosted
-                    ? "Your AWS IAM user access key ID. Leave empty to use host credentials (IAM roles, instance profiles, etc.)"
-                    : "Your AWS IAM user access key ID"
-                  : "Access key for your S3-compatible storage"}
+                    ? "您的AWS IAM用户访问密钥ID。留空以使用主机凭证（IAM角色、实例配置文件等）"
+                    : "您的AWS IAM用户访问密钥ID"
+                  : "S3兼容存储的访问密钥"}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -199,13 +199,13 @@ export const StorageProviderFields = ({
           <FormItem>
             <FormLabel>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Storage Account Key"
+                ? "存储账户密钥"
                 : integrationType === "S3"
-                  ? "AWS Secret Access Key"
-                  : "Secret Access Key"}
+                  ? "AWS秘密访问密钥"
+                  : "秘密访问密钥"}
               {/* Show optional indicator for S3 types on self-hosted instances with entitlement */}
               {isSelfHosted && integrationType === "S3" && (
-                <span className="text-muted-foreground"> (optional)</span>
+                <span className="text-muted-foreground">（可选）</span>
               )}
             </FormLabel>
             <FormControl>
@@ -217,12 +217,12 @@ export const StorageProviderFields = ({
             </FormControl>
             <FormDescription>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? "Your Azure storage account access key"
+                ? "您的Azure存储账户访问密钥"
                 : integrationType === "S3"
                   ? isSelfHosted
-                    ? "Your AWS IAM user secret access key. Leave empty to use host credentials (IAM roles, instance profiles, etc.)"
-                    : "Your AWS IAM user secret access key"
-                  : "Secret key for your S3-compatible storage"}
+                    ? "您的AWS IAM用户秘密访问密钥。留空以使用主机凭证（IAM角色、实例配置文件等）"
+                    : "您的AWS IAM用户秘密访问密钥"
+                  : "S3兼容存储的秘密密钥"}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -234,16 +234,16 @@ export const StorageProviderFields = ({
         name="prefix"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Export Prefix</FormLabel>
+            <FormLabel>导出前缀</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
             <FormDescription>
               {integrationType === "AZURE_BLOB_STORAGE"
-                ? 'Optional prefix path for exported files in your Azure container (e.g., "langfuse-exports/")'
+                ? 'Azure容器中导出文件的可选前缀路径（例如："langfuse-exports/"）'
                 : integrationType === "S3"
-                  ? 'Optional prefix path for exported files in your S3 bucket (e.g., "langfuse-exports/")'
-                  : 'Optional prefix path for exported files (e.g., "langfuse-exports/")'}
+                  ? 'S3存储桶中导出文件的可选前缀路径（例如："langfuse-exports/"）'
+                  : '导出文件的可选前缀路径（例如："langfuse-exports/"）'}
             </FormDescription>
             <FormMessage />
           </FormItem>

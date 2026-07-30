@@ -48,7 +48,7 @@ export default function Experiments() {
 
   if (!canAccessExperiments) {
     return (
-      <Page headerProps={{ title: "Experiments" }}>
+      <Page headerProps={{ title: "实验" }}>
         <div className="flex h-full items-center justify-center">
           <Spinner size="xl" variant="muted" />
         </div>
@@ -59,7 +59,7 @@ export default function Experiments() {
   return (
     <Page
       headerProps={{
-        title: "Experiments",
+        title: "实验",
         titleBadges: <V4MigrationDelayBadge />,
         actionButtonsRight: (
           <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export default function Experiments() {
                   onClick={() => capture("dataset_run:new_form_open")}
                 >
                   <FlaskConical className="h-4 w-4" />
-                  <span className="ml-2 hidden md:block">Run experiment</span>
+                  <span className="ml-2 hidden md:block">运行实验</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">

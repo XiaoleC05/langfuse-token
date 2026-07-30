@@ -32,9 +32,9 @@ export function DatasetSelectStep({
   return (
     <div className="space-y-6 p-6">
       <div>
-        <h3 className="text-lg font-bold">Select Dataset</h3>
+        <h3 className="text-lg font-bold">选择数据集</h3>
         <p className="text-muted-foreground text-sm">
-          Choose an existing dataset to add your observations to
+          选择一个现有数据集以添加您的观测
         </p>
       </div>
 
@@ -46,14 +46,14 @@ export function DatasetSelectStep({
             aria-expanded={open}
             className="w-full justify-between py-6 text-base"
           >
-            {dataset.name || "Select dataset..."}
+            {dataset.name || "选择数据集..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[500px] p-0" align="start">
           <Command>
-            <CommandInput placeholder="Search datasets..." />
-            <CommandEmpty>No dataset found.</CommandEmpty>
+            <CommandInput placeholder="搜索数据集..." />
+            <CommandEmpty>未找到数据集。</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
               {datasets.data?.map((d) => (
                 <CommandItem

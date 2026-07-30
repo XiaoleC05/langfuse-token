@@ -144,7 +144,7 @@ export function DatasetItemsTable({
   const columns: LangfuseColumnDef<RowData>[] = [
     {
       accessorKey: "id",
-      header: "Item id",
+      header: "条目ID",
       id: "id",
       size: 90,
       isFixedPosition: true,
@@ -163,10 +163,10 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "source",
-      header: "Source",
+      header: "来源",
       headerTooltip: {
         description:
-          "Link to the source trace based on which this item was added",
+          "链接到添加此条目的来源追踪",
       },
       id: "source",
       size: 90,
@@ -190,7 +190,7 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "状态",
       id: "status",
       size: 80,
       cell: ({ row }) => {
@@ -206,7 +206,7 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "createdAt",
-      header: "Created At",
+      header: "创建时间",
       id: "createdAt",
       size: 150,
       enableHiding: true,
@@ -217,7 +217,7 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "input",
-      header: "Input",
+      header: "输入",
       id: "input",
       size: 200,
       enableHiding: true,
@@ -230,7 +230,7 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "expectedOutput",
-      header: "Expected Output",
+      header: "预期输出",
       id: "expectedOutput",
       size: 200,
       enableHiding: true,
@@ -249,7 +249,7 @@ export function DatasetItemsTable({
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       id: "metadata",
       size: 200,
       enableHiding: true,
@@ -263,7 +263,7 @@ export function DatasetItemsTable({
     {
       id: "actions",
       accessorKey: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       cell: ({ row }) => {
         const id: string = row.getValue("id");
@@ -277,7 +277,7 @@ export function DatasetItemsTable({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>操作</DropdownMenuLabel>
               <DropdownMenuItem
                 disabled={!hasAccess || !!selectedVersion}
                 onClick={() => {
@@ -286,7 +286,7 @@ export function DatasetItemsTable({
                 }}
               >
                 <Edit className="mr-2 h-4 w-4" />
-                Edit
+                编辑
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={!hasAccess || !!selectedVersion}
@@ -309,7 +309,7 @@ export function DatasetItemsTable({
                 }}
               >
                 <Archive className="mr-2 h-4 w-4" />
-                {status === DatasetStatus.ARCHIVED ? "Unarchive" : "Archive"}
+                {status === DatasetStatus.ARCHIVED ? "取消归档" : "归档"}
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={!hasAccess || !!selectedVersion}
@@ -317,7 +317,7 @@ export function DatasetItemsTable({
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Are you sure you want to delete this item? This will also delete all run items that belong to this item.",
+                      "确定要删除此条目吗？这将同时删除属于此条目的所有运行条目。",
                     )
                   ) {
                     capture("dataset_item:delete");
@@ -330,7 +330,7 @@ export function DatasetItemsTable({
                 }}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
-                Delete
+                删除
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -411,8 +411,8 @@ export function DatasetItemsTable({
           setSearchType,
           searchType,
           customDropdownLabels: {
-            metadata: "IDs",
-            fullText: "Full Text",
+            metadata: "ID",
+            fullText: "全文",
           },
           hidePerformanceWarning: true,
         }}

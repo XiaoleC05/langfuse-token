@@ -39,7 +39,7 @@ import { handleListDatasets, listDatasetsTool } from "./tools/listDatasets";
 export const datasetsFeature = {
   name: "datasets",
   description:
-    "Manage datasets, named collections of dataset items for experiments and evaluations, plus runs and run items",
+    "管理数据集(用于实验和评估的、命名的数据集条目集合),以及运行和运行条目",
   tools: [
     { definition: upsertDatasetTool, handler: handleUpsertDataset },
     {

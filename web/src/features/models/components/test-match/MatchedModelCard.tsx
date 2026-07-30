@@ -21,7 +21,7 @@ export function MatchedModelCard({ model }: MatchedModelCardProps) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-muted-foreground text-xs font-bold tracking-wide uppercase">
-          Matched Model
+          匹配的模型
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -37,7 +37,7 @@ export function MatchedModelCard({ model }: MatchedModelCardProps) {
         </div>
         <div className="space-y-1">
           <div className="text-muted-foreground text-xs font-bold">
-            Pattern:
+            模式：
           </div>
           <code className="bg-muted/50 block rounded p-2 text-xs break-all">
             {model.matchPattern}

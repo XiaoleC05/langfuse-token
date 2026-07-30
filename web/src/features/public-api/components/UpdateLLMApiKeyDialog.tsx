@@ -52,7 +52,7 @@ export function UpdateLLMApiKeyDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <DialogHeader>
-          <DialogTitle>Update LLM Connection</DialogTitle>
+          <DialogTitle>更新 LLM 连接</DialogTitle>
         </DialogHeader>
         {isOpen && (
           <CreateLLMApiKeyForm

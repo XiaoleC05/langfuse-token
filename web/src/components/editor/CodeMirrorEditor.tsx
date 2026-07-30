@@ -75,7 +75,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
       from: match.index,
       to: match.index + match[0].length,
       severity: "error",
-      message: "Variables cannot span multiple lines",
+      message: "变量不能跨越多行",
     });
   }
 
@@ -85,7 +85,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
       from: match.index,
       to: match.index + 2,
       severity: "error",
-      message: "Unclosed variable brackets",
+      message: "变量括号未闭合",
     });
   }
 
@@ -97,7 +97,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
         from: match.index,
         to: match.index + match[0].length,
         severity: "error",
-        message: "Empty variable is not allowed",
+        message: "不允许空变量",
       });
     } else if (!isValidVariableName(variable)) {
       diagnostics.push({
@@ -105,7 +105,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
         to: match.index + match[0].length,
         severity: "error",
         message:
-          "Variable must start with a letter and can only contain letters and underscores",
+          "变量必须以字母开头,且只能包含字母和下划线",
       });
     }
   }
@@ -121,7 +121,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
           from: match.index,
           to: match.index + match[0].length,
           severity: "warning",
-          message: "Malformed prompt dependency tag",
+          message: "提示词依赖标签格式错误",
         });
       }
     } catch {
@@ -129,7 +129,7 @@ export const getPromptVariableDiagnostics = (content: string): Diagnostic[] => {
         from: match.index,
         to: match.index + match[0].length,
         severity: "warning",
-        message: "Invalid prompt dependency tag format",
+        message: "提示词依赖标签格式无效",
       });
     }
   }

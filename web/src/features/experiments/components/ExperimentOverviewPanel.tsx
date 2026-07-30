@@ -95,25 +95,24 @@ export function ExperimentOverviewPanel({
   return (
     <div className="space-y-4">
       <div className="bg-background sticky -top-4 z-30 -mx-4 -mt-4 space-y-4 px-4 pt-4 pb-4">
-        <h3 className="text-lg font-bold">Experiment Details</h3>
+        <h3 className="text-lg font-bold">实验详情</h3>
 
         <div>
           <ExperimentOverviewSectionHeading>
             <span className="inline-flex items-center gap-1.5">
-              Baseline
+              基线
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    aria-label="What is a baseline experiment?"
+                    aria-label="什么是基线实验？"
                     className="text-muted-foreground hover:text-primary"
                   >
                     <InfoIcon className="h-3.5 w-3.5" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-[280px]">
-                  The baseline is the reference experiment run used to compare
-                  all other selected runs.
+                  基线是用作参考的实验运行，用于对比所有其他选定的运行。
                 </TooltipContent>
               </Tooltip>
             </span>
@@ -130,7 +129,7 @@ export function ExperimentOverviewPanel({
 
         <div className="border-t pt-4">
           <ExperimentOverviewSectionHeading>
-            Compare with
+            对比对象
           </ExperimentOverviewSectionHeading>
           <ExperimentComparisonSelector
             projectId={projectId}
@@ -145,15 +144,15 @@ export function ExperimentOverviewPanel({
         <>
           <div className="border-t pt-4">
             <ExperimentOverviewSectionHeading>
-              Overview
+              概览
             </ExperimentOverviewSectionHeading>
             <div className="space-y-3 text-sm">
-              <ExperimentOverviewField label="Name">
+              <ExperimentOverviewField label="名称">
                 <div className="font-bold">{experiment.name}</div>
               </ExperimentOverviewField>
 
               {experiment.description && (
-                <ExperimentOverviewField label="Description">
+                <ExperimentOverviewField label="描述">
                   <div className="break-words">{displayDescription}</div>
                   {isLongDescription && (
                     <Button
@@ -164,13 +163,13 @@ export function ExperimentOverviewPanel({
                         setIsDescriptionExpanded(!isDescriptionExpanded)
                       }
                     >
-                      {isDescriptionExpanded ? "Show less" : "Show more"}
+                      {isDescriptionExpanded ? "收起" : "展开"}
                     </Button>
                   )}
                 </ExperimentOverviewField>
               )}
 
-              <ExperimentOverviewField label="Dataset">
+              <ExperimentOverviewField label="数据集">
                 <Link
                   href={`/project/${projectId}/datasets/${encodeURIComponent(experiment.datasetId)}`}
                   className="text-primary hover:underline"
@@ -180,7 +179,7 @@ export function ExperimentOverviewPanel({
               </ExperimentOverviewField>
 
               {promptName && (
-                <ExperimentOverviewField label="Prompt">
+                <ExperimentOverviewField label="提示词">
                   <Link
                     href={`/project/${projectId}/prompts/${encodeURIComponent(promptName)}${promptVersion !== null ? `?version=${promptVersion}` : ""}`}
                     className="text-primary hover:underline"
@@ -196,7 +195,7 @@ export function ExperimentOverviewPanel({
               )}
 
               {(provider || model) && (
-                <ExperimentOverviewField label="Model">
+                <ExperimentOverviewField label="模型">
                   <div>
                     {provider && model
                       ? `${provider}/${model}`
@@ -205,12 +204,12 @@ export function ExperimentOverviewPanel({
                 </ExperimentOverviewField>
               )}
 
-              <ExperimentOverviewField label="Start Time">
+              <ExperimentOverviewField label="开始时间">
                 <LocalIsoDate date={experiment.startTime} />
               </ExperimentOverviewField>
 
               {safePullRequestUrl && (
-                <ExperimentOverviewField label="Pull Request URL">
+                <ExperimentOverviewField label="Pull Request 地址">
                   <a
                     href={safePullRequestUrl}
                     target="_blank"
@@ -223,7 +222,7 @@ export function ExperimentOverviewPanel({
               )}
 
               {safeGithubJobUrl && (
-                <ExperimentOverviewField label="GitHub Job URL">
+                <ExperimentOverviewField label="GitHub Job 地址">
                   <a
                     href={safeGithubJobUrl}
                     target="_blank"

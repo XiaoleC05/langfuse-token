@@ -75,12 +75,11 @@ export const RemoteExperimentDatasetStep = ({
           onClick={onBack}
           className="inline-block self-start"
         >
-          ← Back
+          ← 返回
         </Button>
-        <DialogTitle>Select dataset</DialogTitle>
+        <DialogTitle>选择数据集</DialogTitle>
         <DialogDescription>
-          Remote dataset run triggers are attached to a dataset. Choose the
-          dataset before configuring the remote experiment.
+          远程数据集运行触发器需要关联到一个数据集。请先选择数据集，再配置远程实验。
         </DialogDescription>
       </DialogHeader>
 
@@ -89,7 +88,7 @@ export const RemoteExperimentDatasetStep = ({
           <Skeleton className="h-24 w-full" />
         ) : datasets.data && datasets.data.length > 0 ? (
           <div className="space-y-2">
-            <div className="text-sm font-bold">Dataset</div>
+            <div className="text-sm font-bold">数据集</div>
             <Popover
               open={datasetPopoverOpen}
               onOpenChange={setDatasetPopoverOpen}
@@ -101,7 +100,7 @@ export const RemoteExperimentDatasetStep = ({
                   aria-expanded={datasetPopoverOpen}
                   className="w-full justify-between px-2 font-normal"
                 >
-                  {selectedDataset?.name ?? "Select a dataset"}
+                  {selectedDataset?.name ?? "选择数据集"}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -111,12 +110,12 @@ export const RemoteExperimentDatasetStep = ({
               >
                 <InputCommand>
                   <InputCommandInput
-                    placeholder="Search datasets..."
+                    placeholder="搜索数据集..."
                     className="h-9"
                     variant="bottom"
                   />
                   <InputCommandList>
-                    <InputCommandEmpty>No dataset found.</InputCommandEmpty>
+                    <InputCommandEmpty>未找到数据集。</InputCommandEmpty>
                     <InputCommandGroup>
                       {datasets.data.map((dataset) => (
                         <InputCommandItem
@@ -146,9 +145,9 @@ export const RemoteExperimentDatasetStep = ({
           </div>
         ) : (
           <div className="rounded-md border p-4 text-sm">
-            <div className="font-bold">No datasets found</div>
+            <div className="font-bold">未找到数据集</div>
             <p className="text-muted-foreground mt-1">
-              Create a dataset before setting up a remote experiment trigger.
+              请在设置远程实验触发器之前创建数据集。
             </p>
           </div>
         )}
@@ -170,7 +169,7 @@ export const RemoteExperimentDatasetStep = ({
                 <Spinner size="sm" />
               </div>
             ) : null}
-            Continue
+            继续
           </Button>
         </div>
       </DialogFooter>

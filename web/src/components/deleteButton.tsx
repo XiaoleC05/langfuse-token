@@ -127,12 +127,12 @@ export function DeleteButton({
           <span className="inline-flex">
             <IconOnlyButton
               icon={<TrashIcon className="h-4 w-4" />}
-              label={title ?? "Delete"}
-              aria-label={ariaLabel ?? "delete"}
+              label={title ?? "删除"}
+              aria-label={ariaLabel ?? "删除"}
               disabledReason={
                 hasAccess
                   ? undefined
-                  : `You don't have permission to delete this ${entityToDeleteName}.`
+                  : `你没有删除此${entityToDeleteName}的权限。`
               }
               variant={variant ?? "outline"}
               size={size ?? "icon"}
@@ -169,23 +169,22 @@ export function DeleteButton({
             ) : (
               <LockIcon className="mr-2 h-4 w-4" />
             )}
-            Delete
+            删除
           </Button>
         </PopoverTrigger>
       )}
       <PopoverContent onClick={(e) => e.stopPropagation()}>
         {deleteBlocker ?? (
           <>
-            <h2 className="mb-3 font-bold">Please confirm</h2>
+            <h2 className="mb-3 font-bold">请确认</h2>
             <p className="mb-3 max-w-72 text-sm">
               {customDeletePrompt ??
-                `This action cannot be undone. It removes all the data associated with
-            this ${entityToDeleteName}. If this is the project default, it will be deleted for all users.`}
+                `此操作无法撤销。它将删除与此${entityToDeleteName}关联的所有数据。如果这是项目默认配置,将对所有用户删除。`}
             </p>
             {deleteConfirmation && (
               <div className="mb-4 grid w-full gap-1.5">
                 <Label htmlFor="delete-confirmation">
-                  Type &quot;{deleteConfirmation}&quot; to confirm
+                  输入 &quot;{deleteConfirmation}&quot; 以确认
                 </Label>
                 <Input
                   id="delete-confirmation"
@@ -204,13 +203,13 @@ export function DeleteButton({
                     deleteConfirmation &&
                     deleteConfirmationInput !== deleteConfirmation
                   ) {
-                    alert("Please type the correct confirmation");
+                    alert("请输入正确的确认内容");
                     return;
                   }
                   executeDeleteMutation(onDeleteSuccess);
                 }}
               >
-                Delete {entityToDeleteName}
+                删除{entityToDeleteName}
               </Button>
             </div>
           </>
@@ -239,9 +238,9 @@ export function DeleteTraceButton(props: DeleteButtonProps) {
       return Promise.reject(error);
     }
     showSuccessToast({
-      title: "Trace deleted",
+      title: "追踪已删除",
       description:
-        "Selected trace will be deleted. Traces are removed asynchronously and may continue to be visible for up to 24 hours.",
+        "所选追踪将被删除。追踪为异步删除,最长可能仍在 24 小时内可见。",
     });
     onSuccess();
   };
@@ -261,7 +260,7 @@ export function DeleteTraceButton(props: DeleteButtonProps) {
           source: isTableAction ? "table-single-row" : "trace",
         })
       }
-      entityToDeleteName="trace"
+      entityToDeleteName="追踪"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={traceMutation.isPending}
       enabled={hasTraceDeletionEntitlement}
@@ -304,7 +303,7 @@ export function DeleteDatasetButton(props: DeleteButtonProps) {
           source: isTableAction ? "table-single-row" : "dataset",
         })
       }
-      entityToDeleteName="dataset"
+      entityToDeleteName="数据集"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={datasetMutation.isPending}
     />
@@ -330,8 +329,8 @@ export function DeleteDashboardButton(props: DeleteButtonProps) {
       return Promise.reject(error);
     }
     showSuccessToast({
-      title: "Dashboard deleted",
-      description: "The dashboard has been deleted successfully",
+      title: "仪表板已删除",
+      description: "仪表板已成功删除",
     });
     onSuccess();
   };
@@ -347,7 +346,7 @@ export function DeleteDashboardButton(props: DeleteButtonProps) {
       captureDeleteSuccess={(capture) =>
         capture("dashboard:delete_dashboard_button_click")
       }
-      entityToDeleteName="dashboard"
+      entityToDeleteName="仪表板"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={dashboardMutation.isPending}
     />
@@ -366,8 +365,8 @@ export function DeleteMonitorButton(props: DeleteButtonProps) {
   const monitorMutation = api.monitors.delete.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Monitor deleted",
-        description: "The monitor has been deleted successfully",
+        title: "监控器已删除",
+        description: "监控器已成功删除",
       });
       utils.monitors.invalidate();
     },
@@ -397,8 +396,8 @@ export function DeleteMonitorButton(props: DeleteButtonProps) {
           source: isTableAction ? "table-single-row" : "monitor",
         })
       }
-      entityToDeleteName="monitor"
-      customDeletePrompt="This action cannot be undone. It stops all evaluations and removes the monitor's alert history."
+      entityToDeleteName="监控器"
+      customDeletePrompt="此操作无法撤销。它将停止所有评估,并删除该监控器的告警历史。"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={monitorMutation.isPending}
     />
@@ -417,8 +416,8 @@ export function DeleteEvalConfigButton(props: DeleteButtonProps) {
   const evaluatorMutation = api.evals.deleteEvalJob.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Running evaluator deleted",
-        description: "The running evaluator has been deleted successfully",
+        title: "运行中的评估器已删除",
+        description: "运行中的评估器已成功删除",
       });
       utils.evals.invalidate();
     },
@@ -451,8 +450,8 @@ export function DeleteEvalConfigButton(props: DeleteButtonProps) {
           source: isTableAction ? "table-single-row" : "eval config detail",
         })
       }
-      customDeletePrompt="This action cannot be undone and removes all logs associated with this running evaluator. Scores produced by this evaluator will not be deleted."
-      entityToDeleteName="running evaluator"
+      customDeletePrompt="此操作无法撤销,将删除与该运行中评估器关联的所有日志。该评估器产生的评分不会被删除。"
+      entityToDeleteName="运行中的评估器"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={evaluatorMutation.isPending}
     />
@@ -473,9 +472,9 @@ export function DeleteEvaluationModelButton(
     api.defaultLlmModel.deleteDefaultModel.useMutation({
       onSuccess: () => {
         showSuccessToast({
-          title: "Default evaluation model deleted",
+          title: "默认评估模型已删除",
           description:
-            "The default evaluation model has been deleted. Any running evaluations relying on the default model will be inactivated. Queued jobs will fail.",
+            "默认评估模型已删除。依赖默认模型的运行中评估将被停用,排队中的任务将失败。",
         });
         utils.defaultLlmModel.fetchDefaultModel.invalidate({ projectId });
       },
@@ -508,8 +507,8 @@ export function DeleteEvaluationModelButton(
           source: isTableAction ? "table-single-row" : "evaluator",
         })
       }
-      entityToDeleteName="default evaluation model"
-      customDeletePrompt="Deleting this model might cause running evaluators to fail. Please make sure you have no running evaluators relying on this model."
+      entityToDeleteName="默认评估模型"
+      customDeletePrompt="删除该模型可能导致运行中的评估器失败。请确保没有运行中的评估器依赖该模型。"
       deleteConfirmation="delete"
       executeDeleteMutation={executeDeleteMutation}
       isDeleteMutationLoading={isPending}

@@ -104,7 +104,7 @@ export const ssoConfigRouter = createTRPCRouter({
       if (!verifiedDomain) {
         throw new TRPCError({
           code: "PRECONDITION_FAILED",
-          message: `Domain "${domain}" is not verified for this organization. Verify the domain first in the Verified Domains section.`,
+          message: `域名 "${domain}" 未在本组织中完成验证。请先前往「已验证域名」区域验证该域名。`,
         });
       }
 
@@ -221,7 +221,7 @@ export const ssoConfigRouter = createTRPCRouter({
       if (!verifiedDomain) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "SSO configuration not found",
+          message: "未找到 SSO 配置",
         });
       }
 
@@ -231,7 +231,7 @@ export const ssoConfigRouter = createTRPCRouter({
       if (!existing) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "SSO configuration not found",
+          message: "未找到 SSO 配置",
         });
       }
 

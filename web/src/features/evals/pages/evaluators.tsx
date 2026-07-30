@@ -59,10 +59,10 @@ export default function EvaluatorsPage() {
     return (
       <Page
         headerProps={{
-          title: "Evaluators",
+          title: "评估器",
           help: {
             description:
-              "Configure a langfuse managed or custom evaluator to evaluate incoming traces.",
+              "配置一个 langfuse 管理的或自定义的评估器，用于评估传入的追踪数据。",
             href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
           },
         }}
@@ -78,10 +78,10 @@ export default function EvaluatorsPage() {
       <V4MigrationModal />
       <Page
         headerProps={{
-          title: "Evaluators",
+          title: "评估器",
           help: {
             description:
-              "Configure a langfuse managed or custom evaluator to evaluate incoming traces.",
+              "配置一个 langfuse 管理的或自定义的评估器，用于评估传入的追踪数据。",
             href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
           },
           tabsProps: {
@@ -106,7 +106,7 @@ export default function EvaluatorsPage() {
                     : undefined
                 }
               >
-                Set up evaluator
+                设置评估器
               </ActionButton>
             </>
           ),

@@ -51,8 +51,8 @@ export function OnboardingSurvey() {
       } catch (error) {
         setHasStartedOnboardingCompletion(false);
         showErrorToast(
-          "Failed to finish onboarding",
-          error instanceof Error ? error.message : "Please try again.",
+          "无法完成入门引导",
+          error instanceof Error ? error.message : "请重试。",
         );
       }
     },
@@ -69,8 +69,8 @@ export function OnboardingSurvey() {
         } catch (error) {
           setHasStartedOnboardingCompletion(false);
           showErrorToast(
-            "Failed to continue onboarding",
-            error instanceof Error ? error.message : "Please try again.",
+            "无法继续入门引导",
+            error instanceof Error ? error.message : "请重试。",
           );
         }
       },
@@ -121,9 +121,9 @@ export function OnboardingSurvey() {
         <div className="bg-background mt-6 rounded-lg px-6 py-10 shadow-sm sm:mx-auto sm:mt-16 sm:w-full sm:max-w-[480px] sm:px-12 sm:py-12">
           <div className="flex flex-col items-center text-center">
             <Spinner size="xl" variant="muted" />
-            <h1 className="mt-6 text-xl font-bold">Setting up your project</h1>
+            <h1 className="mt-6 text-xl font-bold">正在设置您的项目</h1>
             <p className="text-muted-foreground mt-2 text-sm">
-              Taking you to tracing...
+              正在跳转到追踪页面...
             </p>
           </div>
         </div>
@@ -140,9 +140,9 @@ export function OnboardingSurvey() {
 
         <div className="bg-background mt-6 rounded-lg px-6 py-10 shadow-sm sm:mx-auto sm:mt-16 sm:w-full sm:max-w-[480px] sm:px-12 sm:py-12">
           <div className="flex flex-col items-center text-center">
-            <h1 className="text-xl font-bold">Failed to load onboarding</h1>
+            <h1 className="text-xl font-bold">加载入门引导失败</h1>
             <p className="text-muted-foreground mt-2 text-sm">
-              Refresh the page to try again.
+              请刷新页面重试。
             </p>
           </div>
         </div>
@@ -175,13 +175,13 @@ export function OnboardingSurvey() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-2">
                     <FormLabel className="text-xl font-bold">
-                      Where did you hear about us?
+                      您是从哪里了解到我们的？
                     </FormLabel>
                     <FormControl>
                       <Input
                         autoFocus
                         maxLength={500}
-                        placeholder="Colleague, Word of Mouth, X, Reddit, Event"
+                        placeholder="同事、口口相传、X、Reddit、活动"
                         {...field}
                         value={field.value ?? ""}
                       />
@@ -203,7 +203,7 @@ export function OnboardingSurvey() {
                   className="w-20"
                   disabled={isBusy}
                 >
-                  Skip
+                  跳过
                 </Button>
               ) : (
                 <Button
@@ -212,7 +212,7 @@ export function OnboardingSurvey() {
                   className="w-20"
                   disabled={isBusy}
                 >
-                  Finish
+                  完成
                 </Button>
               )}
             </div>

@@ -62,7 +62,7 @@ export async function handleCreateApiKey(
 
   if (!validationResult.success) {
     return res.status(400).json({
-      message: "Invalid request body",
+      message: "请求体无效",
       details: z.formatError(validationResult.error),
     });
   }
@@ -75,20 +75,20 @@ export async function handleCreateApiKey(
     if (!publicKey || !secretKey) {
       return res.status(400).json({
         message:
-          "Both publicKey and secretKey must be provided together when specifying predefined keys",
+          "指定预定义密钥时，必须同时提供 publicKey 和 secretKey",
       });
     }
 
     // Validate key format
     if (!publicKey.startsWith("pk-lf-")) {
       return res.status(400).json({
-        message: "publicKey must start with 'pk-lf-'",
+        message: "publicKey 必须以 'pk-lf-' 开头",
       });
     }
 
     if (!secretKey.startsWith("sk-lf-")) {
       return res.status(400).json({
-        message: "secretKey must start with 'sk-lf-'",
+        message: "secretKey 必须以 'sk-lf-' 开头",
       });
     }
   }
@@ -130,7 +130,7 @@ export async function handleCreateApiKey(
     ) {
       return res.status(409).json({
         message:
-          "API key with the provided publicKey or secretKey already exists",
+          "使用所提供 publicKey 或 secretKey 的 API 密钥已存在",
       });
     }
     throw error;

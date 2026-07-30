@@ -9,12 +9,12 @@ export function ScoreConfigDetails({ config }: { config: ScoreConfigDomain }) {
 
   return (
     <div className="bg-background p-2 text-xs text-wrap">
-      {!!description && <p>{`Description: ${description}`}</p>}
+      {!!description && <p>{`描述:${description}`}</p>}
       {isNumericDataType(dataType) &&
       (isPresent(minValue) || isPresent(maxValue)) ? (
-        <p>{`Range: [${minValue ?? "-∞"}, ${maxValue ?? "∞"}]`}</p>
+        <p>{`范围:[${minValue ?? "-∞"}, ${maxValue ?? "∞"}]`}</p>
       ) : null}
-      {isNameTruncated && <p>{`Full name: ${name}`}</p>}
+      {isNameTruncated && <p>{`完整名称:${name}`}</p>}
     </div>
   );
 }

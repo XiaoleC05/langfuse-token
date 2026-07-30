@@ -43,17 +43,17 @@ export function ScoreAnalyticsNoticeBanner() {
           <div className="flex-1 space-y-1">
             <div className="text-sm font-bold">
               {showLargeDataset
-                ? "Processing large dataset..."
-                : "Loading analytics..."}
+                ? "正在处理大型数据集..."
+                : "加载分析中..."}
             </div>
             {estimate && (
               <div className="text-muted-foreground text-sm">
                 {estimate.mode === "single"
-                  ? `Analyzing ~${estimate.score1Count.toLocaleString()} scores`
-                  : `Analyzing ~${estimate.score1Count.toLocaleString()} (Score 1) and ~${estimate.score2Count.toLocaleString()} (Score 2) scores`}
-                {estimate.willSample && " • Sampling will be applied"}
+                  ? `正在分析 ~${estimate.score1Count.toLocaleString()} 条评分`
+                  : `正在分析 ~${estimate.score1Count.toLocaleString()} (评分 1) 和 ~${estimate.score2Count.toLocaleString()} (评分 2) 条评分`}
+                {estimate.willSample && " • 将应用采样"}
                 {estimate.estimatedQueryTime && (
-                  <> • Est. time: {estimate.estimatedQueryTime}</>
+                  <> • 预估时间: {estimate.estimatedQueryTime}</>
                 )}
               </div>
             )}
@@ -71,7 +71,7 @@ export function ScoreAnalyticsNoticeBanner() {
           <Info className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0" />
           <div className="flex-1 space-y-1">
             <div className="flex items-center gap-2 text-sm font-bold">
-              Sampled Data
+              采样数据
               <SamplingDetailsHoverCard
                 samplingMetadata={data.samplingMetadata}
                 mode={data.metadata.mode}
@@ -79,8 +79,8 @@ export function ScoreAnalyticsNoticeBanner() {
             </div>
             <div className="text-muted-foreground text-sm">
               {data.metadata.mode === "single"
-                ? `Results based on a ${(data.samplingMetadata.samplingRate * 100).toFixed(2)}% sample of ~${data.samplingMetadata.preflightEstimates?.score1Count.toLocaleString()} scores.`
-                : `Results based on a ${(data.samplingMetadata.samplingRate * 100).toFixed(2)}% sample of ~${data.samplingMetadata.preflightEstimates?.score1Count.toLocaleString()} Score 1 and ~${data.samplingMetadata.preflightEstimates?.score2Count.toLocaleString()} Score 2 data.`}
+                ? `结果基于 ~${data.samplingMetadata.preflightEstimates?.score1Count.toLocaleString()} 条评分的 ${(data.samplingMetadata.samplingRate * 100).toFixed(2)}% 样本。`
+                : `结果基于 ~${data.samplingMetadata.preflightEstimates?.score1Count.toLocaleString()} 条评分 1 和 ~${data.samplingMetadata.preflightEstimates?.score2Count.toLocaleString()} 条评分 2 数据的 ${(data.samplingMetadata.samplingRate * 100).toFixed(2)}% 样本。`}
             </div>
           </div>
         </div>

@@ -63,7 +63,7 @@ export const BlobStorageIntegrationForm = ({
             code: "custom",
             path: ["exportSource"],
             message:
-              "This export source is not available on this deployment. Select an available export source to save.",
+              "此导出来源在当前部署中不可用。请选择一个可用的导出来源以保存。",
           });
         }
       }),
@@ -97,7 +97,7 @@ export const BlobStorageIntegrationForm = ({
           name="enabled"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enabled</FormLabel>
+              <FormLabel>启用</FormLabel>
               <FormControl>
                 <div className="mt-1 ml-4">
                   <Switch
@@ -116,7 +116,7 @@ export const BlobStorageIntegrationForm = ({
           loading={isSaving}
           onClick={blobStorageForm.handleSubmit(onSubmit)}
         >
-          Save
+          保存
         </Button>
         {children}
       </div>

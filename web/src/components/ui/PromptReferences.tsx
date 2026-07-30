@@ -180,7 +180,7 @@ export const PromptReferenceButton = ({
       onClick={() =>
         window.open(getPromptReferenceUrl(projectId, promptRef), "_blank")
       }
-      title={`Open prompt: ${promptRefTitle}`}
+      title={`打开提示词:${promptRefTitle}`}
     >
       <FileCode className="text-muted-foreground h-3 w-3 shrink-0" />
       <span className="truncate font-bold" title={promptRefTitle}>

@@ -13,14 +13,13 @@ export function AuditLogsSettingsPage(props: { projectId: string }) {
 
   const body = !hasEntitlement ? (
     <p className="text-muted-foreground text-sm">
-      Audit logs are an Enterprise feature. Upgrade your plan to track all
-      changes made to your project.
+      审计日志是企业版功能。升级套餐即可追踪项目中的所有变更。
     </p>
   ) : !hasAccess ? (
     <Alert>
-      <AlertTitle>Access Denied</AlertTitle>
+      <AlertTitle>访问被拒绝</AlertTitle>
       <AlertDescription>
-        Contact your project administrator to request access.
+        请联系项目管理员申请访问权限。
       </AlertDescription>
     </Alert>
   ) : (
@@ -29,11 +28,10 @@ export function AuditLogsSettingsPage(props: { projectId: string }) {
 
   return (
     <>
-      <Header title="Audit Logs" />
+      <Header title="审计日志" />
       <p className="text-muted-foreground mb-2 text-sm">
-        Track who changed what in your project and when. Monitor settings,
-        configurations, and data changes over time. Reach out to the Langfuse
-        team if you require more detailed/filtered audit logs.
+        追踪项目中谁在何时更改了什么。监控设置、配置和数据随时间的变更。如需更详细/可筛选的审计日志，请联系
+        Langfuse 团队。
       </p>
       {body}
     </>

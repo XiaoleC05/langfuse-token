@@ -35,7 +35,7 @@ export type PricingTier = z.infer<typeof PricingTierSchema>;
 // Form-level tier schema (includes optional id for edit mode)
 export const FormPricingTierSchema = z.object({
   id: z.string().optional(), // For existing tiers in edit mode
-  name: z.string().min(1, "Tier name is required"),
+  name: z.string().min(1, "层级名称不能为空"),
   isDefault: z.boolean(),
   priority: z.number().int(),
   conditions: z.array(PricingTierConditionSchema),
@@ -84,7 +84,7 @@ export const UpsertModelSchema = z
       return result.valid;
     },
     {
-      message: "Invalid pricing tiers configuration",
+      message: "无效的定价层级配置",
       path: ["pricingTiers"],
     },
   );
@@ -106,7 +106,7 @@ export const FormUpsertModelSchema = z.object({
         }
       },
       {
-        message: "Tokenizer config needs to be valid JSON",
+        message: "分词器配置需要是有效的 JSON",
       },
     )
     .transform((value) => (value === "{}" ? undefined : value))
@@ -118,9 +118,9 @@ export const FormUpsertModelSchema = z.object({
 export type FormUpsertModel = z.input<typeof FormUpsertModelSchema>;
 
 export enum PriceUnit {
-  PerUnit = "per unit",
-  Per1KUnits = "per 1K units",
-  Per1MUnits = "per 1M units",
+  PerUnit = "每单位",
+  Per1KUnits = "每千单位",
+  Per1MUnits = "每百万单位",
 }
 
 export const ModelLastUsedQueryResult = z.array(

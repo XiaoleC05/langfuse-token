@@ -49,7 +49,7 @@ const BreadcrumbComponent = ({
         {organization && (
           <DropdownMenu>
             <DropdownMenuTrigger className="text-primary flex items-center gap-1 text-sm">
-              {organization?.name ?? "Organization"}
+              {organization?.name ?? "组织"}
               {isCloudPlan(organization?.plan) &&
                 organization.id !== env.NEXT_PUBLIC_DEMO_ORG_ID && (
                   <Badge

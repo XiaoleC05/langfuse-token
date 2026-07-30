@@ -26,14 +26,14 @@ export const GzipCompressionField = ({
       name="compressed"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Gzip Compression</FormLabel>
+          <FormLabel>Gzip压缩</FormLabel>
           <FormControl>
             <div className="mt-1 ml-4">
               <Switch checked={field.value} onCheckedChange={field.onChange} />
             </div>
           </FormControl>
           <FormDescription>
-            Compress exported files with gzip (.csv.gz, .json.gz, .jsonl.gz)
+            使用gzip压缩导出文件（.csv.gz, .json.gz, .jsonl.gz）
           </FormDescription>
           <FormMessage />
         </FormItem>

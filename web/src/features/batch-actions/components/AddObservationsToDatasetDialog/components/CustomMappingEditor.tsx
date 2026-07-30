@@ -144,15 +144,15 @@ export function CustomMappingEditor({
   return (
     <div className="bg-muted/30 space-y-2 rounded-md border p-4">
       <div>
-        <Label className="text-sm font-bold">Target</Label>
+        <Label className="text-sm font-bold">目标</Label>
         <Tabs
           value={config.type}
           onValueChange={(v) => handleTypeChange(v as MappingTarget)}
           className="mt-2"
         >
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="root">Root</TabsTrigger>
-            <TabsTrigger value="keyValueMap">Key-value map</TabsTrigger>
+            <TabsTrigger value="root">根级</TabsTrigger>
+            <TabsTrigger value="keyValueMap">键值映射</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -160,7 +160,7 @@ export function CustomMappingEditor({
       {config.type === "root" && (
         <div className="space-y-4">
           <div>
-            <Label className="text-sm font-bold">Source</Label>
+            <Label className="text-sm font-bold">源</Label>
             <div className="mt-1">
               <SourceFieldSelector
                 value={config.rootConfig?.sourceField ?? defaultSourceField}
@@ -181,7 +181,7 @@ export function CustomMappingEditor({
               />
             </div>
             <p className="text-muted-foreground p-1 text-xs">
-              Start with $. to use a JSONPath (e.g., $.field)
+              以 $. 开头使用 JSONPath（例如 $.field）
             </p>
           </div>
         </div>
@@ -189,10 +189,9 @@ export function CustomMappingEditor({
 
       {config.type === "keyValueMap" && (
         <div className="max-h-[35vh] space-y-3 overflow-auto">
-          <Label className="text-sm font-bold">Key-value mappings</Label>
+          <Label className="text-sm font-bold">键值映射</Label>
           <p className="text-muted-foreground text-xs">
-            Build an object with custom keys. Values starting with $ are treated
-            as JSONPaths.
+            使用自定义键构建对象。以 $ 开头的值将被视为 JSONPath。
           </p>
 
           <div className="space-y-3">
@@ -230,7 +229,7 @@ export function CustomMappingEditor({
             className="w-full"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Add field
+            添加字段
           </Button>
         </div>
       )}
@@ -270,10 +269,10 @@ function KeyValueEntryRow({
       <div className="grid grid-cols-[1fr_auto] gap-2">
         <div>
           <Label className="text-muted-foreground text-xs">
-            Key
+            键
             {isRequired && <span className="text-destructive ml-1">*</span>}
             {isSchemaField && (
-              <span className="text-primary ml-2">(from schema)</span>
+              <span className="text-primary ml-2">（来自模式）</span>
             )}
           </Label>
           <Input
@@ -295,8 +294,8 @@ function KeyValueEntryRow({
             className="h-8 w-8 p-0"
             title={
               isSchemaField && isRequired
-                ? "Required schema field cannot be removed"
-                : "Remove field"
+                ? "必需的模式字段无法移除"
+                : "移除字段"
             }
           >
             <Trash2
@@ -312,7 +311,7 @@ function KeyValueEntryRow({
 
       <div className="grid grid-cols-[38fr_62fr] gap-2">
         <div>
-          <Label className="text-muted-foreground text-xs">Source</Label>
+          <Label className="text-muted-foreground text-xs">源</Label>
           <div className="mt-1">
             <SourceFieldSelector
               value={entry.sourceField}
@@ -323,7 +322,7 @@ function KeyValueEntryRow({
         </div>
         <div>
           <Label className="text-muted-foreground text-xs">
-            Value {!isPath && "(literal)"}
+            值 {!isPath && "（字面量）"}
           </Label>
           <div className="mt-1">
             {isPath ? (
@@ -338,13 +337,13 @@ function KeyValueEntryRow({
               <Input
                 value={entry.value}
                 onChange={(e) => onValueChange(e.target.value)}
-                placeholder="literal value"
+                placeholder="字面量值"
                 className="h-9"
               />
             )}
 
             <p className="text-muted-foreground pt-1 text-xs">
-              Start with $. to use a JSONPath (e.g., $.field)
+              以 $. 开头使用 JSONPath（例如 $.field）
             </p>
           </div>
         </div>

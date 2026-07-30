@@ -7,9 +7,9 @@ export const Variables = () => {
 
   const renderNoVariables = () => (
     <div className="text-xs">
-      <p className="mb-2">No variables defined.</p>
+      <p className="mb-2">未定义变量。</p>
       <p>
-        Use double curly braces in your prompts to add a variable:
+        在提示词中使用双花括号添加变量：
         &#123;&#123;exampleVariable&#125;&#125;
       </p>
     </div>

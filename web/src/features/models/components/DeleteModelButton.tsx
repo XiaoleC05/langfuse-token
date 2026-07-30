@@ -40,17 +40,17 @@ export const DeleteModelButton = ({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          title="Delete model"
+          title="删除模型"
           disabled={!hasAccess}
           className="border-light-red flex items-center"
         >
-          <span className="text-dark-red">Delete</span>
+          <span className="text-dark-red">删除</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <h2 className="mb-3 font-bold">Please confirm</h2>
+        <h2 className="mb-3 font-bold">请确认</h2>
         <p className="mb-3 text-sm">
-          This action permanently deletes this model definition.
+          此操作将永久删除此模型定义。
         </p>
         <div className="flex justify-end space-x-4">
           <Button
@@ -67,7 +67,7 @@ export const DeleteModelButton = ({
               setIsOpen(false);
             }}
           >
-            Delete Model
+            删除模型
           </Button>
         </div>
       </PopoverContent>

@@ -31,10 +31,9 @@ export function PricingSection({
     return (
       <div className="space-y-4">
         <div>
-          <FormLabel>Prices</FormLabel>
+          <FormLabel>价格</FormLabel>
           <FormDescription>
-            Set prices per usage type for this model. Usage types must exactly
-            match the keys of the ingested usage details.
+            为此模型设置每种用量类型的价格。用量类型必须与已摄入用量详情的键完全匹配。
           </FormDescription>
         </div>
 
@@ -47,7 +46,7 @@ export function PricingSection({
 
         <Button type="button" variant="ghost" onClick={addTier}>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Add Custom Pricing Tier
+          添加自定义定价层级
         </Button>
       </div>
     );
@@ -57,10 +56,9 @@ export function PricingSection({
   return (
     <div className="space-y-4">
       <div>
-        <FormLabel>Pricing Tiers</FormLabel>
+        <FormLabel>定价层级</FormLabel>
         <FormDescription>
-          Define pricing rules evaluated in priority order. Tiers are checked
-          from top to bottom until conditions match.
+          定义按优先级顺序评估的定价规则。层级从上到下检查，直到条件匹配。
         </FormDescription>
       </div>
 
@@ -83,7 +81,7 @@ export function PricingSection({
 
       <Button type="button" variant="outline" onClick={addTier}>
         <PlusCircle className="mr-2 h-4 w-4" />
-        Add Custom Tier
+        添加自定义层级
       </Button>
     </div>
   );

@@ -35,7 +35,7 @@ export const organizationsRouter = createTRPCRouter({
       if (!organization) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Organization not found",
+          message: "未找到组织",
         });
       }
       return organization;
@@ -60,7 +60,7 @@ export const organizationsRouter = createTRPCRouter({
       if (!ctx.session.user.canCreateOrganizations)
         throw new TRPCError({
           code: "FORBIDDEN",
-          message: "You do not have permission to create organizations",
+          message: "你没有创建组织的权限",
         });
 
       const organization = await ctx.prisma.$transaction(async (tx) => {
@@ -182,7 +182,7 @@ export const organizationsRouter = createTRPCRouter({
             data.aiTelemetryEnabled !== undefined,
           {
             message:
-              "At least one of name, aiFeaturesEnabled or aiTelemetryEnabled is required",
+              "名称、aiFeaturesEnabled 或 aiTelemetryEnabled 至少需提供一项",
           },
         ),
     )
@@ -200,7 +200,7 @@ export const organizationsRouter = createTRPCRouter({
       ) {
         throw new TRPCError({
           code: "PRECONDITION_FAILED",
-          message: "AI features are not available in self-hosted deployments.",
+          message: "AI 功能在自托管部署中不可用。",
         });
       }
 
@@ -263,7 +263,7 @@ export const organizationsRouter = createTRPCRouter({
         throw new TRPCError({
           code: "FORBIDDEN",
           message:
-            "Please delete or transfer all projects before deleting the organization.",
+            "请先删除或转移所有项目，然后再删除组织。",
         });
       }
 

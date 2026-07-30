@@ -97,7 +97,7 @@ export default function PlaygroundPage() {
 
   const getMessageSearchPageLabel = useCallback(
     (_pageId: string, pageIndex: number) =>
-      windowIds.length > 1 ? `Window ${pageIndex + 1}` : null,
+      windowIds.length > 1 ? `窗口 ${pageIndex + 1}` : null,
     [windowIds.length],
   );
 
@@ -107,10 +107,10 @@ export default function PlaygroundPage() {
       <Page
         withPadding={false}
         headerProps={{
-          title: "Playground",
+          title: "实验场",
           help: {
             description:
-              "A sandbox to test and iterate your prompts across multiple windows",
+              "跨多个窗口测试和迭代提示词的沙盒环境",
             href: "https://langfuse.com/docs/prompt-management/features/playground",
           },
         }}
@@ -125,7 +125,7 @@ export default function PlaygroundPage() {
   // Execution status and control states
   const executionStatus = globalIsExecutingAll
     ? getExecutionStatus() ||
-      `Executing ${windowIds.length} window${windowIds.length === 1 ? "" : "s"}`
+      `正在执行 ${windowIds.length} 个窗口`
     : getExecutionStatus();
   const isRunAllDisabled = globalIsExecutingAll || !hasAnyModelConfigured;
 
@@ -143,10 +143,10 @@ export default function PlaygroundPage() {
         scrollable={false}
         withPadding={false}
         headerProps={{
-          title: "Playground",
+          title: "实验场",
           help: {
             description:
-              "A sandbox to test and iterate your prompts across multiple windows",
+              "跨多个窗口测试和迭代提示词的沙盒环境",
             href: "https://langfuse.com/docs/prompt-management/features/playground",
           },
           actionButtonsRight: (
@@ -156,8 +156,7 @@ export default function PlaygroundPage() {
               {/* Window Count Display - Hidden on mobile */}
               <div className="text-muted-foreground hidden items-center gap-2 text-sm md:flex">
                 <span className="whitespace-nowrap">
-                  {windowIds.length} window
-                  {windowIds.length === 1 ? "" : "s"}
+                  {windowIds.length} 个窗口
                 </span>
                 {executionStatus && (
                   <>
@@ -180,8 +179,8 @@ export default function PlaygroundPage() {
                 className="hidden shrink-0 gap-1 md:flex"
                 title={
                   !hasAnyModelConfigured
-                    ? "Please configure a model in Project Settings first"
-                    : "Execute all playground windows simultaneously"
+                    ? "请先在项目设置中配置模型"
+                    : "同时执行所有实验场窗口"
                 }
               >
                 {globalIsExecutingAll ? (
@@ -190,7 +189,7 @@ export default function PlaygroundPage() {
                   <Play className="h-3 w-3" />
                 )}
                 <span className="hidden items-center gap-1 lg:inline-flex">
-                  <span>Run All</span>
+                  <span>全部运行</span>
                   <KeyboardShortcut keys={[isMac ? "⌘" : "Ctrl", "Enter"]} />
                 </span>
               </Button>

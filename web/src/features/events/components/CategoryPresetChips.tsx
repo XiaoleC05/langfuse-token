@@ -51,9 +51,9 @@ const CLEARED_VIEW_STATE: TableViewPresetState = {
 // without doing anything.
 const LOW_QUALITY_COMING_SOON: PresetItem = {
   id: "__coming_soon_low_quality",
-  name: "Low quality",
+  name: "低质量",
   description:
-    "Surface low eval scores & negative feedback — e.g. faithfulness < 0.7, CSAT ≤ 3",
+    "显示低评估评分与负面反馈 —— 例如 faithfulness < 0.7、CSAT ≤ 3",
   disabled: true,
 };
 
@@ -332,7 +332,7 @@ export function CategoryPresetChips({
                           {preset.name}
                           {preset.disabled && (
                             <span className="text-muted-foreground rounded-sm border px-1 text-[10px] font-normal uppercase">
-                              Soon
+                              即将推出
                             </span>
                           )}
                         </span>

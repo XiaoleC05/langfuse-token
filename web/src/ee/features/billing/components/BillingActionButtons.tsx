@@ -38,11 +38,11 @@ export const BillingActionButtons = () => {
             setOpen(true);
           }}
         >
-          Change plan (via support)
+          更改套餐（联系支持团队）
         </Button>
         <Button variant="secondary" asChild>
           <Link href="https://langfuse.com/pricing" target="_blank">
-            Compare plans
+            比较套餐
           </Link>
         </Button>
       </div>
@@ -59,7 +59,7 @@ export const BillingActionButtons = () => {
           <>
             <StripeCustomerPortalButton
               orgId={organization.id}
-              title="Update Billing Details"
+              title="更新账单信息"
               variant="secondary"
             />
             <StripeCancellationButton
@@ -70,7 +70,7 @@ export const BillingActionButtons = () => {
         )}
         <Button variant="secondary" asChild>
           <Link href="https://langfuse.com/pricing" target="_blank">
-            Compare plans
+            比较套餐
           </Link>
         </Button>
       </div>
@@ -78,8 +78,7 @@ export const BillingActionButtons = () => {
         !hasValidPaymentMethod &&
         !isLoading && (
           <p className="text-sm text-red-600">
-            You do not have a valid payment method. Please Update Billing
-            Details.
+            你没有有效的支付方式。请更新账单信息。
           </p>
         )}
     </div>

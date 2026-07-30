@@ -265,11 +265,11 @@ function buildTooltip(tip: ActiveTip): Tooltip {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "cm-json-magic-paste-action";
-      button.textContent = "Paste raw";
-      button.title = `Insert the original text, unescaped (${PASTE_RAW_KEY_LABEL})`;
+      button.textContent = "原始粘贴";
+      button.title = `插入未经转义的原始文本(${PASTE_RAW_KEY_LABEL})`;
       button.setAttribute(
         "aria-label",
-        `Paste raw — insert the original text, unescaped`,
+        `原始粘贴 — 插入未经转义的原始文本`,
       );
       button.setAttribute("aria-keyshortcuts", PASTE_RAW_ARIA_KEYS);
       // Keep editor focus so the replace doesn't blur the editor first.
@@ -382,8 +382,8 @@ export function createJsonMagicPasteExtension(): Extension {
             raw: plan.raw,
             message:
               plan.kind === "wrap"
-                ? "Wrapped as a JSON string"
-                : "Escaped to keep JSON valid",
+                ? "已包装为 JSON 字符串"
+                : "已转义以保持 JSON 有效",
           }),
           userEvent: "input.paste",
           scrollIntoView: true,

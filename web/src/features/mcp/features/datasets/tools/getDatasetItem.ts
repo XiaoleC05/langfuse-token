@@ -10,7 +10,7 @@ import { runMcpTool } from "../../../core/run-mcp-tool";
 export const [getDatasetItemTool, handleGetDatasetItem] = defineTool({
   name: "getDatasetItem",
   description:
-    "Get a dataset item, one example in a dataset with input and optional expected output, by ID.",
+    "按 ID 获取数据集条目,即数据集中包含输入及可选期望输出的一个示例。",
   baseSchema: GetDatasetItemV1Query,
   inputSchema: GetDatasetItemV1Query,
   handler: async (input, context) =>

@@ -34,8 +34,8 @@ export const DeleteAutomationButton: React.FC<DeleteAutomationButtonProps> = ({
     {
       onSuccess: () => {
         showSuccessToast({
-          title: "Automation deleted",
-          description: "The automation has been deleted successfully.",
+          title: "自动化已删除",
+          description: "自动化已成功删除。",
         });
 
         if (onSuccess) {
@@ -58,7 +58,7 @@ export const DeleteAutomationButton: React.FC<DeleteAutomationButtonProps> = ({
             disabled={!hasAccess}
           >
             <Trash className="h-4 w-4" />
-            <span className="sr-only">Delete</span>
+            <span className="sr-only">删除</span>
           </Button>
         ) : (
           <Button
@@ -67,15 +67,15 @@ export const DeleteAutomationButton: React.FC<DeleteAutomationButtonProps> = ({
             className="border-light-red flex items-center"
             disabled={!hasAccess}
           >
-            <span className="text-dark-red">Delete</span>
+            <span className="text-dark-red">删除</span>
           </Button>
         )}
       </PopoverTrigger>
       <PopoverContent>
-        <h2 className="mb-3 font-bold">Please confirm</h2>
+        <h2 className="mb-3 font-bold">请确认</h2>
         <p className="mb-3 text-sm">
-          This action permanently deletes this automation and execution history.
-          This cannot be undone.
+          此操作将永久删除该自动化及其执行历史。
+          此操作不可撤销。
         </p>
         <div className="flex justify-end space-x-4">
           <Button
@@ -90,7 +90,7 @@ export const DeleteAutomationButton: React.FC<DeleteAutomationButtonProps> = ({
               setIsOpen(false);
             }}
           >
-            Delete Automation
+            删除自动化
           </Button>
         </div>
       </PopoverContent>

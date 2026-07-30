@@ -161,7 +161,7 @@ export function ComposerTokens({
       : segment.kind === "invalid"
         ? undefined
         : segment.kind === "freeText"
-          ? `Full-text search — matches results containing "${segment.raw}". Searches ids, names, input and output by default; use input: or output: to search one payload, or name:/id: to narrow.`
+          ? `全文搜索 — 匹配包含"${segment.raw}"的结果。默认搜索ID、名称、输入和输出；使用 input: 或 output: 可限定搜索单个载荷，使用 name: 或 id: 可缩小范围。`
           : segment.raw;
     out.push(
       <span

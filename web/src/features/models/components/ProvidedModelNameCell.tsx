@@ -64,7 +64,7 @@ export function ProvidedModelNameCell({
       */}
       <button
         type="button"
-        title={`Add a model definition for "${modelName}"`}
+        title={`为「${modelName}」添加模型定义`}
         onClick={(e) => e.stopPropagation()}
         className="inline-flex max-w-full cursor-pointer items-center gap-1 text-left"
       >

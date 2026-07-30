@@ -9,10 +9,9 @@ export const MessagePlaceholders = () => {
     <div className="flex h-full flex-col">
       {messagePlaceholders.length === 0 ? (
         <div className="text-xs">
-          <p className="mb-2">No message placeholders defined.</p>
+          <p className="mb-2">未定义消息占位符。</p>
           <p>
-            Placeholders can be used to e.g. inject message histories into
-            prompts.
+            占位符可用于向提示词注入消息历史记录。
           </p>
         </div>
       ) : (

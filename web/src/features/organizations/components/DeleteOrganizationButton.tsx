@@ -36,7 +36,7 @@ export function DeleteOrganizationButton() {
 
   const formSchema = z.object({
     name: z.string().includes(confirmMessage, {
-      message: `Please confirm with "${confirmMessage}"`,
+      message: `请输入 "${confirmMessage}" 以确认`,
     }),
   });
 
@@ -63,8 +63,8 @@ export function DeleteOrganizationButton() {
       });
       capture("organization_settings:delete_organization");
       showSuccessToast({
-        title: "Organization Deleted",
-        description: "The organization has been successfully deleted.",
+        title: "组织已删除",
+        description: "组织已成功删除。",
       });
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Delay for 5 seconds
       window.location.href = env.NEXT_PUBLIC_BASE_PATH ?? "/"; // Browser reload to refresh jwt
@@ -77,18 +77,18 @@ export function DeleteOrganizationButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive-secondary" disabled={!hasAccess}>
-          Delete Organization
+          删除组织
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">
-            Delete Organization
+            删除组织
           </DialogTitle>
           <DialogDescription>
             {hasProjects
-              ? "You can only delete an organization if it has no projects associated with it. Please delete or transfer all projects first. Deleting projects may take a few minutes."
-              : `To confirm, type "${confirmMessage}" in the input box `}
+              ? "只有不包含任何关联项目的组织才能被删除。请先删除或转移所有项目。删除项目可能需要几分钟。"
+              : `请在下方的输入框中输入 "${confirmMessage}" 以确认 `}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -117,7 +117,7 @@ export function DeleteOrganizationButton() {
                 disabled={hasProjects}
                 className="w-full"
               >
-                Delete Organization
+                删除组织
               </Button>
             </DialogFooter>
           </form>

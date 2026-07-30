@@ -68,7 +68,7 @@ export function AutocompleteListbox({
     <div
       id={listboxId}
       role="listbox"
-      aria-label="Search suggestions"
+      aria-label="搜索建议"
       data-testid="search-bar-autocomplete"
       data-stage={plan.stage}
       className={cn(
@@ -82,12 +82,12 @@ export function AutocompleteListbox({
           data-testid="search-bar-autocomplete-loading"
           className="text-muted-foreground mx-1 flex min-h-8 items-center gap-2 px-3 text-xs"
         >
-          Loading values…
+          加载数值中…
         </div>
       )}
       {!plan.loading && plan.sections.length === 0 && (
         <div className="text-muted-foreground mx-1 flex min-h-8 items-center gap-2 px-3 text-xs">
-          No suggestions
+          无建议
         </div>
       )}
       {plan.sections.map((sec, i) => (
@@ -141,7 +141,7 @@ export function AutocompleteListbox({
               {o.kind === "value" && o.active && (
                 <Check
                   className="text-foreground/80 h-3.5 w-3.5 flex-none"
-                  aria-label="selected"
+                  aria-label="已选择"
                 />
               )}
               {"detail" in o && o.detail !== undefined && (

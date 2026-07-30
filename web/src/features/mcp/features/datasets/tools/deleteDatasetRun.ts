@@ -8,7 +8,7 @@ import { DeleteDatasetRunMcpInput } from "../schema";
 export const [deleteDatasetRunTool, handleDeleteDatasetRun] = defineTool({
   name: "deleteDatasetRun",
   description:
-    "Delete a dataset run by dataset ID and run ID, and enqueue deletion of its run items.",
+    "按数据集 ID 和运行 ID 删除数据集运行,并将其运行条目的删除加入队列。",
   baseSchema: DeleteDatasetRunMcpInput,
   inputSchema: DeleteDatasetRunMcpInput,
   handler: async (input, context) =>

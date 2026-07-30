@@ -51,7 +51,7 @@ export function ExpandButton({
         opacity: isToggling ? 0.5 : 0.3,
       }}
       aria-label={
-        isToggling ? "Processing..." : isExpanded ? "Collapse" : "Expand"
+        isToggling ? "处理中…" : isExpanded ? "折叠" : "展开"
       }
       disabled={isToggling}
     >

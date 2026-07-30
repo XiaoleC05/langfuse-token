@@ -26,12 +26,12 @@ const severityClassName: Record<MonitorSeverity, string> = {
 
 /** severityLabel maps each MonitorSeverity to its display text. */
 const severityLabel: Record<MonitorSeverity, string> = {
-  UNKNOWN: "PENDING",
-  NO_DATA: "NO DATA",
-  PAUSED: "PAUSED",
-  OK: "OK",
-  WARNING: "WARNING",
-  ALERT: "ALERT",
+  UNKNOWN: "等待中",
+  NO_DATA: "无数据",
+  PAUSED: "已暂停",
+  OK: "正常",
+  WARNING: "警告",
+  ALERT: "告警",
 };
 
 /** MonitorSeverityBadge displays the Monitor's severity, including loading states for pending monitors. */

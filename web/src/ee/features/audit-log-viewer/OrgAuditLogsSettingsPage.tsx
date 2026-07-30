@@ -13,14 +13,13 @@ export function OrgAuditLogsSettingsPage(props: { orgId: string }) {
 
   const body = !hasEntitlement ? (
     <p className="text-muted-foreground text-sm">
-      Audit logs are an Enterprise feature. Upgrade your plan to track all
-      changes made to your organization.
+      审计日志是企业版功能。升级套餐即可追踪组织中的所有变更。
     </p>
   ) : !hasAccess ? (
     <Alert>
-      <AlertTitle>Access Denied</AlertTitle>
+      <AlertTitle>访问被拒绝</AlertTitle>
       <AlertDescription>
-        Contact your organization administrator to request access.
+        请联系组织管理员申请访问权限。
       </AlertDescription>
     </Alert>
   ) : (
@@ -29,11 +28,9 @@ export function OrgAuditLogsSettingsPage(props: { orgId: string }) {
 
   return (
     <>
-      <Header title="Organization Audit Logs" />
+      <Header title="组织审计日志" />
       <p className="text-muted-foreground mb-2 text-sm">
-        Track who changed what in your organization and when. Monitor
-        organization settings, project creation/deletion, and membership changes
-        over time.
+        追踪组织中谁在何时更改了什么。监控组织设置、项目创建/删除以及成员关系随时间的变更。
       </p>
       {body}
     </>

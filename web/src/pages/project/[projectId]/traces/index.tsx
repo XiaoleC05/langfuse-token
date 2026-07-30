@@ -45,7 +45,7 @@ export default function Traces() {
           title: "追踪",
           help: {
             description:
-              "A trace represents a single function/api invocation. Traces contain observations. See [docs](https://langfuse.com/docs/observability/data-model) to learn more.",
+              "追踪代表一次函数/API 调用。追踪包含观测。详见 [文档](https://langfuse.com/docs/observability/data-model) 了解更多。",
             href: "https://langfuse.com/docs/observability/data-model",
           },
         }}
@@ -64,8 +64,7 @@ export default function Traces() {
         help: {
           description: (
             <>
-              A trace represents a single function/api invocation. Traces
-              contain observations. See{" "}
+              追踪代表一次函数/API 调用。追踪包含观测。详见{" "}
               <a
                 href="https://langfuse.com/docs/observability/data-model"
                 target="_blank"
@@ -73,9 +72,9 @@ export default function Traces() {
                 className="decoration-primary/30 hover:decoration-primary underline"
                 onClick={(e) => e.stopPropagation()}
               >
-                docs
+                文档
               </a>{" "}
-              to learn more.
+              了解更多。
             </>
           ),
           href: "https://langfuse.com/docs/observability/data-model",

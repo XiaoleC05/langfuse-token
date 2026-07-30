@@ -58,18 +58,18 @@ export function CreateEvaluatorDialog(props: CreateEvaluatorDialogProps) {
       <DialogContent className="max-h-[90vh] max-w-(--breakpoint-md) pb-0">
         <DialogHeader>
           <DialogTitle>
-            Create Evaluator for batched{" "}
+            为批量{" "}
             {targetObject === EvalTargetObject.EVENT
-              ? "observation"
-              : "experiment"}{" "}
-            runs
+              ? "观测"
+              : "实验"}{" "}
+            运行创建评估器
           </DialogTitle>
           <DialogDescription>
-            This form creates an evaluator for batched{" "}
+            此表单为批量{" "}
             {targetObject === EvalTargetObject.EVENT
-              ? "observation"
-              : "experiment"}{" "}
-            runs.
+              ? "观测"
+              : "实验"}{" "}
+            运行创建评估器。
           </DialogDescription>
         </DialogHeader>
 
@@ -77,15 +77,15 @@ export function CreateEvaluatorDialog(props: CreateEvaluatorDialogProps) {
           {!templateId ? (
             <div className="space-y-4 px-1 pb-1">
               <p className="text-muted-foreground text-sm">
-                Select an evaluator template to configure.
+                选择一个评估器模板进行配置。
               </p>
               {templatesQuery.isLoading ? (
                 <p className="text-muted-foreground text-sm">
-                  Loading templates...
+                  正在加载模板...
                 </p>
               ) : templatesQuery.isError ? (
                 <p className="text-destructive text-sm">
-                  Failed to load templates: {templatesQuery.error.message}
+                  加载模板失败：{templatesQuery.error.message}
                 </p>
               ) : (
                 <div className="max-h-[55vh] overflow-y-auto rounded-md border p-2">
@@ -106,7 +106,7 @@ export function CreateEvaluatorDialog(props: CreateEvaluatorDialogProps) {
                 onClick={() => setTemplateId(null)}
               >
                 <ChevronLeft className="mr-1 h-4 w-4" />
-                Back to template selection
+                返回模板选择
               </Button>
               <EvaluatorForm
                 useDialog
@@ -124,9 +124,9 @@ export function CreateEvaluatorDialog(props: CreateEvaluatorDialogProps) {
                     targetObject,
                   });
                   showSuccessToast({
-                    title: "Evaluator created",
+                    title: "评估器已创建",
                     description:
-                      "Select it in the previous step to run it on selected items.",
+                      "在上一步中选择它以对所选项目运行。",
                   });
                 }}
                 preprocessFormValues={(values) => ({

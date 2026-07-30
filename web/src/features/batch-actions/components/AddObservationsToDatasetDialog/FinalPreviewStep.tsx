@@ -21,8 +21,18 @@ const STEP_FOR_FIELD: Record<string, DialogStep> = {
   metadata: "metadata-mapping",
 };
 
-const fieldLabel = (field: string) =>
-  field === "expectedOutput" ? "expected output" : field;
+const fieldLabel = (field: string) => {
+  switch (field) {
+    case "input":
+      return "输入";
+    case "expectedOutput":
+      return "预期输出";
+    case "metadata":
+      return "元数据";
+    default:
+      return field;
+  }
+};
 
 export function FinalPreviewStep({
   dataset,
@@ -64,10 +74,9 @@ export function FinalPreviewStep({
   return (
     <div className="h-[62vh] space-y-6 p-6">
       <div>
-        <h3 className="text-lg font-bold">Review Configuration</h3>
+        <h3 className="text-lg font-bold">检查配置</h3>
         <p className="text-muted-foreground text-sm">
-          Adding {totalCount} observation{totalCount !== 1 ? "s" : ""} to
-          dataset &quot;
+          正在将 {totalCount} 个观测添加到数据集 &quot;
           {dataset.name}&quot;
         </p>
       </div>
@@ -75,8 +84,8 @@ export function FinalPreviewStep({
       {errorFields.length > 0 && (
         <IssueBanner
           variant="error"
-          title="Some JSONPaths are invalid"
-          description="Items using these mappings will be skipped during processing."
+          title="部分 JSONPath 无效"
+          description="使用这些映射的项目将在处理过程中被跳过。"
         >
           <EditMappingActions
             variant="error"
@@ -89,8 +98,8 @@ export function FinalPreviewStep({
       {missFields.length > 0 && (
         <IssueBanner
           variant="warning"
-          title="Some JSONPaths did not match the preview observation"
-          description="Observations with failed mappings will be skipped during processing."
+          title="部分 JSONPath 未匹配预览观测"
+          description="映射失败的观测将在处理过程中被跳过。"
         >
           <EditMappingActions
             variant="warning"
@@ -101,13 +110,13 @@ export function FinalPreviewStep({
       )}
 
       <div className="text-muted-foreground text-sm">
-        Sample dataset item preview (from first selected observation):
+        数据集项预览示例（来自第一个所选观测）：
       </div>
 
       {!observationData ? (
         <div className="bg-muted/30 flex h-64 items-center justify-center rounded-md border p-4">
           <p className="text-muted-foreground text-sm">
-            No observation data available for preview
+            无可预览的观测数据
           </p>
         </div>
       ) : (
@@ -164,7 +173,7 @@ function EditMappingActions({
             if (step) onEditStep(step);
           }}
         >
-          Edit {fieldLabel(field)} mapping
+          编辑 {fieldLabel(field)} 映射
         </Button>
       ))}
     </div>
@@ -208,7 +217,7 @@ function PreviewCard({
           className="h-7 gap-1 text-xs"
         >
           <Pencil className="h-3 w-3" />
-          Edit
+          编辑
         </Button>
       </div>
       <div className="max-h-62 overflow-auto">
@@ -225,13 +234,13 @@ function PreviewCard({
           <p className="text-xs">
             {[
               pathErrors.length > 0 &&
-                `${pathErrors.length} path${pathErrors.length !== 1 ? "s have" : " has"} invalid syntax`,
+                `${pathErrors.length} 个路径语法无效`,
               pathMisses.length > 0 &&
-                `${pathMisses.length} path${pathMisses.length !== 1 ? "s" : ""} did not match in preview observation`,
+                `${pathMisses.length} 个路径在预览观测中未匹配`,
             ]
               .filter(Boolean)
-              .join("; ")}
-            . These items will be skipped during processing.
+              .join("；")}
+            。这些项目将在处理过程中被跳过。
           </p>
         </div>
       )}

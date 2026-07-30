@@ -58,7 +58,7 @@ export async function downloadServerTraceAsJson(
     throw new Error(
       hasErrorMessage(errorBody)
         ? errorBody.message
-        : "Failed to download trace JSON",
+        : "下载追踪 JSON 失败",
     );
   }
 

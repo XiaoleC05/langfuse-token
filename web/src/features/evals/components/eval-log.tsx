@@ -79,7 +79,7 @@ export default function EvalLogTable({
   const columnHelper = createColumnHelper<JobExecutionRow>();
   const columns = [
     columnHelper.accessor("status", {
-      header: "Status",
+      header: "状态",
       id: "status",
       cell: (row) => {
         const status = row.getValue();
@@ -93,21 +93,21 @@ export default function EvalLogTable({
     }),
     columnHelper.accessor("startTime", {
       id: "startTime",
-      header: "Start Time",
+      header: "开始时间",
       enableHiding: true,
     }),
     columnHelper.accessor("endTime", {
       id: "endTime",
-      header: "End Time",
+      header: "结束时间",
       enableHiding: true,
     }),
     columnHelper.accessor("scoreName", {
-      header: "Score Name",
+      header: "评分名称",
       id: "scoreName",
       enableHiding: true,
     }),
     columnHelper.accessor("scoreValue", {
-      header: "Score Value",
+      header: "评分值",
       id: "scoreValue",
       enableHiding: true,
       cell: (row) => {
@@ -122,7 +122,7 @@ export default function EvalLogTable({
       },
     }),
     columnHelper.accessor("scoreComment", {
-      header: "Score Comment",
+      header: "评分备注",
       id: "scoreComment",
       enableHiding: true,
       cellPadding: "none",
@@ -149,7 +149,7 @@ export default function EvalLogTable({
     }),
     columnHelper.accessor("error", {
       id: "error",
-      header: "Error",
+      header: "错误",
       enableHiding: true,
       cellPadding: "none",
       loadingCell: () => (
@@ -175,7 +175,7 @@ export default function EvalLogTable({
     }),
     columnHelper.accessor("traceId", {
       id: "traceId",
-      header: "Target Trace",
+      header: "目标追踪",
       cell: (row) => {
         const traceId = row.getValue();
         return traceId ? (
@@ -188,7 +188,7 @@ export default function EvalLogTable({
     }),
     columnHelper.accessor("executionTraceId", {
       id: "executionTraceId",
-      header: "Execution Trace",
+      header: "执行追踪",
       enableHiding: true,
       cell: (row) => {
         const traceId = row.getValue();
@@ -202,7 +202,7 @@ export default function EvalLogTable({
     }),
     columnHelper.accessor("templateId", {
       id: "templateId",
-      header: "Template",
+      header: "模板",
       cell: (row) => {
         const templateId = row.getValue();
         return templateId ? (
@@ -219,7 +219,7 @@ export default function EvalLogTable({
     columns.push(
       columnHelper.accessor("evaluatorId", {
         id: "evaluatorId",
-        header: "Evaluator",
+        header: "评估器",
         cell: (row) => {
           const evaluatorId = row.getValue();
           return evaluatorId ? (

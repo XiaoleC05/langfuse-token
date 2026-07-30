@@ -51,9 +51,9 @@ type NextAuthProvider = NonNullable<Parameters<typeof signIn>[0]>;
 // Schema for the verified signup flow (email + name only, no password)
 const signupVerifyFormSchema = z.object({
   name: StringNoHTMLNonEmpty.refine((value) => noUrlCheck(value), {
-    message: "Input should not contain a URL",
+    message: "输入内容不应包含 URL",
   }).refine((value) => /^[a-zA-Z0-9\s]+$/.test(value), {
-    message: "Name can only contain letters, numbers, and spaces",
+    message: "姓名只能包含字母、数字和空格",
   }),
   email: z.email(),
 });
@@ -146,7 +146,7 @@ function StandardSignupFlow({
 
     if (!emailResult.success) {
       form.setError("email", {
-        message: "Invalid email address",
+        message: "邮箱地址无效",
       });
       setContinueLoading(false);
       return;
@@ -194,7 +194,7 @@ function StandardSignupFlow({
       }, 100);
     } catch (error) {
       captureUnknownError("auth.signUp.checkSso", error);
-      setFormError("Unable to check SSO configuration. Please try again.");
+      setFormError("无法检查单点登录配置，请重试。");
     } finally {
       setContinueLoading(false);
     }
@@ -233,7 +233,7 @@ function StandardSignupFlow({
             : `${env.NEXT_PUBLIC_BASE_PATH ?? ""}/`),
       });
     } catch {
-      setFormError("An error occurred. Please try again.");
+      setFormError("发生错误，请重试。");
     }
   }
 
@@ -402,7 +402,7 @@ function VerifiedSignupFlow({
       if (signInRes?.error) {
         setFormError(
           signInRes.error === "AccessDenied"
-            ? "Unable to send verification email. Please try again."
+            ? "无法发送验证邮件，请重试。"
             : signInRes.error,
         );
         return;
@@ -412,7 +412,7 @@ function VerifiedSignupFlow({
       setOtpEmail(values.email);
       setPhase("otp");
     } catch {
-      setFormError("An error occurred. Please try again.");
+      setFormError("发生错误，请重试。");
     }
   }
 
@@ -434,7 +434,7 @@ function VerifiedSignupFlow({
     return (
       <>
         <Head>
-          <title>Verify your email | Oxelia51</title>
+          <title>验证您的邮箱 | Oxelia51</title>
         </Head>
         <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -442,10 +442,10 @@ function VerifiedSignupFlow({
               <LangfuseIcon />
             </div>
             <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
-              Check your email
+              查看您的邮箱
             </h2>
             <p className="text-muted-foreground mt-2 text-center text-sm">
-              We sent a verification code to{" "}
+              验证码已发送至{" "}
               <span className="font-bold">{otpEmail}</span>
             </p>
           </div>
@@ -457,7 +457,7 @@ function VerifiedSignupFlow({
                   htmlFor="otp-code"
                   className="mb-2 block text-sm font-bold"
                 >
-                  Verification code
+                  验证码
                 </label>
                 <Input
                   id="otp-code"
@@ -466,7 +466,7 @@ function VerifiedSignupFlow({
                   maxLength={6}
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value.trim())}
-                  placeholder="6-digit code"
+                  placeholder="6 位验证码"
                   className="w-full"
                   autoFocus
                 />
@@ -477,7 +477,7 @@ function VerifiedSignupFlow({
                 loading={otpLoading}
                 disabled={!otpCode || otpCode.length !== 6}
               >
-                Verify
+                验证
               </Button>
               {otpError && (
                 <div className="text-destructive text-center text-sm font-bold">
@@ -485,7 +485,7 @@ function VerifiedSignupFlow({
                 </div>
               )}
               <p className="text-muted-foreground text-center text-xs">
-                The code is valid for 3 minutes.{" "}
+                验证码有效期为 3 分钟。{" "}
                 <button
                   type="button"
                   className="text-link hover:text-link-hover font-bold"
@@ -495,7 +495,7 @@ function VerifiedSignupFlow({
                     setOtpError(null);
                   }}
                 >
-                  Go back
+                  返回
                 </button>
               </p>
             </div>
@@ -550,7 +550,7 @@ function VerifiedSignupFlow({
             loading={form.formState.isSubmitting}
             data-testid="submit-email-password-sign-up-form"
           >
-            Continue
+            继续
           </Button>
           {formError ? (
             <div className="text-destructive text-center text-sm font-bold">
@@ -576,10 +576,10 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Head>
-        <title>Sign up | Oxelia51</title>
+        <title>注册 | Oxelia51</title>
         <meta
           name="description"
-          content="Create an account, no credit card required."
+          content="创建账户，无需信用卡。"
           key="desc"
         />
       </Head>
@@ -594,7 +594,7 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
         </div>
         {isLangfuseCloud ? (
           <div className="text-center sm:mx-auto sm:w-full sm:max-w-[480px]">
-            No credit card required.
+            无需信用卡。
           </div>
         ) : null}
 
@@ -603,7 +603,7 @@ function SignupPageShell({ children }: { children: React.ReactNode }) {
         <div className="bg-background mt-14 px-6 py-10 shadow-sm sm:mx-auto sm:w-full sm:max-w-[480px] sm:rounded-lg sm:px-10">
           {children}
         </div>
-        <CloudPrivacyNotice action="creating an account" />
+        <CloudPrivacyNotice action="创建账户" />
         <div className="mt-6 flex justify-center pb-4">
           <FilingInfo variant="full" />
         </div>

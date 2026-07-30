@@ -69,7 +69,7 @@ export const CreateNewAnnotationQueueItem = ({
           });
         } else {
           const confirmRemoval = confirm(
-            `Are you sure you want to remove this item from the queue "${queueName}"?`,
+            `确定要从队列"${queueName}"中移除此条目吗？`,
           );
           if (confirmRemoval) {
             await removeFromQueueMutation.mutateAsync({
@@ -85,7 +85,7 @@ export const CreateNewAnnotationQueueItem = ({
           objectType,
         });
       } catch (error) {
-        console.error("Error toggling queue item:", error);
+        console.error("切换队列条目时出错:", error);
       }
     },
     [
@@ -113,7 +113,7 @@ export const CreateNewAnnotationQueueItem = ({
         {isMenu ? (
           <>
             <ListPlus className="h-4 w-4" />
-            <span className="text-sm">Add to queue</span>
+            <span className="text-sm">添加到队列</span>
           </>
         ) : (
           <span className="relative mr-1 text-xs">
@@ -148,7 +148,7 @@ export const CreateNewAnnotationQueueItem = ({
           {isMenu ? (
             <>
               <ListPlus className="h-4 w-4" />
-              <span className="text-sm">Add to queue</span>
+              <span className="text-sm">添加到队列</span>
               {!!queues.data?.totalCount && (
                 <span className="bg-primary/50 text-primary-foreground ml-auto flex h-3.5 w-fit items-center justify-center rounded-sm px-1 text-xs shadow-xs">
                   {queues.data.totalCount > 99 ? "99+" : queues.data.totalCount}
@@ -170,7 +170,7 @@ export const CreateNewAnnotationQueueItem = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-h-[min(300px,var(--radix-dropdown-menu-content-available-height))] overflow-y-auto">
-        <DropdownMenuLabel>In queue(s)</DropdownMenuLabel>
+        <DropdownMenuLabel>所在队列</DropdownMenuLabel>
         {queues.data?.queues.length ? (
           queues.data?.queues.map((queue) => (
             <DropdownMenuCheckboxItem
@@ -203,7 +203,7 @@ export const CreateNewAnnotationQueueItem = ({
               event.stopPropagation();
             }}
           >
-            No queues defined
+            未定义队列
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
@@ -215,7 +215,7 @@ export const CreateNewAnnotationQueueItem = ({
           <div>
             <ExternalLink className="mr-2 h-4 w-4" />
             <Link href={`/project/${projectId}/annotation-queues`}>
-              Manage queues
+              管理队列
             </Link>
           </div>
         </DropdownMenuItem>

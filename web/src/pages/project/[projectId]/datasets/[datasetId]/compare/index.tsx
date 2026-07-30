@@ -94,10 +94,10 @@ function DatasetCompareLegacy() {
   return (
     <Page
       headerProps={{
-        title: `Compare runs: ${dataset.data?.name ?? datasetId}`,
+        title: `对比运行：${dataset.data?.name ?? datasetId}`,
         breadcrumb: [
           {
-            name: "Datasets",
+            name: "数据集",
             href: `/project/${projectId}/datasets`,
           },
           {
@@ -105,12 +105,12 @@ function DatasetCompareLegacy() {
             href: `/project/${projectId}/datasets/${datasetId}`,
           },
           {
-            name: "Experiments",
+            name: "实验",
             href: `/project/${projectId}/datasets/${datasetId}/experiments`,
           },
         ],
         help: {
-          description: "Compare your dataset runs side by side",
+          description: "并排对比数据集运行",
         },
         tabsProps: {
           tabs: getDatasetRunCompareTabs(projectId, datasetId),
@@ -130,7 +130,7 @@ function DatasetCompareLegacy() {
                   onClick={() => capture("dataset_run:new_form_open")}
                 >
                   <FlaskConical className="h-4 w-4" />
-                  <span className="ml-2 hidden md:block">New experiment</span>
+                  <span className="ml-2 hidden md:block">新实验</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-h-[90vh] overflow-y-auto">
@@ -148,9 +148,9 @@ function DatasetCompareLegacy() {
             </Dialog>
             <MultiSelectKeyValues
               key="select-runs"
-              title="Experiments"
+              title="实验"
               showSelectedValueStrings={false}
-              placeholder="Select runs to compare"
+              placeholder="选择要对比的运行"
               className="w-fit"
               variant="outline"
               hideClearButton
@@ -212,7 +212,7 @@ function DatasetCompareLegacy() {
             open: isAnnotationPanelOpen,
             onOpenChange: handlePanelOpenChange,
           }}
-          mobileTitle="Annotate"
+          mobileTitle="标注"
         >
           <SidePanelContent className="h-full">
             {activeCell ? (
@@ -220,7 +220,7 @@ function DatasetCompareLegacy() {
             ) : (
               <div className="flex items-center justify-center p-4">
                 <span className="text-muted-foreground text-sm">
-                  Loading annotation data...
+                  加载标注数据中...
                 </span>
               </div>
             )}

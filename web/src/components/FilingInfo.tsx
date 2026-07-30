@@ -60,7 +60,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
       </div>
       <div className="flex flex-wrap items-center justify-center gap-x-1.5">
         <span>
-          Powered by{" "}
+          由{" "}
           <a
             href="https://github.com/langfuse/langfuse"
             target="_blank"
@@ -68,7 +68,8 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
             className="hover:text-foreground underline underline-offset-2"
           >
             Langfuse
-          </a>
+          </a>{" "}
+          提供支持
         </span>
         <span>·</span>
         <a

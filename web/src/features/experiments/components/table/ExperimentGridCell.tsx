@@ -98,7 +98,7 @@ const ScoreCommentPeek = ({ comment }: { comment: string }) => {
             variant="ghost"
             size="icon-xs"
             className="hover:bg-accent rounded p-1"
-            aria-label={copied ? "Copied" : "Copy to clipboard"}
+            aria-label={copied ? "已复制" : "复制到剪贴板"}
           >
             {copied ? (
               <Check className="h-3 w-3" />
@@ -217,11 +217,11 @@ const ScoreItem = ({
         >
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Source:</span>
+              <span className="text-muted-foreground">来源：</span>
               <span className="capitalize">{source.toLowerCase()}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Type:</span>
+              <span className="text-muted-foreground">类型：</span>
               <span className="capitalize">{dataType.toLowerCase()}</span>
             </div>
           </div>
@@ -379,7 +379,7 @@ export const ExperimentGridCell = ({
       // Output section
       {
         accessorKey: "output",
-        header: "Output",
+        header: "输出",
         cell: ({ data }) => (
           <MemoizedIOTableCell
             isLoading={data.isLoading}
@@ -393,7 +393,7 @@ export const ExperimentGridCell = ({
       // Observation scores
       {
         accessorKey: "observationScores",
-        header: "Scores",
+        header: "评分",
         children: orderedObservationKeys.map((key) => ({
           accessorKey: key,
           cell: ({ data }) => (
@@ -409,7 +409,7 @@ export const ExperimentGridCell = ({
       // Trace scores
       {
         accessorKey: "traceScores",
-        header: "Trace Scores",
+        header: "追踪评分",
         children: orderedTraceKeys.map((key) => ({
           accessorKey: `Trace-${key}`,
           cell: ({ data }) => (
@@ -425,12 +425,12 @@ export const ExperimentGridCell = ({
       // Metadata group - itemId, observationId, level, startTime
       {
         accessorKey: "metadata",
-        header: "Metadata",
+        header: "元数据",
         children: [
           {
             accessorKey: "itemId",
             cell: ({ data }) => (
-              <MetadataItem label="Item ID">
+              <MetadataItem label="数据项 ID">
                 <span className="font-mono text-xs">{data.itemId}</span>
               </MetadataItem>
             ),
@@ -438,7 +438,7 @@ export const ExperimentGridCell = ({
           {
             accessorKey: "observationId",
             cell: ({ data }) => (
-              <MetadataItem label="Observation">
+              <MetadataItem label="观测">
                 <span className="font-mono text-xs">{data.observationId}</span>
               </MetadataItem>
             ),
@@ -446,7 +446,7 @@ export const ExperimentGridCell = ({
           {
             accessorKey: "level",
             cell: ({ data }) => (
-              <MetadataItem label="Level">
+              <MetadataItem label="级别">
                 <span className="text-xs">{data.level}</span>
               </MetadataItem>
             ),
@@ -454,7 +454,7 @@ export const ExperimentGridCell = ({
           {
             accessorKey: "startTime",
             cell: ({ data }) => (
-              <MetadataItem label="Start Time">
+              <MetadataItem label="开始时间">
                 <LocalIsoDate date={data.startTime} className="text-xs" />
               </MetadataItem>
             ),
@@ -462,7 +462,7 @@ export const ExperimentGridCell = ({
           {
             accessorKey: "totalCost",
             cell: ({ data }) => (
-              <MetadataItem label="Total Cost">
+              <MetadataItem label="总费用">
                 <span className="text-xs">
                   {data.totalCost != null ? (
                     usdFormatter(data.totalCost, 2, 6)
@@ -477,7 +477,7 @@ export const ExperimentGridCell = ({
             accessorKey: "latencyMs",
             cell: ({ data }) =>
               data.latencyMs != null ? (
-                <MetadataItem label="Latency">
+                <MetadataItem label="延迟">
                   <span className="text-xs">
                     {latencyFormatter(data.latencyMs)}
                   </span>
@@ -568,7 +568,7 @@ export const ExperimentGridCell = ({
 export const ExperimentGridCellEmpty = () => {
   return (
     <div className="flex h-full w-full items-start justify-start p-2">
-      <span className="text-muted-foreground text-xs">No data</span>
+      <span className="text-muted-foreground text-xs">无数据</span>
     </div>
   );
 };

@@ -37,7 +37,7 @@ function buildChartConfig(data: DataPoint[], metricLabel: string): ChartConfig {
 export const ChartCanvas = React.memo(function ChartCanvas({
   data,
   config,
-  emptyMessage = "No events match the current filters.",
+  emptyMessage = "当前筛选条件下没有匹配的事件。",
 }: {
   data: DataPoint[];
   config: ChartViewConfig;

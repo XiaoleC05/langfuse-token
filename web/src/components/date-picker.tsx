@@ -59,7 +59,7 @@ export function DatePicker({
             {date ? (
               format(date, includeTimePicker ? "PPP pp" : "PPP")
             ) : (
-              <span>Pick a date</span>
+              <span>选择日期</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -80,7 +80,7 @@ export function DatePicker({
           variant="ghost"
           size="icon"
           onClick={() => onChange(undefined)}
-          title="reset date"
+          title="重置日期"
         >
           <X size={14} />
         </Button>
@@ -245,7 +245,7 @@ export function DatePickerWithRange({
                 format(internalDateRange.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>选择日期</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -274,7 +274,7 @@ export function DatePickerWithRange({
             <div className="flex flex-col gap-2 border-t-2 py-1.5 sm:flex-row sm:gap-0">
               <div className="px-3">
                 <p className="px-1 text-sm font-bold">
-                  Start<span className="hidden sm:inline"> time</span>
+                  开始<span className="hidden sm:inline">时间</span>
                 </p>
                 <TimePicker
                   date={internalDateRange?.from}
@@ -284,7 +284,7 @@ export function DatePickerWithRange({
               </div>
               <div className="px-3">
                 <p className="px-1 text-sm font-bold">
-                  End<span className="hidden sm:inline"> time</span>
+                  结束<span className="hidden sm:inline">时间</span>
                 </p>
                 <TimePicker
                   date={internalDateRange?.to}
@@ -503,7 +503,7 @@ export function TimeRangePicker({
     if (rangeType === "custom") {
       const customLabel = dateRange
         ? formatDateRange(dateRange.from, dateRange.to)
-        : "Select from calendar";
+        : "从日历选择";
       // Compact: drop the icon and truncate, like the named branch — a custom
       // range's long formatted string would otherwise overflow the tight
       // mobile Filters header.
@@ -548,15 +548,15 @@ export function TimeRangePicker({
     // No time range selected
     if (compact) {
       return (
-        <span className="min-w-0 truncate" title="Select time range">
-          Select time range
+        <span className="min-w-0 truncate" title="选择时间范围">
+          选择时间范围
         </span>
       );
     }
     return (
       <div className="flex items-center gap-2">
         <CalendarIcon className="h-4 w-4" />
-        <span>Select time range</span>
+        <span>选择时间范围</span>
       </div>
     );
   };
@@ -608,7 +608,7 @@ export function TimeRangePicker({
               {internalDateRange?.from && internalDateRange.to && (
                 <div className="flex flex-col gap-3 border-t p-3">
                   <div className="flex flex-col gap-1">
-                    <p className="px-1 text-sm font-bold">Start time</p>
+                    <p className="px-1 text-sm font-bold">开始时间</p>
                     <TimePicker
                       date={internalDateRange?.from}
                       setDate={onStartTimeSelection}
@@ -616,7 +616,7 @@ export function TimeRangePicker({
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="px-1 text-sm font-bold">End time</p>
+                    <p className="px-1 text-sm font-bold">结束时间</p>
                     <TimePicker
                       date={internalDateRange?.to}
                       setDate={onEndTimeSelection}
@@ -657,7 +657,7 @@ export function TimeRangePicker({
                 <span className="bg-muted flex h-5 w-10 items-center justify-center rounded px-1.5 text-center text-xs">
                   <CalendarIcon className="h-3 w-3" />
                 </span>
-                <span>Select from calendar</span>
+                <span>从日历选择</span>
               </div>
             </div>
           )}

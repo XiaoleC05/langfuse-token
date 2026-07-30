@@ -40,27 +40,27 @@ export interface MetricDef {
 export const METRICS: MetricDef[] = [
   {
     key: "count",
-    label: "Count",
+    label: "数量",
     measure: "count",
     aggregations: METRIC_AGGREGATIONS.count,
   },
   {
     key: "latency",
-    label: "Latency",
+    label: "延迟",
     measure: "latency",
     unit: "millisecond",
     aggregations: METRIC_AGGREGATIONS.latency,
   },
   {
     key: "totalCost",
-    label: "Cost",
+    label: "成本",
     measure: "totalCost",
     unit: "USD",
     aggregations: METRIC_AGGREGATIONS.totalCost,
   },
   {
     key: "totalTokens",
-    label: "Tokens",
+    label: "Token",
     measure: "totalTokens",
     aggregations: METRIC_AGGREGATIONS.totalTokens,
   },
@@ -74,21 +74,21 @@ export interface DimensionDef {
 }
 
 export const DIMENSIONS: DimensionDef[] = [
-  { key: "none", label: "Total (no breakdown)", field: null },
-  { key: "model", label: "Model", field: "providedModelName" },
-  { key: "name", label: "Name", field: "name" },
-  { key: "level", label: "Level", field: "level" },
-  { key: "type", label: "Type", field: "type" },
-  { key: "environment", label: "Environment", field: "environment" },
+  { key: "none", label: "总计（不拆分）", field: null },
+  { key: "model", label: "模型", field: "providedModelName" },
+  { key: "name", label: "名称", field: "name" },
+  { key: "level", label: "级别", field: "level" },
+  { key: "type", label: "类型", field: "type" },
+  { key: "environment", label: "环境", field: "environment" },
 ];
 
 export const AGGREGATION_LABELS: Record<AggregationFn, string> = {
-  count: "Count",
-  sum: "Sum",
-  avg: "Average",
-  min: "Min",
-  max: "Max",
-  p50: "Median (p50)",
+  count: "计数",
+  sum: "求和",
+  avg: "平均值",
+  min: "最小值",
+  max: "最大值",
+  p50: "中位数（p50）",
   p95: "p95",
   p99: "p99",
 };
@@ -109,30 +109,30 @@ export interface ChartTypeOption {
 export const CHART_TYPES: ChartTypeOption[] = [
   {
     value: "LINE_TIME_SERIES",
-    label: "Line",
+    label: "折线图",
     icon: LineChart,
     isTimeSeries: true,
   },
   {
     value: "AREA_TIME_SERIES",
-    label: "Area",
+    label: "面积图",
     icon: AreaChart,
     isTimeSeries: true,
   },
   {
     value: "BAR_TIME_SERIES",
-    label: "Bars",
+    label: "柱状图",
     icon: BarChart3,
     isTimeSeries: true,
   },
   {
     value: "HORIZONTAL_BAR",
-    label: "Ranked",
+    label: "排行图",
     icon: BarChartHorizontal,
     isTimeSeries: false,
   },
-  { value: "PIE", label: "Pie", icon: PieChart, isTimeSeries: false },
-  { value: "NUMBER", label: "Number", icon: Hash, isTimeSeries: false },
+  { value: "PIE", label: "饼图", icon: PieChart, isTimeSeries: false },
+  { value: "NUMBER", label: "数字", icon: Hash, isTimeSeries: false },
 ];
 
 export const getMetric = (key: MetricKey): MetricDef =>
@@ -198,14 +198,14 @@ export const describeConfig = (config: ChartViewConfig): string => {
   const metric = getMetric(config.metric);
   const metricPart =
     config.metric === "count"
-      ? "Count of events"
-      : `${AGGREGATION_LABELS[config.aggregation]} ${metric.label.toLowerCase()}`;
+      ? "事件数量"
+      : `${AGGREGATION_LABELS[config.aggregation]}${metric.label.toLowerCase()}`;
   // A big number is a single total — it ignores any breakdown, so don't claim
   // one in the subtitle.
   const byPart =
     config.breakdown === "none" || config.chartType === "NUMBER"
       ? ""
-      : ` by ${getDimension(config.breakdown).label.toLowerCase()}`;
-  const timePart = isTimeSeriesChartType(config.chartType) ? " over time" : "";
+      : `，按${getDimension(config.breakdown).label.toLowerCase()}拆分`;
+  const timePart = isTimeSeriesChartType(config.chartType) ? "，随时间变化" : "";
   return `${metricPart}${byPart}${timePart}`;
 };

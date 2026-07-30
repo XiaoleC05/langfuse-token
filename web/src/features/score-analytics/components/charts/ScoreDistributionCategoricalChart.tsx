@@ -116,7 +116,7 @@ export function ScoreDistributionCategoricalChart({
             normalizedStacks[stackKey] = stacks[stackKey] ?? 0;
           });
           return {
-            name: category === "__unmatched__" ? "no match" : category,
+            name: category === "__unmatched__" ? "无匹配" : category,
             ...normalizedStacks,
           };
         });
@@ -126,7 +126,7 @@ export function ScoreDistributionCategoricalChart({
     return [...distribution1]
       .sort((a, b) => a.binIndex - b.binIndex)
       .map((item) => {
-        const label = categories[item.binIndex] ?? `Category ${item.binIndex}`;
+        const label = categories[item.binIndex] ?? `分类 ${item.binIndex}`;
         return {
           name: label,
           pv: item.count,
@@ -179,7 +179,7 @@ export function ScoreDistributionCategoricalChart({
         // Special handling for unmatched category
         if (key === "__unmatched__") {
           stackConfig[key] = {
-            label: "no match",
+            label: "无匹配",
             color: "hsl(var(--muted))", // Light grey for unmatched
           };
           return;

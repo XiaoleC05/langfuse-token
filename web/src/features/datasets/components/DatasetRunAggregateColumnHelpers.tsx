@@ -88,12 +88,12 @@ function BaselineToggle({ runId }: { runId: string }) {
 
   let text: string;
   if (!hasBaseline) {
-    text = "Set as baseline";
+    text = "设为基线";
   } else if (isBaseline) {
     text =
-      isHovered && !justSetBaselineRef.current ? "Clear baseline" : "Baseline";
+      isHovered && !justSetBaselineRef.current ? "清除基线" : "基线";
   } else {
-    text = isHovered ? "Set as baseline" : "Comparison";
+    text = isHovered ? "设为基线" : "对比";
   }
 
   return (
@@ -235,7 +235,7 @@ export const constructDatasetRunAggregateColumns = ({
 
 export const getDatasetRunAggregateColumnProps = (isLoading: boolean) => ({
   accessorKey: "runs",
-  header: "Experiments",
+  header: "实验",
   id: "runs",
   isFixedPosition: true,
   cell: () => {

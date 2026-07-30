@@ -141,19 +141,19 @@ export const GenerationLatencyChart = ({
           )
         : [];
     return [
-      { tabTitle: "50th Percentile", data: getData("p50_latency") },
-      { tabTitle: "75th Percentile", data: getData("p75_latency") },
-      { tabTitle: "90th Percentile", data: getData("p90_latency") },
-      { tabTitle: "95th Percentile", data: getData("p95_latency") },
-      { tabTitle: "99th Percentile", data: getData("p99_latency") },
+      { tabTitle: "50百分位", data: getData("p50_latency") },
+      { tabTitle: "75百分位", data: getData("p75_latency") },
+      { tabTitle: "90百分位", data: getData("p90_latency") },
+      { tabTitle: "95百分位", data: getData("p95_latency") },
+      { tabTitle: "99百分位", data: getData("p99_latency") },
     ];
   }, [latencies.data, selectedModels]);
 
   return (
     <DashboardCard
       className={className}
-      title="Model latencies"
-      description="Latencies (seconds) per LLM generation"
+      title="模型延迟"
+      description="各 LLM 生成延迟（秒）"
       isLoading={
         isLoading || (latencies.isPending && selectedModels.length > 0)
       }
@@ -184,8 +184,8 @@ export const GenerationLatencyChart = ({
                   <div className="h-80 w-full shrink-0 grow lg:h-56">
                     <DashboardLineTimeSeriesChart
                       data={item.data}
-                      label="Latency"
-                      unit="millisecond"
+                      label="延迟"
+                      unit="毫秒"
                       syncId={syncId}
                       missingValue="gap"
                     />

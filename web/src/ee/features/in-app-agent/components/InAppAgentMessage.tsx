@@ -331,7 +331,7 @@ function InAppAgentReasoningBlock({
             content.isStreaming && styles.thinkingShimmer,
           )}
         >
-          {content.isStreaming ? "Thinking" : "Thought"}
+          {content.isStreaming ? "思考中" : "已思考"}
         </span>
         <ChevronDown
           className={cn(
@@ -345,7 +345,7 @@ function InAppAgentReasoningBlock({
         // the drawer's auto-follow keeps the newest text visible while
         // streaming, and the block collapses when streaming ends.
         <div
-          aria-label="Assistant reasoning"
+          aria-label="助手推理过程"
           data-testid="in-app-agent-reasoning-content"
           className={cn(
             // Vertical spacing is margin, not padding, so the left border
@@ -354,7 +354,7 @@ function InAppAgentReasoningBlock({
             isCompact && "px-2.5 leading-4",
           )}
         >
-          {content.text || "Thinking..."}
+          {content.text || "思考中…"}
         </div>
       ) : null}
     </details>
@@ -445,7 +445,7 @@ function MessageFeedbackControls({
       .catch(() => undefined);
   };
 
-  const commentButtonText = `Comment: ${committedComment}`;
+  const commentButtonText = `反馈: ${committedComment}`;
 
   return (
     <Popover
@@ -458,7 +458,7 @@ function MessageFeedbackControls({
     >
       <PopoverAnchor className="inline-flex">
         <FeedbackButton
-          label="Good response"
+          label="回答不错"
           isSelected={selectedValue === "thumbs_up"}
           disabled={isDisabled}
           onClick={() => {
@@ -474,7 +474,7 @@ function MessageFeedbackControls({
         </FeedbackButton>
       </PopoverAnchor>
       <FeedbackButton
-        label="Bad response"
+        label="回答不佳"
         isSelected={selectedValue === "thumbs_down"}
         disabled={isDisabled}
         onClick={() => {
@@ -514,7 +514,7 @@ function MessageFeedbackControls({
                 setComment(event.target.value);
               }}
               disabled={isDisabled}
-              placeholder="Optional feedback comment"
+              placeholder="可选反馈意见"
               rows={3}
               maxLength={500}
               className={cn(
@@ -529,7 +529,7 @@ function MessageFeedbackControls({
                 handleSubmitComment().catch(() => undefined);
               }}
             >
-              {isSubmittingComment ? "Saving..." : "Save comment"}
+              {isSubmittingComment ? "保存中…" : "保存反馈"}
             </CommentButton>
           </div>
         </PopoverContent>
@@ -556,7 +556,7 @@ function SourcesPopover({
           )}
         >
           <BookOpenText className={cn(isCompact ? "size-3" : "size-3.5")} />
-          Sources
+          来源
         </button>
       </PopoverTrigger>
       <PopoverContent align="start" side="top" className="w-72 p-1.5">
@@ -668,9 +668,7 @@ function ToolCallGroup({
   isLoading?: boolean;
   isCompact?: boolean;
 }) {
-  const label = `${isLoading ? "Calling" : "Called"} ${tools.length} ${
-    tools.length === 1 ? "tool" : "tools"
-  }`;
+  const label = `${isLoading ? "调用中" : "已调用"} ${tools.length} 个工具`;
   const [userToggled, setUserToggled] = useState<boolean | null>(null);
   const isOpen = userToggled ?? isLoading;
 
@@ -742,7 +740,7 @@ function ToolCallDisclosure({
       <div className={cn("mt-1.5 mb-1 ml-3 px-3", isCompact && "px-2.5")}>
         <div className="flex flex-col gap-2">
           <InAppAgentToolPayload
-            label="Arguments"
+            label="参数"
             value={tool.args}
             variant="default"
           />
@@ -990,8 +988,8 @@ function CodeBlock({ children }: { children: ReactNode }) {
       <button
         type="button"
         data-in-app-agent-code-copy-button="true"
-        aria-label={isCopied ? "Copied code" : "Copy code"}
-        title={isCopied ? "Copied" : "Copy code"}
+        aria-label={isCopied ? "代码已复制" : "复制代码"}
+        title={isCopied ? "已复制" : "复制代码"}
         contentEditable={false}
         disabled={!code}
         onClick={() => {
@@ -1012,7 +1010,7 @@ function CodeBlock({ children }: { children: ReactNode }) {
 
 function ThinkingIndicator({
   className,
-  label = "Thinking...",
+  label = "思考中…",
   isCompact = false,
 }: {
   className?: string;

@@ -10,7 +10,7 @@ import {
 import { cn } from "@/src/utils/tailwind";
 
 export const REFRESH_INTERVALS = [
-  { label: "Off", value: null },
+  { label: "关闭", value: null },
   { label: "30s", value: 30_000 },
   { label: "1m", value: 60_000 },
   { label: "5m", value: 300_000 },
@@ -55,7 +55,7 @@ export function DataTableRefreshButton({
           "rounded-r-none border-r-0",
           compact && isActive && "border-primary",
         )}
-        title="Refresh"
+        title="刷新"
       >
         <RefreshCw className={cn("h-4 w-4", isRefreshing && "animate-spin")} />
       </Button>
@@ -77,7 +77,7 @@ export function DataTableRefreshButton({
               )
             ) : (
               <span className="ml-1 text-sm">
-                {activeInterval?.label ?? "Off"}
+                {activeInterval?.label ?? "关闭"}
               </span>
             )}
           </Button>
@@ -96,9 +96,9 @@ export function DataTableRefreshButton({
                 key={String(option.value)}
                 value={String(option.value)}
               >
-                {option.label === "Off"
-                  ? "Auto-refresh off"
-                  : `Every ${option.label}`}
+                {option.label === "关闭"
+                  ? "关闭自动刷新"
+                  : `每 ${option.label}`}
               </DropdownMenuRadioItem>
             ))}
           </DropdownMenuRadioGroup>

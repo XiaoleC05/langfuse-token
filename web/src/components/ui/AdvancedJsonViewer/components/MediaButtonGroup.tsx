@@ -16,6 +16,13 @@ export interface MediaButtonGroupProps {
 
 type MediaCategory = "image" | "audio" | "video" | "document";
 
+const mediaCategoryLabels: Record<MediaCategory, string> = {
+  image: "图片",
+  audio: "音频",
+  video: "视频",
+  document: "文档",
+};
+
 interface GroupedMedia {
   category: MediaCategory;
   items: MediaReturnType[];
@@ -31,7 +38,7 @@ function AudioPlayer({ src }: { src?: string }) {
   return (
     <audio controls className="w-full" preload="metadata">
       <source src={src} />
-      Your browser does not support the audio element.
+      你的浏览器不支持音频元素。
     </audio>
   );
 }
@@ -45,7 +52,7 @@ function VideoPlayer({ src }: { src?: string }) {
   return (
     <video controls className="w-full" preload="metadata" playsInline>
       <source src={src} />
-      Your browser does not support the video element.
+      你的浏览器不支持视频元素。
     </video>
   );
 }
@@ -64,12 +71,12 @@ function ImagePreview({ src }: { src?: string }) {
     <button
       onClick={openInNewTab}
       className="bg-muted h-24 w-24 overflow-hidden rounded-md border transition-opacity hover:opacity-80"
-      aria-label="Open image in new tab"
+      aria-label="在新标签页中打开图片"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
-        alt="Media preview"
+        alt="媒体预览"
         className="h-full w-full object-cover"
       />
     </button>
@@ -197,9 +204,9 @@ export function MediaButtonGroup({ media }: MediaButtonGroupProps) {
           <PopoverTrigger asChild>
             <button
               className="hover:bg-accent relative flex h-6 w-6 items-center justify-center rounded"
-              title={`${group.items.length} ${group.category} file${
-                group.items.length > 1 ? "s" : ""
-              }`}
+              title={`${group.items.length} 个${
+                mediaCategoryLabels[group.category]
+              }文件`}
               onMouseEnter={() => {
                 // Clear any pending close timeout
                 if (closeTimeoutRef.current) {

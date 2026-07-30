@@ -111,7 +111,7 @@ const DatasetRunTableMultiSelectAction = ({
             disabled={selectedRunIds.length < 1}
             onClick={() => capture("dataset_run:compare_view_click")}
           >
-            Actions ({selectedRunIds.length} selected)
+            操作 ({selectedRunIds.length} 已选)
             <ChevronDown className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -125,7 +125,7 @@ const DatasetRunTableMultiSelectAction = ({
           >
             <DropdownMenuItem>
               <Columns3 className="mr-2 h-4 w-4" />
-              <span>Compare</span>
+              <span>对比</span>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem
@@ -133,7 +133,7 @@ const DatasetRunTableMultiSelectAction = ({
             onClick={() => setIsDeleteDialogOpen(true)}
           >
             <Trash className="mr-2 h-4 w-4" />
-            <span>Delete</span>
+            <span>删除</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -149,11 +149,10 @@ const DatasetRunTableMultiSelectAction = ({
       >
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="mb-4">Please confirm</DialogTitle>
+            <DialogTitle className="mb-4">请确认</DialogTitle>
             <DialogDescription className="p-0">
-              This action cannot be undone and removes all the data associated
-              with {selectedRunIds.length} dataset run
-              {selectedRunIds.length > 1 ? "s" : ""}.
+              此操作无法撤销，将删除与 {selectedRunIds.length} 个数据集运行
+              {selectedRunIds.length > 1 ? "" : ""}相关的所有数据。
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -172,7 +171,7 @@ const DatasetRunTableMultiSelectAction = ({
                 setIsDeleteDialogOpen(false);
               }}
             >
-              Delete Experiments
+              Delete 实验
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -382,8 +381,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "name",
-      header: "Name",
-      id: "name",
+      header: "名称",
       size: 150,
       isFixedPosition: true,
       isPinnedLeft: true,
@@ -417,8 +415,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "description",
-      header: "Description",
-      id: "description",
+      header: "描述",
       size: 300,
       enableHiding: true,
       cell: ({ row }) => {
@@ -429,7 +426,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "countRunItems",
-      header: "Run Items",
+      header: "运行条目",
       id: "countRunItems",
       size: 90,
       enableHiding: true,
@@ -443,7 +440,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "avgLatency",
-      header: "Latency (avg)",
+      header: "延迟（平均）",
       id: "avgLatency",
       size: 120,
       enableHiding: true,
@@ -457,7 +454,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "avgTotalCost",
-      header: "Trace Cost (avg)",
+      header: "追踪成本（平均）",
       id: "avgTotalCost",
       size: 130,
       enableHiding: true,
@@ -471,7 +468,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "totalCost",
-      header: "Trace Cost (sum)",
+      header: "追踪成本（合计）",
       id: "totalCost",
       size: 130,
       enableHiding: true,
@@ -485,7 +482,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "runScores",
-      header: "Run-Level Scores",
+      header: "运行级评分",
       id: "runScores",
       enableHiding: true,
       defaultHidden: true,
@@ -498,7 +495,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "runItemScores",
-      header: "Run Item Scores",
+      header: "运行条目评分",
       id: "runItemScores",
       enableHiding: true,
       defaultHidden: true,
@@ -509,7 +506,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "createdAt",
-      header: "Created",
+      header: "创建时间",
       id: "createdAt",
       size: 150,
       enableHiding: true,
@@ -520,7 +517,7 @@ export function DatasetRunsTable(props: {
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据",
       id: "metadata",
       size: 200,
       enableHiding: true,
@@ -535,7 +532,7 @@ export function DatasetRunsTable(props: {
     {
       id: "actions",
       accessorKey: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       cell: ({ row }) => {
         const id: DatasetRunRowData["id"] = row.getValue("id");
@@ -549,7 +546,7 @@ export function DatasetRunsTable(props: {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>操作</DropdownMenuLabel>
               <DeleteDatasetRunButton
                 projectId={props.projectId}
                 datasetRunId={id}

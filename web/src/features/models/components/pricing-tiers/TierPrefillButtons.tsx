@@ -18,7 +18,7 @@ export function TierPrefillButtons({
 
   return (
     <div className="space-y-2">
-      <FormDescription>Prefill usage types from template:</FormDescription>
+      <FormDescription>从模板预填用量类型：</FormDescription>
       <div className="flex gap-2">
         <Button
           type="button"

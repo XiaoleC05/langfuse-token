@@ -74,12 +74,12 @@ export const DatasetActionButton = forwardRef<
         <IconOnlyButton
           ref={ref}
           icon={<Pen className="h-4 w-4" />}
-          label="Edit"
+          label="编辑"
           aria-label="edit"
           disabledReason={
             hasAccess
               ? undefined
-              : "You don't have permission to edit this dataset."
+              : "您没有编辑此数据集的权限。"
           }
           variant={props.variant}
           size={props.size}
@@ -111,7 +111,7 @@ export const DatasetActionButton = forwardRef<
           ) : (
             <LockIcon className="mr-2 h-4 w-4" aria-hidden="true" />
           )}
-          Edit
+          编辑
         </Button>
       )
     ) : props.mode === "delete" ? (
@@ -119,12 +119,12 @@ export const DatasetActionButton = forwardRef<
         <IconOnlyButton
           ref={ref}
           icon={<Trash className="h-4 w-4" />}
-          label="Delete"
+          label="删除"
           aria-label="delete"
           disabledReason={
             hasAccess
               ? undefined
-              : "You don't have permission to delete this dataset."
+              : "您没有删除此数据集的权限。"
           }
           variant={props.variant}
           size={props.size}
@@ -157,7 +157,7 @@ export const DatasetActionButton = forwardRef<
           ) : (
             <LockIcon className="mr-2 h-4 w-4" aria-hidden="true" />
           )}
-          Delete
+          删除
         </Button>
       )
     ) : (
@@ -174,7 +174,7 @@ export const DatasetActionButton = forwardRef<
         ) : (
           <LockIcon className="mr-1.5 -ml-0.5 h-3 w-3" aria-hidden="true" />
         )}
-        New dataset
+        新建数据集
       </Button>
     );
 
@@ -207,16 +207,16 @@ export const DatasetActionButton = forwardRef<
           }}
           trigger={isIconMode ? undefined : actionButton}
           size="lg"
-          title="Please confirm"
-          description="This action cannot be undone and removes all the data associated with this dataset."
-          confirmLabel="Delete dataset"
+          title="请确认"
+          description="此操作无法撤销，将删除与此数据集相关的所有数据。"
+          confirmLabel="删除数据集"
           confirmDisabled={deleteConfirmationInput !== datasetName}
           loading={deleteMutation.isPending}
           onConfirm={handleDelete}
         >
           <div className="grid w-full gap-1.5">
             <Label htmlFor="delete-confirmation">
-              Type &quot;{datasetName}&quot; to confirm deletion
+              输入 &quot;{datasetName}&quot; 以确认删除
             </Label>
             <Input
               id="delete-confirmation"
@@ -239,7 +239,7 @@ export const DatasetActionButton = forwardRef<
       <DialogContent className="max-h-[90vh] sm:max-w-2xl md:max-w-3xl">
         <DialogHeader>
           <DialogTitle>
-            {props.mode === "create" ? "Create new dataset" : "Update dataset"}
+            {props.mode === "create" ? "创建新数据集" : "更新数据集"}
           </DialogTitle>
         </DialogHeader>
 

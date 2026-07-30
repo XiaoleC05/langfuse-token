@@ -239,7 +239,7 @@ export default function SessionsTable({
     const scoresBoolean = filterOptions.data?.score_booleans ?? undefined;
 
     return {
-      bookmarked: ["Bookmarked", "Not bookmarked"],
+      bookmarked: ["已收藏", "未收藏"],
       environment: environmentOptions,
       userIds:
         filterOptions.data?.userIds.map((u) => ({
@@ -343,11 +343,11 @@ export default function SessionsTable({
   const addToQueueMutation = api.annotationQueueItems.createMany.useMutation({
     onSuccess: (data) => {
       showSuccessToast({
-        title: "Sessions added to queue",
-        description: `Selected sessions will be added to queue "${data.queueName}". This may take a minute.`,
+        title: "会话已添加到队列",
+        description: `所选会话将添加到队列"${data.queueName}"。这可能需要一分钟。`,
         link: {
           href: `/project/${projectId}/annotation-queues/${data.queueId}`,
-          text: `View queue "${data.queueName}"`,
+          text: `查看队列"${data.queueName}"`,
         },
       });
     },
@@ -445,9 +445,9 @@ export default function SessionsTable({
     {
       id: ActionId.SessionAddToAnnotationQueue,
       type: BatchActionType.Create,
-      label: "Add to Annotation Queue",
-      description: "Add selected sessions to an annotation queue.",
-      targetLabel: "Annotation Queue",
+      label: "添加到标注队列",
+      description: "将选中的会话添加到标注队列。",
+      targetLabel: "标注队列",
       execute: handleAddToAnnotationQueue,
       accessCheck: {
         scope: "annotationQueues:CUD",
@@ -594,7 +594,7 @@ export default function SessionsTable({
       header: "Traces",
       size: 100,
       headerTooltip: {
-        description: "The number of traces in the session.",
+        description: "会话中的追踪数量。",
       },
       enableHiding: true,
       enableSorting: true,

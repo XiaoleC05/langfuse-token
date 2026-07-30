@@ -18,7 +18,7 @@ export default async function handler(
         "Readiness check failed: SIGTERM / SIGINT received, shutting down.",
       );
       return res.status(500).json({
-        status: "SIGTERM / SIGINT received, shutting down",
+        status: "收到 SIGTERM / SIGINT,正在关闭",
         version: VERSION.replace("v", ""),
       });
     }

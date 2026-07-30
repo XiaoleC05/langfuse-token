@@ -65,7 +65,7 @@ export const ConfigurationDropdowns: React.FC = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 gap-2">
-              {getResponsiveContent("Tools", Wrench)}
+              {getResponsiveContent("工具", Wrench)}
               {toolsCount > 0 && (
                 <Badge variant="secondary" className="h-4 text-xs">
                   {toolsCount}
@@ -80,9 +80,9 @@ export const ConfigurationDropdowns: React.FC = () => {
             style={toolsPopoverWidth ? { width: toolsPopoverWidth } : undefined}
           >
             <div className="mb-3">
-              <h4 className="mb-1 text-sm font-bold">Tools</h4>
+              <h4 className="mb-1 text-sm font-bold">工具</h4>
               <p className="text-muted-foreground text-xs">
-                Configure tools for your model to use.
+                为模型配置工具。
               </p>
             </div>
             {toolsCount > 0 ? (
@@ -92,7 +92,7 @@ export const ConfigurationDropdowns: React.FC = () => {
             ) : (
               <div className="mb-3">
                 <p className="text-muted-foreground text-xs">
-                  No tools attached.
+                  未添加工具。
                 </p>
               </div>
             )}
@@ -106,7 +106,7 @@ export const ConfigurationDropdowns: React.FC = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 gap-2">
-              {getResponsiveContent("Schema", Braces)}
+              {getResponsiveContent("结构", Braces)}
               {hasSchema > 0 && (
                 <Badge variant="secondary" className="h-4 text-xs">
                   {hasSchema}
@@ -117,9 +117,9 @@ export const ConfigurationDropdowns: React.FC = () => {
           </PopoverTrigger>
           <PopoverContent className="w-80 p-4" align="start">
             <div className="mb-3">
-              <h4 className="mb-1 text-sm font-bold">Structured Output</h4>
+              <h4 className="mb-1 text-sm font-bold">结构化输出</h4>
               <p className="text-muted-foreground text-xs">
-                Configure JSON schema for structured output.
+                配置结构化输出的 JSON 结构。
               </p>
             </div>
             {structuredOutputSchema ? (
@@ -129,7 +129,7 @@ export const ConfigurationDropdowns: React.FC = () => {
             ) : (
               <div className="mb-3">
                 <p className="text-muted-foreground text-xs">
-                  No schema provided.
+                  未提供结构。
                 </p>
               </div>
             )}
@@ -143,7 +143,7 @@ export const ConfigurationDropdowns: React.FC = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 gap-2">
-              {getResponsiveContent("Variables", Variable, "Vars")}
+              {getResponsiveContent("变量", Variable, "变量")}
               {variablesCount > 0 && (
                 <Badge variant="secondary" className="h-4 text-xs">
                   {variablesCount}
@@ -158,7 +158,7 @@ export const ConfigurationDropdowns: React.FC = () => {
                 Variables & Message Placeholders
               </h4>
               <p className="text-muted-foreground text-xs">
-                Configure variables and message placeholders for your prompts.
+                配置提示词的变量和消息占位符。
               </p>
             </div>
             {variablesCount > 0 ? (
@@ -168,12 +168,12 @@ export const ConfigurationDropdowns: React.FC = () => {
               >
                 <div className="space-y-4">
                   <div>
-                    <h5 className="mb-2 text-xs font-bold">Variables</h5>
+                    <h5 className="mb-2 text-xs font-bold">变量</h5>
                     <Variables />
                   </div>
                   <div>
                     <h5 className="mb-2 text-xs font-bold">
-                      Message Placeholders
+                      消息占位符
                     </h5>
                     <MessagePlaceholders />
                   </div>
@@ -182,7 +182,7 @@ export const ConfigurationDropdowns: React.FC = () => {
             ) : (
               <div className="mb-3">
                 <p className="text-muted-foreground text-xs">
-                  No variables or message placeholders defined.
+                  未定义变量或消息占位符。
                 </p>
               </div>
             )}

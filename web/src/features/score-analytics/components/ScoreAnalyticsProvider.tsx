@@ -243,7 +243,7 @@ export function useScoreAnalytics(): ScoreAnalyticsContextValue {
 
   if (!context) {
     throw new Error(
-      "useScoreAnalytics must be used within a ScoreAnalyticsProvider",
+      "useScoreAnalytics 必须在 ScoreAnalyticsProvider 内使用",
     );
   }
 

@@ -99,10 +99,10 @@ const createFormSchema = (params: {
       secretKey: z.string().optional(),
       provider: z
         .string()
-        .min(1, "Please add a provider name that identifies this connection.")
+        .min(1, "请添加标识此连接的提供商名称。")
         .regex(
           /^[^:]+$/,
-          "Provider name cannot contain colons. Use a format like 'OpenRouter_Mistral' instead.",
+          "提供商名称不能包含冒号。请使用类似 'OpenRouter_Mistral' 的格式。",
         ),
       adapter: z.enum(LLMAdapter),
       baseURL: z.union([z.literal(""), z.url()]),
@@ -141,7 +141,7 @@ const createFormSchema = (params: {
       if (!hasRegion) {
         ctx.addIssue({
           code: "custom",
-          message: "AWS region is required.",
+          message: "AWS 区域为必填项。",
           path: ["awsRegion"],
         });
       }
@@ -158,7 +158,7 @@ const createFormSchema = (params: {
         if (!hasAccessKeyId) {
           ctx.addIssue({
             code: "custom",
-            message: "AWS Access Key ID is required.",
+            message: "AWS 访问密钥 ID 为必填项。",
             path: ["awsAccessKeyId"],
           });
         }
@@ -166,7 +166,7 @@ const createFormSchema = (params: {
         if (!hasSecretAccessKey) {
           ctx.addIssue({
             code: "custom",
-            message: "AWS Secret Access Key is required.",
+            message: "AWS 秘密访问密钥为必填项。",
             path: ["awsSecretAccessKey"],
           });
         }
@@ -180,7 +180,7 @@ const createFormSchema = (params: {
       if (!hasBedrockApiKey) {
         ctx.addIssue({
           code: "custom",
-          message: "Bedrock API key is required.",
+          message: "Bedrock API 密钥为必填项。",
           path: ["bedrockApiKey"],
         });
       }
@@ -193,7 +193,7 @@ const createFormSchema = (params: {
         return true;
       },
       {
-        message: "At least one custom model is required for this adapter.",
+        message: "此适配器至少需要一个自定义模型。",
         path: ["customModels"],
       },
     )
@@ -207,7 +207,7 @@ const createFormSchema = (params: {
       },
       {
         message:
-          "At least one custom model name is required when default models are disabled.",
+          "禁用默认模型时，至少需要一个自定义模型名称。",
         path: ["withDefaultModels"],
       },
     )
@@ -224,8 +224,8 @@ const createFormSchema = (params: {
       },
       {
         message: isLangfuseCloud
-          ? "GCP service account JSON key is required for Vertex AI"
-          : "GCP service account JSON key or Application Default Credentials is required.",
+          ? "Vertex AI 需要 GCP 服务账号 JSON 密钥。"
+          : "需要 GCP 服务账号 JSON 密钥或应用程序默认凭证。",
         path: ["secretKey"],
       },
     )
@@ -236,7 +236,7 @@ const createFormSchema = (params: {
         params.mode === "update" ||
         data.secretKey,
       {
-        message: "Secret key is required.",
+        message: "密钥为必填项。",
         path: ["secretKey"],
       },
     )
@@ -246,7 +246,7 @@ const createFormSchema = (params: {
         return data.baseURL && data.baseURL.trim() !== "";
       },
       {
-        message: "API Base URL is required for Azure connections.",
+        message: "Azure 连接需要 API 基础 URL。",
         path: ["baseURL"],
       },
     );
@@ -411,22 +411,20 @@ export function CreateLLMApiKeyForm({
       name="customModels"
       render={() => (
         <FormItem>
-          <FormLabel>Custom models</FormLabel>
+          <FormLabel>自定义模型</FormLabel>
           <FormDescription>
-            Custom model names accepted by given endpoint.
+            给定端点接受的自定义模型名称。
           </FormDescription>
           {currentAdapter === LLMAdapter.Azure && (
             <FormDescription className="text-dark-yellow">
-              For Azure, the model name should be the same as the deployment
-              name in Azure. For evals, choose a model with function calling
-              capabilities.
+              对于 Azure，模型名称应与 Azure 中的部署名称相同。进行评估时，请选择具有函数调用能力的模型。
             </FormDescription>
           )}
 
           {currentAdapter === LLMAdapter.Bedrock && (
             <FormDescription className="text-dark-yellow">
               {
-                "For Bedrock, the model name is the Bedrock Inference Profile ID, e.g. 'eu.anthropic.claude-sonnet-4-6'"
+                "对于 Bedrock，模型名称为 Bedrock 推理配置文件 ID，例如 'eu.anthropic.claude-sonnet-4-6'"
               }
             </FormDescription>
           )}
@@ -435,7 +433,7 @@ export function CreateLLMApiKeyForm({
             <span key={customModel.id} className="flex flex-row space-x-2">
               <Input
                 {...form.register(`customModels.${index}.value`)}
-                placeholder={`Custom model name ${index + 1}`}
+                placeholder={`自定义模型名称 ${index + 1}`}
               />
               <Button
                 type="button"
@@ -453,7 +451,7 @@ export function CreateLLMApiKeyForm({
             className="w-full"
           >
             <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-            Add custom model name
+            添加自定义模型名称
           </Button>
         </FormItem>
       )}
@@ -466,18 +464,17 @@ export function CreateLLMApiKeyForm({
       name="extraHeaders"
       render={() => (
         <FormItem>
-          <FormLabel>Extra Headers</FormLabel>
+          <FormLabel>额外请求头</FormLabel>
           <FormDescription>
-            Optional additional HTTP headers to include with requests towards
-            LLM provider. All header values stored encrypted{" "}
-            {isLangfuseCloud ? "on our servers" : "in your database"}.
+            可选的额外 HTTP 请求头，随请求发送至 LLM 提供商。所有请求头值已加密存储{" "}
+            {isLangfuseCloud ? "在我们的服务器上" : "在您的数据库中"}。
           </FormDescription>
 
           {headerFields.map((header, index) => (
             <div key={header.id} className="flex flex-row space-x-2">
               <Input
                 {...form.register(`extraHeaders.${index}.key`)}
-                placeholder="Header name"
+                placeholder="请求头名称"
               />
               <Input
                 {...form.register(`extraHeaders.${index}.value`)}
@@ -486,7 +483,7 @@ export function CreateLLMApiKeyForm({
                   existingKey?.extraHeaderKeys &&
                   existingKey.extraHeaderKeys[index]
                     ? "***"
-                    : "Header value"
+                    : "请求头值"
                 }
               />
               <Button
@@ -506,7 +503,7 @@ export function CreateLLMApiKeyForm({
             className="w-full"
           >
             <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-            Add Header
+            添加请求头
           </Button>
         </FormItem>
       )}
@@ -530,7 +527,7 @@ export function CreateLLMApiKeyForm({
       ) {
         form.setError("provider", {
           type: "manual",
-          message: "There already exists an API key for this provider.",
+          message: "此提供商已存在 API 密钥。",
         });
         return;
       }
@@ -647,7 +644,7 @@ export function CreateLLMApiKeyForm({
         message:
           error instanceof Error
             ? error.message
-            : "Could not verify the API key.",
+            : "无法验证 API 密钥。",
       });
 
       return;
@@ -680,9 +677,9 @@ export function CreateLLMApiKeyForm({
             name="adapter"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>LLM adapter</FormLabel>
+                <FormLabel>LLM 适配器</FormLabel>
                 <FormDescription>
-                  Schema that is accepted at that provider endpoint.
+                  该提供商端点接受的架构。
                 </FormDescription>
                 <Select
                   open={adapterSelectOpen}
@@ -711,7 +708,7 @@ export function CreateLLMApiKeyForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a LLM provider" />
+                      <SelectValue placeholder="选择 LLM 提供商" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -722,7 +719,7 @@ export function CreateLLMApiKeyForm({
                     ))}
                     {mode === "create" && (
                       <SelectItem value={OTHER_MODEL_OPTION}>
-                        other model
+                        其他模型
                       </SelectItem>
                     )}
                   </SelectContent>
@@ -735,12 +732,10 @@ export function CreateLLMApiKeyForm({
           {showOtherModelInfo && (
             <div className="bg-muted/40 text-muted-foreground space-y-2 rounded-md border p-4 text-sm">
               <p>
-                You can use any model provider as LLM connection that supports
-                one of the adapters in the list. Many providers support the
-                OpenAI API schema, such as Z.ai, OpenRouter, Qwen, Mistral,
-                Hugging Face, and more. Just replace the API Base URL with the
-                endpoint for the model, and add your provider&apos;s custom
-                model names and api key.
+                您可以将任何支持列表中适配器的模型提供商用作 LLM 连接。许多提供商支持
+                OpenAI API 架构，例如 Z.ai、OpenRouter、Qwen、Mistral、
+                Hugging Face 等。只需将 API 基础 URL 替换为该模型的
+                端点，并添加您提供商的自定义模型名称和 API 密钥。
               </p>
               <p>
                 <a
@@ -749,7 +744,7 @@ export function CreateLLMApiKeyForm({
                   rel="noopener noreferrer"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  Learn more about supported providers
+                  了解有关支持的提供商的更多信息
                 </a>
               </p>
             </div>
@@ -763,10 +758,9 @@ export function CreateLLMApiKeyForm({
                 name="provider"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Provider name</FormLabel>
+                    <FormLabel>提供商名称</FormLabel>
                     <FormDescription>
-                      Key to identify the connection within Langfuse. Cannot
-                      contain colons.
+                      用于在 Langfuse 中标识连接的键名。不能包含冒号。
                     </FormDescription>
                     <FormControl>
                       <Input
@@ -788,9 +782,9 @@ export function CreateLLMApiKeyForm({
                     name="authMethod"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Authentication Method</FormLabel>
+                        <FormLabel>认证方式</FormLabel>
                         <FormDescription>
-                          Select how Langfuse should authenticate to Bedrock.
+                          选择 Langfuse 如何向 Bedrock 进行认证。
                         </FormDescription>
                         <FormControl>
                           <Tabs
@@ -810,13 +804,13 @@ export function CreateLLMApiKeyForm({
                                 value={AuthMethod.AccessKeys}
                                 className="text-xs"
                               >
-                                AWS access keys
+                                AWS 访问密钥
                               </TabsTrigger>
                               <TabsTrigger
                                 value={AuthMethod.ApiKey}
                                 className="text-xs"
                               >
-                                API key
+                                API 密钥
                               </TabsTrigger>
                             </TabsList>
                           </Tabs>
@@ -830,13 +824,13 @@ export function CreateLLMApiKeyForm({
                     name="awsRegion"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>AWS Region</FormLabel>
+                        <FormLabel>AWS 区域</FormLabel>
                         <FormDescription>
                           {mode === "update" &&
                             existingKey?.config &&
                             (existingKey.config as BedrockConfig).region && (
                               <span className="text-sm">
-                                Current:{" "}
+                                当前：{" "}
                                 <code className="bg-muted rounded px-1 py-0.5">
                                   {(existingKey.config as BedrockConfig).region}
                                 </code>
@@ -850,7 +844,7 @@ export function CreateLLMApiKeyForm({
                               mode === "update" && existingKey?.config
                                 ? ((existingKey.config as BedrockConfig)
                                     .region ?? "")
-                                : "e.g., us-east-1"
+                                : "例如：us-east-1"
                             }
                             data-1p-ignore
                           />
@@ -865,7 +859,7 @@ export function CreateLLMApiKeyForm({
                       name="bedrockApiKey"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Bedrock API Key</FormLabel>
+                          <FormLabel>Bedrock API 密钥</FormLabel>
                           <FormDescription>
                             {mode === "update" ? (
                               <>
@@ -876,9 +870,9 @@ export function CreateLLMApiKeyForm({
                                   rel="noopener noreferrer"
                                   className="text-blue-600 underline hover:text-blue-800"
                                 >
-                                  Amazon Bedrock API keys
+                                  Amazon Bedrock API 密钥
                                 </a>{" "}
-                                to replace the current authentication.
+                                以替换当前认证方式。
                               </>
                             ) : (
                               <>
@@ -889,9 +883,9 @@ export function CreateLLMApiKeyForm({
                                   rel="noopener noreferrer"
                                   className="text-blue-600 underline hover:text-blue-800"
                                 >
-                                  Amazon Bedrock API keys
+                                  Amazon Bedrock API 密钥
                                 </a>
-                                .
+                                。
                               </>
                             )}
                           </FormDescription>
@@ -903,8 +897,8 @@ export function CreateLLMApiKeyForm({
                                 mode === "update"
                                   ? isKeepingCurrentBedrockAuthMethod &&
                                     existingKey?.displaySecretKey
-                                    ? `${existingKey.displaySecretKey} (preserved unless replaced)`
-                                    : "Enter Bedrock API key"
+                                    ? `${existingKey.displaySecretKey}（如不替换则保留）`
+                                    : "输入 Bedrock API 密钥"
                                   : undefined
                               }
                               autoComplete="new-password"
@@ -924,22 +918,22 @@ export function CreateLLMApiKeyForm({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              AWS Access Key ID
+                              AWS 访问密钥 ID
                               {!isLangfuseCloud && (
                                 <span className="text-muted-foreground font-normal">
                                   {" "}
-                                  (optional)
+                                  （可选）
                                 </span>
                               )}
                             </FormLabel>
                             <FormDescription>
                               {mode === "update"
                                 ? isKeepingCurrentBedrockAuthMethod
-                                  ? "Leave empty to keep existing credentials. To update, provide both Access Key ID and Secret Access Key."
-                                  : "Provide both Access Key ID and Secret Access Key."
+                                  ? "留空以保留现有凭证。要更新，请同时提供访问密钥 ID 和秘密访问密钥。"
+                                  : "请同时提供访问密钥 ID 和秘密访问密钥。"
                                 : isLangfuseCloud
-                                  ? "These should be long-lived credentials for an AWS user with `bedrock:InvokeModel` permission."
-                                  : "For self-hosted deployments, AWS credentials are optional. When omitted, authentication will use the AWS SDK default credential provider chain."}
+                                  ? "这些应该是具有 `bedrock:InvokeModel` 权限的 AWS 用户的长期凭证。"
+                                  : "对于自托管部署，AWS 凭证是可选的。不提供时，认证将使用 AWS SDK 默认凭证提供程序链。"}
                             </FormDescription>
                             <FormControl>
                               <Input
@@ -947,10 +941,10 @@ export function CreateLLMApiKeyForm({
                                 placeholder={
                                   mode === "update"
                                     ? isUsingDefaultAwsCredentialsForCurrentAuthMethod
-                                      ? "Using default AWS credentials"
+                                      ? "使用默认 AWS 凭证"
                                       : isKeepingCurrentBedrockAuthMethod
-                                        ? "•••••••• (existing credentials preserved if empty)"
-                                        : "Enter AWS access key ID"
+                                        ? "••••••••（现有凭证留空则保留）"
+                                        : "输入 AWS 访问密钥 ID"
                                     : undefined
                                 }
                                 autoComplete="off"
@@ -967,11 +961,11 @@ export function CreateLLMApiKeyForm({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              AWS Secret Access Key
+                              AWS 秘密访问密钥
                               {!isLangfuseCloud && (
                                 <span className="text-muted-foreground font-normal">
                                   {" "}
-                                  (optional)
+                                  （可选）
                                 </span>
                               )}
                             </FormLabel>
@@ -982,11 +976,11 @@ export function CreateLLMApiKeyForm({
                                 placeholder={
                                   mode === "update"
                                     ? isUsingDefaultAwsCredentialsForCurrentAuthMethod
-                                      ? "Using default AWS credentials"
+                                      ? "使用默认 AWS 凭证"
                                       : isKeepingCurrentBedrockAuthMethod &&
                                           existingKey?.displaySecretKey
-                                        ? `${existingKey.displaySecretKey} (preserved if empty)`
-                                        : "Enter AWS secret access key"
+                                        ? `${existingKey.displaySecretKey}（留空则保留）`
+                                        : "输入 AWS 秘密访问密钥"
                                     : undefined
                                 }
                                 autoComplete="new-password"
@@ -1003,18 +997,17 @@ export function CreateLLMApiKeyForm({
                     currentAuthMethod === AuthMethod.AccessKeys && (
                       <div className="text-muted-foreground space-y-2 border-l-2 border-blue-200 pl-4 text-sm">
                         <p>
-                          <strong>Default credential provider chain:</strong>{" "}
-                          When AWS credentials are omitted, the system will
-                          automatically check for credentials in this order:
+                          <strong>默认凭证提供程序链：</strong>{" "}
+                          当省略 AWS 凭证时，系统将按以下顺序自动检查凭证：
                         </p>
                         <ul className="ml-2 list-inside list-disc space-y-1">
                           <li>
-                            Environment variables (AWS_ACCESS_KEY_ID,
+                            环境变量 (AWS_ACCESS_KEY_ID,
                             AWS_SECRET_ACCESS_KEY)
                           </li>
-                          <li>AWS credentials file (~/.aws/credentials)</li>
-                          <li>IAM roles for EC2 instances</li>
-                          <li>IAM roles for ECS tasks</li>
+                          <li>AWS 凭证文件 (~/.aws/credentials)</li>
+                          <li>EC2 实例的 IAM 角色</li>
+                          <li>ECS 任务的 IAM 角色</li>
                         </ul>
                         <p>
                           <a
@@ -1023,7 +1016,7 @@ export function CreateLLMApiKeyForm({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline hover:text-blue-800"
                           >
-                            Learn more about AWS credential providers →
+                            了解有关 AWS 凭证提供程序的更多信息 →
                           </a>
                         </p>
                       </div>
@@ -1037,12 +1030,10 @@ export function CreateLLMApiKeyForm({
                       <span className="flex">
                         <span className="flex-1">
                           <FormLabel>
-                            Use Application Default Credentials (ADC)
+                            使用应用程序默认凭证（ADC）
                           </FormLabel>
                           <FormDescription>
-                            When enabled, authentication uses the GCP
-                            environment&apos;s default credentials instead of a
-                            service account key.
+                            启用后，认证将使用 GCP 环境的默认凭证而非服务账号密钥。
                           </FormDescription>
                         </span>
                         <FormControl>
@@ -1076,16 +1067,15 @@ export function CreateLLMApiKeyForm({
                       name="secretKey"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>GCP Service Account Key (JSON)</FormLabel>
+                          <FormLabel>GCP 服务账号密钥（JSON）</FormLabel>
                           <FormDescription>
                             {isLangfuseCloud
-                              ? "Your API keys are stored encrypted on our servers."
-                              : "Your API keys are stored encrypted in your database."}
+                              ? "您的 API 密钥已加密存储在我们的服务器上。"
+                              : "您的 API 密钥已加密存储在您的数据库中。"}
                           </FormDescription>
                           <FormDescription className="text-dark-yellow">
-                            Paste your GCP service account JSON key here. The
-                            service account must have `Vertex AI User` role
-                            permissions. Example JSON:
+                            在此粘贴您的 GCP 服务账号 JSON 密钥。服务账号必须具有
+                            `Vertex AI User` 角色权限。示例 JSON：
                             <pre className="text-xs">
                               {`{
   "type": "service_account",
@@ -1127,10 +1117,9 @@ export function CreateLLMApiKeyForm({
                       <div className="text-muted-foreground space-y-2 border-l-2 border-blue-200 pl-4 text-sm">
                         <p>
                           <strong>
-                            Application Default Credentials (ADC):
+                            应用程序默认凭证（ADC）：
                           </strong>{" "}
-                          When enabled, the system will automatically check for
-                          credentials in this order:
+                          启用后，系统将按以下顺序自动检查凭证：
                         </p>
                         <ul className="ml-2 list-inside list-disc space-y-1">
                           <li>
@@ -1154,7 +1143,7 @@ export function CreateLLMApiKeyForm({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline hover:text-blue-800"
                           >
-                            Learn more about GCP Application Default Credentials
+                            了解有关 GCP 应用程序默认凭证的更多信息
                             →
                           </a>
                         </p>
@@ -1167,11 +1156,11 @@ export function CreateLLMApiKeyForm({
                   name="secretKey"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>API Key</FormLabel>
+                      <FormLabel>API 密钥</FormLabel>
                       <FormDescription>
                         {isLangfuseCloud
-                          ? "Your API keys are stored encrypted on our servers."
-                          : "Your API keys are stored encrypted in your database."}
+                          ? "您的 API 密钥已加密存储在我们的服务器上。"
+                          : "您的 API 密钥已加密存储在您的数据库中。"}
                       </FormDescription>
                       <FormControl>
                         <Input
@@ -1199,10 +1188,9 @@ export function CreateLLMApiKeyForm({
                   name="baseURL"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>API Base URL</FormLabel>
+                      <FormLabel>API 基础 URL</FormLabel>
                       <FormDescription>
-                        Please add the base URL in the following format (or
-                        compatible API):
+                        请按以下格式（或兼容 API）添加基础 URL：
                         https://&#123;instanceName&#125;.openai.azure.com/openai/deployments
                       </FormDescription>
                       <FormControl>
@@ -1237,8 +1225,8 @@ export function CreateLLMApiKeyForm({
                   >
                     <span>
                       {showAdvancedSettings
-                        ? "Hide advanced settings"
-                        : "Show advanced settings"}
+                        ? "隐藏高级设置"
+                        : "显示高级设置"}
                     </span>
                     <ChevronDown
                       className={`ml-1 h-4 w-4 transition-transform ${showAdvancedSettings ? "rotate-180" : "rotate-0"}`}
@@ -1255,19 +1243,18 @@ export function CreateLLMApiKeyForm({
                     name="baseURL"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>API Base URL</FormLabel>
+                        <FormLabel>API 基础 URL</FormLabel>
                         <FormDescription>
-                          Leave blank to use the default base URL for the given
-                          LLM adapter.{" "}
+                          留空则使用指定 LLM 适配器的默认基础 URL。{" "}
                           {currentAdapter === LLMAdapter.OpenAI && (
                             <span>
-                              OpenAI default: https://api.openai.com/v1
+                              OpenAI 默认值：https://api.openai.com/v1
                             </span>
                           )}
                           {currentAdapter === LLMAdapter.Anthropic && (
                             <span>
-                              Anthropic default: https://api.anthropic.com
-                              (excluding /v1/messages)
+                              Anthropic 默认值：https://api.anthropic.com
+                              （不含 /v1/messages）
                             </span>
                           )}
                         </FormDescription>
@@ -1288,12 +1275,11 @@ export function CreateLLMApiKeyForm({
                       name="vertexAILocation"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Location (Optional)</FormLabel>
+                          <FormLabel>位置（可选）</FormLabel>
                           <FormDescription>
-                            Google Cloud region (e.g., global, us-central1,
-                            europe-west4). Defaults to{" "}
-                            <span className="font-bold">global</span> as
-                            required for Gemini 3 models.
+                            Google Cloud 区域（例如：global、us-central1、
+                            europe-west4）。Gemini 3 模型要求默认使用{" "}
+                            <span className="font-bold">global</span>。
                           </FormDescription>
                           <FormControl>
                             <Input {...field} placeholder="global" />
@@ -1313,10 +1299,9 @@ export function CreateLLMApiKeyForm({
                         <FormItem>
                           <span className="flex">
                             <span className="flex-1">
-                              <FormLabel>Use Responses API</FormLabel>
+                              <FormLabel>使用 Responses API</FormLabel>
                               <FormDescription>
-                                Route OpenAI requests through the Responses API
-                                instead of Chat Completions.
+                                通过 Responses API 而非 Chat Completions 路由 OpenAI 请求。
                               </FormDescription>
                             </span>
 
@@ -1347,10 +1332,9 @@ export function CreateLLMApiKeyForm({
                       <FormItem>
                         <span className="flex">
                           <span className="flex-1">
-                            <FormLabel>Enable default models</FormLabel>
+                            <FormLabel>启用默认模型</FormLabel>
                             <FormDescription>
-                              Default models for the selected adapter will be
-                              available in Langfuse features.
+                              所选适配器的默认模型将在 Langfuse 功能中可用。
                             </FormDescription>
                           </span>
 
@@ -1384,7 +1368,7 @@ export function CreateLLMApiKeyForm({
                 className="w-full"
                 onClick={() => setAdapterSelectOpen(true)}
               >
-                Select an adapter
+                选择适配器
               </Button>
             ) : (
               <Button
@@ -1392,7 +1376,7 @@ export function CreateLLMApiKeyForm({
                 className="w-full"
                 loading={form.formState.isSubmitting}
               >
-                {mode === "create" ? "Create connection" : "Save changes"}
+                {mode === "create" ? "创建连接" : "保存更改"}
               </Button>
             )}
             {form.formState.errors.root && (

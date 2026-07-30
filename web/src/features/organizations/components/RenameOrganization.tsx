@@ -102,7 +102,7 @@ export default function RenameOrganization() {
                         disabled={!hasAccess}
                       />
                       {!hasAccess && (
-                        <span title="No access">
+                        <span title="无访问权限">
                           <LockIcon className="text-muted absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform" />
                         </span>
                       )}
@@ -120,7 +120,7 @@ export default function RenameOrganization() {
                 disabled={form.getValues().name === "" || !hasAccess}
                 className="mt-4"
               >
-                Save
+                保存
               </Button>
             )}
           </form>

@@ -48,14 +48,14 @@ export default function QueueItems() {
         itemType: "ANNOTATION_QUEUE",
         breadcrumb: [
           {
-            name: "Annotation Queues",
+            name: "标注队列",
             href: `/project/${projectId}/annotation-queues`,
           },
         ],
         actionButtonsRight: !hasWriteAccess ? (
           <Button disabled>
             <Lock className="mr-1 h-4 w-4" />
-            <span className="text-sm">Process queue</span>
+            <span className="text-sm">处理队列</span>
           </Button>
         ) : (
           <Button asChild>
@@ -63,7 +63,7 @@ export default function QueueItems() {
               href={`/project/${projectId}/annotation-queues/${queueId}/items`}
             >
               <ClipboardPen className="mr-1 h-4 w-4" />
-              <span className="text-sm">Process queue</span>
+              <span className="text-sm">处理队列</span>
             </Link>
           </Button>
         ),
@@ -74,12 +74,12 @@ export default function QueueItems() {
           <AnnotationQueueItemsTable projectId={projectId} queueId={queueId} />
         </div>
         <SidePanel
-          mobileTitle={queue.data?.name ?? "Queue details"}
+          mobileTitle={queue.data?.name ?? "队列详情"}
           id="queue-details"
         >
           <SidePanelHeader>
             <SidePanelTitle>
-              {queue.data?.name ?? "Queue details"}
+              {queue.data?.name ?? "队列详情"}
             </SidePanelTitle>
             <CreateOrEditAnnotationQueueButton
               projectId={projectId}
@@ -97,7 +97,7 @@ export default function QueueItems() {
                   </CardDescription>
                 )}
                 <div className="flex flex-col gap-2">
-                  <SubHeaderLabel title="Score Configs" />
+                  <SubHeaderLabel title="评分配置" />
                   <div className="flex flex-wrap gap-2">
                     {queue.data?.scoreConfigs.map((scoreConfig) => (
                       <Badge key={scoreConfig.id} variant="outline">

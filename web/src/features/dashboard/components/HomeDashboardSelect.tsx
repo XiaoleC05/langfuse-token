@@ -48,7 +48,7 @@ export function HomeDashboardSelect({
       value: d.id,
       label: d.name,
       ...(d.owner === "LANGFUSE" ? { icon: <LangfuseIcon size={14} /> } : {}),
-      ...(d.id === defaultDashboardId ? { badge: "Default" } : {}),
+      ...(d.id === defaultDashboardId ? { badge: "默认" } : {}),
     });
     const curated = items.filter((d) => d.owner === "LANGFUSE");
     const project = items.filter((d) => d.owner === "PROJECT");
@@ -56,13 +56,13 @@ export function HomeDashboardSelect({
       ...(project.length > 0
         ? [
             {
-              heading: "This project",
+              heading: "此项目",
               options: project.map(toOption),
             },
           ]
         : []),
       {
-        heading: "Langfuse-maintained",
+        heading: "Langfuse 官方维护",
         options: curated.map(toOption),
       },
     ];
@@ -73,7 +73,7 @@ export function HomeDashboardSelect({
       <Button
         variant="ghost"
         disabled
-        title="The dashboard shown on this project's home page"
+        title="此项目首页显示的仪表盘"
         className="text-muted-foreground my-0"
       >
         <LayoutDashboard className="mr-1 h-4 w-4" />
@@ -91,8 +91,8 @@ export function HomeDashboardSelect({
         onValueChange(id);
       }}
       placeholder={currentDashboardName}
-      searchPlaceholder="Search dashboards..."
-      emptyText="No dashboards found"
+      searchPlaceholder="搜索仪表盘..."
+      emptyText="未找到仪表盘"
       className="my-0 w-auto max-w-56"
       name="home-dashboard"
     />

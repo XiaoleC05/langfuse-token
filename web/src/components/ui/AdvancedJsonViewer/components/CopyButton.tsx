@@ -55,8 +55,8 @@ export function CopyButton({ value, theme, className }: CopyButtonProps) {
         marginLeft: "4px",
         opacity: 0.3,
       }}
-      aria-label={copied ? "Copied!" : "Copy value"}
-      title={copied ? "Copied!" : "Copy value"}
+      aria-label={copied ? "已复制!" : "复制值"}
+      title={copied ? "已复制!" : "复制值"}
     >
       <Icon size={9} />
     </button>

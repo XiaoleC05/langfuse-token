@@ -134,7 +134,7 @@ export function CommentDrawerButton({
                 : "text-muted-foreground h-4 w-4"
           }
         />
-        {isMenu ? <span className="text-sm">Add comment</span> : null}
+        {isMenu ? <span className="text-sm">添加评论</span> : null}
       </Button>
     );
 
@@ -189,7 +189,7 @@ export function CommentDrawerButton({
                 isMenu ? "h-4 w-4" : size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4"
               }
             />
-            <span className={isMenu ? "text-sm" : undefined}>Add comment</span>
+            <span className={isMenu ? "text-sm" : undefined}>添加评论</span>
             {!!count ? (
               <span className="bg-primary/50 text-primary-foreground flex h-3.5 w-fit items-center justify-center rounded-sm px-1 text-xs shadow-xs">
                 {count > 99 ? "99+" : count}
@@ -215,7 +215,7 @@ export function CommentDrawerButton({
         >
           <DrawerHeader className="bg-background sr-only shrink-0 rounded-sm">
             <DrawerTitle>
-              <Header title="Comments"></Header>
+              <Header title="评论"></Header>
             </DrawerTitle>
           </DrawerHeader>
           <div

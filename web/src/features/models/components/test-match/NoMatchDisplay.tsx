@@ -18,21 +18,20 @@ export function NoMatchDisplay({ modelName }: NoMatchDisplayProps) {
       <CardHeader>
         <CardTitle className="text-destructive flex items-center gap-2 text-base">
           <AlertCircle className="h-5 w-5" />
-          No Match Found
+          未找到匹配
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm">
-          No model configuration matches &quot;{modelName}&quot; in this
-          project.
+          此项目中没有模型配置与「{modelName}」匹配。
         </p>
 
         <div>
-          <p className="mb-2 text-sm font-bold">Suggestions:</p>
+          <p className="mb-2 text-sm font-bold">建议：</p>
           <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
-            <li>Check your model name spelling</li>
-            <li>View existing models and their match patterns</li>
-            <li>Create a new model definition</li>
+            <li>检查您的模型名称拼写</li>
+            <li>查看现有模型及其匹配模式</li>
+            <li>创建新的模型定义</li>
           </ul>
         </div>
       </CardContent>

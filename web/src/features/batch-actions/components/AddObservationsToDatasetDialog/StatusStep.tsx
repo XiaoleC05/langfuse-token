@@ -81,32 +81,31 @@ export function StatusStep({
           )}
 
           <h2 className="mb-2 text-2xl font-bold">
-            {!isComplete && "Adding Observations to Dataset"}
-            {isSuccess && "Successfully Added!"}
-            {isComplete && !isSuccess && "Completed with Issues"}
+            {!isComplete && "正在将观测添加到数据集"}
+            {isSuccess && "添加成功！"}
+            {isComplete && !isSuccess && "已完成（存在问题）"}
           </h2>
           <p className="text-muted-foreground text-sm">
             {!isComplete &&
-              `Adding ${totalCount} observations to ${dataset.name}`}
+              `正在将 ${totalCount} 个观测添加到 ${dataset.name}`}
             {isSuccess &&
-              `${processedCount} observations have been added to ${dataset.name}`}
+              `${processedCount} 个观测已添加到 ${dataset.name}`}
             {isComplete &&
               !isSuccess &&
-              `${processedCount} observations added, ${failedCount} failed`}
+              `${processedCount} 个观测已添加，${failedCount} 个失败`}
           </p>
           {!isComplete && (
             <p className="text-muted-foreground mt-2 text-sm">
-              You can safely close this dialog. The action is running in the
-              background and you can track its progress in the{" "}
+              您可以安全地关闭此对话框。操作正在后台运行，您可以在{" "}
               <Link
                 href={`/project/${projectId}/settings/batch-actions`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary underline hover:no-underline"
               >
-                batch actions table
+                批量操作表
               </Link>
-              .
+              中跟踪进度。
             </p>
           )}
         </div>
@@ -117,7 +116,7 @@ export function StatusStep({
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">
-                  {isComplete ? "Results" : "Progress"}
+                  {isComplete ? "结果" : "进度"}
                 </CardTitle>
                 <StatusBadge
                   type={status.data?.status?.toLowerCase() ?? "pending"}
@@ -130,7 +129,7 @@ export function StatusStep({
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">
-                        {processedCount} of {totalCount} processed
+                        已处理 {processedCount}/{totalCount}
                       </span>
                       <span className="font-bold">{progressPercent}%</span>
                     </div>
@@ -139,11 +138,11 @@ export function StatusStep({
 
                   <div className="bg-muted/50 grid grid-cols-2 gap-4 rounded-lg p-3 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Processed</span>
+                      <span className="text-muted-foreground">已处理</span>
                       <span className="font-bold">{processedCount}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Failed</span>
+                      <span className="text-muted-foreground">失败</span>
                       <span
                         className={`font-bold ${failedCount > 0 ? "text-destructive" : ""}`}
                       >
@@ -158,12 +157,12 @@ export function StatusStep({
                 <div className="bg-muted/50 rounded-lg p-4 text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">
-                      Successfully processed
+                      已成功处理
                     </span>
                     <span className="font-bold">{processedCount}</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between">
-                    <span className="text-muted-foreground">Failed</span>
+                    <span className="text-muted-foreground">失败</span>
                     <span className="text-destructive font-bold">
                       {failedCount}
                     </span>
@@ -174,7 +173,7 @@ export function StatusStep({
               {status.data?.log && (
                 <div className="border-destructive/50 bg-destructive/5 space-y-2 rounded-lg border p-3">
                   <p className="text-destructive text-xs font-bold">
-                    Error Summary:
+                    错误摘要：
                   </p>
                   <pre className="text-muted-foreground max-h-32 overflow-auto text-[10px]">
                     {status.data.log}
@@ -193,7 +192,7 @@ export function StatusStep({
               onClick={onClose}
               className={isComplete && hasPartialSuccess ? "flex-1" : "w-full"}
             >
-              Close
+              关闭
             </Button>
             {isComplete && hasPartialSuccess && (
               <Button
@@ -204,7 +203,7 @@ export function StatusStep({
                   )
                 }
               >
-                Go to Dataset
+                前往数据集
               </Button>
             )}
           </div>

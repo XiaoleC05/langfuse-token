@@ -55,7 +55,7 @@ const DatasetItemEntryPointRow = ({
       }
       title={
         !hasAccess
-          ? "You don't have access to this feature, please contact your administrator"
+          ? "您没有此功能的访问权限，请联系管理员"
           : undefined
       }
     >
@@ -86,8 +86,8 @@ export const DatasetItemsOnboarding = ({
 
   return (
     <SplashScreen
-      title="Add items to your dataset"
-      description="Datasets are collections of specific edge cases and underrepresented patterns used to evaluate your application."
+      title="向数据集添加条目"
+      description="数据集是用于评估应用程序的特定边界情况和代表性不足的模式的集合。"
     >
       <div className="flex flex-col gap-4">
         <CsvUploadDialog
@@ -99,8 +99,8 @@ export const DatasetItemsOnboarding = ({
           <DialogTrigger asChild disabled={!hasProjectAccess}>
             <DatasetItemEntryPointRow
               icon={<Upload className="h-5 w-5" />}
-              title="Upload CSV"
-              description="Import dataset items from a CSV file"
+              title="上传CSV"
+              description="从 CSV 文件导入数据集条目"
               onClick={() => {
                 if (hasProjectAccess) {
                   capture("dataset_item:upload_csv_button_click");
@@ -118,8 +118,8 @@ export const DatasetItemsOnboarding = ({
           <DialogTrigger asChild disabled={!hasProjectAccess}>
             <DatasetItemEntryPointRow
               icon={<Braces className="h-5 w-5" />}
-              title="Add Manually"
-              description="Manually input a single item"
+              title="手动添加"
+              description="手动输入单个条目"
               onClick={() => {
                 if (hasProjectAccess) {
                   capture("dataset_item:new_form_open");
@@ -130,7 +130,7 @@ export const DatasetItemsOnboarding = ({
           </DialogTrigger>
           <DialogContent size="lg">
             <DialogHeader>
-              <DialogTitle>Create dataset item</DialogTitle>
+              <DialogTitle>创建数据集条目</DialogTitle>
             </DialogHeader>
             <NewDatasetItemForm
               projectId={projectId}
@@ -147,16 +147,16 @@ export const DatasetItemsOnboarding = ({
         >
           <DatasetItemEntryPointRow
             icon={<Code className="h-5 w-5" />}
-            title="Add via Code"
-            description="Use our Python/TS/JS SDKs or custom API"
+            title="通过代码添加"
+            description="使用我们的 Python/TS/JS SDK 或自定义 API"
           />
         </Link>
 
         <Link href={`/project/${projectId}/observations`}>
           <DatasetItemEntryPointRow
             icon={<ListTree className="h-5 w-5" />}
-            title="Select Observations"
-            description="Select observations in the observations table and use a batch action to add them to your dataset"
+            title="选择观测"
+            description="在观测表中选择观测，使用批量操作将其添加到数据集"
             onClick={() => {
               capture("dataset_item:select_observations_button_click");
             }}

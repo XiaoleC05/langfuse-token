@@ -21,14 +21,14 @@ export default function DefaultEvaluationModelPage() {
     <Page
       withPadding
       headerProps={{
-        title: "Default Evaluation Model",
+        title: "默认评估模型",
         help: {
-          description: "Configure a default evaluation model for your project.",
+          description: "为您的项目配置默认评估模型。",
           href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
         },
         breadcrumb: [
           {
-            name: "Evaluator Library",
+            name: "评估器库",
             href: `/project/${projectId}/evals/templates`,
           },
         ],

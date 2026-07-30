@@ -73,13 +73,13 @@ export function UpsertScoreConfigDialog({
   const createScoreConfig = api.scoreConfigs.create.useMutation({
     onSuccess: () => utils.scoreConfigs.invalidate(),
     onError: (error) =>
-      setFormError(error.message ?? "An error occurred while creating config."),
+      setFormError(error.message ?? "创建配置时出错。"),
   });
 
   const updateScoreConfig = api.scoreConfigs.update.useMutation({
     onSuccess: () => utils.scoreConfigs.invalidate(),
     onError: (error) =>
-      setFormError(error.message ?? "An error occurred while updating config."),
+      setFormError(error.message ?? "更新配置时出错。"),
   });
 
   const form = useForm({
@@ -151,13 +151,13 @@ export function UpsertScoreConfigDialog({
         <DialogTrigger asChild>
           <Button variant="secondary" loading={createScoreConfig.isPending}>
             <PlusIcon className="mr-1.5 -ml-0.5 h-4 w-4" aria-hidden="true" />
-            {id ? "Update score config" : "Add new score config"}
+            {id ? "更新评分配置" : "新增评分配置"}
           </Button>
         </DialogTrigger>
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {id ? "Update score config" : "Add new score config"}
+              {id ? "更新评分配置" : "新增评分配置"}
             </DialogTitle>
           </DialogHeader>
           <Form {...form}>

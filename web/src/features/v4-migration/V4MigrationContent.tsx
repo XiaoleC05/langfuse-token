@@ -68,8 +68,8 @@ export function useCopyMigrationPrompt() {
     capture("v4_migration:coding_agent_prompt_copied");
     await navigator.clipboard.writeText(CODING_AGENT_PROMPT);
     showSuccessToast({
-      title: "Prompt copied",
-      description: "Paste it into Cursor, Codex, or another coding agent.",
+      title: "提示词已复制",
+      description: "将其粘贴到 Cursor、Codex 或其他编程代理中。",
     });
   };
 }
@@ -151,13 +151,13 @@ function MigrationCountChip({
   affectedLabel: string;
 }) {
   if (state.status === "loading") {
-    return <Chip variant="warning">Checking</Chip>;
+    return <Chip variant="warning">检查中</Chip>;
   }
   if (state.status === "error") {
-    return <Chip variant="warning">Check failed</Chip>;
+    return <Chip variant="warning">检查失败</Chip>;
   }
   if (state.count === 0) {
-    return <Chip variant="success">Up to date</Chip>;
+    return <Chip variant="success">已是最新</Chip>;
   }
   return (
     <Chip variant="warning">
@@ -172,64 +172,62 @@ function V4MigrationSdkSection({ sdk }: { sdk: V4MigrationSdkState }) {
   );
   const chip =
     sdk.status === "latest" ? (
-      <Chip variant="success">Up to date</Chip>
+      <Chip variant="success">已是最新</Chip>
     ) : sdk.status === "otel_realtime" ? (
-      <Chip variant="success">OTel real-time</Chip>
+      <Chip variant="success">OTel 实时</Chip>
     ) : sdk.status === "checking" ? (
-      <Chip variant="warning">Checking</Chip>
+      <Chip variant="warning">检查中</Chip>
     ) : sdk.status === "otel_header_required" ? (
-      <Chip variant="warning">OTel header required</Chip>
+      <Chip variant="warning">需要 OTel 标头</Chip>
     ) : sdk.status === "unknown" ? (
       <Chip variant="warning">
-        {detectedSdkSeries.length > 0 ? "Needs review" : "Not detected"}
+        {detectedSdkSeries.length > 0 ? "需要复查" : "未检测到"}
       </Chip>
     ) : sdk.status === "error" ? (
-      <Chip variant="warning">Check failed</Chip>
+      <Chip variant="warning">检查失败</Chip>
     ) : (
-      <Chip variant="warning">{sdk.upgradeRequiredCount} outdated</Chip>
+      <Chip variant="warning">{sdk.upgradeRequiredCount} 已过时</Chip>
     );
 
   return (
-    <Section title="Tracing Instrumentation" chip={chip}>
+    <Section title="追踪插桩" chip={chip}>
       <p className="text-muted-foreground text-sm leading-relaxed">
         {sdk.status === "checking" ? (
-          "Checking the latest traces for this project…"
+          "正在检查此项目的最新追踪…"
         ) : sdk.status === "otel_header_required" ? (
           <>
-            OTel data is arriving through the delayed ingestion path. Set the{" "}
-            <MonoValue>x-langfuse-ingestion-version</MonoValue> header to{" "}
-            <MonoValue>4</MonoValue> on the OTLP exporter to use real-time
-            ingestion.{" "}
+            OTel 数据正通过延迟摄入路径到达。请在 OTLP 导出器上将{" "}
+            <MonoValue>x-langfuse-ingestion-version</MonoValue> 标头设置为{" "}
+            <MonoValue>4</MonoValue> 以使用实时摄入。{" "}
             <ExternalLink href={OTEL_V4_MIGRATION_URL}>
-              OpenTelemetry migration guide
+              OpenTelemetry 迁移指南
             </ExternalLink>
-            .
+            。
           </>
         ) : sdk.status === "otel_realtime" ? (
-          "OTel data is using real-time ingestion. No ingestion header update is required."
+          "OTel 数据正在使用实时摄入。无需更新摄入标头。"
         ) : sdk.status === "unknown" ? (
           detectedSdkSeries.length > 0 ? (
-            "We could not recognize every detected SDK version. Verify that these SDKs are up to date."
+            "我们无法识别所有检测到的 SDK 版本。请确认这些 SDK 已是最新版本。"
           ) : (
             <>
-              We could not detect an attributed Langfuse SDK in traces from the
-              last 7 days. If this project uses one, verify that it is up to
-              date.
+              在过去 7 天的追踪中未检测到标注了 Langfuse SDK 的数据。
+              如果此项目使用了 Langfuse SDK，请确认它已是最新版本。
             </>
           )
         ) : sdk.status === "error" ? (
-          "We could not check the latest traces for this project. Try again later."
+          "我们无法检查此项目的最新追踪。请稍后重试。"
         ) : sdk.status === "latest" ? (
-          "All detected Langfuse SDK versions are up to date."
+          "所有检测到的 Langfuse SDK 版本均为最新。"
         ) : (
           <>
-            {sdk.upgradeRequiredCount} detected SDK{" "}
+            {sdk.upgradeRequiredCount} 个检测到的 SDK{" "}
             {sdk.upgradeRequiredCount === 1
-              ? "configuration needs"
-              : "configurations need"}{" "}
-            an update.{" "}
-            <ExternalLink href={SDK_UPGRADE_URL}>Upgrade the SDK</ExternalLink>{" "}
-            for real-time data and the latest tracing experience.
+              ? "配置需要"
+              : "配置需要"}{" "}
+            更新。{" "}
+            <ExternalLink href={SDK_UPGRADE_URL}>升级 SDK</ExternalLink>{" "}
+            以获取实时数据和最新的追踪体验。
           </>
         )}
       </p>
@@ -243,7 +241,7 @@ function V4MigrationSdkSection({ sdk }: { sdk: V4MigrationSdkState }) {
             const publicKey =
               series.publicKey.length > 18
                 ? `${series.publicKey.slice(0, 9)}…${series.publicKey.slice(-6)}`
-                : series.publicKey || "No API key";
+                : series.publicKey || "无 API 密钥";
 
             return (
               <li
@@ -253,7 +251,7 @@ function V4MigrationSdkSection({ sdk }: { sdk: V4MigrationSdkState }) {
                 <MonoValue>{sdkLabel}</MonoValue>
                 <span title={series.publicKey || undefined}>{publicKey}</span>
                 <span>
-                  · last seen{" "}
+                  · 最后出现{" "}
                   {formatCompactRelativeTime(new Date(series.lastSeen))}
                 </span>
                 {series.v4MigrationStatus === "upgrade_required" &&
@@ -262,10 +260,10 @@ function V4MigrationSdkSection({ sdk }: { sdk: V4MigrationSdkState }) {
                       · {formatSdkUpgradeRequirement(series.canonicalSdkName)}
                     </span>
                   )}
-                {series.upgradeCompleted && <span>· upgrade completed</span>}
+                {series.upgradeCompleted && <span>· 升级完成</span>}
                 {series.v4MigrationStatus === "unknown" && (
                   <span className="text-dark-yellow">
-                    · version not recognized
+                    · 版本无法识别
                   </span>
                 )}
               </li>
@@ -290,22 +288,20 @@ export function V4MigrationHeaderContent({
       <p className="mb-1.5 text-lg font-bold">
         {projectName ? (
           <>
-            Review v4 migration for{" "}
-            <span className="underline">{projectName}</span>
+            复查 <span className="underline">{projectName}</span> 的 v4 迁移
           </>
         ) : (
-          "Review v4 migration"
+          "复查 v4 迁移"
         )}
       </p>
       <p className="text-muted-foreground mb-3 text-sm leading-relaxed">
-        Review the items below and update anything still using the legacy data
-        model.
+        查看以下项目，更新仍在使用旧数据模型的内容。
       </p>
       <div className="flex flex-wrap items-center gap-2">
         <RainbowButton className="w-full" onClick={handleCopyPrompt}>
           <Copy className="mr-1.5 h-4 w-4 shrink-0" />
-          <span className="min-w-0 truncate" title="Copy prompt for agents">
-            Copy prompt for agents
+          <span className="min-w-0 truncate" title="复制提示词给代理">
+            复制提示词给代理
           </span>
         </RainbowButton>
       </div>
@@ -355,20 +351,20 @@ export function V4MigrationDetailsContent({
     <>
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 text-base font-bold">
-          <LibraryBig className="h-4 w-4" /> Want to review first?
+          <LibraryBig className="h-4 w-4" /> 想先了解一下？
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" asChild className="min-w-0 flex-1">
             <a href={V4_DOCS_URL} target="_blank" rel="noopener noreferrer">
-              <span className="min-w-0 truncate" title="Documentation">
-                Documentation
+              <span className="min-w-0 truncate" title="文档">
+                文档
               </span>
             </a>
           </Button>
           <Button variant="outline" asChild className="min-w-0 flex-1">
             <Link href="/v4-migration" onClick={onNavigate}>
-              <span className="min-w-0 truncate" title="Check migration status">
-                Check migration status
+              <span className="min-w-0 truncate" title="检查迁移状态">
+                检查迁移状态
               </span>
             </Link>
           </Button>
@@ -379,44 +375,39 @@ export function V4MigrationDetailsContent({
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 text-base font-bold">
-          <TriangleAlert className="h-4 w-4" /> What happens if I don&apos;t
-          update?
+          <TriangleAlert className="h-4 w-4" /> 如果不更新会怎样？
         </div>
         <p className="text-muted-foreground text-sm">
-          Some features will stop working after{" "}
-          <span className="text-dark-yellow">Oct 1</span>.
+          部分功能将在{" "}
+          <span className="text-dark-yellow">10 月 1 日</span> 后停止工作。
         </p>
         <div>
           <V4MigrationSdkSection sdk={migrationData.sdk} />
 
           <Section
-            title="Evals"
+            title="评估"
             chip={
               <MigrationCountChip
                 state={migrationData.evals}
-                affectedLabel="deprecated"
+                affectedLabel="已弃用"
               />
             }
           >
             {migrationData.evals.status === "loading" ? (
               <p className="text-muted-foreground text-sm">
-                Checking configured evals…
+                正在检查已配置的评估…
               </p>
             ) : migrationData.evals.status === "error" ? (
               <p className="text-muted-foreground text-sm">
-                We could not check configured evals. Try again later.
+                无法检查已配置的评估。请稍后重试。
               </p>
             ) : migrationData.evals.count > 0 ? (
               <>
                 <p className="text-muted-foreground mb-2 text-sm">
-                  {migrationData.evals.count} configured{" "}
-                  {migrationData.evals.count === 1
-                    ? "eval targets"
-                    : "evals target"}{" "}
-                  trace input/output, which stops running{" "}
-                  <span className="text-dark-yellow">Oct 1</span>. Point{" "}
-                  {migrationData.evals.count === 1 ? "it" : "them"} at an
-                  observation instead.
+                  {migrationData.evals.count} 个已配置的评估以追踪的
+                  输入/输出为目标，将在{" "}
+                  <span className="text-dark-yellow">10 月 1 日</span> 停止运行。
+                  请将其重定向到观察单元。
                 </p>
                 {evalsUrl ? (
                   <Link
@@ -424,44 +415,44 @@ export function V4MigrationDetailsContent({
                     onClick={onNavigate}
                     className="text-dark-blue text-sm hover:underline"
                   >
-                    Review trace-level evals
+                    复查追踪级评估
                   </Link>
                 ) : null}
               </>
             ) : (
               <p className="text-muted-foreground text-sm">
-                No configured trace-level evals detected.
+                未检测到已配置的追踪级评估。
               </p>
             )}
           </Section>
 
           <Section
-            title="Deprecated APIs"
+            title="已弃用的 API"
             chip={
               <MigrationCountChip
                 state={migrationData.apis}
-                affectedLabel="deprecated"
+                affectedLabel="已弃用"
               />
             }
           >
             {migrationData.apis.status === "loading" ? (
               <p className="text-muted-foreground text-sm">
-                Checking public API usage…
+                正在检查公共 API 使用情况…
               </p>
             ) : migrationData.apis.status === "error" ? (
               <p className="text-muted-foreground text-sm">
-                We could not check public API usage. Try again later.
+                无法检查公共 API 使用情况。请稍后重试。
               </p>
             ) : migrationData.apiUsage.length > 0 ? (
               <>
                 <p className="text-muted-foreground mb-2 text-sm">
-                  You&apos;ve called these deprecated endpoints in the last{" "}
-                  {V4_MIGRATION_LOOKBACK_DAYS} days. They stop working{" "}
-                  <span className="text-dark-yellow">Oct 1</span>; the{" "}
+                  在过去 {V4_MIGRATION_LOOKBACK_DAYS} 天内调用过这些已弃用的接口。
+                  它们将在{" "}
+                  <span className="text-dark-yellow">10 月 1 日</span> 停止工作；
                   <ExternalLink href={DEPRECATED_API_MIGRATION_URL}>
-                    migration guide
+                    迁移指南
                   </ExternalLink>{" "}
-                  maps each endpoint to its replacement.
+                  列出了每个接口的替代方案。
                 </p>
                 <div className="flex flex-col">
                   {migrationData.apiUsage.map((usage) => (
@@ -476,7 +467,7 @@ export function V4MigrationDetailsContent({
                         {usage.endpoint}
                       </ExternalLink>
                       <span className="text-muted-foreground text-xs whitespace-nowrap">
-                        {numberFormatter(usage.count, 0, 2)} calls
+                        {numberFormatter(usage.count, 0, 2)} 次调用
                       </span>
                     </div>
                   ))}
@@ -484,35 +475,33 @@ export function V4MigrationDetailsContent({
               </>
             ) : (
               <p className="text-muted-foreground text-sm">
-                No deprecated public API usage detected in the last{" "}
-                {V4_MIGRATION_LOOKBACK_DAYS} days.
+                在过去 {V4_MIGRATION_LOOKBACK_DAYS} 天内未检测到已弃用的公共 API 调用。
               </p>
             )}
           </Section>
 
           <Section
-            title="Deprecated Integrations"
+            title="已弃用的集成"
             chip={
               <MigrationCountChip
                 state={migrationData.exports}
-                affectedLabel="deprecated"
+                affectedLabel="已弃用"
               />
             }
           >
             {migrationData.exports.status === "loading" ? (
               <p className="text-muted-foreground text-sm">
-                Checking integrations…
+                正在检查集成…
               </p>
             ) : migrationData.exports.status === "error" ? (
               <p className="text-muted-foreground text-sm">
-                We could not check integrations. Try again later.
+                无法检查集成。请稍后重试。
               </p>
             ) : migrationData.legacyIntegrations.length > 0 ? (
               <>
                 <p className="text-muted-foreground mb-2 text-sm">
-                  These exports still read from the old data source. Switching
-                  them over can change what downstream consumers receive, so
-                  worth a quick check.
+                  这些导出仍从旧数据源读取。切换它们可能会影响下游消费者的
+                  接收内容，建议快速核查。
                 </p>
                 <div className="flex flex-col">
                   {migrationData.legacyIntegrations.map((name) => (
@@ -539,7 +528,7 @@ export function V4MigrationDetailsContent({
                         }
                         className="text-xs"
                       >
-                        Migration guide
+                        迁移指南
                       </ExternalLink>
                     </div>
                   ))}
@@ -547,7 +536,7 @@ export function V4MigrationDetailsContent({
               </>
             ) : (
               <p className="text-muted-foreground text-sm">
-                No deprecated integration exports detected.
+                未检测到已弃用的集成导出。
               </p>
             )}
           </Section>
@@ -558,10 +547,10 @@ export function V4MigrationDetailsContent({
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 text-base font-bold">
-          <LifeBuoy className="h-4 w-4" /> Contact us
+          <LifeBuoy className="h-4 w-4" /> 联系我们
         </div>
         <p className="text-muted-foreground text-sm">
-          Need a hand with the update? We&apos;re here to help!
+          需要更新的帮助吗？我们随时为你服务！
         </p>
         <div className="flex items-center gap-2">
           <Button variant="outline" asChild className="min-w-0 flex-1">
@@ -571,8 +560,8 @@ export function V4MigrationDetailsContent({
               rel="noopener noreferrer"
               onClick={() => capture("v4_migration:contact_book_call_clicked")}
             >
-              <span className="min-w-0 truncate" title="Book a call">
-                Book a call
+              <span className="min-w-0 truncate" title="预约通话">
+                预约通话
               </span>
             </a>
           </Button>
@@ -581,8 +570,8 @@ export function V4MigrationDetailsContent({
             className="min-w-0 flex-1"
             onClick={handleEmailEngineer}
           >
-            <span className="min-w-0 truncate" title="Email an Engineer">
-              Email an Engineer
+            <span className="min-w-0 truncate" title="联系工程师">
+              联系工程师
             </span>
           </Button>
         </div>

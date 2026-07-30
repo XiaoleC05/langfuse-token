@@ -207,7 +207,7 @@ export function interpretPearsonCorrelation(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
@@ -216,36 +216,36 @@ export function interpretPearsonCorrelation(
 
   if (abs >= 0.9) {
     return {
-      strength: "Very Strong",
+      strength: "非常强",
       color: "green",
-      description: `Very strong ${direction} linear correlation`,
+      description: `非常强的${direction === "positive" ? "正" : "负"}线性相关`,
     };
   }
   if (abs >= 0.7) {
     return {
-      strength: "Strong",
+      strength: "强",
       color: "blue",
-      description: `Strong ${direction} linear correlation`,
+      description: `强的${direction === "positive" ? "正" : "负"}线性相关`,
     };
   }
   if (abs >= 0.5) {
     return {
-      strength: "Moderate",
+      strength: "中等",
       color: "yellow",
-      description: `Moderate ${direction} linear correlation`,
+      description: `中等${direction === "positive" ? "正" : "负"}线性相关`,
     };
   }
   if (abs >= 0.3) {
     return {
-      strength: "Weak",
+      strength: "弱",
       color: "orange",
-      description: `Weak ${direction} linear correlation`,
+      description: `弱的${direction === "positive" ? "正" : "负"}线性相关`,
     };
   }
   return {
-    strength: "Very Weak",
+    strength: "非常弱",
     color: "red",
-    description: `Very weak or no linear correlation`,
+    description: `非常弱或无线性相关`,
   };
 }
 
@@ -263,7 +263,7 @@ export function interpretSpearmanCorrelation(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
@@ -272,36 +272,36 @@ export function interpretSpearmanCorrelation(
 
   if (abs >= 0.9) {
     return {
-      strength: "Very Strong",
+      strength: "非常强",
       color: "green",
-      description: `Very strong ${direction} monotonic relationship`,
+      description: `非常强的${direction === "positive" ? "正" : "负"}单调关系`,
     };
   }
   if (abs >= 0.7) {
     return {
-      strength: "Strong",
+      strength: "强",
       color: "blue",
-      description: `Strong ${direction} monotonic relationship`,
+      description: `强的${direction === "positive" ? "正" : "负"}单调关系`,
     };
   }
   if (abs >= 0.5) {
     return {
-      strength: "Moderate",
+      strength: "中等",
       color: "yellow",
-      description: `Moderate ${direction} monotonic relationship`,
+      description: `中等${direction === "positive" ? "正" : "负"}单调关系`,
     };
   }
   if (abs >= 0.3) {
     return {
-      strength: "Weak",
+      strength: "弱",
       color: "orange",
-      description: `Weak ${direction} monotonic relationship`,
+      description: `弱的${direction === "positive" ? "正" : "负"}单调关系`,
     };
   }
   return {
-    strength: "Very Weak",
+    strength: "非常弱",
     color: "red",
-    description: `Very weak or no monotonic relationship`,
+    description: `非常弱或无单调关系`,
   };
 }
 
@@ -320,56 +320,56 @@ export function interpretCohensKappa(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
   if (kappa >= 1.0) {
     return {
-      strength: "Perfect",
+      strength: "完美",
       color: "green",
-      description: "perfect agreement between scores",
+      description: "评分间完全一致",
     };
   }
   if (kappa >= 0.81) {
     return {
-      strength: "Almost Perfect",
+      strength: "几乎完美",
       color: "green",
-      description: "Almost perfect agreement between scores",
+      description: "评分间几乎完美一致",
     };
   }
   if (kappa >= 0.61) {
     return {
-      strength: "Substantial",
+      strength: "显著",
       color: "blue",
-      description: "Substantial agreement between scores",
+      description: "评分间显著一致",
     };
   }
   if (kappa >= 0.41) {
     return {
-      strength: "Moderate",
+      strength: "中等",
       color: "yellow",
-      description: "Moderate agreement between scores",
+      description: "评分间中等一致",
     };
   }
   if (kappa >= 0.21) {
     return {
-      strength: "Fair",
+      strength: "一般",
       color: "orange",
-      description: "Fair agreement between scores",
+      description: "评分间一般一致",
     };
   }
   if (kappa > 0) {
     return {
-      strength: "Slight",
+      strength: "轻微",
       color: "red",
-      description: "Slight agreement between scores",
+      description: "评分间轻微一致",
     };
   }
   return {
-    strength: "Poor",
+    strength: "差",
     color: "red",
-    description: "Poor agreement (worse than chance)",
+    description: "一致性差（低于随机水平）",
   };
 }
 
@@ -385,42 +385,42 @@ export function interpretF1Score(f1: number | null): InterpretationResult {
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
   if (f1 >= 0.9) {
     return {
-      strength: "Excellent",
+      strength: "优秀",
       color: "green",
-      description: "Excellent classification performance",
+      description: "分类性能优秀",
     };
   }
   if (f1 >= 0.8) {
     return {
-      strength: "Good",
+      strength: "良好",
       color: "blue",
-      description: "Good classification performance",
+      description: "分类性能良好",
     };
   }
   if (f1 >= 0.6) {
     return {
-      strength: "Fair",
+      strength: "一般",
       color: "yellow",
-      description: "Fair classification performance",
+      description: "分类性能一般",
     };
   }
   if (f1 >= 0.4) {
     return {
-      strength: "Poor",
+      strength: "差",
       color: "orange",
-      description: "Poor classification performance",
+      description: "分类性能差",
     };
   }
   return {
-    strength: "Very Poor",
+    strength: "非常差",
     color: "red",
-    description: "Very poor classification performance",
+    description: "分类性能非常差",
   };
 }
 
@@ -437,7 +437,7 @@ export function interpretOverallAgreement(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
@@ -445,36 +445,36 @@ export function interpretOverallAgreement(
 
   if (agreement >= 0.9) {
     return {
-      strength: "Excellent",
+      strength: "优秀",
       color: "green",
-      description: `${percentage}% of predictions match`,
+      description: `${percentage}% 的预测结果匹配`,
     };
   }
   if (agreement >= 0.8) {
     return {
-      strength: "Good",
+      strength: "良好",
       color: "blue",
-      description: `${percentage}% of predictions match`,
+      description: `${percentage}% 的预测结果匹配`,
     };
   }
   if (agreement >= 0.6) {
     return {
-      strength: "Fair",
+      strength: "一般",
       color: "yellow",
-      description: `${percentage}% of predictions match`,
+      description: `${percentage}% 的预测结果匹配`,
     };
   }
   if (agreement >= 0.4) {
     return {
-      strength: "Poor",
+      strength: "差",
       color: "orange",
-      description: `${percentage}% of predictions match`,
+      description: `${percentage}% 的预测结果匹配`,
     };
   }
   return {
-    strength: "Very Poor",
+    strength: "非常差",
     color: "red",
-    description: `${percentage}% of predictions match`,
+    description: `${percentage}% 的预测结果匹配`,
   };
 }
 
@@ -494,7 +494,7 @@ export function interpretMAE(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
@@ -504,36 +504,36 @@ export function interpretMAE(
 
     if (relativeError <= 0.05) {
       return {
-        strength: "Excellent",
+        strength: "优秀",
         color: "green",
-        description: `Very low error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差非常低 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.1) {
       return {
-        strength: "Good",
+        strength: "良好",
         color: "blue",
-        description: `Low error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差低 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.2) {
       return {
-        strength: "Fair",
+        strength: "一般",
         color: "yellow",
-        description: `Moderate error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差中等 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.3) {
       return {
-        strength: "Poor",
+        strength: "差",
         color: "orange",
-        description: `High error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差偏高 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     return {
-      strength: "Very Poor",
+      strength: "非常差",
       color: "red",
-      description: `Very high error (${(relativeError * 100).toFixed(1)}% of range)`,
+      description: `误差非常高 (${(relativeError * 100).toFixed(1)}% 范围)`,
     };
   }
 
@@ -541,7 +541,7 @@ export function interpretMAE(
   return {
     strength: "N/A",
     color: "gray",
-    description: `Average error: ${mae.toFixed(3)}`,
+    description: `平均误差: ${mae.toFixed(3)}`,
   };
 }
 
@@ -562,7 +562,7 @@ export function interpretRMSE(
     return {
       strength: "N/A",
       color: "gray",
-      description: "No data available",
+      description: "无可用数据",
     };
   }
 
@@ -572,36 +572,36 @@ export function interpretRMSE(
 
     if (relativeError <= 0.05) {
       return {
-        strength: "Excellent",
+        strength: "优秀",
         color: "green",
-        description: `Very low error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差非常低 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.1) {
       return {
-        strength: "Good",
+        strength: "良好",
         color: "blue",
-        description: `Low error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差低 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.2) {
       return {
-        strength: "Fair",
+        strength: "一般",
         color: "yellow",
-        description: `Moderate error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差中等 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     if (relativeError <= 0.3) {
       return {
-        strength: "Poor",
+        strength: "差",
         color: "orange",
-        description: `High error (${(relativeError * 100).toFixed(1)}% of range)`,
+        description: `误差偏高 (${(relativeError * 100).toFixed(1)}% 范围)`,
       };
     }
     return {
-      strength: "Very Poor",
+      strength: "非常差",
       color: "red",
-      description: `Very high error (${(relativeError * 100).toFixed(1)}% of range)`,
+      description: `误差非常高 (${(relativeError * 100).toFixed(1)}% 范围)`,
     };
   }
 
@@ -609,6 +609,6 @@ export function interpretRMSE(
   return {
     strength: "N/A",
     color: "gray",
-    description: `Root mean squared error: ${rmse.toFixed(3)}`,
+    description: `均方根误差: ${rmse.toFixed(3)}`,
   };
 }

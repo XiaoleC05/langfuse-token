@@ -30,12 +30,12 @@ export function V4MigrationNavItem() {
   });
   const label =
     readiness === "ready"
-      ? "Up to date"
+      ? "已是最新"
       : readiness === "checking"
-        ? "Checking"
+        ? "检查中"
         : readiness === "unavailable"
-          ? "Check status"
-          : "Action required";
+          ? "检查状态"
+          : "需要操作";
 
   const handleClick = () => {
     capture("sidebar:v4_migration_card_clicked");

@@ -20,27 +20,27 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
 
   const llmAsJudgeValuePropositions: ValueProposition[] = [
     {
-      title: "Automate evaluations",
+      title: "自动化评估",
       description:
-        "Use LLM-as-a-judge to automatically evaluate your traces without manual review",
+        "使用 LLM 作为评判，自动评估追踪，无需人工审核",
       icon: <Bot className="h-4 w-4" />,
     },
     {
-      title: "Measure quality",
+      title: "衡量质量",
       description:
-        "Create custom evaluation criteria to measure the quality of your LLM outputs",
+        "创建自定义评估标准来衡量 LLM 输出的质量",
       icon: <Gauge className="h-4 w-4" />,
     },
     {
-      title: "Scale efficiently",
+      title: "高效扩展",
       description:
-        "Evaluate thousands of traces automatically with customizable sampling rates",
+        "通过可自定义的采样率自动评估数千条追踪",
       icon: <Zap className="h-4 w-4" />,
     },
     {
-      title: "Track performance",
+      title: "追踪性能",
       description:
-        "Monitor evaluation metrics over time to identify trends and improvements",
+        "随时间监控评估指标，发现趋势和改进点",
       icon: <BarChart4 className="h-4 w-4" />,
     },
   ];
@@ -48,34 +48,33 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
   if (enabled) {
     return (
       <SplashScreen
-        title="Get started with evaluations"
+        title="开始使用评估"
         description={
           <>
-            Use evaluators to score traces and observations automatically.
-            Langfuse supports two evaluator types:
+            使用评估器自动对追踪和观测进行评分。
+            Langfuse 支持两种评估器类型：
             <ul className="text-muted-foreground mx-auto mt-2 max-w-2xl list-disc space-y-2 pl-5 text-left text-sm">
               <li>
                 <span className="text-foreground font-bold">
-                  LLM-as-a-judge evaluators
+                  LLM 作为评判的评估器
                 </span>{" "}
-                use an LLM to score outputs against natural-language criteria.
+                使用 LLM 根据自然语言标准对输出进行评分。
               </li>
               <li>
                 <span className="text-foreground font-bold">
-                  Code evaluators
+                  代码评估器
                 </span>{" "}
-                use {codeEvaluatorLanguageDescription} logic for deterministic,
-                custom scoring.
+                使用 {codeEvaluatorLanguageDescription} 逻辑进行确定性自定义评分。
               </li>
             </ul>
           </>
         }
         primaryAction={{
-          label: "Create Evaluator",
+          label: "创建评估器",
           href: `/project/${projectId}/evals/new`,
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: "了解更多",
           href: "https://langfuse.com/docs/evaluation",
         }}
       />
@@ -84,15 +83,15 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
 
   return (
     <SplashScreen
-      title="Get Started with LLM-as-a-Judge Evaluations"
-      description="Create evaluation templates and evaluators to automatically score your traces with LLM-as-a-judge. Set up custom evaluation criteria and let AI help you measure the quality of your outputs."
+      title="开始使用 LLM 作为评判的评估"
+      description="创建评估模板和评估器，通过 LLM 作为评判自动对追踪进行评分。设置自定义评估标准，让 AI 帮助您衡量输出质量。"
       valuePropositions={llmAsJudgeValuePropositions}
       primaryAction={{
-        label: "Create Evaluator",
+        label: "创建评估器",
         href: `/project/${projectId}/evals/new`,
       }}
       secondaryAction={{
-        label: "Learn More",
+        label: "了解更多",
         href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
       }}
       videoSrc="https://static.langfuse.com/prod-assets/onboarding/scores-llm-as-a-judge-overview-v1.mp4"

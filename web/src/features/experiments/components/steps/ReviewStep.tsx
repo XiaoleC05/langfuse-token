@@ -37,8 +37,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   return (
     <div className="space-y-6">
       <StepHeader
-        title="Review & Run"
-        description="Review your experiment configuration before running it. You can go back to any step to make changes."
+        title="审核并运行"
+        description="运行前请审核您的实验配置。您可以返回任何步骤进行修改。"
       />
 
       {/* Two-column grid layout */}
@@ -49,15 +49,15 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           onClick={() => setActiveStep("prompt")}
         >
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Prompt</CardTitle>
+            <CardTitle className="text-base">提示词</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Name:</span>
+              <span className="text-muted-foreground">名称：</span>
               <span className="font-bold">{selectedPromptName}</span>
             </div>
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Version:</span>
+              <span className="text-muted-foreground">版本：</span>
               <span className="font-bold">v{selectedPromptVersion}</span>
             </div>
           </CardContent>
@@ -69,33 +69,33 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           onClick={() => setActiveStep("prompt")}
         >
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Model</CardTitle>
+            <CardTitle className="text-base">模型</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Provider:</span>
+              <span className="text-muted-foreground">提供商：</span>
               <span>{modelParams.provider.value}</span>
             </div>
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Model:</span>
+              <span className="text-muted-foreground">模型：</span>
               <span>{modelParams.model.value}</span>
             </div>
             {modelParams.temperature.enabled && (
               <div className="flex gap-2">
-                <span className="text-muted-foreground">Temperature:</span>
+                <span className="text-muted-foreground">温度：</span>
                 <span>{modelParams.temperature.value}</span>
               </div>
             )}
             {modelParams.max_tokens.enabled && (
               <div className="flex gap-2">
-                <span className="text-muted-foreground">Max Tokens:</span>
+                <span className="text-muted-foreground">最大 Token 数：</span>
                 <span>{modelParams.max_tokens.value}</span>
               </div>
             )}
             {structuredOutputEnabled && selectedSchemaName && (
               <div className="flex gap-2">
                 <span className="text-muted-foreground">
-                  Structured Output:
+                  结构化输出：
                 </span>
                 <span>{selectedSchemaName}</span>
               </div>
@@ -109,16 +109,16 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           onClick={() => setActiveStep("dataset")}
         >
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Dataset</CardTitle>
+            <CardTitle className="text-base">数据集</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Name:</span>
+              <span className="text-muted-foreground">名称：</span>
               <span className="font-bold">{selectedDataset?.name}</span>
             </div>
             {validationResult?.isValid && (
               <div className="flex gap-2">
-                <span className="text-muted-foreground">Items:</span>
+                <span className="text-muted-foreground">数据项：</span>
                 <span>{validationResult.totalItems}</span>
               </div>
             )}
@@ -133,7 +133,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           >
             <CardHeader className="pb-3">
               <CardTitle className="text-base">
-                Evaluators ({activeEvaluatorNames.length})
+                评估器 ({activeEvaluatorNames.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -154,30 +154,28 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           onClick={() => setActiveStep("details")}
         >
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Experiment Run Details</CardTitle>
+            <CardTitle className="text-base">实验运行详情</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <div className="flex gap-2">
-              <span className="text-muted-foreground">Experiment Name:</span>
+              <span className="text-muted-foreground">实验名称：</span>
               <span className="font-bold">{formValues.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Run Name:</span>
+              <span className="text-muted-foreground">运行名称：</span>
               <span className="font-bold">{formValues.runName}</span>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <InfoIcon className="text-muted-foreground h-3.5 w-3.5" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-[300px]">
-                  This run name is auto-generated from the experiment name and
-                  can be used to fetch the resulting experiment run via the
-                  public API.
+                  此运行名称根据实验名称自动生成，可通过公共 API 获取对应的实验结果。
                 </TooltipContent>
               </Tooltip>
             </div>
             {formValues.description && (
               <div className="flex flex-col gap-1">
-                <span className="text-muted-foreground">Description:</span>
+                <span className="text-muted-foreground">描述：</span>
                 <span className="text-sm">{formValues.description}</span>
               </div>
             )}

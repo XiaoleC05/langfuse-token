@@ -87,7 +87,7 @@ export function MobileFiltersSheet({
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 shrink-0 gap-2">
           <SlidersHorizontal className="h-4 w-4" />
-          <span>Filters</span>
+          <span>筛选</span>
           {activeCount > 0 && (
             <Badge variant="secondary" className="ml-0.5 h-5 px-1.5 text-xs">
               {activeCount}
@@ -107,19 +107,19 @@ export function MobileFiltersSheet({
         className="flex h-[85svh] flex-col gap-0 p-0 [&>button]:hidden"
       >
         {/* Accessible name for the dialog; the visible heading is below. */}
-        <SheetTitle className="sr-only">Filters</SheetTitle>
+        <SheetTitle className="sr-only">筛选</SheetTitle>
         {/* Header: title (left) · compact time-range + refresh · close (right).
             The controls that used to sit in the body move up here so the body
             below is a single uninterrupted scroll. */}
         <div className="flex shrink-0 items-center gap-2 border-b px-4 py-3">
-          <span className="text-foreground text-lg font-bold">Filters</span>
+          <span className="text-foreground text-lg font-bold">筛选</span>
           <div className="ml-auto flex min-w-0 items-center gap-1">
             {headerControls}
             <SheetClose asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Close filters"
+                aria-label="关闭筛选"
                 className="h-8 w-8 shrink-0"
               >
                 <X className="h-4 w-4" />
@@ -138,8 +138,8 @@ export function MobileFiltersSheet({
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
           {(presets || savedViews) && (
             <div className="flex flex-col gap-5 px-4 py-4">
-              <Section label="Quick presets">{presets}</Section>
-              <Section label="My views">{savedViews}</Section>
+              <Section label="快速预设">{presets}</Section>
+              <Section label="我的视图">{savedViews}</Section>
             </div>
           )}
           {facets}
@@ -147,13 +147,13 @@ export function MobileFiltersSheet({
 
         <div className="flex shrink-0 items-center gap-2 border-t px-4 py-3">
           <Button variant="outline" className="flex-1" onClick={onClearAll}>
-            Clear all
+            清除全部
           </Button>
           <SheetClose asChild>
             <Button className="flex-1">
               {resultCount != null
-                ? `Show ${numberFormatter(resultCount, 0)} results`
-                : "Show results"}
+                ? `显示 ${numberFormatter(resultCount, 0)} 条结果`
+                : "显示结果"}
             </Button>
           </SheetClose>
         </div>

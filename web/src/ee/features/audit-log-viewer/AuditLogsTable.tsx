@@ -57,7 +57,7 @@ export function AuditLogsTable(props: AuditLogsTableProps) {
   const columns: LangfuseColumnDef<AuditLogRow>[] = [
     {
       accessorKey: "createdAt",
-      header: "Time",
+      header: "时间",
       cell: (row) => {
         const date = row.getValue() as Date;
         return date.toLocaleString();
@@ -65,9 +65,9 @@ export function AuditLogsTable(props: AuditLogsTableProps) {
     },
     {
       accessorKey: "actor",
-      header: "Actor",
+      header: "操作者",
       headerTooltip: {
-        description: "The actor within Langfuse who performed the action.",
+        description: "在 Langfuse 中执行该操作的操作者。",
       },
       cell: (row) => {
         const actor = row.getValue() as AuditLogRow["actor"];
@@ -77,7 +77,7 @@ export function AuditLogsTable(props: AuditLogsTableProps) {
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 {user?.image && (
-                  <AvatarImage src={user.image} alt={user?.name ?? "User"} />
+                  <AvatarImage src={user.image} alt={user?.name ?? "用户"} />
                 )}
                 <AvatarFallback>
                   {user?.name?.charAt(0) ?? user?.email?.charAt(0) ?? "U"}
@@ -109,19 +109,19 @@ export function AuditLogsTable(props: AuditLogsTableProps) {
     },
     {
       accessorKey: "resourceType",
-      header: "Resource Type",
+      header: "资源类型",
     },
     {
       accessorKey: "resourceId",
-      header: "Resource ID",
+      header: "资源 ID",
     },
     {
       accessorKey: "action",
-      header: "Action",
+      header: "操作",
     },
     {
       accessorKey: "before",
-      header: "Before",
+      header: "变更前",
       size: 300,
       cell: (row) => {
         const value = row.getValue() as string | null;
@@ -131,7 +131,7 @@ export function AuditLogsTable(props: AuditLogsTableProps) {
     },
     {
       accessorKey: "after",
-      header: "After",
+      header: "变更后",
       size: 300,
       cell: (row) => {
         const value = row.getValue() as string | null;

@@ -46,7 +46,7 @@ export const MetricSelect = React.memo(function MetricSelect({
 }) {
   return (
     <Select value={value} onValueChange={(v) => onChange(v as MetricKey)}>
-      <SelectTrigger className={TRIGGER_CLASS} aria-label="Metric">
+      <SelectTrigger className={TRIGGER_CLASS} aria-label="指标">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
@@ -76,7 +76,7 @@ export const AggregationSelect = React.memo(function AggregationSelect({
       onValueChange={(v) => onChange(v as AggregationFn)}
       disabled={options.length <= 1}
     >
-      <SelectTrigger className={TRIGGER_CLASS} aria-label="Aggregation">
+      <SelectTrigger className={TRIGGER_CLASS} aria-label="聚合方式">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
@@ -99,7 +99,7 @@ export const BreakdownSelect = React.memo(function BreakdownSelect({
 }) {
   return (
     <Select value={value} onValueChange={(v) => onChange(v as DimensionKey)}>
-      <SelectTrigger className={TRIGGER_CLASS} aria-label="Breakdown dimension">
+      <SelectTrigger className={TRIGGER_CLASS} aria-label="拆分维度">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
@@ -128,7 +128,7 @@ export const GranularitySelect = React.memo(function GranularitySelect({
       onValueChange={(v) => onChange(v as TimeGranularity)}
       disabled={disabled}
     >
-      <SelectTrigger className={TRIGGER_CLASS} aria-label="Time granularity">
+      <SelectTrigger className={TRIGGER_CLASS} aria-label="时间粒度">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

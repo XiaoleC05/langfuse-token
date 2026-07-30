@@ -9,9 +9,9 @@ type BlobStorageIntegrationConfig = NonNullable<
 >;
 
 const EXPORT_MODE_LABELS: Record<BlobStorageExportMode, string> = {
-  [BlobStorageExportMode.FULL_HISTORY]: "Full history",
-  [BlobStorageExportMode.FROM_TODAY]: "From setup date",
-  [BlobStorageExportMode.FROM_CUSTOM_DATE]: "From custom date",
+  [BlobStorageExportMode.FULL_HISTORY]: "完整历史",
+  [BlobStorageExportMode.FROM_TODAY]: "从设置日期起",
+  [BlobStorageExportMode.FROM_CUSTOM_DATE]: "从自定义日期起",
 };
 
 export const BlobStorageStatusSection = ({
@@ -21,10 +21,10 @@ export const BlobStorageStatusSection = ({
 }) => {
   return (
     <>
-      <Header title="Status" />
+      <Header title="状态" />
       {config.lastError && (
         <Alert variant="destructive" className="mb-4">
-          <AlertTitle>Last export failed</AlertTitle>
+          <AlertTitle>上次导出失败</AlertTitle>
           <AlertDescription>
             {config.lastError}
             {config.lastErrorAt && (
@@ -40,27 +40,27 @@ export const BlobStorageStatusSection = ({
       )}
       <Card className="p-3">
         <div className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-1 text-sm">
-          <span className="text-muted-foreground">Data exported up to</span>
+          <span className="text-muted-foreground">数据已导出至</span>
           <span>
             {config.lastSyncAt
               ? new Date(config.lastSyncAt).toLocaleString()
-              : "Never (pending)"}
+              : "从未（待处理）"}
           </span>
           {config.nextSyncAt && (
             <>
               <span className="text-muted-foreground">
-                Next export scheduled
+                下次导出计划
               </span>
               <span>{new Date(config.nextSyncAt).toLocaleString()}</span>
             </>
           )}
-          <span className="text-muted-foreground">Export mode</span>
-          <span>{EXPORT_MODE_LABELS[config.exportMode] ?? "Unknown"}</span>
+          <span className="text-muted-foreground">导出模式</span>
+          <span>{EXPORT_MODE_LABELS[config.exportMode] ?? "未知"}</span>
           {(config.exportMode === BlobStorageExportMode.FROM_CUSTOM_DATE ||
             config.exportMode === BlobStorageExportMode.FROM_TODAY) &&
             config.exportStartDate && (
               <>
-                <span className="text-muted-foreground">Export start date</span>
+                <span className="text-muted-foreground">导出开始日期</span>
                 <span>
                   {new Date(config.exportStartDate).toLocaleDateString()}
                 </span>

@@ -191,10 +191,10 @@ export default function ScoresAnalyticsV2Page() {
     <Page
       headerProps={{
         title: "评分",
-        breadcrumb: [{ name: "Scores", href: `/project/${projectId}/scores` }],
+        breadcrumb: [{ name: "评分", href: `/project/${projectId}/scores` }],
         help: {
           description:
-            "A score is an evaluation of a trace or observation. It can be created from user feedback, model-based evaluations, or manual review. See docs to learn more.",
+            "评分是对追踪或观测的评估,可来自用户反馈、基于模型的评估或人工评审。查看文档了解更多。",
           href: "https://langfuse.com/docs/evaluation/overview",
         },
         tabsProps: {

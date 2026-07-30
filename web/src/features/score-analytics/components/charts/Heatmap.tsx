@@ -65,7 +65,7 @@ export function Heatmap({
   renderTooltip,
   onCellClick,
   onCellHover,
-  ariaLabel = "Score comparison heatmap",
+  ariaLabel = "评分对比热力图",
 }: HeatmapProps) {
   // Create a 2D lookup map for fast cell access
   const cellMap = useMemo(() => {

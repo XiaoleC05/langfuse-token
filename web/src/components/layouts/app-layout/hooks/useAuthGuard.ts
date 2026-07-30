@@ -41,7 +41,7 @@ export function useAuthGuard(
 
     // Loading state
     if (session.status === "loading") {
-      return { action: "loading", message: "Loading" };
+      return { action: "loading", message: "加载中" };
     }
 
     const isUnauthPath = PATH_CONSTANTS.unauthenticated.some((p) =>

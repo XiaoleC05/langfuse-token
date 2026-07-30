@@ -11,7 +11,7 @@ import {
 export const [listDatasetItemsTool, handleListDatasetItems] = defineTool({
   name: "listDatasetItems",
   description:
-    "List dataset items, individual examples with input and optional expected output, optionally filtered by dataset ID, source trace, source observation, or version.",
+    "列出数据集条目(包含输入及可选期望输出的单个示例),可按数据集 ID、来源追踪、来源观测或版本筛选。",
   baseSchema: GetDatasetItemsMcpBaseSchema,
   inputSchema: GetDatasetItemsMcpInput,
   handler: async (input, context) =>

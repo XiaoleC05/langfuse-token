@@ -86,7 +86,7 @@ const SetupMonitorAutomationsCard = ({
 }) => (
   <MonitorAutomationsCard>
     <p className="text-muted-foreground px-4 py-6 text-center text-base">
-      Set up Slack, Webhook, and Github Action Automations to Receive Alerts
+      设置 Slack、Webhook 和 GitHub Action 自动化以接收告警
     </p>
     <AddAutomationDropdown
       projectId={projectId}
@@ -259,7 +259,7 @@ const AddAutomationDropdown = ({
           className={fullWidth ? "w-full" : undefined}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Automation
+          自动化
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
@@ -268,7 +268,7 @@ const AddAutomationDropdown = ({
             href={automationCreateHref(projectId, undefined, router.asPath)}
           >
             <Plus className="mr-2 h-3.5 w-3.5" />
-            New automation
+            新建自动化
           </Link>
         </DropdownMenuItem>
         {ActionTypeSchema.options.map((t) => (

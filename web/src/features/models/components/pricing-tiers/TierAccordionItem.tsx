@@ -46,9 +46,9 @@ export function TierAccordionItem({
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-bold">{tier.name}</span>
-            {isDefault && <Badge variant="secondary">Default</Badge>}
+            {isDefault && <Badge variant="secondary">默认</Badge>}
             <span className="text-muted-foreground text-xs">
-              Priority: {tier.priority}
+              优先级：{tier.priority}
             </span>
           </div>
           {!isDefault && (
@@ -74,7 +74,7 @@ export function TierAccordionItem({
           name={`pricingTiers.${index}.name`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tier Name</FormLabel>
+              <FormLabel>层级名称</FormLabel>
               <FormControl>
                 <Input {...field} disabled={isDefault} />
               </FormControl>

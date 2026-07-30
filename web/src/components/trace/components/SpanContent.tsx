@@ -114,7 +114,7 @@ export function SpanContent({
           )
         : mergedScores.filter((s) => s.observationId === node.id);
 
-  const nodeDisplayName = node.name || `Unnamed ${node.type.toLowerCase()}`;
+  const nodeDisplayName = node.name || `未命名 ${node.type.toLowerCase()}`;
 
   return (
     <button
@@ -172,8 +172,8 @@ export function SpanContent({
               <span
                 title={
                   node.type === "TRACE"
-                    ? "Total trace duration"
-                    : "Own span duration"
+                    ? "追踪总延迟"
+                    : "自身观测延迟"
                 }
                 className={cn(
                   "text-foreground-tertiary text-xs",
@@ -195,7 +195,7 @@ export function SpanContent({
             {/* Subtree wall-clock duration — async descendants outlive the parent span */}
             {shouldRenderSubtreeDuration ? (
               <span
-                title="Subtree wall-clock duration (first start → last end)"
+                title="子树实际耗时（首次开始 → 最后结束）"
                 className="text-foreground-tertiary text-xs"
               >
                 {"∑ "}
@@ -220,7 +220,7 @@ export function SpanContent({
               <span
                 title={
                   node.children.length > 0 || node.type === "TRACE"
-                    ? "Aggregated cost of all child observations"
+                    ? "所有子观测的聚合成本"
                     : undefined
                 }
                 className={cn(

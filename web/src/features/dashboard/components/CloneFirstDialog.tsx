@@ -78,10 +78,10 @@ export function CloneFirstDialog({
         had_pending_change: Boolean(pendingDefinition),
       });
       showSuccessToast({
-        title: "Editable copy created",
+        title: "可编辑副本已创建",
         description: setAsHome
-          ? "The copy is now this project's Home dashboard"
-          : "You are now working on your own copy",
+          ? "该副本现在是此项目的首页仪表盘"
+          : "您现在正在编辑自己的副本",
         duration: 3000,
       });
       onOpenChange(false);
@@ -92,7 +92,7 @@ export function CloneFirstDialog({
       }
     },
     onError: (e) => {
-      showErrorToast("Failed to create copy", e.message);
+      showErrorToast("创建副本失败", e.message);
     },
   });
 
@@ -124,7 +124,7 @@ export function CloneFirstDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Create your editable copy</DialogTitle>
+          <DialogTitle>创建您的可编辑副本</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <div className="text-muted-foreground grid gap-3 py-4 text-sm">
@@ -132,25 +132,23 @@ export function CloneFirstDialog({
               <span className="text-foreground font-bold">
                 &ldquo;{dashboardName}&rdquo;
               </span>{" "}
-              is maintained by Langfuse and can&rsquo;t be edited directly.
-              We&rsquo;ll create your own editable copy in this project
-              {pendingDefinition ? " with your change applied" : ""}
-              {setAsHome ? " and show it on your Home page from now on" : ""}.
+              由 Langfuse 维护，无法直接编辑。
+              我们将在此项目中创建您自己的可编辑副本
+              {pendingDefinition ? " 并应用您的更改" : ""}
+              {setAsHome ? "，并从此显示在您的首页上" : ""}。
             </p>
             <p>
-              Langfuse-maintained tiles on the copy can be rearranged or
-              removed; editing their content will become available in a future
-              release.
+              副本中由 Langfuse 维护的卡片可以重新排列或移除；编辑其内容的功能将在未来版本中提供。
             </p>
             {existingClone && (
               <div className="bg-muted/50 flex flex-wrap items-center justify-between gap-2 rounded-md border p-3">
                 <span>
-                  You already have a copy:{" "}
+                  您已有一个副本：{" "}
                   <span className="text-foreground font-bold">
                     &ldquo;{existingClone.name}&rdquo;
                   </span>
                   {pendingDefinition
-                    ? " — opening it will discard your attempted change"
+                    ? " —— 打开它将丢弃您尝试的更改"
                     : ""}
                 </span>
                 <Button
@@ -171,7 +169,7 @@ export function CloneFirstDialog({
                   }}
                 >
                   <ExternalLinkIcon size={14} className="mr-1" />
-                  Open it instead
+                  打开现有副本
                 </Button>
               </div>
             )}
@@ -185,14 +183,14 @@ export function CloneFirstDialog({
               type="button"
               disabled={cloneDashboard.isPending}
             >
-              Cancel
+              取消
             </Button>
             <Button
               onClick={handleConfirm}
               type="button"
               loading={cloneDashboard.isPending}
             >
-              Create my copy
+              创建我的副本
             </Button>
           </div>
         </DialogFooter>

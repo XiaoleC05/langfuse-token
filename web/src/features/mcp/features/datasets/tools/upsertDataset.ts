@@ -28,7 +28,7 @@ const StringifiedDatasetJSONSchema = z
     } catch {
       ctx.addIssue({
         code: "custom",
-        message: "Must be a valid JSON string containing a JSON Schema",
+        message: "必须是包含 JSON Schema 的有效 JSON 字符串",
       });
       return z.NEVER;
     }

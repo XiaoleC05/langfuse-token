@@ -1,4 +1,3 @@
-import capitalize from "lodash/capitalize";
 import { GripVertical, MinusCircleIcon } from "lucide-react";
 import {
   memo,
@@ -69,19 +68,36 @@ const ROLES: ChatMessageRole[] = [
 const getRoleNamePlaceholder = (role: string) => {
   switch (role) {
     case ChatMessageRole.System:
-      return "a system message";
+      return "系统消息";
     case ChatMessageRole.Developer:
-      return "a developer message";
+      return "开发者消息";
     case ChatMessageRole.Assistant:
-      return "an assistant message";
+      return "助手消息";
     case ChatMessageRole.User:
-      return "a user message";
+      return "用户消息";
     case ChatMessageRole.Tool:
-      return "a tool response message";
+      return "工具响应消息";
     case "placeholder":
-      return "placeholder name (e.g. chat_history)";
+      return "占位符名称(例如 chat_history)";
     default:
-      return `a ${role}`;
+      return `${role}消息`;
+  }
+};
+
+const getRoleLabel = (role: string) => {
+  switch (role) {
+    case ChatMessageRole.System:
+      return "系统";
+    case ChatMessageRole.Developer:
+      return "开发者";
+    case ChatMessageRole.Assistant:
+      return "助手";
+    case ChatMessageRole.User:
+      return "用户";
+    case ChatMessageRole.Tool:
+      return "工具";
+    default:
+      return role;
   }
 };
 
@@ -304,7 +320,7 @@ export const ChatMessageComponent: React.FC<ChatMessageProps> = ({
           <div className="bg-background sticky top-0 bottom-0 z-10 flex w-16 shrink-0 flex-col gap-1">
             {isPlaceholder ? (
               <span className="bg-accent text-muted-foreground inline-flex h-6 w-full items-center justify-center rounded-md px-4 font-mono text-[9px]">
-                placeholder
+                占位符
               </span>
             ) : (
               <Button
@@ -313,7 +329,7 @@ export const ChatMessageComponent: React.FC<ChatMessageProps> = ({
                 variant="ghost"
                 className="text-muted-foreground hover:bg-accent hover:text-accent-foreground h-6 w-full px-1 py-0 text-[10px] font-bold"
               >
-                {capitalize(message.role)}
+                {getRoleLabel(message.role)}
               </Button>
             )}
           </div>
@@ -332,10 +348,10 @@ export const ChatMessageComponent: React.FC<ChatMessageProps> = ({
                   }
                 >
                   <SelectTrigger
-                    title="Select Tool Call ID"
+                    title="选择工具调用 ID"
                     className="bg-muted h-[25px] w-[96px] border-0 text-[9px]"
                   >
-                    <SelectValue placeholder="Select Call ID" />
+                    <SelectValue placeholder="选择调用 ID" />
                   </SelectTrigger>
                   <SelectContent>
                     {toolCallIds?.map((id) => (
@@ -376,7 +392,7 @@ export const ChatMessageComponent: React.FC<ChatMessageProps> = ({
             size="icon"
             onClick={() => deleteMessage(message.id)}
             className="h-5 w-5 shrink-0 rounded-full p-0 opacity-60 transition-all hover:opacity-100"
-            aria-label="Delete message"
+            aria-label="删除消息"
           >
             <MinusCircleIcon size={14} />
           </Button>
@@ -402,7 +418,7 @@ const MemoizedEditor = memo(function MemoizedEditor(props: {
     onEditorMount,
     enableSearchKeymap,
   } = props;
-  const placeholder = `Enter ${getRoleNamePlaceholder(role)} here.`;
+  const placeholder = `在此输入${getRoleNamePlaceholder(role)}。`;
 
   return (
     <CodeMirrorEditor

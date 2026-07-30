@@ -12,8 +12,8 @@ import { z } from "zod";
 // Define the form schema for GitHub dispatch actions
 export const GitHubDispatchActionFormSchema = z.object({
   githubDispatch: z.object({
-    url: z.url("Invalid URL"),
-    eventType: z.string().min(1, "Event type is required").max(100),
+    url: z.url("URL 无效"),
+    eventType: z.string().min(1, "事件类型为必填").max(100),
     githubToken: z.string(),
     displayGitHubToken: z.string().optional(), // Display value for existing token
   }),
@@ -61,13 +61,13 @@ export class GitHubDispatchActionHandler implements BaseActionHandler<GitHubDisp
     const errors: string[] = [];
 
     if (!formData.githubDispatch?.url) {
-      errors.push("GitHub dispatch URL is required");
+      errors.push("GitHub 工作流调度 URL 为必填");
     }
 
     if (!formData.githubDispatch?.eventType) {
-      errors.push("Event type is required");
+      errors.push("事件类型为必填");
     } else if (formData.githubDispatch.eventType.length > 100) {
-      errors.push("Event type must be 100 characters or less");
+      errors.push("事件类型不能超过 100 个字符");
     }
 
     // Token is required only if there's no existing token (displayGitHubToken)
@@ -75,7 +75,7 @@ export class GitHubDispatchActionHandler implements BaseActionHandler<GitHubDisp
       !formData.githubDispatch?.githubToken &&
       !formData.githubDispatch?.displayGitHubToken
     ) {
-      errors.push("GitHub token is required");
+      errors.push("GitHub Token 为必填");
     }
 
     return {

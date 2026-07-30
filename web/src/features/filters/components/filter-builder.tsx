@@ -87,7 +87,7 @@ export function PopoverFilterBuilder({
   columnsWithCustomSelect = [],
   filterWithAI = false,
   buttonType = "default",
-  label = "Filters",
+  label = "筛选",
   tableName = "unknown",
   isV4 = false,
 }: {
@@ -305,7 +305,7 @@ export function PopoverFilterBuilder({
                 <X className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Clear all filters</TooltipContent>
+            <TooltipContent>清除所有筛选</TooltipContent>
           </Tooltip>
         ) : (
           <Tooltip>
@@ -320,7 +320,7 @@ export function PopoverFilterBuilder({
                 <X className="h-3 w-3" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Clear all filters</TooltipContent>
+            <TooltipContent>清除所有筛选</TooltipContent>
           </Tooltip>
         )
       ) : null}

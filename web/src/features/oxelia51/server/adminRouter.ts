@@ -150,6 +150,11 @@ export const oxelia51AdminRouter = createTRPCRouter({
     ),
   ),
 
+  /** 手动触发一次电费抓取（DormGuard /api/system/crawl） */
+  dormPowerRefresh: adminProcedure.mutation(() =>
+    goFetch("/api/tools/dormguard/proxy/api/system/crawl", "POST"),
+  ),
+
   whitelistList: adminProcedure.query(() =>
     goFetch("/api/admin/ip-whitelist", "GET"),
   ),

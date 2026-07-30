@@ -143,6 +143,30 @@ export default function AdminPage() {
     onError: (e) => setOpError(e.message),
   });
 
+  const [powerMsg, setPowerMsg] = useState("");
+  const [powerMsgOk, setPowerMsgOk] = useState(false);
+  const refreshPowerMut = api.oxelia51Admin.dormPowerRefresh.useMutation({
+    onSuccess: async (data) => {
+      const ok =
+        typeof data === "object" && data !== null && "success" in data
+          ? Boolean((data as { success: unknown }).success)
+          : false;
+      setPowerMsgOk(ok);
+      setPowerMsg(
+        ok
+          ? "抓取完成，数据已更新"
+          : "抓取失败或无启用的规则，显示的是上一次数据",
+      );
+      // 给爬虫落库一点时间再刷新
+      await new Promise((r) => setTimeout(r, 1500));
+      void powerQ.refetch();
+    },
+    onError: (e) => {
+      setPowerMsgOk(false);
+      setPowerMsg(`抓取请求失败：${e.message}`);
+    },
+  });
+
   const [newIp, setNewIp] = useState("");
   const [newLabel, setNewLabel] = useState("");
 
@@ -241,8 +265,27 @@ export default function AdminPage() {
               <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-sm font-semibold">宿舍电费（DormGuard）</span>
-                  <LiveDot />
+                  <div className="flex items-center gap-2">
+                    <LiveDot />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={refreshPowerMut.isPending}
+                      onClick={() => {
+                        setPowerMsg("");
+                        refreshPowerMut.mutate();
+                      }}
+                    >
+                      <RefreshCw className={`h-3.5 w-3.5 ${refreshPowerMut.isPending ? "animate-spin" : ""}`} />
+                      {refreshPowerMut.isPending ? "抓取中…" : "重新获取"}
+                    </Button>
+                  </div>
                 </div>
+                {powerMsg && (
+                  <p className="text-sm" style={{ color: powerMsgOk ? "var(--ox-ok)" : "var(--ox-warn)" }}>
+                    {powerMsg}
+                  </p>
+                )}
                 {powerQ.error ? (
                   <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(powerQ.error)}</p>
                 ) : (

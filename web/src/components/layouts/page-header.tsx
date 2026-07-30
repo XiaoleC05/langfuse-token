@@ -102,7 +102,9 @@ const PageHeader = ({
             <div className="flex min-w-0 flex-wrap items-center gap-3">
               {showSidebarChrome ? (
                 <>
-                  <SidebarTrigger />
+                  {/* Oxelia51：桌面端收起按钮统一在侧栏头部，
+                      此处仅保留移动端汉堡入口，避免两个重复按钮。 */}
+                  <SidebarTrigger className="md:hidden" />
                   {/* Brand the app in the top bar while the sidebar (which
                       owns the logo) is off-canvas below `md`. Hidden on
                       desktop where the sidebar logo is visible. */}

@@ -224,7 +224,7 @@ export const ROUTES: Route[] = [
   },
   {
     title: "后台管理",
-    pathname: "/admin",
+    pathname: "/project/[projectId]/admin",
     icon: Wrench,
     group: RouteGroup.Admin,
     section: RouteSection.Main,

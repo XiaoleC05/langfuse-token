@@ -158,7 +158,10 @@ export function useFilteredNavigation(
     // Map filtered routes to navigation items
     const allItems = filteredRoutes
       // 非管理员隐藏后台管理入口
-      .filter((route) => route.pathname !== "/admin" || isOxeliaAdmin)
+      .filter(
+        (route) =>
+          route.pathname !== "/project/[projectId]/admin" || isOxeliaAdmin,
+      )
       .map(mapRouteToNavigationItem);
 
     // Split by section and group

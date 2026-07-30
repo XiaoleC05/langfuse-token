@@ -10,7 +10,7 @@ export const SettingsDangerZone: React.FC<{
 }> = ({ items }) => {
   return (
     <div className="space-y-3">
-      <Header title="Danger Zone" />
+      <Header title="危险操作区" />
       <div className="rounded-lg border">
         {items.map((item, index) => (
           <div

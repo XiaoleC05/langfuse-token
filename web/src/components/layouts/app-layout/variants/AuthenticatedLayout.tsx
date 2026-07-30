@@ -15,6 +15,7 @@ import { Layer } from "@/src/components/ui/layer";
 import { TopBannerProvider } from "@/src/features/top-banner";
 import { VersionUpdateBanner } from "@/src/features/version-update";
 import { AppContentWithRightDrawer } from "../right-drawer/AppContentWithRightDrawer";
+import { FilingInfo } from "@/src/components/FilingInfo";
 import {
   getAvailableCloudRegionOptions,
   getCloudRegionAuthUrl,
@@ -207,9 +208,17 @@ export function AuthenticatedLayout({
                   onStartResize={startSidebarResize}
                 />
                 <SidebarInset className="h-screen-with-banner max-w-full md:peer-data-[state=collapsed]:w-[calc(100vw-var(--sidebar-width-icon))] md:peer-data-[state=expanded]:w-[calc(100vw-var(--sidebar-width))]">
-                  <AppContentWithRightDrawer>
-                    {children}
-                  </AppContentWithRightDrawer>
+                  <div className="flex h-full flex-col">
+                    <div className="flex min-h-0 flex-1 flex-col">
+                      <AppContentWithRightDrawer>
+                        {children}
+                      </AppContentWithRightDrawer>
+                    </div>
+                    {/* Oxelia51 备案信息：右侧内容页下方 */}
+                    <footer className="shrink-0 border-t bg-background py-1">
+                      <FilingInfo />
+                    </footer>
+                  </div>
                   {/* Toasts render in the `toast` overlay layer — the last layer
                       in LAYER_ORDER — so they paint above every overlay (incl. a
                       non-modal peek) by DOM order alone, no z-index. Sonner's

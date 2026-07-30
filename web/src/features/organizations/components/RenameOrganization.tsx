@@ -67,7 +67,7 @@ export default function RenameOrganization() {
 
   return (
     <div>
-      <Header title="Organization Name" />
+      <Header title="组织名称" />
       <Card className="mb-4 p-3">
         {form.getValues().name !== "" ? (
           <p className="text-primary mb-4 text-sm">
@@ -78,7 +78,7 @@ export default function RenameOrganization() {
           </p>
         ) : (
           <p className="mb-4 text-sm">
-            Your Organization is currently named &quot;<b>{orgName}</b>
+            当前组织名称为 &quot;<b>{orgName}</b>
             &quot;.
           </p>
         )}

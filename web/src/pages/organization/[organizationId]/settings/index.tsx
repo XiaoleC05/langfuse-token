@@ -74,7 +74,7 @@ export const getOrganizationSettingsPages = ({
       <div className="flex flex-col gap-6">
         <RenameOrganization />
         <div>
-          <Header title="Debug Information" />
+          <Header title="调试信息" />
           <JSONView
             title="Metadata"
             json={{
@@ -91,9 +91,9 @@ export const getOrganizationSettingsPages = ({
         <SettingsDangerZone
           items={[
             {
-              title: "Delete this organization",
+              title: "删除此组织",
               description:
-                "Once you delete an organization, there is no going back. Please be certain.",
+                "删除组织后无法恢复，请谨慎确认。",
               button: <DeleteOrganizationButton />,
             },
           ]}

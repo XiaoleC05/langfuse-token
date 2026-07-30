@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Head from "next/head";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Page from "@/src/components/layouts/page";
 import { api } from "@/src/utils/api";
 import { Card } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
@@ -16,8 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { FilingInfo } from "@/src/components/FilingInfo";
-import { env } from "@/src/env.mjs";
 import { Trash2, RefreshCw } from "lucide-react";
 
 /**
@@ -170,24 +168,18 @@ export default function AdminPage() {
   const [newIp, setNewIp] = useState("");
   const [newLabel, setNewLabel] = useState("");
 
-  const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
-
   return (
-    <>
-      <Head>
-        <title>后台管理 | Oxelia51</title>
-      </Head>
-      <div className="min-h-dvh bg-background text-foreground">
-        <header className="flex items-center gap-3 border-b px-6 py-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${basePath}/icon-64.png`} alt="Oxelia51" className="h-6 w-auto" />
-          <span className="text-sm font-semibold">后台管理</span>
-          <Link href="/" className="text-muted-foreground hover:text-foreground ml-auto text-xs">
-            ← 返回平台
-          </Link>
-        </header>
-
-        <main className="mx-auto flex max-w-4xl flex-col gap-4 p-6 pb-20">
+    <Page
+      scrollable
+      headerProps={{
+        title: "后台管理",
+        help: {
+          description:
+            "服务器状态、宿舍电费、IP 白名单与平台用户管理（仅管理员可见）。",
+        },
+      }}
+    >
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 p-4 pb-8">
           {status === "loading" || (authed && whoami.isLoading) ? (
             <p className="text-muted-foreground text-sm">加载中…</p>
           ) : !authed ? (
@@ -438,13 +430,8 @@ export default function AdminPage() {
               </Card>
             </>
           )}
-        </main>
-
-        <footer className="fixed inset-x-0 bottom-0 border-t bg-background py-1.5">
-          <FilingInfo variant="full" />
-        </footer>
       </div>
-    </>
+    </Page>
   );
 }
 
@@ -478,4 +465,3 @@ function PowerCell({ label, value }: { label: string; value?: number | null }) {
   );
 }
 
-AdminPage.skipAppLayout = true;

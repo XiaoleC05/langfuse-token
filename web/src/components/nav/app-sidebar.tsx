@@ -86,9 +86,6 @@ export function AppSidebar({
           <Oxelia51ThemeToggle />
         </div>
         <NavUser {...userNavProps} />
-        <div className="border-t px-2 py-2">
-          <FilingInfo />
-        </div>
       </SidebarFooter>
       {/* Oxelia51：自研 Rail——点击收起/展开，拖动调整宽度。
           原生 SidebarRail（z-50 w-4 隐形按钮）会盖住独立手柄，故二合一。 */}

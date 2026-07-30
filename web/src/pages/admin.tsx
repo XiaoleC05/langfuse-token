@@ -325,6 +325,22 @@ export default function AdminPage() {
                   >
                     添加
                   </Button>
+                  {whitelist?.clientIP && (
+                    <Button
+                      variant="outline"
+                      title={`将当前出口 IP ${whitelist.clientIP} 加入白名单`}
+                      disabled={createMut.isPending || (whitelist.items ?? []).some((i) => i.ip === whitelist.clientIP)}
+                      onClick={() => {
+                        setOpError("");
+                        createMut.mutate({
+                          ip: whitelist.clientIP!,
+                          label: "本机（一键添加）",
+                        });
+                      }}
+                    >
+                      一键添加本机 IP
+                    </Button>
+                  )}
                 </div>
                 {opError && (
                   <p className="text-sm" style={{ color: "var(--ox-danger)" }}>{opError}</p>

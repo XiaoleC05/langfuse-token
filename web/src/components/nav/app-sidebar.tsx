@@ -9,6 +9,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarTrigger,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
@@ -43,12 +44,15 @@ type AppSidebarProps = {
     ungrouped: NavMainItem[];
   };
   userNavProps: UserNavigationProps;
+  /** Oxelia51：右缘拖动调宽回调 */
+  onStartResize?: (e: React.MouseEvent) => void;
 } & React.ComponentProps<typeof Sidebar>;
 
 export function AppSidebar({
   navItems,
   secondaryNavItems,
   userNavProps,
+  onStartResize,
   ...props
 }: AppSidebarProps) {
   const { isMobile } = useSidebar();
@@ -57,8 +61,10 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" variant="sidebar" {...props}>
       <SidebarHeader>
-        <div className="flex min-h-9 items-center gap-2 py-2 pr-0 pl-2 group-data-[collapsible=icon]:p-3">
+        <div className="flex min-h-9 items-center gap-2 py-2 pr-2 pl-2 group-data-[collapsible=icon]:p-3">
           <LangfuseLogo version />
+          {/* Oxelia51：侧栏展开/收起按钮（桌面端可见） */}
+          <SidebarTrigger className="ml-auto hidden h-7 w-7 shrink-0 md:flex group-data-[collapsible=icon]:hidden" />
         </div>
         <div className="h-1 flex-1 border-b" />
         <DemoBadge />
@@ -86,6 +92,15 @@ export function AppSidebar({
         </div>
       </SidebarFooter>
       <SidebarRail />
+      {/* Oxelia51：右缘拖动调宽手柄 */}
+      {onStartResize && (
+        <div
+          role="separator"
+          aria-label="拖动调整侧栏宽度"
+          onMouseDown={onStartResize}
+          className="absolute top-0 right-0 z-20 hidden h-full w-1.5 cursor-col-resize transition-colors hover:bg-[var(--ox-accent)]/40 group-data-[collapsible=icon]:hidden md:block"
+        />
+      )}
     </Sidebar>
   );
 }

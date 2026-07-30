@@ -29,7 +29,6 @@ import { type ReactNode } from "react";
 import { type Entitlement } from "@/src/features/entitlements/constants/entitlements";
 import { type Session } from "next-auth";
 import { type OrganizationScope } from "@/src/features/rbac/constants/organizationAccessRights";
-import { SupportButton } from "@/src/components/nav/support-button";
 import { V4MigrationNavItem } from "@/src/features/v4-migration/V4MigrationNavItem";
 import { V4SidebarToggle } from "@/src/features/events/components/V4SidebarToggle";
 import { SidebarMenuButton } from "@/src/components/ui/sidebar";
@@ -96,6 +95,27 @@ export const ROUTES: Route[] = [
     title: "项目",
     pathname: "/organization/[organizationId]",
     icon: Grid2X2,
+    section: RouteSection.Main,
+  },
+  {
+    title: "Token 概览",
+    pathname: `/project/[projectId]/dashboard/tokens`,
+    icon: BarChart3,
+    group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "成本分析",
+    pathname: `/project/[projectId]/dashboard/cost`,
+    icon: Coins,
+    group: RouteGroup.TokenStats,
+    section: RouteSection.Main,
+  },
+  {
+    title: "告警设置",
+    pathname: `/project/[projectId]/settings/alerts`,
+    icon: Siren,
+    group: RouteGroup.TokenStats,
     section: RouteSection.Main,
   },
   {
@@ -203,27 +223,6 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Token 概览",
-    pathname: `/project/[projectId]/dashboard/tokens`,
-    icon: BarChart3,
-    group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
-    title: "成本分析",
-    pathname: `/project/[projectId]/dashboard/cost`,
-    icon: Coins,
-    group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
-    title: "告警设置",
-    pathname: `/project/[projectId]/settings/alerts`,
-    icon: Siren,
-    group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
     title: "后台管理",
     pathname: "/admin",
     icon: Wrench,
@@ -280,13 +279,6 @@ export const ROUTES: Route[] = [
     pathname: "/organization/[organizationId]/settings",
     icon: Settings,
     section: RouteSection.Secondary,
-  },
-  {
-    title: "Support",
-    icon: LifeBuoy,
-    section: RouteSection.Secondary,
-    pathname: "", // Empty pathname since this is a dropdown
-    menuNode: <SupportButton />,
   },
 ];
 

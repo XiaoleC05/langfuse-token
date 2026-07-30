@@ -22,7 +22,7 @@ export default function Widgets() {
       headerProps={{
         title: "组件",
         help: {
-          description: "Manage and create widgets for your dashboard.",
+          description: "管理并创建仪表盘组件。",
           href: "https://langfuse.com/docs/metrics/features/custom-dashboards",
         },
         tabsProps: {
@@ -37,7 +37,7 @@ export default function Widgets() {
             trackingEventName="dashboard:new_widget_form_open"
             variant="default"
           >
-            New widget
+            新建组件
           </ActionButton>
         ),
       }}

@@ -1,5 +1,9 @@
 import { useRouter } from "next/router";
 import { Oxelia51WelcomeCard } from "@/src/features/oxelia51/components/Oxelia51WelcomeCard";
+import { TokenWidget } from "@/src/features/dashboard/components/TokenWidget";
+import { TokenChart } from "@/src/features/dashboard/components/TokenChart";
+import { CostChart } from "@/src/features/dashboard/components/CostChart";
+import { CurrencyProvider } from "@/src/features/oxelia51/currency";
 import { api } from "@/src/utils/api";
 import { TimeRangePicker } from "@/src/components/date-picker";
 import { PageHeaderControlsPortal } from "@/src/components/layouts/page-header-controls-slot";
@@ -374,6 +378,16 @@ export default function Dashboard() {
           />
         </PageHeaderControlsPortal>
         <Oxelia51WelcomeCard projectId={projectId} />
+        {/* Oxelia51：Token 监控是本平台主角，置顶展示 */}
+        <CurrencyProvider projectId={projectId}>
+          <div className="mb-4 flex flex-col gap-4">
+            <TokenWidget projectId={projectId} />
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <TokenChart projectId={projectId} />
+              <CostChart projectId={projectId} />
+            </div>
+          </div>
+        </CurrencyProvider>
         {!isDashboardDataReady || isResolvingDashboard ? (
           <NoDataOrLoading isLoading />
         ) : (

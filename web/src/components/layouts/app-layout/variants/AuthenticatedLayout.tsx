@@ -94,6 +94,30 @@ export function AuthenticatedLayout({
   // Safe assertion: AuthenticatedLayout is only rendered after auth checks pass
   // in AppLayout, which guarantees session.user exists at this point
   const user = session.user;
+
+  // Oxelia51：侧边栏宽度可手动拖动调整（localStorage 持久化）
+  const [sidebarWidth, setSidebarWidth] = useState(256);
+  useEffect(() => {
+    const saved = Number(window.localStorage.getItem("oxelia51-sidebar-width"));
+    if (saved >= 208 && saved <= 400) setSidebarWidth(saved);
+  }, []);
+  const startSidebarResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startW = sidebarWidth;
+    const onMove = (ev: MouseEvent) => {
+      const next = Math.min(400, Math.max(208, startW + ev.clientX - startX));
+      setSidebarWidth(next);
+    };
+    const onUp = (ev: MouseEvent) => {
+      const next = Math.min(400, Math.max(208, startW + ev.clientX - startX));
+      window.localStorage.setItem("oxelia51-sidebar-width", String(next));
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  };
   if (!user) {
     // This should never happen due to guards in AppLayout, but TypeScript needs this
     return null;
@@ -169,7 +193,9 @@ export function AuthenticatedLayout({
 
       <TopBannerProvider>
         <SidebarPresenceProvider>
-          <SidebarProvider>
+          <SidebarProvider
+            style={{ "--sidebar-width": `${sidebarWidth}px` } as React.CSSProperties}
+          >
             <div className="flex h-dvh w-full flex-col">
               <PaymentBanner />
               <VersionUpdateBanner />
@@ -178,6 +204,7 @@ export function AuthenticatedLayout({
                   navItems={navigation.mainNavigation}
                   secondaryNavItems={navigation.secondaryNavigation}
                   userNavProps={userNavProps}
+                  onStartResize={startSidebarResize}
                 />
                 <SidebarInset className="h-screen-with-banner max-w-full md:peer-data-[state=collapsed]:w-[calc(100vw-var(--sidebar-width-icon))] md:peer-data-[state=expanded]:w-[calc(100vw-var(--sidebar-width))]">
                   <AppContentWithRightDrawer>

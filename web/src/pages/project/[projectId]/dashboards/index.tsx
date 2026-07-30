@@ -22,7 +22,7 @@ export default function Dashboards() {
       headerProps={{
         title: "仪表盘",
         help: {
-          description: "Manage and create dashboards for your project.",
+          description: "管理并创建项目的仪表盘。",
           href: "https://langfuse.com/docs/metrics/features/custom-dashboards",
         },
         tabsProps: {
@@ -37,7 +37,7 @@ export default function Dashboards() {
             trackingEventName="dashboard:new_dashboard_form_open"
             variant="default"
           >
-            New dashboard
+            新建仪表盘
           </ActionButton>
         ),
       }}

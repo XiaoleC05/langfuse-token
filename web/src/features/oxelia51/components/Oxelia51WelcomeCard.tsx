@@ -59,6 +59,9 @@ export function Oxelia51WelcomeCard({ projectId }: { projectId: string }) {
       <p className="text-muted-foreground text-sm">
         这里集中监控你的 LLM API 调用：统计 Token 用量、分析模型成本、配置预算告警，并保留每一次调用的完整追踪链路。
       </p>
+      <p className="text-muted-foreground text-xs">
+        提示：「组织」是 Langfuse 的团队空间概念，本平台只有一个默认组织，日常使用无需理会；下方即为本项目的 Token 实时监控。
+      </p>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {FEATURES(projectId).map((f) => (
           <Link

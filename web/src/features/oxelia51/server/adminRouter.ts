@@ -130,6 +130,11 @@ export const oxelia51AdminRouter = createTRPCRouter({
     goFetch("/api/admin/server-stats", "GET"),
   ),
 
+  /** 代理网关状态（QPS/延迟/成功率/供应商分布） */
+  gatewayStats: adminProcedure.query(() =>
+    goFetch("/api/admin/gateway-stats", "GET"),
+  ),
+
   /** 腾讯云服务器状态：langfuse-web 容器所在主机（本进程读取） */
   localStats: adminProcedure.query(async () => {
     const load = (os.loadavg()[0] / os.cpus().length) * 100;

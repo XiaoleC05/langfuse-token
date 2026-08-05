@@ -40,6 +40,25 @@ type PowerRecord = {
   record_time?: string;
 };
 
+type GatewayStats = {
+  status?: string;
+  uptimeSec?: number;
+  stats?: {
+    uptimeSeconds: number;
+    totalRequests: number;
+    successRate: number;
+    qps: number;
+    avgLatencyMs: number;
+    windowSeconds: number;
+    byProvider: Array<{
+      provider: string;
+      requests: number;
+      failures: number;
+      avgLatencyMs: number;
+    }>;
+  };
+};
+
 type WhitelistItem = {
   id: number;
   ip: string;
@@ -87,6 +106,13 @@ function errMsg(e: { message?: string } | null | undefined) {
   return e?.message ?? "";
 }
 
+function gatewayQStatus(g: GatewayStats | undefined): string {
+  if (!g) return "状态未知";
+  if (g.status === "ok") return "正常";
+  if (g.status === "degraded") return "降级";
+  return "异常";
+}
+
 export default function AdminPage() {
   const { data: session, status } = useSession();
   const authed = status === "authenticated" && Boolean(session?.user);
@@ -105,6 +131,10 @@ export default function AdminPage() {
     enabled: allowed,
     refetchInterval: POLL_MS,
   });
+  const gatewayStatsQ = api.oxelia51Admin.gatewayStats.useQuery(undefined, {
+    enabled: allowed,
+    refetchInterval: POLL_MS,
+  });
   const powerQ = api.oxelia51Admin.dormPower.useQuery(undefined, {
     enabled: allowed,
   });
@@ -116,6 +146,8 @@ export default function AdminPage() {
   });
 
   const stats = statsQ.data as ServerStats | undefined;
+  const gateway = gatewayStatsQ.data as GatewayStats | undefined;
+  const gw = gateway?.stats;
   const power = powerQ.data as PowerRecord | undefined;
   const whitelist = whitelistQ.data as
     | { items?: WhitelistItem[]; clientIP?: string }
@@ -251,6 +283,91 @@ export default function AdminPage() {
                     />
                     <StatCell label="运行时长" value={formatUptime(localStatsQ.data?.uptimeSeconds)} />
                   </div>
+                )}
+              </Card>
+
+              {/* 代理网关状态 */}
+              <Card className="flex flex-col gap-3 p-4 lg:col-span-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">
+                    代理网关状态（近 {gw?.windowSeconds ?? 5} 分钟）
+                  </span>
+                  <span
+                    className="text-xs"
+                    style={{
+                      color: gateway?.status === "ok" ? "var(--ox-ok)" : "var(--ox-warn)",
+                    }}
+                  >
+                    {gatewayQStatus(gateway)}
+                  </span>
+                </div>
+                {gatewayStatsQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
+                    {errMsg(gatewayStatsQ.error)}
+                  </p>
+                ) : !gw ? (
+                  <p className="text-muted-foreground text-sm">加载中…</p>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                      <StatCell
+                        label="QPS"
+                        value={gw.qps > 0 ? gw.qps.toFixed(2) : "0.00"}
+                      />
+                      <StatCell
+                        label="平均延迟"
+                        value={`${gw.avgLatencyMs.toFixed(0)} ms`}
+                      />
+                      <StatCell
+                        label="成功率"
+                        value={`${gw.successRate.toFixed(1)}%`}
+                        warn={gw.successRate < 90 && gw.totalRequests > 0}
+                      />
+                      <StatCell
+                        label="总请求数"
+                        value={gw.totalRequests.toLocaleString()}
+                      />
+                    </div>
+                    <p className="text-muted-foreground text-xs">
+                      运行时长：{formatUptime(gw.uptimeSeconds)}
+                    </p>
+                    {gw.byProvider.length > 0 && (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>供应商</TableHead>
+                            <TableHead className="text-right">请求数</TableHead>
+                            <TableHead className="text-right">失败</TableHead>
+                            <TableHead className="text-right">平均延迟</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {gw.byProvider.slice(0, 10).map((p) => (
+                            <TableRow key={p.provider}>
+                              <TableCell className="font-mono text-xs">
+                                {p.provider}
+                              </TableCell>
+                              <TableCell className="text-right tabular-nums">
+                                {p.requests.toLocaleString()}
+                              </TableCell>
+                              <TableCell
+                                className="text-right tabular-nums"
+                                style={{
+                                  color:
+                                    p.failures > 0 ? "var(--ox-warn)" : undefined,
+                                }}
+                              >
+                                {p.failures}
+                              </TableCell>
+                              <TableCell className="text-right tabular-nums">
+                                {p.avgLatencyMs.toFixed(0)} ms
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </>
                 )}
               </Card>
 

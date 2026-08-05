@@ -44,45 +44,10 @@ import "@fontsource/noto-serif-sc/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/600.css";
 
-// Polyfill to prevent React crashes when Google Translate modifies the DOM.
-// Google Translate wraps text nodes in <font> elements, which breaks React's
-// reconciliation when it tries to remove/insert nodes that no longer exist
-// in the expected location. This catches NotFoundError and prevents crashes
-// while still allowing translation to work.
-// See: https://github.com/facebook/react/issues/11538
-// See also: https://issues.chromium.org/issues/41407169
-if (typeof window !== "undefined") {
-  const originalRemoveChild = Element.prototype.removeChild;
-  const originalInsertBefore = Element.prototype.insertBefore;
-
-  Element.prototype.removeChild = function <T extends Node>(child: T): T {
-    try {
-      return originalRemoveChild.call(this, child) as T;
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "NotFoundError") {
-        // Node was likely moved by Google Translate - silently ignore
-        return child;
-      }
-      throw error;
-    }
-  };
-
-  Element.prototype.insertBefore = function <T extends Node>(
-    newNode: T,
-    referenceNode: Node | null,
-  ): T {
-    try {
-      return originalInsertBefore.call(this, newNode, referenceNode) as T;
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "NotFoundError") {
-        // Reference node was likely moved by Google Translate
-        // Fallback: append to end (DOM is already inconsistent anyway)
-        return this.appendChild(newNode) as T;
-      }
-      throw error;
-    }
-  };
-}
+// Oxelia51：移除原 Langfuse 的 Google Translate DOM monkey-patch。
+// 该补丁无条件改写 Element.prototype.removeChild/insertBefore，React 19
+// 每次渲染都经过它，可能中断 hydration（页面显示但点击/交互无效，需刷新恢复）。
+// 站点已全面中文化，无需浏览器翻译，直接移除。
 
 import { DetailPageListsProvider } from "@/src/features/navigate-detail-pages/context";
 import { env } from "@/src/env.mjs";
@@ -143,6 +108,19 @@ const MyApp: AppType<{ session: Session | null }> = ({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    // Oxelia51：浏览器从往返缓存（BFCache）恢复时，React 事件绑定可能失效，
+    // 表现为「页面能看但点击无反应，刷新一次才正常」。检测 pageshow.persisted
+    // 强制整页刷新恢复交互。
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        window.location.reload();
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
   const page = (

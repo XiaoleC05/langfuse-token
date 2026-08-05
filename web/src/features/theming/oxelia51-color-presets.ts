@@ -24,7 +24,7 @@ export const BG_PRESETS: Array<{
   { name: "white", label: "纯白", swatch: "#ffffff", themes: ["cozy"] },
   { name: "mist", label: "雾蓝", swatch: "#eef2f7", themes: ["cozy"] },
   { name: "cream", label: "米黄", swatch: "#f6f0e3", themes: ["cozy"] },
-  { name: "black", label: "墨黑", swatch: "#05080f", themes: ["cosmos"] },
+  { name: "black", label: "墨黑", swatch: "#050505", themes: ["cosmos"] },
   { name: "navy", label: "深蓝", swatch: "#0b1322", themes: ["cosmos"] },
 ];
 

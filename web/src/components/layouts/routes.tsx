@@ -44,7 +44,8 @@ export enum RouteSection {
 }
 
 export enum RouteGroup {
-  Observability = "可观测性",
+  // Oxelia51：原「可观测性」收敛为「观测」，仅保留追踪/会话/用户
+  Observability = "观测",
   PromptManagement = "提示词管理",
   Evaluation = "评估",
   TokenStats = "Token 统计",
@@ -74,6 +75,9 @@ export type Route = {
     v4WriteMode: undefined | "legacy" | "dual" | "events_only"; // undefined until the session has loaded
   }) => boolean;
   group?: RouteGroup; // group this route belongs to (within a section)
+  // Oxelia51：高级功能标记。标记的条目在侧栏收进默认折叠的「高级功能」组，
+  // 路由本身不删除，随时可恢复。
+  advanced?: boolean;
 };
 
 export const ROUTES: Route[] = [
@@ -98,6 +102,19 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
+    title: "首页",
+    pathname: `/project/[projectId]`,
+    icon: Home,
+    section: RouteSection.Main,
+  },
+  {
+    title: "仪表盘",
+    pathname: `/project/[projectId]/dashboards`,
+    icon: LayoutDashboard,
+    productModule: "dashboards",
+    section: RouteSection.Main,
+  },
+  {
     title: "Token 概览",
     pathname: `/project/[projectId]/dashboard/tokens`,
     icon: BarChart3,
@@ -109,26 +126,6 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/dashboard/cost`,
     icon: Coins,
     group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
-    title: "告警设置",
-    pathname: `/project/[projectId]/settings/alerts`,
-    icon: Siren,
-    group: RouteGroup.TokenStats,
-    section: RouteSection.Main,
-  },
-  {
-    title: "首页",
-    pathname: `/project/[projectId]`,
-    icon: Home,
-    section: RouteSection.Main,
-  },
-  {
-    title: "仪表盘",
-    pathname: `/project/[projectId]/dashboards`,
-    icon: LayoutDashboard,
-    productModule: "dashboards",
     section: RouteSection.Main,
   },
   {
@@ -156,12 +153,10 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "监控",
-    pathname: "/project/[projectId]/monitors",
-    icon: BellRing,
-    projectRbacScopes: ["monitors:read"],
-    show: ({ v4WriteMode }) => Boolean(v4WriteMode) && v4WriteMode !== "legacy",
-    group: RouteGroup.Observability,
+    // Oxelia51：告警设置是产品核心卖点之一，从 Token 统计组移出，提升为一级独立条目
+    title: "告警设置",
+    pathname: `/project/[projectId]/settings/alerts`,
+    icon: Siren,
     section: RouteSection.Main,
   },
   {
@@ -172,6 +167,7 @@ export const ROUTES: Route[] = [
     productModule: "prompt-management",
     group: RouteGroup.PromptManagement,
     section: RouteSection.Main,
+    advanced: true,
   },
   {
     title: "演练场",
@@ -180,6 +176,7 @@ export const ROUTES: Route[] = [
     productModule: "playground",
     group: RouteGroup.PromptManagement,
     section: RouteSection.Main,
+    advanced: true,
   },
   {
     title: "评分",
@@ -187,6 +184,7 @@ export const ROUTES: Route[] = [
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
     icon: SquarePercent,
+    advanced: true,
   },
   {
     title: "评估器",
@@ -196,6 +194,7 @@ export const ROUTES: Route[] = [
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
     pathname: `/project/[projectId]/evals`,
+    advanced: true,
   },
   {
     title: "人工标注",
@@ -204,6 +203,7 @@ export const ROUTES: Route[] = [
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
     icon: ClipboardPen,
+    advanced: true,
   },
   {
     title: "数据集",
@@ -213,6 +213,7 @@ export const ROUTES: Route[] = [
     projectRbacScopes: ["datasets:read"],
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
+    advanced: true,
   },
   {
     title: "实验",
@@ -221,6 +222,17 @@ export const ROUTES: Route[] = [
     featureFlag: "experimentsV4Enabled",
     group: RouteGroup.Evaluation,
     section: RouteSection.Main,
+    advanced: true,
+  },
+  {
+    title: "监控",
+    pathname: "/project/[projectId]/monitors",
+    icon: BellRing,
+    projectRbacScopes: ["monitors:read"],
+    show: ({ v4WriteMode }) => Boolean(v4WriteMode) && v4WriteMode !== "legacy",
+    group: RouteGroup.Observability,
+    section: RouteSection.Main,
+    advanced: true,
   },
   {
     title: "后台管理",

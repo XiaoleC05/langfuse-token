@@ -1,41 +1,36 @@
-import { useState } from "react";
-import { env } from "@/src/env.mjs";
-
 /**
- * Oxelia51 加载图标：优先品牌 PNG，加载失败时内联 SVG 兜底
- * （SVG 零网络请求，保证加载界面图标永不缺失）。
- * 颜色继承 CSS 变量 --ox-accent，双主题自适应。
+ * Oxelia51 品牌加载动画「伴星」：心跳星点绕月环旋转，永不闭合距离。
+ * 内联 SVG（SMIL 动画），零网络请求，加载界面永不缺失。
+ * 月环颜色继承 text-primary，双主题自适应；星点固定品牌红 #E5484D。
  */
-function OxeliaLogo({ size = 42 }: { size?: number }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 64 64"
-        fill="none"
-        aria-hidden="true"
-      >
-        <rect x="5" y="5" width="54" height="54" rx="16" fill="currentColor" opacity="0.13" />
-        <circle cx="32" cy="32" r="14.5" stroke="currentColor" strokeWidth="5.5" fill="none" />
-        <circle cx="32" cy="17.5" r="4" fill="currentColor" />
-        <circle cx="46.5" cy="32" r="3" fill="currentColor" opacity="0.55" />
-        <circle cx="17.5" cy="32" r="3" fill="currentColor" opacity="0.55" />
-      </svg>
-    );
-  }
-
+function OrbitLoader({ size = 42 }: { size?: number }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64.png`}
+    <svg
       width={size}
       height={size}
-      alt="Oxelia51"
-      onError={() => setFailed(true)}
-    />
+      viewBox="0 0 512 512"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="228"
+        cy="228"
+        r="140"
+        stroke="currentColor"
+        strokeWidth="52"
+      />
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 228 228"
+          to="360 228 228"
+          dur="2.6s"
+          repeatCount="indefinite"
+        />
+        <circle cx="488" cy="228" r="34" fill="#E5484D" />
+      </g>
+    </svg>
   );
 }
 
@@ -43,8 +38,8 @@ export function Spinner(props: { message: string }) {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="text-(--ox-accent) mx-auto w-fit motion-safe:animate-spin">
-          <OxeliaLogo size={42} />
+        <div className="text-primary mx-auto w-fit">
+          <OrbitLoader size={42} />
         </div>
         <h2 className="text-primary mt-5 text-center text-2xl leading-9 font-bold tracking-tight">
           {props.message}

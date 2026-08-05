@@ -22,9 +22,9 @@
    the weight-role vars even when unused in source — the theme-lab tool and
    inline styles read them at runtime. */
 @theme static {
-  --font-sans:
-    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Oxelia51：品牌字体 Manrope（自托管变量字体，@font-face 见
+     features/theming/oxelia51-theme.css），中文回落到系统中文字体。 */
+  --font-sans: "Manrope", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;

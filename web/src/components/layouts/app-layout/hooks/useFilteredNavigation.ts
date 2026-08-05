@@ -51,20 +51,13 @@ function groupNavigationItems(items: NavigationItem[]): GroupedNavigation {
   });
 
   const groupedResult = Object.keys(grouped).length > 0 ? grouped : null;
-  const groupedItems = groupedResult
-    ? [
-        ...(grouped[RouteGroup.Observability] || []),
-        ...(grouped[RouteGroup.PromptManagement] || []),
-        ...(grouped[RouteGroup.Evaluation] || []),
-        ...(grouped[RouteGroup.TokenStats] || []),
-        ...(grouped[RouteGroup.Admin] || []),
-      ]
-    : [];
 
   return {
     ungrouped,
     grouped: groupedResult,
-    flattened: [...ungrouped, ...groupedItems],
+    // Oxelia51：flattened 保持 ROUTES 声明顺序，侧栏分组与 ⌘K 菜单共用同一顺序
+    // （高级功能条目也在其中，由 nav-main 收进折叠组渲染）
+    flattened: [...items],
   };
 }
 

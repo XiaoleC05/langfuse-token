@@ -16,7 +16,7 @@ const LangfuseLogotypeOrCustomized = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={uiCustomization.logoLightModeHref}
-          alt="Langfuse 标志"
+          alt="品牌标志"
           className={cn(
             "group-data-[collapsible=icon]:hidden dark:hidden",
             "max-h-4 max-w-14",
@@ -25,7 +25,7 @@ const LangfuseLogotypeOrCustomized = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={uiCustomization.logoDarkModeHref}
-          alt="Langfuse 标志"
+          alt="品牌标志"
           className={cn(
             "hidden group-data-[collapsible=icon]:hidden dark:block",
             "max-h-4 max-w-14",
@@ -39,18 +39,30 @@ const LangfuseLogotypeOrCustomized = () => {
 
   return (
     <div className="flex items-center">
-      {/* Oxelia51 品牌 logo：暖橙红固定版（不随主题切换） */}
+      {/* Oxelia51 品牌 logo「伴星」：月环 + 心跳星点，随主题切换深浅版 */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden"
+        className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:hidden"
         src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
+        alt="Oxelia51 标志"
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="hidden max-h-6 max-w-40 group-data-[collapsible=icon]:hidden dark:block"
+        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64-dark.png`}
         alt="Oxelia51 标志"
       />
       <div className="hidden group-data-[collapsible=icon]:block">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="h-7 w-7"
+          className="h-7 w-7 dark:hidden"
           src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64.png`}
+          alt="Oxelia51"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="hidden h-7 w-7 dark:block"
+          src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64-dark.png`}
           alt="Oxelia51"
         />
       </div>

@@ -38,10 +38,12 @@ type AppSidebarProps = {
   navItems: {
     grouped: Partial<Record<RouteGroup, NavMainItem[]>> | null;
     ungrouped: NavMainItem[];
+    flattened: NavMainItem[];
   };
   secondaryNavItems: {
     grouped: Partial<Record<RouteGroup, NavMainItem[]>> | null;
     ungrouped: NavMainItem[];
+    flattened: NavMainItem[];
   };
   userNavProps: UserNavigationProps;
   /** Oxelia51：右缘拖动调宽回调 */

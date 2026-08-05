@@ -36,7 +36,7 @@ import { CloudRegionSwitch } from "@/src/features/auth/components/AuthCloudRegio
 import { PasswordInput } from "@/src/components/ui/password-input";
 import { isAnySsoConfigured } from "@/src/ee/features/multi-tenant-sso/utils";
 import { isEmailVerificationRequired } from "@/src/features/auth-credentials/lib/credentialsUtils";
-import { Code, Key, ListTree, Coins, FileJson } from "lucide-react";
+import { Code, Key, BarChart3, BellRing } from "lucide-react";
 import { useRouter } from "next/router";
 import { captureException } from "@sentry/nextjs";
 import { captureUnknownError } from "@/src/utils/captureUnknownError";
@@ -184,6 +184,27 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
     },
   };
 };
+
+// Also used in src/pages/auth/sign-up.tsx
+/** Oxelia51 品牌横版 logo：浅底用深色版，深底（dark）用浅色版。 */
+export function AuthBrandLogo() {
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
+        alt="Oxelia51"
+        className="h-10 w-auto dark:hidden"
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64-dark.png`}
+        alt="Oxelia51"
+        className="hidden h-10 w-auto dark:block"
+      />
+    </>
+  );
+}
 
 type NextAuthProvider = NonNullable<Parameters<typeof signIn>[0]>;
 
@@ -733,13 +754,7 @@ export default function SignIn({
       <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="mx-auto w-fit">
-            {/* Oxelia51 品牌 logo（暖橙红固定版） */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
-              alt="Oxelia51"
-              className="h-10 w-auto"
-            />
+            <AuthBrandLogo />
           </div>
           <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
             登录您的账户
@@ -895,19 +910,19 @@ export default function SignIn({
         {/* Oxelia51 平台亮点：登录页底部简介，帮助新用户了解用途 */}
         <div className="mx-auto mt-6 grid w-full max-w-[480px] grid-cols-3 gap-2 px-6 sm:px-0">
           <FeaturePoint
-            icon={<ListTree className="h-4 w-4" />}
-            title="数据追踪"
-            desc="全链路观测"
+            icon={<Code className="h-4 w-4" />}
+            title="零侵入接入"
+            desc="改一行环境变量即可"
           />
           <FeaturePoint
-            icon={<Coins className="h-4 w-4" />}
-            title="成本分析"
-            desc="Token 与花费"
+            icon={<BarChart3 className="h-4 w-4" />}
+            title="Token 统计"
+            desc="多维消耗分析"
           />
           <FeaturePoint
-            icon={<FileJson className="h-4 w-4" />}
-            title="提示词管理"
-            desc="版本与协作"
+            icon={<BellRing className="h-4 w-4" />}
+            title="预算与告警"
+            desc="异常消耗及时提醒"
           />
         </div>
 

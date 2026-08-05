@@ -57,8 +57,8 @@ function UpdateDisplayName() {
       await utils.invalidate();
       form.reset();
       showSuccessToast({
-        title: "显示名称已更新",
-        description: "您的显示名称已成功更新。",
+        title: "名称已更新",
+        description: "您的名称已成功更新。",
       });
     },
     onError: (error) => form.setError("name", { message: error.message }),
@@ -70,18 +70,18 @@ function UpdateDisplayName() {
 
   return (
     <div>
-      <Header title="显示名称" />
+      <Header title="修改名称" />
       <Card className="p-3">
         {form.getValues().name !== "" ? (
           <p className="text-primary mb-4 text-sm">
-            您的显示名称将从&quot;
+            您的名称将从&quot;
             {session?.user?.name ?? ""}
             &quot;更新为&quot;
             <b>{form.watch().name}</b>&quot;。
           </p>
         ) : (
           <p className="text-primary mb-4 text-sm">
-            您当前的显示名称是&quot;
+            您当前的名称是&quot;
             <b>{session?.user?.name ?? ""}</b>
             &quot;。
           </p>

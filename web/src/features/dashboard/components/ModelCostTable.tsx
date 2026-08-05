@@ -6,7 +6,10 @@ import { DashboardTable } from "@/src/features/dashboard/components/cards/Dashbo
 import { type FilterState, getGenerationLikeTypes } from "@langfuse/shared";
 import { compactNumberFormatter } from "@/src/utils/numbers";
 import { TotalMetric } from "./TotalMetric";
-import { costFormatter } from "@/src/utils/numbers";
+import {
+  formatCost,
+  useCurrency,
+} from "@/src/features/oxelia51/currency";
 import { truncate } from "@/src/utils/string";
 import { type QueryType, type ViewVersion } from "@langfuse/shared/query";
 import { mapLegacyUiTableFilterToView } from "@/src/features/dashboard/lib/dashboardUiTableToViewMapping";
@@ -72,6 +75,9 @@ export const ModelCostTable = ({
     },
   );
 
+  // Oxelia51：币种全局切换（CNY/USD），列头与金额跟随
+  const { currency, rate } = useCurrency();
+
   const totalTokenCost = metrics.data?.reduce(
     (acc, curr) =>
       acc + (curr.sum_totalCost ? (curr.sum_totalCost as number) : 0),
@@ -94,9 +100,11 @@ export const ModelCostTable = ({
               : "0"}
           </RightAlignedCell>,
           <RightAlignedCell key={`${i}-cost`}>
-            {item.sum_totalCost
-              ? costFormatter(item.sum_totalCost as number)
-              : "$0"}
+            {formatCost(
+              (item.sum_totalCost as number) ?? 0,
+              currency,
+              rate,
+            )}
           </RightAlignedCell>,
         ])
     : [];
@@ -115,14 +123,14 @@ export const ModelCostTable = ({
         headers={[
           "模型",
           <RightAlignedCell key="tokens">Token 用量</RightAlignedCell>,
-          <RightAlignedCell key="cost">USD</RightAlignedCell>,
+          <RightAlignedCell key="cost">{currency}</RightAlignedCell>,
         ]}
         rows={metricsData}
         isLoading={isLoading || metrics.isLoading}
         collapse={{ collapsed: 5, expanded: 20 }}
       >
         <TotalMetric
-          metric={costFormatter(totalTokenCost)}
+          metric={formatCost(totalTokenCost ?? 0, currency, rate)}
           description="总成本"
         >
           <DocPopup

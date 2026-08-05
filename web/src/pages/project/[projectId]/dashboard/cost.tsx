@@ -182,10 +182,16 @@ function CostTrendChart({ projectId }: { projectId: string }) {
     const dates = [...new Set(rows.map((r) => r.date))].sort();
     const models = [...new Set(rows.map((r) => r.model))];
     const convert = (usd: number) => (currency === "CNY" ? usd * rate : usd);
+    // 货币符号与 y 轴/tooltip 保持一致，切换后全图统一
+    const symbol = currency === "CNY" ? "¥" : "$";
+    const money = (v: number) => `${symbol}${v.toFixed(2)}`;
 
     return {
       color: theme.palette,
-      tooltip: { trigger: "axis" },
+      tooltip: {
+        trigger: "axis",
+        valueFormatter: (value: unknown) => money(Number(value)),
+      },
       legend: {
         bottom: 0,
         textStyle: { color: theme.mutedColor, fontSize: 11 },
@@ -199,7 +205,11 @@ function CostTrendChart({ projectId }: { projectId: string }) {
       },
       yAxis: {
         type: "value",
-        axisLabel: { color: theme.mutedColor, fontSize: 11 },
+        axisLabel: {
+          color: theme.mutedColor,
+          fontSize: 11,
+          formatter: (value: number) => `${symbol}${value}`,
+        },
         splitLine: { lineStyle: { color: theme.borderColor, opacity: 0.5 } },
       },
       series: models.map((model) => ({

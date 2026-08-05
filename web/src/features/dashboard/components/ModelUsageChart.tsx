@@ -7,7 +7,6 @@ import {
 } from "@/src/features/dashboard/components/hooks";
 import { TabComponent } from "@/src/features/dashboard/components/TabsComponent";
 import { TotalMetric } from "@/src/features/dashboard/components/TotalMetric";
-import { costFormatter } from "@/src/utils/numbers";
 import { api } from "@/src/utils/api";
 import {
   type DashboardDateRangeAggregationOption,
@@ -24,6 +23,11 @@ import { mapLegacyUiTableFilterToView } from "@/src/features/dashboard/lib/dashb
 import { type DatabaseRow } from "@/src/server/api/services/sqlInterface";
 import { DashboardLineTimeSeriesChart } from "@/src/features/dashboard/components/DashboardLineTimeSeriesChart";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
+import {
+  formatCost,
+  useCurrency,
+} from "@/src/features/oxelia51/currency";
+import { type TimeSeriesChartDataPoint } from "@/src/features/dashboard/components/hooks";
 import { useMemo } from "react";
 
 export const ModelUsageChart = ({
@@ -312,22 +316,38 @@ export const ModelUsageChart = ({
     0,
   );
 
+  // Oxelia51：币种全局切换（CNY/USD），成本序列按汇率换算，label 跟随
+  const { currency, rate } = useCurrency();
+  const convertSeries = (
+    series: TimeSeriesChartDataPoint[],
+  ): TimeSeriesChartDataPoint[] =>
+    currency === "CNY"
+      ? series.map((p) => ({
+          ...p,
+          values: p.values.map((v) =>
+            v.value != null
+              ? { ...v, value: Number((v.value * rate).toFixed(2)) }
+              : v,
+          ),
+        }))
+      : series;
+
   const data = [
     {
       tabTitle: "按模型的成本",
-      data: costByModel,
-      totalMetric: costFormatter(totalCost),
+      data: convertSeries(costByModel),
+      totalMetric: formatCost(totalCost ?? 0, currency, rate),
       metricDescription: `成本`,
-      chartMetricLabel: "USD",
-      chartUnit: "USD",
+      chartMetricLabel: currency,
+      chartUnit: currency,
     },
     {
       tabTitle: "按类型的成本",
-      data: costByType,
-      totalMetric: costFormatter(totalCost),
+      data: convertSeries(costByType),
+      totalMetric: formatCost(totalCost ?? 0, currency, rate),
       metricDescription: `成本`,
-      chartMetricLabel: "USD",
-      chartUnit: "USD",
+      chartMetricLabel: currency,
+      chartUnit: currency,
     },
     {
       tabTitle: "按模型的用量",

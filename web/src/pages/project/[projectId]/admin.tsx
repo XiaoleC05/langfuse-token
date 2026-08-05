@@ -179,7 +179,7 @@ export default function AdminPage() {
         },
       }}
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 p-4 pb-8">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-4 p-4 pb-8 lg:grid-cols-2">
           {status === "loading" || (authed && whoami.isLoading) ? (
             <p className="text-muted-foreground text-sm">加载中…</p>
           ) : !authed ? (
@@ -257,21 +257,18 @@ export default function AdminPage() {
               <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-sm font-semibold">宿舍电费（DormGuard）</span>
-                  <div className="flex items-center gap-2">
-                    <LiveDot />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={refreshPowerMut.isPending}
-                      onClick={() => {
-                        setPowerMsg("");
-                        refreshPowerMut.mutate();
-                      }}
-                    >
-                      <RefreshCw className={`h-3.5 w-3.5 ${refreshPowerMut.isPending ? "animate-spin" : ""}`} />
-                      {refreshPowerMut.isPending ? "抓取中…" : "重新获取"}
-                    </Button>
-                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={refreshPowerMut.isPending}
+                    onClick={() => {
+                      setPowerMsg("");
+                      refreshPowerMut.mutate();
+                    }}
+                  >
+                    <RefreshCw className={`h-3.5 w-3.5 ${refreshPowerMut.isPending ? "animate-spin" : ""}`} />
+                    {refreshPowerMut.isPending ? "拉取中…" : "拉取"}
+                  </Button>
                 </div>
                 {powerMsg && (
                   <p className="text-sm" style={{ color: powerMsgOk ? "var(--ox-ok)" : "var(--ox-warn)" }}>
@@ -384,7 +381,7 @@ export default function AdminPage() {
               </Card>
 
               {/* 平台用户管理 */}
-              <Card className="flex flex-col gap-3 p-4">
+              <Card className="flex flex-col gap-3 p-4 lg:col-span-2">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-sm font-semibold">
                     平台用户（{users?.length ?? "…"}）

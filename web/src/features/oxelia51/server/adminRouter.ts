@@ -70,15 +70,27 @@ const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
   return next();
 });
 
+/** 提取浏览器真实出口 IP（nginx 设置的 X-Forwarded-For 第一段） */
+function clientIpFromHeaders(headers: Record<string, string | string[] | undefined>): string {
+  const raw = headers["x-forwarded-for"];
+  const first = Array.isArray(raw) ? raw[0] : raw;
+  if (!first) return "";
+  return first.split(",")[0].trim();
+}
+
 async function goFetch(
   path: string,
   method: "GET" | "POST" | "PATCH" | "DELETE",
   body?: unknown,
   auth = true,
+  clientIp?: string,
 ): Promise<unknown> {
   const headers: Record<string, string> = {};
   if (auth) headers.Authorization = `Bearer ${await getGoToken()}`;
   if (body !== undefined) headers["Content-Type"] = "application/json";
+  // 转发浏览器真实出口 IP，Go 后端据此返回/校验 clientIP
+  // （Langfuse 部署在腾讯云，直接连接时 Go 后端看到的是腾讯云 IP）
+  if (clientIp) headers["X-Oxelia51-Client-IP"] = clientIp;
   const res = await fetch(`${API_BASE}${path}`, {
     method,
     headers,
@@ -155,26 +167,26 @@ export const oxelia51AdminRouter = createTRPCRouter({
     goFetch("/api/tools/dormguard/proxy/api/system/crawl", "POST"),
   ),
 
-  whitelistList: adminProcedure.query(() =>
-    goFetch("/api/admin/ip-whitelist", "GET"),
+  whitelistList: adminProcedure.query(({ ctx }) =>
+    goFetch("/api/admin/ip-whitelist", "GET", undefined, true, clientIpFromHeaders(ctx.headers)),
   ),
   whitelistCreate: adminProcedure
     .input(z.object({ ip: z.string().min(3), label: z.string().default("") }))
-    .mutation(({ input }) =>
-      goFetch("/api/admin/ip-whitelist", "POST", input),
+    .mutation(({ ctx, input }) =>
+      goFetch("/api/admin/ip-whitelist", "POST", input, true, clientIpFromHeaders(ctx.headers)),
     ),
   whitelistUpdate: adminProcedure
     .input(whitelistIdSchema.extend({ ip: z.string().min(3), label: z.string().default("") }))
-    .mutation(({ input }) =>
+    .mutation(({ ctx, input }) =>
       goFetch(`/api/admin/ip-whitelist/${input.id}`, "PATCH", {
         ip: input.ip,
         label: input.label,
-      }),
+      }, true, clientIpFromHeaders(ctx.headers)),
     ),
   whitelistDelete: adminProcedure
     .input(whitelistIdSchema)
-    .mutation(({ input }) =>
-      goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE"),
+    .mutation(({ ctx, input }) =>
+      goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE", undefined, true, clientIpFromHeaders(ctx.headers)),
     ),
 
   /** 平台用户列表：直查 Langfuse 用户表（不走 Go 后端） */

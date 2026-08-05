@@ -107,7 +107,6 @@ export default function AdminPage() {
   });
   const powerQ = api.oxelia51Admin.dormPower.useQuery(undefined, {
     enabled: allowed,
-    refetchInterval: POLL_MS,
   });
   const whitelistQ = api.oxelia51Admin.whitelistList.useQuery(undefined, {
     enabled: allowed,
@@ -223,6 +222,7 @@ export default function AdminPage() {
                     <StatCell
                       label="磁盘"
                       value={stats?.disk_used_percent != null ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）` : "—"}
+                      warn={(stats?.disk_used_percent ?? 0) > 85}
                     />
                     <StatCell label="运行时长" value={formatUptime(stats?.uptime_seconds)} />
                   </div>
@@ -247,6 +247,7 @@ export default function AdminPage() {
                     <StatCell
                       label="磁盘"
                       value={localStatsQ.data?.diskUsedPercent != null ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%（${localStatsQ.data.diskTotalGB} GB）` : "—"}
+                      warn={(localStatsQ.data?.diskUsedPercent ?? 0) > 85}
                     />
                     <StatCell label="运行时长" value={formatUptime(localStatsQ.data?.uptimeSeconds)} />
                   </div>
@@ -432,11 +433,25 @@ export default function AdminPage() {
   );
 }
 
-function StatCell({ label, value }: { label: string; value: string }) {
+function StatCell({
+  label,
+  value,
+  warn = false,
+}: {
+  label: string;
+  value: string;
+  /** 达到阈值时高亮（如磁盘 >85%） */
+  warn?: boolean;
+}) {
   return (
     <div className="flex flex-col gap-0.5">
       <span className="text-muted-foreground text-xs">{label}</span>
-      <span className="text-lg font-semibold tabular-nums">{value}</span>
+      <span
+        className="text-lg font-semibold tabular-nums"
+        style={{ color: warn ? "var(--ox-danger)" : undefined }}
+      >
+        {value}
+      </span>
     </div>
   );
 }

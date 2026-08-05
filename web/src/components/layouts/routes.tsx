@@ -230,7 +230,7 @@ export const ROUTES: Route[] = [
     section: RouteSection.Main,
   },
   {
-    title: "Upgrade",
+    title: "升级套餐",
     icon: Sparkle,
     pathname: "/project/[projectId]/settings/billing",
     section: RouteSection.Secondary,
@@ -239,7 +239,7 @@ export const ROUTES: Route[] = [
     show: ({ organization }) => organization?.plan === "cloud:hobby",
   },
   {
-    title: "Upgrade",
+    title: "升级套餐",
     icon: Sparkle,
     pathname: "/organization/[organizationId]/settings/billing",
     section: RouteSection.Secondary,
@@ -248,20 +248,20 @@ export const ROUTES: Route[] = [
     show: ({ organization }) => organization?.plan === "cloud:hobby",
   },
   {
-    title: "Cloud Status",
+    title: "云服务状态",
     section: RouteSection.Secondary,
     pathname: "",
     menuNode: <CloudStatusMenu />,
   },
   {
-    title: "Preview (fast)",
+    title: "快速预览",
     pathname: "",
     section: RouteSection.Secondary,
     featureFlag: "v4BetaToggleVisible",
     menuNode: <V4SidebarToggle />,
   },
   {
-    title: "Update",
+    title: "更新",
     pathname: "",
     section: RouteSection.Secondary,
     featureFlag: "v4UpgradeUi",

@@ -79,7 +79,14 @@ export function AppSidebar({
             <SidebarNotifications />
           </div>
         )}
-        <NavMain items={secondaryNavItems} />
+        {/* 辅助功能：与主导航分隔，折叠态隐藏分隔线 */}
+        {(secondaryNavItems.ungrouped.length > 0 ||
+          Object.keys(secondaryNavItems.grouped ?? {}).length > 0) && (
+          <div className="group-data-[collapsible=icon]:hidden">
+            <div className="mx-2 border-t" />
+            <NavMain items={secondaryNavItems} />
+          </div>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <div className="px-2 pb-2">
@@ -111,13 +118,13 @@ const DemoBadge = () => {
 
   return (
     <SidebarGroup className="border-b">
-      <SidebarGroupLabel>Demo Project (view only)</SidebarGroupLabel>
+      <SidebarGroupLabel>演示项目（只读）</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              tooltip="Use Demo App to create traces"
+              tooltip="使用演示应用创建追踪"
               variant="cta"
             >
               <Link
@@ -126,15 +133,15 @@ const DemoBadge = () => {
                 rel="noopener noreferrer"
               >
                 <ExternalLink className="h-4 w-4" />
-                <span>Use Demo App</span>
+                <span>使用演示应用</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Your Langfuse Organizations">
+            <SidebarMenuButton asChild tooltip="您的 Langfuse 组织">
               <Link href="/">
                 <Grid2X2 className="h-4 w-4" />
-                <span>Your Langfuse Orgs</span>
+                <span>您的 Langfuse 组织</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

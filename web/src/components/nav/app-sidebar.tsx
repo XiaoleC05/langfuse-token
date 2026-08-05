@@ -31,6 +31,7 @@ import { ExternalLink, Grid2X2 } from "lucide-react";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
 import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
+import { Oxelia51ColorSettings } from "@/src/features/theming/Oxelia51ColorSettings";
 import { FilingInfo } from "@/src/components/FilingInfo";
 
 type AppSidebarProps = {
@@ -60,10 +61,11 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" variant="sidebar" {...props}>
       <SidebarHeader>
-        <div className="flex min-h-9 items-center gap-2 py-2 pr-2 pl-2 group-data-[collapsible=icon]:p-3">
+        <div className="flex min-h-9 items-center gap-2 py-2 pr-2 pl-2 group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:gap-1 group-data-[collapsible=icon]:p-2">
           <LangfuseLogo version />
-          {/* Oxelia51：侧栏展开/收起按钮（桌面端可见） */}
-          <SidebarTrigger className="ml-auto hidden h-7 w-7 shrink-0 md:flex group-data-[collapsible=icon]:hidden" />
+          {/* Oxelia51：侧栏展开/收起按钮。折叠态下不隐藏，
+              图标自动切换为「展开」，保证收起后仍可展开。 */}
+          <SidebarTrigger className="ml-auto hidden h-7 w-7 shrink-0 md:flex group-data-[collapsible=icon]:ml-0" />
         </div>
         <div className="h-1 flex-1 border-b" />
         <DemoBadge />
@@ -89,8 +91,9 @@ export function AppSidebar({
         )}
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-2 pb-2">
+        <div className="flex items-center gap-2 px-2 pb-2">
           <Oxelia51ThemeToggle />
+          <Oxelia51ColorSettings />
         </div>
         <NavUser {...userNavProps} />
       </SidebarFooter>

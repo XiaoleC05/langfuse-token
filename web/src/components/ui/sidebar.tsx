@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { Menu, PanelLeft } from "lucide-react";
+import { Menu, PanelLeft, PanelLeftClose } from "lucide-react";
 import { useIsMobile } from "@/src/hooks/use-mobile";
 import useLocalStorage from "@/src/components/useLocalStorage";
 import { cn } from "@/src/utils/tailwind";
@@ -294,7 +294,7 @@ const SidebarTrigger = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, open } = useSidebar();
 
   return (
     <Button
@@ -313,10 +313,15 @@ const SidebarTrigger = React.forwardRef<
       {...props}
     >
       {/* Hamburger below `md` (opens the sheet); panel-collapse glyph on
-          desktop (toggles the docked sidebar). */}
+          desktop (toggles the docked sidebar). Oxelia51：图标随开合状态切换，
+          收起后仍显示展开按钮。 */}
       <Menu className="size-5 md:hidden" />
-      <PanelLeft className="hidden md:block" />
-      <span className="sr-only">Toggle Sidebar</span>
+      {open ? (
+        <PanelLeftClose className="hidden md:block" />
+      ) : (
+        <PanelLeft className="hidden md:block" />
+      )}
+      <span className="sr-only">切换侧边栏</span>
     </Button>
   );
 });
@@ -332,10 +337,10 @@ const SidebarRail = React.forwardRef<
     <button
       ref={ref}
       data-sidebar="rail"
-      aria-label="Toggle Sidebar"
+      aria-label="切换侧边栏"
       tabIndex={-1}
       onClick={toggleSidebar}
-      title="Toggle Sidebar"
+      title="切换侧边栏"
       className={cn(
         "hover:after:bg-sidebar-border absolute inset-y-0 z-50 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] md:flex",
         "cursor-pointer",

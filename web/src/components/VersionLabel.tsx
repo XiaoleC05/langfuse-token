@@ -60,7 +60,7 @@ export const VersionLabel = ({ className }: { className?: string }) => {
         }
       : // no plan, oss
         {
-          short: "OSS",
+          short: "开源",
           long: "开源版",
         }
     : // null on cloud
@@ -94,6 +94,7 @@ export const VersionLabel = ({ className }: { className?: string }) => {
         <Button
           variant="ghost"
           size="xs"
+          title="版本信息 · 点击查看更新与后台迁移状态"
           className={cn("mt-[0.2px] text-[0.625rem]", className)}
         >
           {VERSION}

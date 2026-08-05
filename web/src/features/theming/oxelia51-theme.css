@@ -72,3 +72,69 @@
   --ox-space-card: 24px;
   --ox-space-section: 80px;
 }
+
+/* ============================================================
+   颜色自定义：背景色 / 字体色预设（data-bg-preset / data-text-preset）
+   与双主题正交。默认（default）不覆盖任何变量，保持主题原色。
+   ============================================================ */
+
+/* —— 背景色预设：Cozy（浅色）—— */
+[data-theme="cozy"][data-bg-preset="white"] {
+  --ox-bg: #ffffff;
+  --ox-bg-alt: #f6f6f6;
+  --ox-bg-glass: rgba(255, 255, 255, 0.8);
+  --ox-border: #e2e2e2;
+  --ox-border-light: #eeeeee;
+}
+[data-theme="cozy"][data-bg-preset="mist"] {
+  --ox-bg: #eef2f7;
+  --ox-bg-alt: #e3e9f1;
+  --ox-bg-glass: rgba(238, 242, 247, 0.82);
+  --ox-border: #d5dde7;
+  --ox-border-light: #e4eaf2;
+}
+[data-theme="cozy"][data-bg-preset="cream"] {
+  --ox-bg: #f6f0e3;
+  --ox-bg-alt: #eee6d5;
+  --ox-bg-glass: rgba(246, 240, 227, 0.82);
+  --ox-border: #e0d5bd;
+  --ox-border-light: #ece3cd;
+}
+
+/* —— 背景色预设：Cosmos（深色）—— */
+[data-theme="cosmos"][data-bg-preset="black"] {
+  --ox-bg: #05080f;
+  --ox-bg-alt: #0a0f1a;
+  --ox-bg-glass: rgba(5, 8, 15, 0.84);
+  --ox-border: #141c2b;
+  --ox-border-light: #1b2435;
+}
+[data-theme="cosmos"][data-bg-preset="navy"] {
+  --ox-bg: #0b1322;
+  --ox-bg-alt: #101a2e;
+  --ox-bg-glass: rgba(11, 19, 34, 0.84);
+  --ox-border: #16233c;
+  --ox-border-light: #1d2c49;
+}
+
+/* —— 字体色预设（仅浅色背景生效；深色背景自动保持浅色文字）—— */
+[data-theme="cozy"][data-text-preset="brown"] {
+  --ox-text: #3d2e25;
+  --ox-text-h: #2a1a0e;
+  --ox-text-muted: #8b7355;
+}
+[data-theme="cozy"][data-text-preset="ink"] {
+  --ox-text: #374151;
+  --ox-text-h: #111827;
+  --ox-text-muted: #6b7280;
+}
+[data-theme="cozy"][data-text-preset="forest"] {
+  --ox-text: #33502f;
+  --ox-text-h: #1f3a1c;
+  --ox-text-muted: #6b8e5a;
+}
+[data-theme="cozy"][data-text-preset="navy"] {
+  --ox-text: #33507a;
+  --ox-text-h: #1e3a5f;
+  --ox-text-muted: #5a6b85;
+}

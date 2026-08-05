@@ -16,7 +16,7 @@ const LangfuseLogotypeOrCustomized = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={uiCustomization.logoLightModeHref}
-          alt="Langfuse Logo"
+          alt="Langfuse 标志"
           className={cn(
             "group-data-[collapsible=icon]:hidden dark:hidden",
             "max-h-4 max-w-14",
@@ -25,7 +25,7 @@ const LangfuseLogotypeOrCustomized = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={uiCustomization.logoDarkModeHref}
-          alt="Langfuse Logo"
+          alt="Langfuse 标志"
           className={cn(
             "hidden group-data-[collapsible=icon]:hidden dark:block",
             "max-h-4 max-w-14",
@@ -44,7 +44,7 @@ const LangfuseLogotypeOrCustomized = () => {
       <img
         className="max-h-6 max-w-40 group-data-[collapsible=icon]:hidden"
         src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-64.png`}
-        alt="Oxelia51 Logo"
+        alt="Oxelia51 标志"
       />
       <div className="hidden group-data-[collapsible=icon]:block">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -60,7 +60,8 @@ const LangfuseLogotypeOrCustomized = () => {
 
 export const LangfuseLogo = ({ version = false }: { version?: boolean }) => {
   return (
-    <div className="-mt-2 ml-1 flex flex-wrap gap-4 lg:flex-col lg:items-start">
+    // Oxelia51：折叠态归零外边距，避免图标被挤压偏移/变形
+    <div className="-mt-2 ml-1 flex flex-wrap gap-4 group-data-[collapsible=icon]:m-0 group-data-[collapsible=icon]:justify-center lg:flex-col lg:items-start">
       {/* Langfuse Logo */}
       <div className="flex items-center">
         <Link href="/" className="flex items-center">

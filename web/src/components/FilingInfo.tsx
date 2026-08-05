@@ -11,7 +11,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
 
   if (variant === "compact") {
     return (
-      <div className="flex items-center justify-center gap-1.5 text-[9px] leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden">
+      <div className="flex items-center justify-center gap-1.5 text-[11px] leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden">
         <a
           href="https://beian.miit.gov.cn/"
           target="_blank"
@@ -36,7 +36,7 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
   }
 
   return (
-    <div className="flex flex-col items-center gap-1 text-center text-[10px] leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden">
+    <div className="flex flex-col items-center gap-1 text-center text-xs leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden">
       <div className="flex flex-wrap items-center justify-center gap-x-1.5">
         <a
           href="https://beian.miit.gov.cn/"

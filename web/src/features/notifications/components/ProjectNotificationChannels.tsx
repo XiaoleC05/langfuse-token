@@ -39,7 +39,7 @@ const NOTIFIED_EVENTS: {
     value: "evaluator-blocked",
     title: "Evaluator deactivated",
     description:
-      "Sent when an evaluator is deactivated due to an unrecoverable error, such as a deleted model or LLM connection.",
+      "Sent when an evaluator is deactivated due to an unrecoverable error, such as a deleted model or model connection.",
   },
 ];
 

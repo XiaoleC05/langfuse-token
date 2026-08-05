@@ -581,7 +581,7 @@ function FilterBuilderForm({
             size="default"
             title={
               !organization?.aiFeaturesEnabled
-                ? "AI features are disabled for your organization. Click to enable them in organization settings."
+                ? "您的组织未启用智能功能。点击可在组织设置中启用。"
                 : undefined
             }
             className="text-muted-foreground w-full justify-start"
@@ -589,13 +589,13 @@ function FilterBuilderForm({
             <WandSparkles className="mr-2 h-4 w-4" />
             {!organization?.aiFeaturesEnabled ? (
               <>
-                AI Filters: Enable in Organization Settings (Admin Only)
+                自动筛选：请在组织设置中启用（仅限管理员）
                 <ExternalLink className="ml-2 h-4 w-4" />
               </>
             ) : showAiFilter ? (
               "Cancel"
             ) : (
-              "Create Filter with AI"
+              "使用自动筛选创建筛选条件"
             )}
           </Button>
           {showAiFilter && (

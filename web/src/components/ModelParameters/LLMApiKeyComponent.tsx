@@ -19,7 +19,7 @@ export const LLMApiKeyComponent = (p: {
       <div>
         <Label className="text-xs font-bold">API 密钥</Label>
         <p className="text-muted-foreground text-sm">
-          LLM API 密钥仅对所有者(Owner)和管理员(Admin)角色可见。
+          模型 API 密钥仅对所有者(Owner)和管理员(Admin)角色可见。
         </p>
       </div>
     );

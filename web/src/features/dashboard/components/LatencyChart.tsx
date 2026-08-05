@@ -153,7 +153,7 @@ export const GenerationLatencyChart = ({
     <DashboardCard
       className={className}
       title="模型延迟"
-      description="各 LLM 生成延迟（秒）"
+      description="各模型生成延迟（秒）"
       isLoading={
         isLoading || (latencies.isPending && selectedModels.length > 0)
       }

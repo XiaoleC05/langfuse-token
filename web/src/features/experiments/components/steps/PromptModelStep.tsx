@@ -426,7 +426,7 @@ export const PromptModelStep: React.FC<PromptModelStepProps> = ({
               {hasToolStructuredOutputConflict
                 ? PROMPT_TOOL_STRUCTURED_OUTPUT_CONFLICT_MESSAGE
                 : structuredOutputEnabled
-                  ? "配置结构化 LLM 输出的 Schema"
+                  ? "配置结构化模型输出的 Schema"
                   : "启用以强制使用特定的输出格式"}
             </CardDescription>
             <FormMessage />

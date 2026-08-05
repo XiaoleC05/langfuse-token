@@ -119,7 +119,7 @@ export function EvalTemplateTypeSelector({
                     value={EvalTemplateType.LLM_AS_JUDGE}
                     className="min-w-[100px]"
                   >
-                    LLM-as-judge
+                    自动评估
                   </TabsTrigger>
                 ) : null}
                 <TabsTrigger

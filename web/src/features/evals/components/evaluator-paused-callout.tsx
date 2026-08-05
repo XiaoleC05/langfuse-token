@@ -38,7 +38,7 @@ function getResolutionActionLabel(params: {
     blockReason === EvaluatorBlockReason.LLM_CONNECTION_AUTH_INVALID ||
     blockReason === EvaluatorBlockReason.LLM_CONNECTION_MISSING
   ) {
-    return "Open LLM connections";
+    return "打开模型连接";
   }
 
   if (templateId) {

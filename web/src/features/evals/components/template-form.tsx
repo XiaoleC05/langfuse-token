@@ -658,10 +658,8 @@ export const InnerEvalTemplateForm = (props: {
                           variant="color-coded"
                           setUpMessage={
                             <>
-                              No default model set. LLM-as-a-judge evaluations
-                              require an LLM connection for scoring. This
-                              default is used by all templates that don&apos;t
-                              specify their own model.{" "}
+                              未设置默认模型。自动评估需要模型连接来进行评分。
+                              此默认模型将用于所有未指定自身模型的模板。{" "}
                               <a
                                 href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
                                 target="_blank"
@@ -929,9 +927,8 @@ export const InnerEvalTemplateForm = (props: {
                   <FormItem>
                     <FormLabel>Score reasoning prompt</FormLabel>
                     <FormDescription>
-                      Define how the LLM should explain its evaluation. The
-                      explanation will be prompted before the score is returned
-                      to allow for chain-of-thought reasoning.
+                      定义模型应如何解释其评估。评分返回前会先提示模型进行解释，
+                      以支持逐步推理。
                     </FormDescription>
                     <FormControl>
                       <Input {...field} />
@@ -956,11 +953,11 @@ export const InnerEvalTemplateForm = (props: {
                     <FormDescription>
                       {isCategoricalOutput
                         ? shouldAllowMultipleMatches
-                          ? "Define how the LLM should choose one or more categories from the list below."
-                          : "Define how the LLM should choose exactly one category from the list below."
+                          ? "定义模型应如何从下面的列表中选择一个或多个类别。"
+                          : "定义模型应如何从下面的列表中仅选择一个类别。"
                         : isBooleanOutput
-                          ? "Define how the LLM should return either true or false based on the evaluation criteria."
-                          : "Define how the LLM should return the evaluation score in natural language. Needs to yield a numeric value."}
+                          ? "定义模型应如何根据评估标准返回是或否。"
+                          : "定义模型应如何以自然语言返回评估评分。需要得出一个数值。"}
                     </FormDescription>
                     <FormControl>
                       <Input {...field} />

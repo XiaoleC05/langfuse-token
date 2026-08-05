@@ -798,7 +798,7 @@ export function DataTableControls({
                       </Button>
                     </PopoverTrigger>
                   </TooltipTrigger>
-                  <TooltipContent>使用 AI 筛选</TooltipContent>
+                  <TooltipContent>使用自动筛选</TooltipContent>
                 </Tooltip>
                 <PopoverContent align="center" className="w-[400px]">
                   <DataTableAIFilters

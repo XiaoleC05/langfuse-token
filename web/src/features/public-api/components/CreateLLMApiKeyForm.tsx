@@ -466,7 +466,7 @@ export function CreateLLMApiKeyForm({
         <FormItem>
           <FormLabel>额外请求头</FormLabel>
           <FormDescription>
-            可选的额外 HTTP 请求头，随请求发送至 LLM 提供商。所有请求头值已加密存储{" "}
+            可选的额外 HTTP 请求头，随请求发送至模型提供商。所有请求头值已加密存储{" "}
             {isLangfuseCloud ? "在我们的服务器上" : "在您的数据库中"}。
           </FormDescription>
 
@@ -677,7 +677,7 @@ export function CreateLLMApiKeyForm({
             name="adapter"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>LLM 适配器</FormLabel>
+                <FormLabel>模型适配器</FormLabel>
                 <FormDescription>
                   该提供商端点接受的架构。
                 </FormDescription>
@@ -708,7 +708,7 @@ export function CreateLLMApiKeyForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="选择 LLM 提供商" />
+                      <SelectValue placeholder="选择模型提供商" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -732,7 +732,7 @@ export function CreateLLMApiKeyForm({
           {showOtherModelInfo && (
             <div className="bg-muted/40 text-muted-foreground space-y-2 rounded-md border p-4 text-sm">
               <p>
-                您可以将任何支持列表中适配器的模型提供商用作 LLM 连接。许多提供商支持
+                您可以将任何支持列表中适配器的模型提供商用作模型连接。许多提供商支持
                 OpenAI API 架构，例如 Z.ai、OpenRouter、Qwen、Mistral、
                 Hugging Face 等。只需将 API 基础 URL 替换为该模型的
                 端点，并添加您提供商的自定义模型名称和 API 密钥。
@@ -1245,7 +1245,7 @@ export function CreateLLMApiKeyForm({
                       <FormItem>
                         <FormLabel>API 基础 URL</FormLabel>
                         <FormDescription>
-                          留空则使用指定 LLM 适配器的默认基础 URL。{" "}
+                          留空则使用指定模型适配器的默认基础 URL。{" "}
                           {currentAdapter === LLMAdapter.OpenAI && (
                             <span>
                               OpenAI 默认值：https://api.openai.com/v1

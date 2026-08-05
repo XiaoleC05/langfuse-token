@@ -22,13 +22,13 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
     {
       title: "自动化评估",
       description:
-        "使用 LLM 作为评判，自动评估追踪，无需人工审核",
+        "使用自动评估，无需人工审核",
       icon: <Bot className="h-4 w-4" />,
     },
     {
       title: "衡量质量",
       description:
-        "创建自定义评估标准来衡量 LLM 输出的质量",
+        "创建自定义评估标准来衡量输出质量",
       icon: <Gauge className="h-4 w-4" />,
     },
     {
@@ -56,9 +56,9 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
             <ul className="text-muted-foreground mx-auto mt-2 max-w-2xl list-disc space-y-2 pl-5 text-left text-sm">
               <li>
                 <span className="text-foreground font-bold">
-                  LLM 作为评判的评估器
+                  自动评估器
                 </span>{" "}
-                使用 LLM 根据自然语言标准对输出进行评分。
+                根据自然语言标准自动对输出进行评分。
               </li>
               <li>
                 <span className="text-foreground font-bold">
@@ -83,8 +83,8 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
 
   return (
     <SplashScreen
-      title="开始使用 LLM 作为评判的评估"
-      description="创建评估模板和评估器，通过 LLM 作为评判自动对追踪进行评分。设置自定义评估标准，让 AI 帮助您衡量输出质量。"
+      title="开始使用自动评估"
+      description="创建评估模板和评估器，通过自动评估对追踪进行评分。设置自定义评估标准，自动帮助您衡量输出质量。"
       valuePropositions={llmAsJudgeValuePropositions}
       primaryAction={{
         label: "创建评估器",

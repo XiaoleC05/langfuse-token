@@ -15,7 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const SKILLS_INSTALL_COMMAND =
-  "从 github.com/langfuse/skills 安装 Langfuse AI 技能，并使用它按照最佳实践为此应用添加 Langfuse 追踪。";
+  "从 github.com/langfuse/skills 安装 Langfuse 技能，并使用它按照最佳实践为此应用添加 Langfuse 追踪。";
 const MANUAL_TRACING_DOCS_URL =
   "https://langfuse.com/docs/observability/get-started";
 
@@ -181,7 +181,7 @@ export function TracesSetupOnboardingCard({
         {
           title: "运行你的应用 — 追踪将在此显示",
           description:
-            "一旦你的应用进行 LLM 调用，追踪将在几秒内显示。",
+            "一旦你的应用进行模型调用，追踪将在几秒内显示。",
         },
       ]}
     />

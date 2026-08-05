@@ -34,7 +34,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
     return (
       <div className="flex gap-2">
         <span className="text-muted-foreground shrink-0">
-          预估 LLM API 密钥成本：
+          预估模型 API 密钥成本：
         </span>
         <Skeleton className="h-4 w-16" />
       </div>
@@ -46,7 +46,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
     return (
       <div className="flex gap-2">
         <span className="text-muted-foreground shrink-0">
-          预估 LLM API 密钥成本：
+          预估模型 API 密钥成本：
         </span>
         <span className="text-muted-foreground">无数据</span>
       </div>
@@ -65,7 +65,7 @@ export function EstimatedCostRow(props: EstimatedCostRowProps) {
   return (
     <div className="flex gap-2">
       <span className="text-muted-foreground shrink-0">
-        预估 LLM API 密钥成本：
+        预估模型 API 密钥成本：
       </span>
       <span className="flex items-center gap-1 font-bold">
         {formatCostEstimate(totalEstimate)}

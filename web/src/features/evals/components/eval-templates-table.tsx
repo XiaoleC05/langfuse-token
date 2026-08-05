@@ -114,7 +114,7 @@ const TemplateTypeBadge = ({
 
   return (
     <Badge className="w-fit gap-1.5" variant="outline-solid">
-      LLM-as-judge
+      自动评估
     </Badge>
   );
 };

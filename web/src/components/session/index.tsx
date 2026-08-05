@@ -1632,13 +1632,13 @@ const LoadedSessionEventsPage: React.FC<{
                       isLlmCallPresetActive ? "bg-primary/5" : undefined
                     }
                   >
-                    每条追踪的 LLM 调用
+                    每条追踪的模型调用
                     <ChevronDown className="ml-1 h-4 w-4" aria-hidden />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-72 p-1">
                   <div className="text-muted-foreground px-2 py-1.5 text-xs font-bold">
-                    每条追踪的 LLM 调用
+                    每条追踪的模型调用
                   </div>
                   {SESSION_DETAIL_LLM_CALL_PRESETS.map((preset) => {
                     const isActive = matchedView?.id === preset.id;

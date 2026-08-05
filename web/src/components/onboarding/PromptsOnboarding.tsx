@@ -36,7 +36,7 @@ export function PromptsOnboarding({ projectId }: { projectId: string }) {
   return (
     <SplashScreen
       title="开始使用提示词管理"
-      description="Langfuse 提示词管理可帮助您集中管理、版本控制和协作迭代提示词。开始使用提示词管理来提升 LLM 应用程序的性能和可维护性。"
+      description="Langfuse 提示词管理可帮助您集中管理、版本控制和协作迭代提示词。开始使用提示词管理来提升应用程序的性能和可维护性。"
       valuePropositions={valuePropositions}
       primaryAction={{
         label: "创建提示词",

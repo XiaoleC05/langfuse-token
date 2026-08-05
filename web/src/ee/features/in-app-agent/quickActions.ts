@@ -164,11 +164,11 @@ export const IN_APP_AGENT_QUICK_ACTIONS_BY_CONTEXT = {
   evaluation: [
     {
       id: "set-up-llm-judge-evaluator",
-      label: "Set up LLM-as-a-judge evaluator",
+      label: "设置自动评估器",
       description: "Score outputs with a model judge",
       icon: WandSparkles,
       prompt:
-        "Help me set up an LLM-as-a-judge evaluator. First ask what I want to score — a quality like hallucination, helpfulness, or toxicity, or something tied to a specific use case — then help me pick a managed template or write a custom rubric, map its variables, and choose whether it runs on live observations or an experiment and which data it targets. If it helps, look at a few recent traces first to ground your understanding.",
+        "Help me set up an automatic evaluator. First ask what I want to score — a quality like hallucination, helpfulness, or toxicity, or something tied to a specific use case — then help me pick a managed template or write a custom rubric, map its variables, and choose whether it runs on live observations or an experiment and which data it targets. If it helps, look at a few recent traces first to ground your understanding.",
     },
     {
       id: "set-up-annotation-queue",
@@ -312,7 +312,7 @@ export const IN_APP_AGENT_FOCUSED_QUICK_ACTIONS = {
       description: "Attach evaluators and get ready to run",
       icon: Beaker,
       prompt:
-        "Help me get an experiment ready on this dataset: check that its item keys match my prompt variables, confirm an LLM connection is configured, and attach an evaluator to score the results. Langfuse runs the experiment itself, so point me to the experiments UI to start it, or give me a ready-to-use prompt I can hand a coding agent to run it via the SDK.",
+        "Help me get an experiment ready on this dataset: check that its item keys match my prompt variables, confirm a model connection is configured, and attach an evaluator to score the results. Langfuse runs the experiment itself, so point me to the experiments UI to start it, or give me a ready-to-use prompt I can hand a coding agent to run it via the SDK.",
     },
     {
       id: "review-this-dataset",

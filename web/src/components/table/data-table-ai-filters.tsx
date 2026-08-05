@@ -67,7 +67,7 @@ export function DataTableAIFilters({
   if (!organization?.aiFeaturesEnabled) {
     return (
       <AIFeaturesDisabledNotice organizationId={organization?.id}>
-        AI 筛选使用自然语言生成确定性筛选条件。
+        自动筛选使用自然语言生成确定性筛选条件。
       </AIFeaturesDisabledNotice>
     );
   }
@@ -76,7 +76,7 @@ export function DataTableAIFilters({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <span className="text-sm font-bold">使用 AI 筛选</span>
+        <span className="text-sm font-bold">使用自动筛选</span>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

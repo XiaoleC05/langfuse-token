@@ -147,7 +147,7 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
             >
               <Bot className="h-5 w-5 shrink-0" />
               <span className="flex flex-col gap-1">
-                <span className="font-bold">LLM as a judge evaluator</span>
+                <span className="font-bold">自动评估器</span>
                 <span className="text-muted-foreground text-sm font-normal">
                   Use a prompt and model to score traces or observations.
                 </span>
@@ -212,7 +212,7 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
             <DialogTitle>Create new evaluator</DialogTitle>
             {useLlmCreateWizard ? (
               <DialogDescription>
-                Set up an LLM connection first, then define the evaluator.
+                请先设置模型连接，然后定义评估器。
               </DialogDescription>
             ) : null}
           </DialogHeader>
@@ -294,7 +294,7 @@ function CreateLlmEvaluatorWizard({
   renderEvalTemplateForm: (shouldUseDefaultModel: boolean) => ReactNode;
 }) {
   const steps: Array<{ id: CreateEvaluatorStep; label: string }> = [
-    { id: "connection", label: "Set up LLM connection" },
+    { id: "connection", label: "设置模型连接" },
     { id: "define", label: "Define evaluator" },
   ];
   const shouldUseDefaultModel = hasDefaultEvalModel;
@@ -346,8 +346,8 @@ function CreateLlmEvaluatorWizard({
         className={cn("space-y-4", activeStep !== "connection" && "hidden")}
       >
         <p className="text-muted-foreground text-sm">
-          LLM-as-a-judge evaluators need an LLM connection for scoring. Set a
-          project default connection now to continue defining the evaluator.
+          自动评估器需要模型连接来进行评分。请立即设置项目默认连接，
+          以继续定义评估器。
         </p>
         <InlineDefaultEvalModelSetup
           projectId={projectId}

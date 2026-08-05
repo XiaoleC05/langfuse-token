@@ -393,8 +393,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
               <FormLabel>Config</FormLabel>
               <FormDescription>
                 Arbitrary JSON configuration that is available on the prompt.
-                Use this to track LLM parameters, function definitions, or any
-                other metadata.
+                使用此字段追踪模型参数、函数定义或任何其他元数据。
               </FormDescription>
               <CodeMirrorEditor
                 value={field.value}

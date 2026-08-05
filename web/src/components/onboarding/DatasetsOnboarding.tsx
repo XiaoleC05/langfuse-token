@@ -36,7 +36,7 @@ export function DatasetsOnboarding({ projectId }: { projectId: string }) {
   return (
     <SplashScreen
       title="开始使用数据集与实验"
-      description="Langfuse 中的数据集是 LLM 应用程序的输入（和预期输出）集合。您可以针对这些数据集运行实验，在部署到生产环境前测试新版本。"
+      description="Langfuse 中的数据集是应用程序的输入（和预期输出）集合。您可以针对这些数据集运行实验，在部署到生产环境前测试新版本。"
       valuePropositions={valuePropositions}
       primaryAction={{
         label: "创建数据集",

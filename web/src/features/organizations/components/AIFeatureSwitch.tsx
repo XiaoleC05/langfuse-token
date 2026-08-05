@@ -118,12 +118,12 @@ export default function AIFeatureSwitch() {
 
   return (
     <div>
-      <Header title="AI Features" />
+      <Header title="智能功能" />
       <Card className="mb-4 p-3">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col gap-1">
             <h4 className="font-bold">
-              Enable AI powered features for your organization
+              为您的组织启用智能功能
             </h4>
             <p className="text-sm">
               This setting applies to all users and projects. Any data{" "}
@@ -159,11 +159,10 @@ export default function AIFeatureSwitch() {
           <div className="mt-4 flex flex-row items-center justify-between border-t pt-4">
             <div className="flex flex-col gap-1">
               <h4 className="font-bold">
-                AI Data Use for Product/Service Improvement
+                产品/服务改进数据使用授权
               </h4>
               <p className="text-sm">
-                Share data about your use of AI with Langfuse for product and
-                service improvement.
+                与 Langfuse 共享您的功能使用数据，用于产品和服务改进。
               </p>
             </div>
             <div className="relative">
@@ -192,17 +191,16 @@ export default function AIFeatureSwitch() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm AI Features Change</DialogTitle>
+            <DialogTitle>确认更改智能功能</DialogTitle>
           </DialogHeader>
           <DialogBody>
             <span className="text-sm">
-              You are about to{" "}
+              您即将{" "}
               <strong>
-                {isAIFeatureSwitchEnabled ? "enable " : "disable"}
+                {isAIFeatureSwitchEnabled ? "启用" : "禁用"}
               </strong>{" "}
-              AI features for your organization. When enabled, any data{"  "}
-              <i>can</i> be sent to AWS Bedrock in your data region for
-              processing.
+              组织的智能功能。启用后，任何数据{"  "}
+              <i>可能</i>会被发送到您数据区域内的 AWS Bedrock 进行处理。
               <br />
               <br />{" "}
               <a

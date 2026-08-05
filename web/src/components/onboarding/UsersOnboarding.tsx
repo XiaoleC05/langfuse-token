@@ -6,7 +6,7 @@ export function UsersOnboarding() {
   return (
     <SplashScreen
       title="您尚未追踪用户"
-      description="在追踪中添加用户 ID 后，您可以关联成本、评估和其他 LLM 应用指标，更好地了解用户如何与您的 LLM 应用进行交互。"
+      description="在追踪中添加用户 ID 后，您可以关联成本、评估和其他应用指标，更好地了解用户如何与您的应用进行交互。"
       videoSrc="https://static.langfuse.com/prod-assets/onboarding/users-overview-v1.mp4"
     >
       <div className="mt-8">

@@ -160,10 +160,10 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
       >
         <DialogHeader>
           <DialogTitle>
-            {existingLlmTool ? "编辑 LLM 工具" : "创建 LLM 工具"}
+            {existingLlmTool ? "编辑模型工具" : "创建模型工具"}
           </DialogTitle>
           <DialogDescription>
-            为 LLM 函数调用定义工具
+            为模型函数调用定义工具
           </DialogDescription>
         </DialogHeader>
 
@@ -195,7 +195,7 @@ export const CreateOrEditLLMToolDialog: React.FC<CreateOrEditLLMToolDialog> = (
                     <FormItem>
                       <FormLabel>描述</FormLabel>
                       <FormDescription>
-                        此描述将发送给 LLM，帮助其理解工具的用途和功能。
+                        此描述将发送给模型，帮助其理解工具的用途和功能。
                       </FormDescription>
                       <FormControl>
                         <Textarea

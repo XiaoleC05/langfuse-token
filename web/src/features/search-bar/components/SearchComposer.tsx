@@ -1381,11 +1381,11 @@ export function SearchComposer({
           <button
             type="button"
             data-testid="search-bar-ask-ai"
-            aria-label="让AI构建或优化筛选条件"
+            aria-label="让智能助手构建或优化筛选条件"
             title={
               draft.trim().length === 0
                 ? "用自然语言描述筛选条件"
-                : "用AI优化这些筛选条件"
+                : "让智能助手优化这些筛选条件"
             }
             onMouseDown={(event) => event.preventDefault()}
             onClick={(event) => {
@@ -1402,7 +1402,7 @@ export function SearchComposer({
             )}
           >
             <WandSparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>AI助手</span>
+            <span>智能助手</span>
           </button>
         )}
         {/* Bar-local overlay stacking ladder: token text (base) < remove-X

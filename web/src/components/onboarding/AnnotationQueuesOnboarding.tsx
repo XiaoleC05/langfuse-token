@@ -21,7 +21,7 @@ export function AnnotationQueuesOnboarding({
     {
       title: "与标注者协作",
       description:
-        "邀请团队成员来标注和评估您的 LLM 输出",
+        "邀请团队成员来标注和评估您的模型输出",
       icon: <Users className="h-4 w-4" />,
     },
     {
@@ -41,7 +41,7 @@ export function AnnotationQueuesOnboarding({
   return (
     <SplashScreen
       title="开始使用标注队列"
-      description="标注队列帮助您管理 LLM 项目的手动标注/标记。创建队列、定义标注指标并追踪进度。"
+      description="标注队列帮助您管理项目的手动标注/标记。创建队列、定义标注指标并追踪进度。"
       valuePropositions={valuePropositions}
       primaryAction={{
         label: "创建标注队列",

@@ -195,7 +195,7 @@ export default function NewEvaluatorPage() {
                   : "text-muted-foreground",
               )}
             >
-              2. 设置 LLM 连接
+              2. 设置模型连接
               {isProviderStepComplete && (
                 <Check className="ml-1 inline-block h-3 w-3" />
               )}

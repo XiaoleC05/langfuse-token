@@ -108,7 +108,7 @@ export const IntegrationTypeSchema = z.enum([
   "LangChain",
   "LangGraph",
   "OTel Instrumentation",
-  "LLM Proxy (LiteLLM)",
+  "模型代理 (LiteLLM)",
   "3rd Party (Dify / LangFlow / Flowise)",
   "Other (please specify)",
 ]);

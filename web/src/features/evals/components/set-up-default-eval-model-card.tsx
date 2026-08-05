@@ -14,9 +14,8 @@ export function SetupDefaultEvalModelCard({
           projectId={projectId}
           setUpMessage={
             <>
-              No default model set. LLM-as-a-judge evaluations require an LLM
-              connection for scoring. This default is used by all templates that
-              don&apos;t specify their own model.{" "}
+              未设置默认模型。自动评估需要模型连接来进行评分。
+              此默认模型将用于所有未指定自身模型的模板。{" "}
               <a
                 href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
                 target="_blank"

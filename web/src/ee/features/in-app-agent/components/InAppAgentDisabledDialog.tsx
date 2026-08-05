@@ -22,12 +22,11 @@ export function InAppAgentDisabledDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>AI features are disabled</DialogTitle>
+          <DialogTitle>助手功能已禁用</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <AIFeaturesDisabledNotice organizationId={organizationId}>
-            The Langfuse Assistant requires AI features to be enabled for this
-            organization.
+            Langfuse 助手需要为您的组织启用助手功能。
           </AIFeaturesDisabledNotice>
         </DialogBody>
         <DialogFooter>

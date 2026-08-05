@@ -48,13 +48,13 @@ export function CreateLLMApiKeyDialog({
         <DialogTrigger asChild>
           <Button variant="secondary">
             <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-            添加 LLM 连接
+            添加模型连接
           </Button>
         </DialogTrigger>
       )}
       <DialogContent className="max-h-[90%] min-w-[40vw] overflow-auto">
         <DialogHeader>
-          <DialogTitle>新建 LLM 连接</DialogTitle>
+          <DialogTitle>新建模型连接</DialogTitle>
         </DialogHeader>
         {open && (
           <CreateLLMApiKeyForm

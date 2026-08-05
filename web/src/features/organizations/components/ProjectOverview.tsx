@@ -447,7 +447,7 @@ const Onboarding = () => {
         <Button variant="secondary" asChild>
           <Link href="https://langfuse.com/docs/ask-ai" target="_blank">
             <MessageSquareText className="mr-2 h-4 w-4" aria-hidden="true" />
-            Ask AI
+            问助手
           </Link>
         </Button>
       </CardFooter>

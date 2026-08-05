@@ -105,7 +105,7 @@ export const EvaluatorDetail = () => {
         itemType: "EVALUATOR",
         breadcrumb: [
           {
-            name: "LLM-as-a-Judge 评估器",
+            name: "自动评估器",
             href: `/project/${router.query.projectId as string}/evals`,
           },
         ],

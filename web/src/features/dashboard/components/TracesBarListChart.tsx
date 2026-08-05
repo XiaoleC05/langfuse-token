@@ -171,7 +171,7 @@ export const TracesBarListChart = ({
         ) : (
           <NoDataOrLoading
             isLoading={isLoading || traces.isPending || totalTraces.isPending}
-            description="Traces contain details about LLM applications and can be created using the SDK."
+            description="追踪包含应用程序的详细信息，可以通过 SDK 创建。"
             href="https://langfuse.com/docs/get-started"
             className="h-auto grow"
           />

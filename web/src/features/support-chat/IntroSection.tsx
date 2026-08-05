@@ -52,11 +52,11 @@ export function IntroSection({ onStartForm }: { onStartForm: () => void }) {
     <div className="mt-1 flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 text-base font-bold">
-          <Sparkles className="h-4 w-4" /> Ask AI
+          <Sparkles className="h-4 w-4" /> 问助手
         </div>
         <p className="text-muted-foreground mt-1 text-sm">
-          Get instant, helpful answers. Our AI knows the docs, examples, and
-          best practices to guide you fast.
+          快速获得即时、有用的解答。我们的助手熟悉文档、示例和最佳实践，
+          助您快速上手。
         </p>
 
         <RainbowButton asChild>
@@ -65,7 +65,7 @@ export function IntroSection({ onStartForm }: { onStartForm: () => void }) {
             target="_blank"
             rel="noopener"
           >
-            Chat with AI
+            与助手对话
           </a>
         </RainbowButton>
       </div>
@@ -103,8 +103,7 @@ export function IntroSection({ onStartForm }: { onStartForm: () => void }) {
               <LifeBuoy className="h-4 w-4" /> Support
             </div>
             <p className="text-muted-foreground text-sm">
-              Ask AI & Docs did not unblock you? Get in touch with the support
-              team.
+              助手和文档未能解决您的问题？请联系支持团队。
             </p>
             <Button variant="outline" asChild>
               <a
@@ -161,8 +160,7 @@ export function IntroSection({ onStartForm }: { onStartForm: () => void }) {
               <LifeBuoy className="h-4 w-4" /> Email a Support Engineer
             </div>
             <p className="text-muted-foreground text-sm">
-              Ask AI & Docs did not unblock you? One of our support engineers
-              will help you get unblocked.
+              助手和文档未能解决您的问题？我们的支持工程师将帮助您解决。
             </p>
             <Button variant="outline" onClick={onStartForm}>
               Email a Support Engineer
@@ -180,8 +178,7 @@ export function IntroSection({ onStartForm }: { onStartForm: () => void }) {
               <LifeBuoy className="h-4 w-4" /> Community Support
             </div>
             <p className="text-muted-foreground text-sm">
-              Ask AI & Docs did not unblock you? Get help from and share
-              feedback with the community.
+              助手和文档未能解决您的问题？请从社区获取帮助并分享反馈。
             </p>
             <Button variant="outline" asChild>
               <a

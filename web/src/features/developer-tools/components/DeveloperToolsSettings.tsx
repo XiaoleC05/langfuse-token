@@ -26,9 +26,8 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
     <div>
       <Header title="MCP & CLI" />
       <p className="text-muted-foreground mb-6 text-sm">
-        Bring Langfuse into your terminal and AI coding agents. These tools let
-        you and your agents read and write Langfuse data—traces, prompts,
-        datasets, scores, and more—without leaving your development environment.
+        将 Langfuse 带入您的终端和智能编码助手。借助这些工具，您和您的助手
+        无需离开开发环境即可读写 Langfuse 数据——追踪、提示词、数据集、评分等。
       </p>
       <div className="space-y-6">
         <Card className="p-4">
@@ -37,11 +36,10 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
             <span className="font-bold">Agent Skill</span>
           </div>
           <p className="text-primary mb-4 text-sm">
-            The Langfuse Agent Skill is an open-source skill following
-            Anthropic&apos;s Agent Skills standard. It equips AI coding agents
-            (Claude Code, Cursor, Windsurf) with native Langfuse capabilities
-            and conditions them to follow best practices, so agents produce
-            better results when it is installed.
+            Langfuse Agent Skill 是一个遵循 Anthropic&apos;s Agent Skills
+            标准的开源技能。它让智能编码助手（Claude Code、Cursor、Windsurf）
+            获得 Langfuse 原生能力，并引导它们遵循最佳实践，从而在安装后
+            获得更好的结果。
           </p>
           <CodeBlock
             language="shell"
@@ -58,8 +56,8 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
             <span className="font-bold">MCP Server</span>
           </div>
           <p className="text-primary mb-4 text-sm">
-            The Langfuse MCP server lets AI assistants and agents interact with
-            your Langfuse data programmatically via the Model Context Protocol.
+            Langfuse MCP 服务器让助手和代理通过 Model Context Protocol
+            以编程方式与您的 Langfuse 数据交互。
             It supports both read and write operations, and you can restrict it
             to read-only access with an allowlist. Authenticate with a
             project-scoped API key pair.

@@ -155,7 +155,7 @@ export const CreateOrEditLLMSchemaDialog: React.FC<
       <DialogContent className="flex flex-col sm:min-w-128 md:min-w-160">
         <DialogHeader>
           <DialogTitle>
-            {existingLlmSchema ? "编辑 LLM 结构" : "创建 LLM 结构"}
+            {existingLlmSchema ? "编辑模型结构" : "创建模型结构"}
           </DialogTitle>
           <DialogDescription>
             为结构化输出定义 JSON 结构

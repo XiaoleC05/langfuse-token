@@ -44,11 +44,11 @@ export function LlmApiKeyList(props: { projectId: string }) {
   if (!hasAccess) {
     return (
       <div>
-        <Header title="LLM 连接" />
+        <Header title="模型连接" />
         <Alert>
           <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            您没有查看此项目的 LLM API 密钥的权限。
+            您没有查看此项目的模型 API 密钥的权限。
           </AlertDescription>
         </Alert>
       </div>
@@ -57,9 +57,9 @@ export function LlmApiKeyList(props: { projectId: string }) {
 
   return (
     <div id="llm-api-keys">
-      <Header title="LLM 连接" />
+      <Header title="模型连接" />
       <p className="mb-4 text-sm">
-        连接您的 LLM 服务以启用评估和实验场功能。
+        连接您的模型服务以启用评估和实验场功能。
         您的提供商将根据使用量收费。
       </p>
       <Card className="mb-4 overflow-auto">
@@ -180,7 +180,7 @@ function DeleteApiKeyButton(props: { projectId: string; apiKeyId: string }) {
           <TrashIcon className="h-4 w-4" />
         </Button>
       }
-      title="删除 LLM 连接"
+      title="删除模型连接"
       description="确定要删除此连接吗？此操作无法撤销。"
       confirmLabel="永久删除"
       loading={mutDeleteApiKey.isPending}

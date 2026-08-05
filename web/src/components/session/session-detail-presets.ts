@@ -53,7 +53,7 @@ export const SESSION_DETAIL_SYSTEM_PRESETS: SessionDetailSystemPreset[] = [
   },
   {
     id: `${SYSTEM_PRESET_ID_PREFIX}first_generation__`,
-    name: "First LLM Call per Trace",
+    name: "每个追踪的首次模型调用",
     description: "Shows only the first generation in each trace",
     filters: [
       {
@@ -72,7 +72,7 @@ export const SESSION_DETAIL_SYSTEM_PRESETS: SessionDetailSystemPreset[] = [
   },
   {
     id: `${SYSTEM_PRESET_ID_PREFIX}last_generation__`,
-    name: "Last LLM Call per Trace",
+    name: "每个追踪的最后一次模型调用",
     description: "Shows only the last generation in each trace",
     filters: [
       {

@@ -106,7 +106,7 @@ export const ModelParameters: React.FC<ModelParamsContext> = ({
             <p className="font-bold">模型</p>
           </div>
         )}
-        <p className="text-xs">项目中未设置 LLM API 密钥。</p>
+        <p className="text-xs">项目中未设置模型 API 密钥。</p>
         <CreateLLMApiKeyDialog
           open={createLlmApiKeyDialogOpen}
           setOpen={setCreateLlmApiKeyDialogOpen}
@@ -692,7 +692,7 @@ function AddLlmConnectionSelectAction({ onOpen }: { onOpen: () => void }) {
       <SelectSeparator />
       <Button type="button" variant="secondary" onClick={onOpen}>
         <PlusIcon className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
-        添加 LLM 连接
+        添加模型连接
       </Button>
     </>
   );

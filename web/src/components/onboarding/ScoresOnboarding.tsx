@@ -16,7 +16,7 @@ export function ScoresOnboarding() {
     {
       title: "运行基于模型的评估",
       description:
-        "使用 LLM 自动评估应用程序的输出",
+        "自动评估应用程序的输出",
       icon: <Star className="h-4 w-4" />,
     },
     {
@@ -28,7 +28,7 @@ export function ScoresOnboarding() {
     {
       title: "使用自定义指标",
       description:
-        "Langfuse 的评分非常灵活，可用于追踪与 LLM 应用程序相关的任何指标",
+        "Langfuse 的评分非常灵活，可用于追踪与应用程序相关的任何指标",
       icon: <Code className="h-4 w-4" />,
     },
   ];
@@ -36,7 +36,7 @@ export function ScoresOnboarding() {
   return (
     <SplashScreen
       title="开始使用评分"
-      description="通过用户反馈、基于模型的评估或人工审核，评分可帮助您评估 LLM 应用程序的质量/安全性。评分可以通过 API 和 SDK 以编程方式使用来追踪自定义指标。"
+      description="通过用户反馈、基于模型的评估或人工审核，评分可帮助您评估应用程序的质量/安全性。评分可以通过 API 和 SDK 以编程方式使用来追踪自定义指标。"
       valuePropositions={valuePropositions}
       secondaryAction={{
         label: "了解更多",

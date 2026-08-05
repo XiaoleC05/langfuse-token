@@ -25,7 +25,7 @@ const FEATURES = (projectId: string) => [
   },
   {
     title: "追踪",
-    desc: "查看每次 LLM 调用的完整链路",
+    desc: "查看每次模型调用的完整链路",
     href: `/project/${projectId}/traces`,
   },
 ];
@@ -57,7 +57,7 @@ export function Oxelia51WelcomeCard({ projectId }: { projectId: string }) {
         欢迎使用 Oxelia51 Token 监控平台
       </h2>
       <p className="text-muted-foreground text-sm">
-        这里集中监控你的 LLM API 调用：统计 Token 用量、分析模型成本、配置预算告警，并保留每一次调用的完整追踪链路。
+        这里集中监控你的模型 API 调用：统计 Token 用量、分析模型成本、配置预算告警，并保留每一次调用的完整追踪链路。
       </p>
       <p className="text-muted-foreground text-xs">
         提示：「组织」是 Langfuse 的团队空间概念，本平台只有一个默认组织，日常使用无需理会；下方即为本项目的 Token 实时监控。

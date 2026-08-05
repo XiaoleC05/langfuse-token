@@ -30,7 +30,7 @@ export function AgentToolsBanner() {
         <Bot className="h-4 w-4 shrink-0" />
         <span>
           <span className="font-bold">
-            Langfuse works great with your AI coding agents.
+            Langfuse 与您的智能编码助手配合良好。
           </span>{" "}
           Connect Claude Code, Codex, and other agents to your data with the
           Langfuse Agent Skill, MCP server, and CLI.

@@ -134,7 +134,7 @@ export function ChartScores(props: {
       ) : (
         <NoDataOrLoading
           isLoading={props.isLoading || scores.isPending}
-          description="评分用于评估 LLM 质量，可以手动创建或通过 SDK 创建。"
+          description="评分用于评估输出质量，可以手动创建或通过 SDK 创建。"
           href="https://langfuse.com/docs/evaluation/overview"
           className="h-auto grow"
         />

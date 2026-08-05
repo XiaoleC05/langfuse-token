@@ -39,7 +39,7 @@ export default function AnnotationQueues() {
         title: "标注队列",
         help: {
           description:
-            "标注队列用于管理 LLM 项目的评分工作流。详见文档了解更多。",
+            "标注队列用于管理项目的评分工作流。详见文档了解更多。",
           href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation-queues",
         },
         actionButtonsRight: (

@@ -192,8 +192,8 @@ export const JumpToPlaygroundButton: React.FC<JumpToPlaygroundButtonProps> = (
   };
 
   const tooltipMessage = isAvailable
-    ? "在 LLM 实验场中测试"
-    : "消息格式不是有效的 ChatML 格式或已使用工具调用，无法在 LLM 实验场中测试。如果您认为这不正确，请在 GitHub 上提交问题。";
+    ? "在模型实验场中测试"
+    : "消息格式不是有效的 ChatML 格式或已使用工具调用，无法在模型实验场中测试。如果您认为这不正确，请在 GitHub 上提交问题。";
 
   const isMenu = props.layout === "menu";
 

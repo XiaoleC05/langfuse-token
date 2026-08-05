@@ -111,7 +111,7 @@ function DefaultEvalModelFields({
   return (
     <>
       <ModelParameters
-        customHeader={<p className="leading-none font-bold">LLM 连接</p>}
+        customHeader={<p className="leading-none font-bold">模型连接</p>}
         modelParams={setup.modelParams}
         availableModels={setup.availableModels}
         providerModelCombinations={setup.providerModelCombinations}
@@ -161,14 +161,14 @@ export function DefaultEvalModelSetup({
       <Card className="mt-3 flex flex-col gap-6">
         <CardContent>
           <p className="my-2 text-lg font-bold">
-            设置用于评估的 LLM 连接
+            设置用于评估的模型连接
           </p>
           <ManageDefaultEvalModel
             projectId={projectId}
             variant="color-coded"
             setUpMessage={
               <>
-                LLM 评判（LLM-as-a-Judge）评估需要 LLM 连接来进行评分。
+                自动评估器需要模型连接来进行评分。
                 你也可以为每个评估器指定自定义模型。{" "}
                 <a
                   href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
@@ -260,7 +260,7 @@ export function InlineDefaultEvalModelSetup({
     onSuccess,
     successMessage: {
       title: "默认评估模型已设置",
-      description: "LLM 评判（LLM-as-a-Judge）评估器现在可以使用此模型。",
+      description: "自动评估器现在可以使用此模型。",
     },
   });
 

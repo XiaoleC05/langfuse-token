@@ -89,7 +89,7 @@ export function ConfirmationStep(props: ConfirmationStepProps) {
           {showCostDisclaimer ? (
             <div className="flex gap-2">
               <span className="text-muted-foreground shrink-0">
-                预估 LLM API 密钥成本：
+                预估模型 API 密钥成本：
               </span>
               <span className="text-muted-foreground text-xs">
                 实验范围的评估无法提供成本估算

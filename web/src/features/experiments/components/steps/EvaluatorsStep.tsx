@@ -32,7 +32,7 @@ export const EvaluatorsStep: React.FC<EvaluatorsStepProps> = ({
     <div className="space-y-6">
       <StepHeader
         title="评估器（可选）"
-        description="配置评估器以自动为实验结果评分。你可以添加多个评估器来评估 LLM 输出的不同方面。"
+        description="配置评估器以自动为实验结果评分。你可以添加多个评估器来评估输出的不同方面。"
       />
 
       <FormItem>

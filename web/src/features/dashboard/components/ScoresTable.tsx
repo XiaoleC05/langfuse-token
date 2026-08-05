@@ -247,7 +247,7 @@ export const ScoresTable = ({
         }
         noDataProps={{
           description:
-            "Scores evaluate LLM quality and can be created manually or using the SDK.",
+            "评分用于评估输出质量，可以手动创建或通过 SDK 创建。",
           href: "https://langfuse.com/docs/evaluation/overview",
         }}
       >

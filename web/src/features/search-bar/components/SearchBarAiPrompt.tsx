@@ -192,7 +192,7 @@ export function SearchBarAiPrompt({
         reason: "error",
         isV4: true,
       });
-      setError("无法连接到AI服务，请重试。");
+      setError("无法连接到智能服务，请重试。");
     }
   };
 
@@ -242,7 +242,7 @@ export function SearchBarAiPrompt({
             value={value}
             disabled={pending}
             placeholder={placeholder}
-            aria-label="让AI构建筛选条件"
+            aria-label="让智能助手构建筛选条件"
             data-testid="search-bar-ai-input"
             spellCheck={false}
             autoComplete="off"

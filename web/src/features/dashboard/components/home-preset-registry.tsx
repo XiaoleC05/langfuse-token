@@ -263,7 +263,7 @@ export const HOME_PRESET_METADATA: Record<
   },
   "home-generation-latency": {
     name: "模型延迟",
-    description: "各 LLM 的延迟百分位，按百分位分页显示",
+    description: "各模型的延迟百分位，按百分位分页显示",
     illustration: "LINE_TIME_SERIES",
   },
   "home-score-analytics": {

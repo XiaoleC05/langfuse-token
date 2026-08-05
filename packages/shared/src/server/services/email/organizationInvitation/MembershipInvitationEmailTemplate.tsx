@@ -1,18 +1,9 @@
 import * as React from "react";
+import { Text } from "@react-email/components";
 import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Tailwind,
-  Text,
-} from "@react-email/components";
+  OxeliaEmailCtaButton,
+  OxeliaEmailLayout,
+} from "../oxelia51/OxeliaEmailLayout";
 
 interface MembershipInvitationTemplateProps {
   invitedByUsername: string;
@@ -33,71 +24,38 @@ export const MembershipInvitationTemplate = ({
   inviteLink,
   userExists,
   emailFromAddress,
-  langfuseCloudRegion,
 }: MembershipInvitationTemplateProps) => {
-  const previewText = `Join ${invitedByUsername} on Langfuse`;
+  const previewText = `${invitedByUsername} 邀请你加入 Oxelia51 上的组织「${orgName}」`;
 
   return (
-    <Html>
-      <Head />
-      <Preview>{previewText}</Preview>
-      <Tailwind>
-        <Body className="mx-auto my-auto bg-background font-sans">
-          <Container className="mx-auto my-10 w-[465px] rounded border border-solid border-[#eaeaea] p-5">
-            <Section className="mt-8">
-              <Img
-                src="https://static.langfuse.com/langfuse_logo_transactional_email.png"
-                width="40"
-                height="40"
-                alt="Langfuse"
-                className="mx-auto my-0"
-              />
-            </Section>
-            <Heading className="mx-0 my-[30px] p-0 text-center text-2xl font-normal text-black">
-              Join <strong>{orgName}</strong> on <strong>Langfuse</strong>
-            </Heading>
-            <Text className="text-sm leading-6 text-black">Hello,</Text>
-            <Text className="text-sm leading-6 text-black">
-              <strong>{invitedByUsername}</strong> (
-              <span className="text-blue-600 no-underline">
-                {invitedByUserEmail}
-              </span>
-              ) has invited you to join the <strong>{orgName}</strong>{" "}
-              organization on
-              {langfuseCloudRegion
-                ? ` Langfuse (${langfuseCloudRegion} data region)`
-                : " Langfuse"}
-              .
-            </Text>
-            <Section className="mb-4 mt-8 text-center">
-              {/* Note: inviteLink always refers to a root langfuse url and is not vulnerable to hyperlink injection attacks */}
-              <Button
-                className="rounded bg-black px-5 py-3 text-center text-xs font-semibold text-white no-underline"
-                href={inviteLink}
-              >
-                Accept Invitation
-              </Button>
-              <Text className="mt-2 text-xs leading-3 text-muted-foreground">
-                {userExists
-                  ? "(sign in with your existing account)"
-                  : "(you need to create an account with this email address)"}
-              </Text>
-            </Section>
-            <Text className="text-sm leading-6 text-black">
-              or copy and paste this URL into your browser:{" "}
-              <span className="text-blue-600 no-underline">{inviteLink}</span>
-            </Text>
-            <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
-            <Text className="text-xs leading-6 text-[#666666]">
-              This invitation was intended for{" "}
-              <span className="text-black">{receiverEmail}</span>. This invite
-              was sent from{" "}
-              <span className="text-black">{emailFromAddress}</span>. If you
-              were not expecting this invitation, you can ignore this email.
-            </Text>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
+    <OxeliaEmailLayout
+      previewText={previewText}
+      title={`邀请你加入组织「${orgName}」`}
+    >
+      <Text className="text-sm leading-6 text-[#0A0A0A]">你好：</Text>
+      <Text className="text-sm leading-6 text-[#0A0A0A]">
+        <strong>{invitedByUsername}</strong>（{invitedByUserEmail}）邀请你加入
+        Oxelia51 上的组织「<strong>{orgName}</strong>」。
+      </Text>
+      <Text className="text-sm leading-6 text-[#0A0A0A]">
+        Oxelia51 是 Token 消耗统计平台：改一行环境变量，即可按项目统计模型调用的
+        Token 消耗与费用，让 Token 消耗一目了然。
+      </Text>
+      {/* Note: inviteLink always refers to a root oxelia51 url and is not vulnerable to hyperlink injection attacks */}
+      <OxeliaEmailCtaButton href={inviteLink}>接受邀请</OxeliaEmailCtaButton>
+      <Text className="mt-2 text-center text-xs leading-4 text-[#666666]">
+        {userExists
+          ? "（使用你的现有账号登录即可接受邀请）"
+          : "（你需要先使用该邮箱注册账号，再接受邀请）"}
+      </Text>
+      <Text className="text-sm leading-6 text-[#0A0A0A]">
+        如果按钮无法点击，复制以下链接到浏览器打开：{" "}
+        <span className="text-[#0A0A0A] underline">{inviteLink}</span>
+      </Text>
+      <Text className="mt-4 text-xs leading-5 text-[#666666]">
+        本邀请发送给 {receiverEmail}，由 {emailFromAddress}{" "}
+        发出。如果你没有预期收到这封邀请，可以忽略本邮件。
+      </Text>
+    </OxeliaEmailLayout>
   );
 };

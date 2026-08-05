@@ -2,82 +2,10 @@
  * To be used in the `sendVerificationRequest` function of the `email` provider of NextAuth.js.
  */
 
-import * as React from "react";
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Tailwind,
-  Text,
-} from "@react-email/components";
 import { render } from "@react-email/render";
 import { type SendVerificationRequestParams } from "next-auth/providers/email";
 import { createMailTransport } from "../transport";
-
-interface ResetPasswordTemplateProps {
-  token: string;
-  isSetupMode: boolean;
-}
-
-const ResetPasswordTemplate = ({
-  token,
-  isSetupMode,
-}: ResetPasswordTemplateProps) => {
-  const previewText = isSetupMode
-    ? "Verify your Langfuse email"
-    : "Your Langfuse reset code";
-  return (
-    <Html>
-      <Head />
-      <Preview>{previewText}</Preview>
-      <Tailwind>
-        <Body className="mx-auto my-auto bg-background font-sans">
-          <Container className="mx-auto my-10 w-[465px] rounded border border-solid border-[#eaeaea] p-5">
-            <Section className="mt-8">
-              <Img
-                src="https://static.langfuse.com/langfuse_logo_transactional_email.png"
-                width="40"
-                height="40"
-                alt="Langfuse"
-                className="mx-auto my-0"
-              />
-            </Section>
-            <Heading className="mx-0 my-[30px] p-0 text-center text-xl font-normal text-black">
-              {isSetupMode ? (
-                <>
-                  Welcome to Langfuse!
-                  <br />
-                  Verify your email to get started.
-                </>
-              ) : (
-                <>
-                  Forgot your Langfuse password?
-                  <br />
-                  It happens to the best of us.
-                </>
-              )}
-            </Heading>
-            <Section className="mb-8 mt-8 text-center">
-              <Text className="text-center text-sm font-semibold">
-                Your one time passcode:
-              </Text>
-              <Heading className="text-3xl mt-2">{token}</Heading>
-            </Section>
-            <Text className="text-center text-xs leading-6 text-[#666666]">
-              This code is valid for 3 minutes. If you did not request{" "}
-              {isSetupMode ? "this" : "a reset"}, you can ignore this email.
-            </Text>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
-  );
-};
+import { ResetPasswordTemplate } from "./ResetPasswordEmailTemplate";
 
 export async function sendResetPasswordVerificationRequest(
   params: SendVerificationRequestParams,
@@ -90,16 +18,16 @@ export async function sendResetPasswordVerificationRequest(
   const isSetupMode = url?.includes("/auth/setup-password") ?? false;
 
   const htmlTemplate = await render(
-    <ResetPasswordTemplate token={token} isSetupMode={isSetupMode} />,
+    ResetPasswordTemplate({ token, isSetupMode }),
   );
 
   const subject = isSetupMode
-    ? "Verify your Langfuse email"
-    : "Your Langfuse password reset code";
+    ? "验证你的 Oxelia51 邮箱"
+    : "重置你的 Oxelia51 密码";
 
   const textBody = isSetupMode
-    ? `Welcome to Langfuse! Use the following code to verify your email: ${token}\n\nThis code will expire in 3 minutes. If you did not request this, you can ignore this email.`
-    : `Use the following code to reset your Langfuse password: ${token}\n\nThis code will expire in 3 minutes. If you did not request a reset, you can ignore this email.`;
+    ? `欢迎使用 Oxelia51。请使用以下验证码完成邮箱验证：${token}\n\n验证码 3 分钟内有效。如果这不是你的操作，请忽略本邮件。`
+    : `请使用以下验证码重置你的 Oxelia51 密码：${token}\n\n验证码 3 分钟内有效。如果你没有请求重置密码，请忽略本邮件。`;
 
   const result = await transport.sendMail({
     to: identifier,

@@ -86,8 +86,8 @@ export const sendMembershipInvitationEmail = async ({
 
     await mailer.sendMail({
       to,
-      from: `Langfuse <${env.EMAIL_FROM_ADDRESS}>`,
-      subject: `${inviterName} invited you to join the "${orgName}" organization on Langfuse`,
+      from: `Oxelia51 <${env.EMAIL_FROM_ADDRESS}>`,
+      subject: `${inviterName} 邀请你加入 Oxelia51 上的组织「${orgName}」`,
       html: htmlTemplate,
     });
   } catch (error) {

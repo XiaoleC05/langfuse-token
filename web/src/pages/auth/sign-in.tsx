@@ -36,7 +36,7 @@ import { CloudRegionSwitch } from "@/src/features/auth/components/AuthCloudRegio
 import { PasswordInput } from "@/src/components/ui/password-input";
 import { isAnySsoConfigured } from "@/src/ee/features/multi-tenant-sso/utils";
 import { isEmailVerificationRequired } from "@/src/features/auth-credentials/lib/credentialsUtils";
-import { Code, Key, ListTree, Coins, Wrench } from "lucide-react";
+import { Code, Key, ListTree, Coins, FileJson } from "lucide-react";
 import { useRouter } from "next/router";
 import { captureException } from "@sentry/nextjs";
 import { captureUnknownError } from "@/src/utils/captureUnknownError";
@@ -905,9 +905,9 @@ export default function SignIn({
             desc="Token 与花费"
           />
           <FeaturePoint
-            icon={<Wrench className="h-4 w-4" />}
-            title="后台管理"
-            desc="服务器与白名单"
+            icon={<FileJson className="h-4 w-4" />}
+            title="提示词管理"
+            desc="版本与协作"
           />
         </div>
 

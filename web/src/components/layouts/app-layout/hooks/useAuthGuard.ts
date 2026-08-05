@@ -48,6 +48,9 @@ export function useAuthGuard(
       pathname.startsWith(p),
     );
     const isPublicPath = pathname.startsWith("/public/");
+    // Oxelia51：`/` 对未登录用户展示品牌落地页，不强制跳转登录。
+    // 仅精确匹配根路径，不影响其他受保护页面的重定向。
+    const isLandingPath = pathname === "/";
 
     // Check if path is publishable (can be accessed without authentication)
     const isPublishable = PATH_CONSTANTS.publishable.some((path) => {
@@ -85,7 +88,8 @@ export function useAuthGuard(
       session.status === "unauthenticated" &&
       !isUnauthPath &&
       !isPublishable &&
-      !isPublicPath
+      !isPublicPath &&
+      !isLandingPath
     ) {
       // asPath already includes the base path when accessed via browser
       // Strip the base path if present to avoid double-prepending

@@ -118,3 +118,10 @@ web/test-results/*
 
 # Superset config
 .superset/
+
+# 本地临时构建产物（勿提交）
+web-next.tar.gz
+go-bin/
+docker-build/
+Dockerfile.overlay
+.token-savior-cache.json

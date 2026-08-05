@@ -220,4 +220,41 @@ export const oxelia51AdminRouter = createTRPCRouter({
     `;
     return { items: users };
   }),
+
+  /** 用户反馈列表（oxelia51.feedback，按时间倒序，只读） */
+  listFeedback: adminProcedure
+    .input(
+      z
+        .object({ limit: z.number().int().min(1).max(200).default(50) })
+        .optional(),
+    )
+    .query(async ({ input }) => {
+      const rows = await prisma.$queryRaw<
+        Array<{
+          id: unknown;
+          email: string;
+          category: string;
+          message: string;
+          project_id: string | null;
+          status: string;
+          created_at: Date;
+        }>
+      >`
+        SELECT id, email, category, message, project_id, status, created_at
+        FROM oxelia51.feedback
+        ORDER BY created_at DESC
+        LIMIT ${input?.limit ?? 50}
+      `;
+      return {
+        items: rows.map((r) => ({
+          id: Number(r.id),
+          email: r.email,
+          category: r.category,
+          message: r.message,
+          projectId: r.project_id,
+          status: r.status,
+          createdAt: r.created_at,
+        })),
+      };
+    }),
 });

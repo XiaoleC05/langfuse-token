@@ -32,6 +32,7 @@ import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
 import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { Oxelia51ColorSettings } from "@/src/features/theming/Oxelia51ColorSettings";
+import { FeedbackDialog } from "@/src/features/oxelia51/components/FeedbackDialog";
 import { FilingInfo } from "@/src/components/FilingInfo";
 
 type AppSidebarProps = {
@@ -96,6 +97,7 @@ export function AppSidebar({
         <div className="flex items-center gap-2 px-2 pb-2">
           <Oxelia51ThemeToggle />
           <Oxelia51ColorSettings />
+          <FeedbackDialog />
         </div>
         <NavUser {...userNavProps} />
       </SidebarFooter>

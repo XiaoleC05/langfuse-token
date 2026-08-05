@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
+import { Badge } from "@/src/components/ui/badge";
 import { Trash2, RefreshCw } from "lucide-react";
 
 /**
@@ -72,6 +73,31 @@ type UserItem = {
   email: string | null;
   created_at: string;
   memberships: Array<{ org: string; role: string }>;
+};
+
+type FeedbackItem = {
+  id: number;
+  email: string;
+  category: string;
+  message: string;
+  projectId: string | null;
+  status: string;
+  createdAt: string;
+};
+
+const FEEDBACK_CATEGORY_LABEL: Record<string, string> = {
+  feature: "功能建议",
+  bug: "Bug 反馈",
+  other: "其他",
+};
+
+const FEEDBACK_CATEGORY_VARIANT: Record<
+  string,
+  "secondary" | "error" | "outline"
+> = {
+  feature: "secondary",
+  bug: "error",
+  other: "outline",
 };
 
 const POLL_MS = 5000;
@@ -144,6 +170,10 @@ export default function AdminPage() {
   const usersQ = api.oxelia51Admin.usersList.useQuery(undefined, {
     enabled: allowed,
   });
+  const feedbackQ = api.oxelia51Admin.listFeedback.useQuery(
+    { limit: 50 },
+    { enabled: allowed },
+  );
 
   const stats = statsQ.data as ServerStats | undefined;
   const gateway = gatewayStatsQ.data as GatewayStats | undefined;
@@ -153,6 +183,7 @@ export default function AdminPage() {
     | { items?: WhitelistItem[]; clientIP?: string }
     | undefined;
   const users = usersQ.data?.items as UserItem[] | undefined;
+  const feedback = feedbackQ.data?.items as FeedbackItem[] | undefined;
 
   const utils = api.useUtils();
   const [opError, setOpError] = useState("");
@@ -550,6 +581,70 @@ export default function AdminPage() {
                           </TableCell>
                         </TableRow>
                       ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </Card>
+
+              {/* 用户反馈 */}
+              <Card className="flex flex-col gap-3 p-4 lg:col-span-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-sm font-semibold">
+                    用户反馈（{feedback?.length ?? "…"}）
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={() => void feedbackQ.refetch()}>
+                    <RefreshCw className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+                {feedbackQ.error ? (
+                  <p className="text-sm" style={{ color: "var(--ox-warn)" }}>{errMsg(feedbackQ.error)}</p>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-24">分类</TableHead>
+                        <TableHead>邮箱</TableHead>
+                        <TableHead>内容</TableHead>
+                        <TableHead className="w-36">时间</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(feedback ?? []).map((f) => (
+                        <TableRow key={f.id}>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                FEEDBACK_CATEGORY_VARIANT[f.category] ?? "outline"
+                              }
+                            >
+                              {FEEDBACK_CATEGORY_LABEL[f.category] ?? f.category}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-xs">{f.email}</TableCell>
+                          <TableCell className="max-w-md">
+                            <span className="line-clamp-2 whitespace-pre-wrap text-xs">
+                              {f.message}
+                            </span>
+                            {f.projectId && (
+                              <span className="text-muted-foreground block text-xs">
+                                项目：{f.projectId}
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground text-xs">
+                            {f.createdAt
+                              ? new Date(f.createdAt).toLocaleString("zh-CN")
+                              : "—"}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {(feedback ?? []).length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={4} className="text-muted-foreground text-center text-sm">
+                            暂无反馈
+                          </TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 )}

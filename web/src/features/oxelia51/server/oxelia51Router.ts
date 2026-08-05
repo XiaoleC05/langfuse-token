@@ -2,9 +2,23 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProjectProcedure,
+  authenticatedProcedure,
 } from "@/src/server/api/trpc";
-import { queryClickhouse } from "@langfuse/shared/src/server";
+import {
+  queryClickhouse,
+  sendFeedbackNotificationEmail,
+  sendFeedbackAutoReplyEmail,
+} from "@langfuse/shared/src/server";
 import { Prisma } from "@langfuse/shared/src/db";
+import { env } from "@/src/env.mjs";
+import { TRPCError } from "@trpc/server";
+
+/** 反馈分类（DB 存英文枚举）→ 中文展示名（邮件主题/后台列表用）。 */
+const FEEDBACK_CATEGORY_LABEL: Record<"feature" | "bug" | "other", string> = {
+  feature: "功能建议",
+  bug: "Bug 反馈",
+  other: "其他",
+};
 
 /**
  * Oxelia51 Token 监控平台自定义 router。
@@ -372,7 +386,9 @@ export const oxelia51Router = createTRPCRouter({
           `;
         }
       }
-      // 插入新通道（verified 默认 false，等待验证）
+      // 插入新通道。Oxelia51 单用户自托管：自己配置的通道即信任，
+      // verified 直接置 true（alerter 只外发 verified 通道，否则收不到告警）。
+      // 未来若有多用户/公开注册，再补邮件验证流程。
       for (const channel of desired) {
         const exists = existing.some(
           (row) => row.type === channel.type && row.address === channel.address,
@@ -380,7 +396,7 @@ export const oxelia51Router = createTRPCRouter({
         if (!exists) {
           await ctx.prisma.$executeRaw`
             INSERT INTO oxelia51.alert_channels (project_id, type, address, verified)
-            VALUES (${input.projectId}, ${channel.type}, ${channel.address}, false)
+            VALUES (${input.projectId}, ${channel.type}, ${channel.address}, true)
           `;
         }
       }
@@ -419,5 +435,52 @@ export const oxelia51Router = createTRPCRouter({
         status: r.status,
         createdAt: r.created_at,
       }));
+    }),
+
+  /**
+   * 用户反馈：写入 oxelia51.feedback，然后通知运营（默认 receive@oxelia51.com）
+   * + 自动回复提交者。任何登录用户可提交；邮件发送失败只记日志，不影响提交结果。
+   */
+  submitFeedback: authenticatedProcedure
+    .input(
+      z.object({
+        category: z.enum(["feature", "bug", "other"]),
+        email: z.string().trim().email("邮箱格式不正确").max(320),
+        message: z
+          .string()
+          .trim()
+          .min(1, "内容不能为空")
+          .max(2000, "内容最多 2000 字"),
+        projectId: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // projectId 仅作来源标记：校验登录用户确为该项目成员，防止伪造归属
+      const projectId =
+        input.projectId &&
+        ctx.session.user.organizations.some((org) =>
+          org.projects.some((p) => p.id === input.projectId),
+        )
+          ? input.projectId
+          : null;
+
+      await ctx.prisma.$executeRaw`
+        INSERT INTO oxelia51.feedback (email, category, message, project_id)
+        VALUES (${input.email}, ${input.category}, ${input.message}, ${projectId})
+      `;
+
+      const mailEnv = {
+        EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
+        SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
+      };
+      await sendFeedbackNotificationEmail({
+        env: mailEnv,
+        category: FEEDBACK_CATEGORY_LABEL[input.category],
+        userEmail: input.email,
+        content: input.message,
+        submittedAt: new Date(),
+      });
+      await sendFeedbackAutoReplyEmail({ env: mailEnv, to: input.email });
+      return { success: true };
     }),
 });

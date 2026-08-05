@@ -214,9 +214,9 @@ export function AuthenticatedLayout({
                         {children}
                       </AppContentWithRightDrawer>
                     </div>
-                    {/* Oxelia51 备案信息：右侧内容页下方 */}
+                    {/* Oxelia51 页脚：与登录页统一（备案 + Powered by Langfuse + GitHub） */}
                     <footer className="shrink-0 border-t bg-background py-1">
-                      <FilingInfo />
+                      <FilingInfo variant="full" />
                     </footer>
                   </div>
                   {/* Toasts render in the `toast` overlay layer — the last layer

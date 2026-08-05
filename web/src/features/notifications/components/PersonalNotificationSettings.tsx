@@ -45,9 +45,9 @@ export function PersonalNotificationSettings() {
   if (isLoading || !preferences) {
     return (
       <div>
-        <Header title="Personal Notifications" />
+        <Header title="个人通知" />
         <p className="text-muted-foreground mt-4 text-sm">
-          Loading preferences...
+          正在加载偏好设置...
         </p>
       </div>
     );
@@ -59,23 +59,22 @@ export function PersonalNotificationSettings() {
 
   return (
     <div>
-      <Header title="Personal Notifications" />
+      <Header title="个人通知" />
       <div className="flex flex-col gap-4">
         <div>
-          <h3 className="text-lg font-bold">Email Notifications</h3>
+          <h3 className="text-lg font-bold">邮件通知</h3>
           <p className="text-muted-foreground text-sm">
-            Manage your personal email notification preferences for this
-            project.
+            管理您在此项目中的个人邮件通知偏好。
           </p>
         </div>
 
         <div className="flex items-center justify-between rounded-lg border p-4">
           <div className="flex flex-col gap-0.5">
             <Label htmlFor="comment-mention" className="text-base">
-              Comment Mentions
+              评论提及
             </Label>
             <p className="text-muted-foreground text-sm">
-              Receive an email when someone mentions you in a comment
+              当有人在评论中提到您时发送邮件
             </p>
           </div>
           <Switch
@@ -90,7 +89,7 @@ export function PersonalNotificationSettings() {
       {updatePreference.isError && (
         <div className="border-destructive bg-destructive/10 mt-4 rounded-lg border p-4">
           <p className="text-destructive text-sm">
-            Failed to update notification preference. Please try again.
+            更新通知偏好失败，请重试。
           </p>
         </div>
       )}

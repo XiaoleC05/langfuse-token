@@ -69,7 +69,7 @@ export function useAddToDatasetWizard(props: UseAddToDatasetWizardProps) {
       dispatch({ type: "SUBMIT_SUCCESS", batchActionId: data.id });
     },
     onError: (error) => {
-      showErrorToast("Failed to schedule action", error.message);
+      showErrorToast("安排操作失败", error.message);
       dispatch({ type: "SUBMIT_ERROR" });
     },
   });
@@ -270,40 +270,40 @@ export function useAddToDatasetWizard(props: UseAddToDatasetWizardProps) {
   const nextButtonLabel = useMemo(() => {
     switch (state.step) {
       case "select":
-        return "Continue";
+        return "继续";
       case "create":
         return state.createStep.isCreating
-          ? "Creating..."
-          : "Create & Continue";
+          ? "正在创建..."
+          : "创建并继续";
       case "input-mapping":
       case "output-mapping":
       case "metadata-mapping":
-        return "Next";
+        return "下一步";
       case "preview":
-        return state.submission.isSubmitting ? "Adding..." : "Add to Dataset";
+        return state.submission.isSubmitting ? "正在添加..." : "添加到数据集";
       default:
-        return "Continue";
+        return "继续";
     }
   }, [state.step, state.createStep.isCreating, state.submission.isSubmitting]);
 
   const dialogDescription = useMemo(() => {
     switch (state.step) {
       case "choice":
-        return "Choose where to add your observations";
+        return "选择要添加观测的位置";
       case "select":
-        return "Select an existing dataset";
+        return "选择一个现有数据集";
       case "create":
-        return "Create a new dataset";
+        return "创建一个新数据集";
       case "input-mapping":
-        return "Configure dataset item input mapping";
+        return "配置数据集项输入映射";
       case "output-mapping":
-        return "Configure dataset item expected output mapping";
+        return "配置数据集项预期输出映射";
       case "metadata-mapping":
-        return "Configure dataset item metadata mapping";
+        return "配置数据集项元数据映射";
       case "preview":
-        return "Review and confirm your configuration";
+        return "检查并确认您的配置";
       case "status":
-        return "Your bulk action status";
+        return "您的批量操作状态";
       default:
         return "";
     }

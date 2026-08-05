@@ -29,7 +29,7 @@ export const StripeKeepPlanButton = ({
 
   const clearSchedule = api.cloudBilling.clearPlanSwitchSchedule.useMutation({
     onSuccess: () => {
-      toast.success("Kept current plan");
+      toast.success("已保留当前套餐");
       onProcessing(null);
       setOpId(null);
       setTimeout(() => window.location.reload(), 500);
@@ -37,7 +37,7 @@ export const StripeKeepPlanButton = ({
     onError: () => {
       onProcessing(null);
       setOpId(null);
-      toast.error("Failed to keep current plan");
+      toast.error("保留当前套餐失败");
     },
   });
 
@@ -47,30 +47,28 @@ export const StripeKeepPlanButton = ({
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full" variant="default">
-          Keep Plan
+          保留套餐
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-lg">
-            Confirm Keeping Current Plan
+            确认保留当前套餐
           </DialogTitle>
         </DialogHeader>
         <DialogBody className="text-sm">
           <p>
-            You have a scheduled plan change on your current subscription.
-            Keeping your current plan will remove that schedule and you will
-            remain on your existing plan.
+            您的当前订阅已安排了一次套餐变更。保留当前套餐将取消该安排，您将继续
+            使用现有的套餐。
           </p>
           <p>
-            Your features and pricing will stay as-is; usage continues to be
-            billed under your current plan. Do you want to keep your current
-            plan and cancel the scheduled change?
+            您的功能和价格保持不变；用量仍按当前套餐计费。您是否要保留当前套餐并
+            取消已安排的变更？
           </p>
         </DialogBody>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="secondary">Go Back</Button>
+            <Button variant="secondary">返回</Button>
           </DialogClose>
           <Button
             variant="default"
@@ -86,7 +84,7 @@ export const StripeKeepPlanButton = ({
             }}
             disabled={processing}
           >
-            {processing ? "Keeping…" : "Confirm Keep Plan"}
+            {processing ? "正在保留…" : "确认保留套餐"}
           </Button>
         </DialogFooter>
       </DialogContent>

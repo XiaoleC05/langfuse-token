@@ -138,8 +138,8 @@ export const EvalTemplateForm = (props: {
 };
 
 const selectedModelSchema = z.object({
-  provider: z.string().min(1, "Select a provider"),
-  model: z.string().min(1, "Select a model"),
+  provider: z.string().min(1, "选择提供商"),
+  model: z.string().min(1, "选择模型"),
   modelParams: ZodModelConfig,
 });
 
@@ -365,9 +365,9 @@ export const InnerEvalTemplateForm = (props: {
       utils.models.invalidate();
       if (data.updatedConfigCount > 0) {
         showSuccessToast({
-          title: "Updated evaluators",
+          title: "评估器已更新",
           description:
-            "Updated referenced evaluators to use new template version.",
+            "已更新引用该模板的评估器以使用新模板版本。",
         });
       }
     },
@@ -460,7 +460,7 @@ export const InnerEvalTemplateForm = (props: {
       form.setError("name", {
         type: "validate",
         message:
-          "Template with this name already exists. Edit this template or delete it to create a new template with this name.",
+          "已存在同名模板。请编辑此模板或删除它，以创建同名的新模板。",
       });
       return;
     }
@@ -548,7 +548,7 @@ export const InnerEvalTemplateForm = (props: {
     } else {
       if (!defaultModel) {
         setFormError(
-          "No default evaluation model set. Set up default evaluation model or use a custom model",
+          "未设置默认评估模型。请设置默认评估模型或使用自定义模型",
         );
         return;
       }
@@ -571,22 +571,22 @@ export const InnerEvalTemplateForm = (props: {
                 );
                 return (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>名称</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Select a name" />
+                      <Input {...field} placeholder="选择名称" />
                     </FormControl>
                     {existingTemplate && (
                       <p className="text-destructive text-sm font-bold">
-                        Template with this name already exists.{" "}
+                        已存在同名模板。{" "}
                         <Link
                           href={`/project/${props.projectId}/evals/templates/${existingTemplate.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline"
                         >
-                          Edit this template
+                          编辑此模板
                         </Link>{" "}
-                        or delete it to create a new template with this name.
+                        或删除它，以创建同名的新模板。
                       </p>
                     )}
                     <FormMessage />
@@ -637,7 +637,7 @@ export const InnerEvalTemplateForm = (props: {
           {/* Model Selection Section */}
           <Card>
             <CardContent>
-              <p className="my-2 font-bold">Model</p>
+              <p className="my-2 font-bold">模型</p>
               <FormField
                 control={form.control}
                 name="shouldUseDefaultModel"
@@ -651,7 +651,7 @@ export const InnerEvalTemplateForm = (props: {
                       />
                     </FormControl>
                     <div className="space-y-0 leading-none">
-                      <FormLabel>Use default evaluation model</FormLabel>
+                      <FormLabel>使用默认评估模型</FormLabel>
                       <FormDescription className="text-xs">
                         <ManageDefaultEvalModel
                           projectId={props.projectId}
@@ -666,7 +666,7 @@ export const InnerEvalTemplateForm = (props: {
                                 rel="noopener noreferrer"
                                 className="underline"
                               >
-                                Learn more.
+                                了解更多。
                               </a>
                             </>
                           }
@@ -683,16 +683,16 @@ export const InnerEvalTemplateForm = (props: {
                   <div className="text-destructive mt-2 flex items-center space-x-1 text-sm">
                     <AlertCircle className="h-4 w-4" />
                     <p>
-                      This evaluator is configured to use{" "}
-                      {modelParams.provider.value}s models but no API key
-                      exists. Add a key or choose another provider.
+                      此评估器配置为使用{" "}
+                      {modelParams.provider.value}{" "}
+                      提供的模型，但不存在 API 密钥。请添加密钥或选择其他提供商。
                     </p>
                   </div>
                 ) : (
                   <ModelParameters
                     customHeader={
                       <p className="text-sm leading-none font-bold">
-                        Custom model configuration
+                        自定义模型配置
                       </p>
                     }
                     {...{
@@ -703,7 +703,7 @@ export const InnerEvalTemplateForm = (props: {
                       updateModelParamValue: updateModelParamValue,
                       setModelParamEnabled,
                       modelParamsDescription:
-                        "Select a model which supports function calling.",
+                        "选择支持函数调用的模型。",
                     }}
                     formDisabled={!props.isEditing}
                   />
@@ -714,18 +714,17 @@ export const InnerEvalTemplateForm = (props: {
           <Card>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <p className="my-2 font-bold">Prompt</p>
+                <p className="my-2 font-bold">提示词</p>
                 <FormField
                   control={form.control}
                   name="prompt"
                   render={({ field }) => (
                     <>
                       <FormItem>
-                        <FormLabel>Evaluation prompt</FormLabel>
+                        <FormLabel>评估提示词</FormLabel>
                         <FormDescription>
-                          Define your llm-as-a-judge evaluation template. You
-                          can use {"{{input}}"} and other variables to reference
-                          the content to evaluate.
+                          定义您的 llm-as-a-judge 评估模板。您可以使用{" "}
+                          {"{{input}}"} 和其他变量引用要评估的内容。
                         </FormDescription>
                         <FormControl>
                           <CodeMirrorEditor
@@ -752,11 +751,9 @@ export const InnerEvalTemplateForm = (props: {
                 name="scoreDataType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Score type</FormLabel>
+                    <FormLabel>评分类型</FormLabel>
                     <FormDescription>
-                      Choose whether the evaluator should return a numeric
-                      score, a boolean verdict, or one of a fixed set of
-                      categories.
+                      选择评估器应返回数值评分、布尔判定，还是固定类别集合中的一项。
                     </FormDescription>
                     <Select
                       value={field.value}
@@ -800,18 +797,18 @@ export const InnerEvalTemplateForm = (props: {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a score type" />
+                          <SelectValue placeholder="选择评分类型" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value={ScoreDataTypeEnum.NUMERIC}>
-                          Numeric
+                          数值
                         </SelectItem>
                         <SelectItem value={ScoreDataTypeEnum.BOOLEAN}>
-                          Boolean
+                          布尔
                         </SelectItem>
                         <SelectItem value={ScoreDataTypeEnum.CATEGORICAL}>
-                          Categorical
+                          类别
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -827,12 +824,10 @@ export const InnerEvalTemplateForm = (props: {
                   render={() => (
                     <FormItem>
                       <div>
-                        <FormLabel>Categories</FormLabel>
+                        <FormLabel>类别</FormLabel>
                         <FormDescription>
-                          Add the allowed category values the model may return.
-                          Categories must be exhaustive. If you need a catch-all
-                          outcome (e.g. &apos;No match&apos;), add it explicitly
-                          as one of the categories.
+                          添加模型可能返回的允许类别值。类别必须完备。
+                          如果您需要兜底结果（例如 &apos;无匹配&apos;），请将其作为类别之一显式添加。
                         </FormDescription>
                       </div>
                       <div className="space-y-3">
@@ -847,7 +842,7 @@ export const InnerEvalTemplateForm = (props: {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel className="text-muted-foreground text-xs">
-                                    Category
+                                    类别
                                   </FormLabel>
                                   <FormControl>
                                     <Input {...field} />
@@ -878,7 +873,7 @@ export const InnerEvalTemplateForm = (props: {
                         onClick={() => append({ value: "" })}
                       >
                         <PlusIcon className="mr-1.5 h-4 w-4" />
-                        Add category
+                        添加类别
                       </Button>
                       <FormField
                         control={form.control}
@@ -901,11 +896,9 @@ export const InnerEvalTemplateForm = (props: {
                               />
                             </FormControl>
                             <div className="space-y-0.5 leading-none">
-                              <FormLabel>Allow multiple matches</FormLabel>
+                              <FormLabel>允许多个匹配</FormLabel>
                               <FormDescription>
-                                Lets the model return more than one category.
-                                One score will be created for each selected
-                                match.
+                                允许模型返回多个类别。每个选中的匹配都会创建一个评分。
                               </FormDescription>
                             </div>
                           </FormItem>
@@ -925,7 +918,7 @@ export const InnerEvalTemplateForm = (props: {
                 name="reasoningDescription"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Score reasoning prompt</FormLabel>
+                    <FormLabel>评分推理提示词</FormLabel>
                     <FormDescription>
                       定义模型应如何解释其评估。评分返回前会先提示模型进行解释，
                       以支持逐步推理。
@@ -945,10 +938,10 @@ export const InnerEvalTemplateForm = (props: {
                   <FormItem>
                     <FormLabel>
                       {isCategoricalOutput
-                        ? "Category selection prompt"
+                        ? "类别选择提示词"
                         : isBooleanOutput
-                          ? "Boolean verdict prompt"
-                          : "Score output prompt"}
+                          ? "布尔判定提示词"
+                          : "评分输出提示词"}
                     </FormLabel>
                     <FormDescription>
                       {isCategoricalOutput
@@ -982,7 +975,7 @@ export const InnerEvalTemplateForm = (props: {
           disabled={showCodeTemplateForm && !isCodeEvalSourceValid}
           className="w-full"
         >
-          Save
+          保存
         </Button>
       )}
       {formError ? (
@@ -1031,21 +1024,20 @@ function CodeEvalSdkVersionCallout({
       <AlertDescription>
         <div className="flex flex-col gap-1">
           <span className="text-foreground font-bold">
-            Please verify your SDK version
+            请验证您的 SDK 版本
           </span>
           <span className="text-foreground text-sm">
-            Code evaluators require JS SDK v4+ or Python SDK v3+. You can create
-            this evaluator now, but it will only run once your project ingests
-            data with a compatible SDK.{" "}
+            代码评估器需要 JS SDK v4+ 或 Python SDK v3+。您现在可以创建此评估器，
+            但它只会在您的项目使用兼容 SDK 摄取数据后才会运行。{" "}
             <a
               href="https://langfuse.com/docs/observability/sdk/upgrade-path"
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"
             >
-              Learn more
+              了解更多
             </a>
-            .
+            。
           </span>
         </div>
       </AlertDescription>

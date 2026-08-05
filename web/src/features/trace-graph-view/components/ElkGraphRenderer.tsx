@@ -323,7 +323,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
   if (!graph.nodes.length) {
     return (
       <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
-        No graph data available
+        暂无图表数据
       </div>
     );
   }
@@ -332,7 +332,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
     <div
       ref={containerRef}
       role="group"
-      aria-label="Trace agent graph"
+      aria-label="追踪代理图表"
       className="bg-background/50 relative h-full w-full cursor-grab overflow-hidden active:cursor-grabbing"
       onPointerDown={(e) =>
         (pointerDownPos.current = { x: e.clientX, y: e.clientY })
@@ -341,12 +341,12 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
     >
       {!layout && !layoutError && (
         <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-sm">
-          Laying out graph…
+          正在布局图表…
         </div>
       )}
       {layoutError && (
         <div className="text-muted-foreground absolute inset-0 flex flex-col items-center justify-center gap-2 text-sm">
-          <span>Could not lay out the graph.</span>
+          <span>无法布局该图表。</span>
           <Button
             variant="outline"
             size="sm"
@@ -355,7 +355,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
               setLayoutAttempt((n) => n + 1);
             }}
           >
-            Retry
+            重试
           </Button>
         </div>
       )}
@@ -364,14 +364,14 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
         // — it would just wedge again. Point the user at the tree/timeline.
         <div className="text-muted-foreground absolute inset-0 flex flex-col items-center justify-center gap-1 px-4 text-center text-sm">
           <span>
-            This graph is too large to lay out
+            此图表过大，无法布局
             {layout.nodeCount != null && layout.edgeCount != null
-              ? ` (${layout.nodeCount.toLocaleString()} nodes, ${layout.edgeCount.toLocaleString()} connections)`
+              ? ` (${layout.nodeCount.toLocaleString()} 个节点，${layout.edgeCount.toLocaleString()} 条连接)`
               : ""}
-            .
+            。
           </span>
           <span>
-            Try the{" "}
+            试试{" "}
             {onShowExpanded ? (
               <button
                 type="button"
@@ -381,12 +381,12 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
                 }}
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                expanded graph
+                展开图
               </button>
             ) : (
-              "expanded graph"
+              "展开图"
             )}
-            , tree, or timeline view to explore this trace.
+            、树形或时间线视图来浏览此追踪。
           </span>
         </div>
       )}
@@ -500,7 +500,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
           variant="outline"
           size="icon"
           className="bg-background/80 h-7 w-7 backdrop-blur"
-          title="Zoom in"
+          title="放大"
         >
           <ZoomIn className="h-4 w-4" />
         </Button>
@@ -509,7 +509,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
           variant="outline"
           size="icon"
           className="bg-background/80 h-7 w-7 backdrop-blur"
-          title="Zoom out"
+          title="缩小"
         >
           <ZoomOut className="h-4 w-4" />
         </Button>
@@ -518,7 +518,7 @@ export const ElkGraphRenderer: React.FC<ElkGraphRendererProps> = ({
           variant="outline"
           size="icon"
           className="bg-background/80 h-7 w-7 backdrop-blur"
-          title="Fit to view"
+          title="适应视图"
         >
           <Maximize className="h-4 w-4" />
         </Button>

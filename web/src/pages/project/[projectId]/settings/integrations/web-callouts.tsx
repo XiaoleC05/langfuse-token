@@ -13,9 +13,9 @@ export default function WebCalloutsSettings() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Web Callouts",
+        title: "Web 回调",
         breadcrumb: [
-          { name: "Settings", href: `/project/${projectId}/settings` },
+          { name: "设置", href: `/project/${projectId}/settings` },
         ],
       }}
     >

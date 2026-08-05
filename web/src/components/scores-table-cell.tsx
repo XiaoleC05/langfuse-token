@@ -96,7 +96,7 @@ export const ScoresTableCell = ({
                   variant="ghost"
                   size="icon-xs"
                   className="hover:bg-accent rounded p-1"
-                  aria-label={copied ? "Copied" : "Copy to clipboard"}
+                  aria-label={copied ? "已复制" : "复制到剪贴板"}
                 >
                   {copied ? (
                     <Check className="h-3 w-3" />

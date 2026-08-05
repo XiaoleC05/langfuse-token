@@ -38,7 +38,7 @@ export const ExecutionCountTooltip = ({
               : globalConfig.data,
           )
         )}
-        {isTraceTarget ? " traces" : " dataset run items"})
+        {isTraceTarget ? " 条追踪" : " 个数据集运行项"})
       </span>
     </>
   );

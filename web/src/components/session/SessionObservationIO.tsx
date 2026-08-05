@@ -138,8 +138,8 @@ export const SessionObservationIO = ({
       });
     } catch {
       showErrorToast(
-        "Download failed",
-        "Could not fetch the observation's full I/O. Please try again.",
+        "下载失败",
+        "无法获取该观测的完整输入/输出，请重试。",
       );
     } finally {
       setIsDownloading(false);

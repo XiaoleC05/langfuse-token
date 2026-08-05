@@ -105,7 +105,7 @@ export function useScoreConfigSelection({
         // Config was deselected
         const field = controlledFields[fieldIndex];
         if (field?.id) {
-          toast.error("Cannot deselect a populated score");
+          toast.error("无法取消选择已有评分的配置");
           return;
         }
         // No score -> remove row from form and empty selected config ids

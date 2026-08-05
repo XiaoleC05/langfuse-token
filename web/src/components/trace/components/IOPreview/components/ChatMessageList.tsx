@@ -140,8 +140,8 @@ export function ChatMessageList({
                     className="underline"
                   >
                     {isCollapsed
-                      ? `Show ${messagesToRender.length - COLLAPSE_THRESHOLD} more ...`
-                      : "Hide history"}
+                      ? `再显示 ${messagesToRender.length - COLLAPSE_THRESHOLD} 条`
+                      : "收起历史"}
                   </Button>
                 )}
             </Fragment>
@@ -151,7 +151,7 @@ export function ChatMessageList({
         {/* Additional input section */}
         {contentMode !== "conversation" && additionalInput && (
           <PrettyJsonView
-            title="Additional Input"
+            title="附加输入"
             json={additionalInput}
             currentView={shouldRenderMarkdown ? "pretty" : "json"}
           />

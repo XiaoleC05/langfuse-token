@@ -39,7 +39,7 @@ function useWebCalloutAction(props: WebCalloutTarget) {
       });
     },
     onError: (error) => {
-      showErrorToast("Web callout failed", error.message);
+      showErrorToast("Web 回调调用失败", error.message);
     },
   });
 
@@ -59,7 +59,7 @@ function useWebCalloutAction(props: WebCalloutTarget) {
   };
 
   return {
-    endpointName: endpoint.data?.name ?? "Web callout",
+    endpointName: endpoint.data?.name ?? "Web 回调",
     isLoading: invokeMutation.isPending,
     isVisible: endpoint.data?.enabled === true,
     invokeCallout,
@@ -101,7 +101,7 @@ export function WebCalloutMenuItem({
           className="max-w-[260px] min-w-0 truncate"
           title={action.endpointName}
         >
-          <span>Call </span>
+          <span>调用 </span>
           <span className="font-bold">{action.endpointName}</span>
         </span>
       </DropdownMenuItem>
@@ -136,7 +136,7 @@ export function WebCalloutButton({
     return null;
   }
 
-  const label = `Call ${action.endpointName}`;
+  const label = `调用 ${action.endpointName}`;
 
   if (layout === "menu") {
     return (

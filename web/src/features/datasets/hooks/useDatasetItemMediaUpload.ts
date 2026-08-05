@@ -80,8 +80,8 @@ export function useDatasetItemMediaUpload({
 
       if (file.size > MAX_BROWSER_MEDIA_UPLOAD_SIZE_BYTES) {
         showErrorToast(
-          "File too large",
-          `Maximum file size is ${MAX_BROWSER_MEDIA_UPLOAD_SIZE_MB}MB`,
+          "文件过大",
+          `最大文件大小为 ${MAX_BROWSER_MEDIA_UPLOAD_SIZE_MB}MB`,
         );
         return null;
       }

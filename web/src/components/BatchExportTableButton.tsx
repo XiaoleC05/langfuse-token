@@ -60,7 +60,7 @@ export const BatchExportTableButton: React.FC<BatchExportTableButtonProps> = (
     setIsExporting(true);
     await createExport.mutateAsync({
       projectId: props.projectId,
-      name: `${new Date().toISOString()} - ${props.tableName} as ${format}`,
+      name: `${new Date().toISOString()} - ${props.tableName} 导出为 ${format}`,
       format,
       query: {
         tableName: props.tableName,

@@ -32,7 +32,7 @@ export function FilterToggleButton({
       className={cn("flex h-8 items-center gap-2 text-sm", className)}
     >
       <Filter className="h-4 w-4" />
-      <span>Filters</span>
+      <span>筛选</span>
       {activeFacetCount > 0 && (
         <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
           {activeFacetCount}

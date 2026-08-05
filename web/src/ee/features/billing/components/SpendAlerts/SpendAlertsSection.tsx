@@ -34,17 +34,17 @@ export function SpendAlertsSection({ orgId }: SpendAlertsSectionProps) {
       <div className="space-y-2">
         <div className="flex items-center justify-between pt-4">
           <div>
-            <h3 className="font-bold">Spend Alerts</h3>
+            <h3 className="font-bold">消费提醒</h3>
             <p className="text-muted-foreground max-w-prose text-sm">
-              Get notified when your organization&apos;s spending exceeds
-              configured thresholds. Alerts may be delayed by up to 90 minutes.
+              当您组织的消费超过配置的阈值时收到通知。提醒可能会有最多
+              90 分钟的延迟。
             </p>
             <p className="text-muted-foreground max-w-prose text-sm"></p>
           </div>
 
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Create Alert
+            创建提醒
           </Button>
         </div>
 

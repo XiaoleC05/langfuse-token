@@ -234,13 +234,13 @@ export function PeekHeader({
                     <Button
                       variant="ghost"
                       size="icon-xs"
-                      aria-label="More actions"
+                      aria-label="更多操作"
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </PopoverTrigger>
                 </TooltipTrigger>
-                <TooltipContent>More</TooltipContent>
+                <TooltipContent>更多</TooltipContent>
               </Tooltip>
               <PopoverContent
                 align="end"
@@ -254,7 +254,7 @@ export function PeekHeader({
                     className="hover:bg-accent flex w-full items-center gap-2 rounded-sm py-1.5 pr-2 pl-1.5 text-sm"
                   >
                     <ExternalLink className="h-4 w-4" />
-                    Open in new tab
+                    在新标签页中打开
                   </button>
                 ) : null}
               </PopoverContent>
@@ -269,7 +269,7 @@ export function PeekHeader({
 
           {hasOpenInTab && !plan.foldOpenInTab && openInNewTab ? (
             <div ref={openInTabRef}>
-              <HeaderIconButton label="Open in new tab" onClick={openInNewTab}>
+              <HeaderIconButton label="在新标签页中打开" onClick={openInNewTab}>
                 <ExternalLink className="h-4 w-4" />
               </HeaderIconButton>
             </div>
@@ -292,7 +292,7 @@ export function PeekHeader({
             )}
             {expand && (
               <HeaderIconButton
-                label={expand.isExpanded ? "Collapse" : "Expand"}
+                label={expand.isExpanded ? "折叠" : "展开"}
                 onClick={expand.onToggle}
               >
                 {expand.isExpanded ? (
@@ -302,7 +302,7 @@ export function PeekHeader({
                 )}
               </HeaderIconButton>
             )}
-            <HeaderIconButton label="Close" onClick={onClose}>
+            <HeaderIconButton label="关闭" onClick={onClose}>
               <X className="h-4 w-4" />
             </HeaderIconButton>
           </div>

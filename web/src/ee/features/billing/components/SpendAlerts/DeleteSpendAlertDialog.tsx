@@ -43,11 +43,11 @@ export function DeleteSpendAlertDialog({
         orgId,
         alertId,
       });
-      toast.success("Spend alert deleted successfully");
+      toast.success("消费提醒已删除");
       onSuccess();
     } catch (error) {
       console.error("Failed to delete spend alert:", error);
-      toast.error("Failed to delete spend alert. Please try again.");
+      toast.error("删除消费提醒失败，请重试。");
     } finally {
       setIsDeleting(false);
     }
@@ -57,11 +57,9 @@ export function DeleteSpendAlertDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Spend Alert</DialogTitle>
+          <DialogTitle>删除消费提醒</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this spend alert? This action cannot
-            be undone and you will no longer receive notifications for this
-            threshold.
+            确定要删除此消费提醒吗？此操作无法撤销，删除后您将不再收到针对该限额的通知。
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -70,14 +68,14 @@ export function DeleteSpendAlertDialog({
             disabled={isDeleting}
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            取消
           </Button>
           <Button
             variant="destructive"
             onClick={handleDelete}
             disabled={isDeleting}
           >
-            {isDeleting ? "Deleting..." : "Delete Alert"}
+            {isDeleting ? "正在删除..." : "删除提醒"}
           </Button>
         </DialogFooter>
       </DialogContent>

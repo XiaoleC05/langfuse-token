@@ -29,12 +29,12 @@ export const NewDatasetItemButton = (props: {
           trackingEventName="dataset_item:new_form_open"
           icon={<PlusIcon className="h-4 w-4" aria-hidden="true" />}
         >
-          New item
+          新建数据项
         </ActionButton>
       </DialogTrigger>
       <DialogContent size="xl">
         <DialogHeader>
-          <DialogTitle>Create new dataset item</DialogTitle>
+          <DialogTitle>创建新的数据项</DialogTitle>
         </DialogHeader>
         <NewDatasetItemForm
           projectId={props.projectId}

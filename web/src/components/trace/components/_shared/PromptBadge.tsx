@@ -11,7 +11,7 @@ export const PromptBadge = (props: { promptId: string; projectId: string }) => {
 
   if (prompt.isLoading || !prompt.data) return null;
 
-  const text = `Prompt: ${prompt.data.name} - v${prompt.data.version}`;
+  const text = `提示词：${prompt.data.name} - v${prompt.data.version}`;
 
   return (
     <Link

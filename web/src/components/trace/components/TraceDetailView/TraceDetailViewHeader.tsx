@@ -110,7 +110,7 @@ export const TraceDetailViewHeader = memo(function TraceDetailViewHeader({
             {trace.name || trace.id}
           </span>
           <DetailHeaderActionsMenu
-            idItems={[{ id: trace.id, name: "Trace ID" }]}
+            idItems={[{ id: trace.id, name: "追踪 ID" }]}
             projectId={projectId}
             webCallout={{
               traceId: trace.id,
@@ -125,7 +125,7 @@ export const TraceDetailViewHeader = memo(function TraceDetailViewHeader({
                 <Button
                   variant="outline"
                   size="icon"
-                  aria-label="More actions"
+                  aria-label="更多操作"
                   className="ml-auto shrink-0"
                 >
                   <MoreHorizontal className="h-4 w-4" />

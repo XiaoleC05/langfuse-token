@@ -129,8 +129,8 @@ const TableCellWithCopyButton = React.forwardRef<
         variant="ghost"
         size="icon-xs"
         className="absolute top-1/2 right-2 -translate-y-1/2"
-        title={copyButtonLabel ?? "Copy to clipboard"}
-        aria-label={copyButtonLabel ?? "Copy to clipboard"}
+        title={copyButtonLabel ?? "复制到剪贴板"}
+        aria-label={copyButtonLabel ?? "复制到剪贴板"}
         onClick={async (event) => {
           event.preventDefault();
           const button = event.currentTarget;

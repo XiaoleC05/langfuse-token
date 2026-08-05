@@ -58,7 +58,7 @@ const PeekViewEvaluatorConfigDetail = ({
     <div className="grid h-full flex-1 grid-rows-[auto_auto_1fr] gap-2 overflow-hidden p-3 contain-layout">
       <div className="flex items-center justify-between">
         <div className="flex flex-row items-center gap-2">
-          <span className="max-h-fit text-lg font-bold">Configuration</span>
+          <span className="max-h-fit text-lg font-bold">配置</span>
           <div className="flex items-center gap-2">
             <StatusBadge
               type={displayStatus.toLowerCase()}

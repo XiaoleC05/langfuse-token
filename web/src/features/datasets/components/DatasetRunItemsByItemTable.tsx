@@ -162,13 +162,13 @@ export function DatasetRunItemsByItemTable(props: {
         return trace.observationId ? (
           <TableLink
             path={`/project/${props.projectId}/traces/${encodeURIComponent(trace.traceId)}?observation=${encodeURIComponent(trace.observationId)}`}
-            value={`Trace: ${trace.traceId}, Observation: ${trace.observationId}`}
+            value={`追踪：${trace.traceId}，观测：${trace.observationId}`}
             icon={<ListTree className="h-4 w-4" />}
           />
         ) : (
           <TableLink
             path={`/project/${props.projectId}/traces/${encodeURIComponent(trace.traceId)}`}
-            value={`Trace: ${trace.traceId}`}
+            value={`追踪：${trace.traceId}`}
             icon={<ListTree className="h-4 w-4" />}
           />
         );

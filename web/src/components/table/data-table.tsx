@@ -596,7 +596,7 @@ function renderOrderingIndicator(orderBy?: OrderByState) {
   if (!orderBy) return null;
   if (orderBy.order === "ASC") return <span className="ml-1">▲</span>;
   return (
-    <span className="ml-1" title="Sort by this column">
+    <span className="ml-1" title="按此列排序">
       ▼
     </span>
   );
@@ -851,7 +851,7 @@ function TableBodyComponent<TData>({
             <div className="pointer-events-none absolute left-[50%] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-center">
               {noResultsMessage ?? (
                 <>
-                  No results.{" "}
+                  暂无结果。{" "}
                   {help && (
                     <DocPopup description={help.description} href={help.href} />
                   )}

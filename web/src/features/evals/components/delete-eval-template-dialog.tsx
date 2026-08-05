@@ -65,13 +65,13 @@ export function DeleteEvalTemplateDialog({
   const templateMutation = api.evals.deleteEvalTemplate.useMutation({
     onSuccess: () => {
       showSuccessToast({
-        title: "Evaluator deleted",
-        description: `Evaluator "${templateName}" was deleted.`,
+        title: "评估器已删除",
+        description: `评估器 "${templateName}" 已被删除。`,
       });
       utils.evals.invalidate();
     },
     onError: (error) =>
-      showErrorToast("Failed to delete evaluator", error.message),
+      showErrorToast("删除评估器失败", error.message),
   });
 
   // Once deletion starts, the usage query must go inactive so post-delete
@@ -113,13 +113,13 @@ export function DeleteEvalTemplateDialog({
       open={open}
       onOpenChange={handleOpenChange}
       size="lg"
-      title={isBlocked ? "Cannot delete" : "Please confirm"}
+      title={isBlocked ? "无法删除" : "请确认"}
       description={
         isBlocked
-          ? `This evaluator is used by ${usageCount} running evaluator${usageCount === 1 ? "" : "s"}. Delete those running evaluators first.`
-          : "This action cannot be undone. It permanently deletes all versions of this evaluator. Scores already produced by it will not be deleted."
+          ? `此评估器被 ${usageCount} 个正在运行的评估器使用。请先删除这些正在运行的评估器。`
+          : "此操作无法撤销。它将永久删除此评估器的所有版本。该评估器已产生的评分不会被删除。"
       }
-      confirmLabel="Delete evaluator"
+      confirmLabel="删除评估器"
       loading={templateMutation.isPending}
       confirmDisabled={isBlocked || confirmationInput !== templateName}
       onConfirm={handleConfirm}
@@ -146,7 +146,7 @@ export function DeleteEvalTemplateDialog({
       ) : (
         <div className="grid w-full gap-1.5">
           <Label htmlFor="delete-evaluator-confirmation">
-            Type &quot;{templateName}&quot; to confirm
+            输入 &quot;{templateName}&quot; 以确认
           </Label>
           <Input
             id="delete-evaluator-confirmation"

@@ -60,9 +60,9 @@ export function TraceSearchList() {
     return (
       <div className="flex h-full flex-col items-center justify-center p-8 text-center">
         <div className="space-y-4">
-          <p className="text-muted-foreground">No results found</p>
+          <p className="text-muted-foreground">未找到结果</p>
           <p className="text-muted-foreground text-sm">
-            Try searching by type, title, or id
+            请尝试按类型、名称或 ID 搜索
           </p>
           <Button
             variant="outline"
@@ -70,7 +70,7 @@ export function TraceSearchList() {
             onClick={() => setSearchInputValue("")}
           >
             <XIcon className="mr-2 h-4 w-4" />
-            Clear search
+            清除搜索
           </Button>
         </div>
       </div>

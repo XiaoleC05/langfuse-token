@@ -24,14 +24,14 @@ export function useDefaultViewMutations({
         projectId,
         viewName: tableName,
       });
-      const scopeLabel = variables.scope === "user" ? "your" : "project";
+      const scopeLabel = variables.scope === "user" ? "您的" : "项目";
       showSuccessToast({
-        title: "Default view set",
-        description: `Set as ${scopeLabel} default`,
+        title: "默认视图已设置",
+        description: `已设置为${scopeLabel}默认视图`,
       });
     },
     onError: (error) => {
-      showErrorToast("Failed to set default", error.message);
+      showErrorToast("设置默认视图失败", error.message);
     },
   });
 
@@ -45,14 +45,14 @@ export function useDefaultViewMutations({
         projectId,
         viewName: tableName,
       });
-      const scopeLabel = variables.scope === "user" ? "Your" : "Project";
+      const scopeLabel = variables.scope === "user" ? "您的" : "项目";
       showSuccessToast({
-        title: "Default cleared",
-        description: `${scopeLabel} default view cleared`,
+        title: "默认视图已清除",
+        description: `${scopeLabel}默认视图已清除`,
       });
     },
     onError: (error) => {
-      showErrorToast("Failed to clear default", error.message);
+      showErrorToast("清除默认视图失败", error.message);
     },
   });
 

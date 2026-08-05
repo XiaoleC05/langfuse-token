@@ -34,9 +34,9 @@ import { showSuccessToast } from "@/src/features/notifications/showSuccessToast"
 import { showErrorToast } from "@/src/features/notifications/showErrorToast";
 
 const displayNameSchema = z.object({
-  name: StringNoHTML.min(1, "Name cannot be empty").max(
+  name: StringNoHTML.min(1, "名称不能为空").max(
     100,
-    "Name must be at most 100 characters",
+    "名称最多 100 个字符",
   ),
 });
 
@@ -57,8 +57,8 @@ function UpdateDisplayName() {
       await utils.invalidate();
       form.reset();
       showSuccessToast({
-        title: "Display Name Updated",
-        description: "Your display name has been successfully updated.",
+        title: "显示名称已更新",
+        description: "您的显示名称已成功更新。",
       });
     },
     onError: (error) => form.setError("name", { message: error.message }),
@@ -70,20 +70,20 @@ function UpdateDisplayName() {
 
   return (
     <div>
-      <Header title="Display Name" />
+      <Header title="显示名称" />
       <Card className="p-3">
         {form.getValues().name !== "" ? (
           <p className="text-primary mb-4 text-sm">
-            Your display name will be updated from &quot;
+            您的显示名称将从&quot;
             {session?.user?.name ?? ""}
-            &quot; to &quot;
-            <b>{form.watch().name}</b>&quot;.
+            &quot;更新为&quot;
+            <b>{form.watch().name}</b>&quot;。
           </p>
         ) : (
           <p className="text-primary mb-4 text-sm">
-            Your display name is currently &quot;
+            您当前的显示名称是&quot;
             <b>{session?.user?.name ?? ""}</b>
-            &quot;.
+            &quot;。
           </p>
         )}
         <Form {...form}>
@@ -111,7 +111,7 @@ function UpdateDisplayName() {
               disabled={form.getValues().name === ""}
               className="mt-4"
             >
-              Save
+              保存
             </Button>
           </form>
         </Form>
@@ -129,7 +129,7 @@ function DeleteAccountButton() {
 
   const formSchema = z.object({
     email: z.string().refine((val) => val === userEmail, {
-      message: `Please enter your email address: ${userEmail}`,
+      message: `请输入您的邮箱地址：${userEmail}`,
     }),
   });
 
@@ -148,16 +148,16 @@ function DeleteAccountButton() {
     try {
       await deleteAccount.mutateAsync();
       showSuccessToast({
-        title: "Account Deleted",
-        description: "Your account has been successfully deleted.",
+        title: "账户已删除",
+        description: "您的账户已成功删除。",
       });
       await new Promise((resolve) => setTimeout(resolve, 2000));
       await signOut();
     } catch (error) {
       console.error(error);
       showErrorToast(
-        "Failed to Delete Account",
-        error instanceof Error ? error.message : "An unexpected error occurred",
+        "删除账户失败",
+        error instanceof Error ? error.message : "发生意外错误",
       );
     }
   };
@@ -165,19 +165,18 @@ function DeleteAccountButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive-secondary">Delete Account</Button>
+        <Button variant="destructive-secondary">删除账户</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">
-            Delete Account
+            删除账户
           </DialogTitle>
           <DialogDescription>
             {!canDelete && blockingOrganizations.length > 0 ? (
               <div>
                 <p className="mb-2">
-                  You cannot delete your account because you are the last owner
-                  of the following organization(s):
+                  您无法删除账户，因为您是以下组织中的最后一位所有者：
                 </p>
                 <ul className="list-inside list-disc space-y-1">
                   {blockingOrganizations.map((org) => (
@@ -192,12 +191,11 @@ function DeleteAccountButton() {
                   ))}
                 </ul>
                 <p className="mt-2">
-                  Please add another owner or delete these organizations before
-                  deleting your account.
+                  删除账户前，请先添加其他所有者或删除这些组织。
                 </p>
               </div>
             ) : (
-              `To confirm, type your email address "${userEmail}" in the input box`
+              `如需确认，请在输入框中输入您的邮箱地址“${userEmail}”`
             )}
           </DialogDescription>
         </DialogHeader>
@@ -227,7 +225,7 @@ function DeleteAccountButton() {
                 disabled={!canDelete}
                 className="w-full"
               >
-                Delete Account
+                删除账户
               </Button>
             </DialogFooter>
           </form>
@@ -269,7 +267,7 @@ const getAccountSettingsPages = (userEmail: string): AccountSettingsPage[] => [
     content: (
       <div className="flex flex-col gap-6">
         <div>
-          <Header title="Email" />
+          <Header title="邮箱" />
           <Card className="p-3">
             <p className="text-primary text-sm">
               您的邮箱地址： <b>{userEmail}</b>

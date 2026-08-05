@@ -17,8 +17,8 @@ type ControlledFeaturePreviewModalProps = {
 };
 
 const PREVIEW_LABEL: Record<PreviewFlag, string> = {
-  modernSession: "Compact Session View",
-  searchBar: "Filter Search Bar",
+  modernSession: "紧凑会话视图",
+  searchBar: "筛选搜索栏",
 };
 
 export function ControlledFeaturePreviewModal({
@@ -37,14 +37,14 @@ export function ControlledFeaturePreviewModal({
           isEnabled: variables.enabled,
         });
         showSuccessToast({
-          title: "Feature preview updated",
-          description: `${PREVIEW_LABEL[variables.flag]} preview has been ${
-            variables.enabled ? "enabled" : "disabled"
-          }.`,
+          title: "功能预览已更新",
+          description: `${PREVIEW_LABEL[variables.flag]} 预览已${
+            variables.enabled ? "启用" : "停用"
+          }。`,
         });
       },
       onError: (error) => {
-        showErrorToast("Failed to update feature preview", error.message);
+        showErrorToast("更新功能预览失败", error.message);
       },
     });
 
@@ -60,9 +60,9 @@ export function ControlledFeaturePreviewModal({
         !isBetaEnabled ||
         authSession.data?.environment.enableExperimentalFeatures === true,
       warningReason: !isBetaEnabled
-        ? "Compact Session View is only available on the events-backed session view. Turn on Fast (Preview) to enable it."
+        ? "紧凑会话视图仅可在事件驱动的会话视图上使用。开启「快速（预览）」即可启用。"
         : authSession.data?.environment.enableExperimentalFeatures === true
-          ? "This preview is enabled by LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES, so a per-user opt-out does not disable it."
+          ? "此预览由 LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES 启用，因此按用户关闭不会禁用它。"
           : undefined,
       onToggle: onToggle("modernSession"),
       isToggling: setFeaturePreviewEnabled.isPending,

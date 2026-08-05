@@ -68,27 +68,27 @@ export function SelectDashboardDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle>Select dashboard to add widget to</DialogTitle>
+          <DialogTitle>选择要添加组件的仪表板</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <div className="mt-4 max-h-[400px] overflow-y-auto">
             {dashboards.isLoading ? (
-              <div className="py-8 text-center">Loading dashboards...</div>
+              <div className="py-8 text-center">正在加载仪表板...</div>
             ) : dashboards.isError ? (
               <div className="text-destructive py-8 text-center">
-                Error: {dashboards.error.message}
+                错误：{dashboards.error.message}
               </div>
             ) : dashboards.data?.dashboards.length === 0 ? (
               <div className="text-muted-foreground py-8 text-center">
-                No dashboards found.
+                未找到仪表板。
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Updated</TableHead>
+                    <TableHead>名称</TableHead>
+                    <TableHead>描述</TableHead>
+                    <TableHead>更新时间</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -124,10 +124,10 @@ export function SelectDashboardDialog({
         </DialogBody>
         <DialogFooter className="mt-4 flex justify-between">
           <Button variant="outline" onClick={handleSkip}>
-            Skip
+            跳过
           </Button>
           <Button onClick={handleAdd} disabled={!selectedDashboardId}>
-            Add to Dashboard
+            添加到仪表板
           </Button>
         </DialogFooter>
       </DialogContent>

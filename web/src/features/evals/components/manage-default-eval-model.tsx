@@ -48,7 +48,7 @@ export function ManageDefaultEvalModel({
             className,
           )}
         >
-          {"Current default model: "}
+          {"当前默认模型："}
           {defaultModel.provider} / {defaultModel.model}
         </span>
       ) : (
@@ -59,7 +59,7 @@ export function ManageDefaultEvalModel({
             className,
           )}
         >
-          {setUpMessage ?? "No default model set"}
+          {setUpMessage ?? "未设置默认模型"}
         </span>
       )}
       {showEditButton && (

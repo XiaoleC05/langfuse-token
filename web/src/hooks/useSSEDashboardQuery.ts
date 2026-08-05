@@ -228,14 +228,14 @@ export function useSSEDashboardQuery(
             setStatus("success");
             lastSuccessfulInputKeyRef.current = runInputKey;
           } else {
-            setError("Stream ended unexpectedly");
+            setError("数据流意外结束");
             setStatus("error");
             setData(undefined);
           }
         }
       } catch (err) {
         if (signal.aborted) return;
-        setError(err instanceof Error ? err.message : "Unknown error");
+        setError(err instanceof Error ? err.message : "未知错误");
         setStatus("error");
         setData(undefined);
       }

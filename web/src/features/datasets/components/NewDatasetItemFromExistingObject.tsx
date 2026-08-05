@@ -101,8 +101,8 @@ export const NewDatasetItemFromExistingObject = (props: {
           variant="outline"
           size={buttonSize === "sm" ? "icon-xs" : "icon"}
           hasAccess={hasAccess}
-          title="Copy item"
-          aria-label="Copy item"
+          title="复制数据项"
+          aria-label="复制数据项"
           onClick={() => {
             setIsFormOpen(true);
           }}
@@ -126,7 +126,7 @@ export const NewDatasetItemFromExistingObject = (props: {
                   <PlusIcon className="h-4 w-4" aria-hidden="true" />
                 ) : null}
                 <span className={isMenu ? "text-sm" : undefined}>
-                  {`In ${observationInDatasets.data.length} dataset(s)`}
+                  {`已在 ${observationInDatasets.data.length} 个数据集中`}
                 </span>
                 <ChevronDown
                   className={isMenu ? "ml-auto h-3 w-3" : "ml-2 h-3 w-3"}
@@ -157,7 +157,7 @@ export const NewDatasetItemFromExistingObject = (props: {
                 }}
               >
                 <PlusIcon size={16} className="mr-2" aria-hidden="true" />
-                Add to more datasets
+                添加到更多数据集
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -191,9 +191,9 @@ export const NewDatasetItemFromExistingObject = (props: {
             />
           ) : null}
           {isMenu ? (
-            <span className="text-sm">Add to datasets</span>
+            <span className="text-sm">添加到数据集</span>
           ) : (
-            "Add to datasets"
+            "添加到数据集"
           )}
           {!hasAccess ? (
             <LockIcon
@@ -206,7 +206,7 @@ export const NewDatasetItemFromExistingObject = (props: {
       <Dialog open={hasAccess && isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="h-[calc(100vh-5rem)] max-h-none w-[calc(100vw-5rem)] max-w-none">
           <DialogHeader>
-            <DialogTitle>Add item to datasets</DialogTitle>
+            <DialogTitle>将数据项添加到数据集</DialogTitle>
           </DialogHeader>
           {isFormOpen && (
             <NewDatasetItemForm

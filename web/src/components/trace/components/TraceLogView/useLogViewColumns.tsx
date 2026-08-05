@@ -35,7 +35,7 @@ export function useLogViewColumns({
     return [
       {
         key: "observation",
-        header: "Observation",
+        header: "观测",
         width: "flex-1",
         render: (item) => (
           <LogViewObservationCell
@@ -48,7 +48,7 @@ export function useLogViewColumns({
       },
       {
         key: "depth",
-        header: "Depth",
+        header: "深度",
         width: "w-12",
         align: "right" as const,
         render: (item) => (
@@ -59,7 +59,7 @@ export function useLogViewColumns({
       },
       {
         key: "start",
-        header: "Start",
+        header: "开始",
         width: showMilliseconds ? "w-20" : "w-12",
         align: "right" as const,
         render: (item) => (
@@ -73,7 +73,7 @@ export function useLogViewColumns({
       },
       {
         key: "duration",
-        header: "Duration",
+        header: "耗时",
         width: "w-16",
         align: "right" as const,
         render: (item) => (

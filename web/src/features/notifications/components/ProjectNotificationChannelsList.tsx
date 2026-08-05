@@ -41,7 +41,7 @@ export function ProjectNotificationChannelsList({
   return (
     <div className="flex flex-col gap-4">
       {isLoading ? (
-        <p className="text-muted-foreground text-sm">Loading channels...</p>
+        <p className="text-muted-foreground text-sm">正在加载渠道...</p>
       ) : !channels || channels.length === 0 ? null : (
         <div className="flex flex-col gap-3">
           {channels.map((channel) => (
@@ -67,7 +67,7 @@ export function ProjectNotificationChannelsList({
                   variant="ghost"
                   size="icon"
                   onClick={() => onEdit(channel)}
-                  title="Edit channel"
+                  title="编辑渠道"
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>
@@ -76,7 +76,7 @@ export function ProjectNotificationChannelsList({
                   size="icon"
                   disabled={isDeleting}
                   onClick={() => onDelete(channel.id)}
-                  title="Delete channel"
+                  title="删除渠道"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -91,7 +91,7 @@ export function ProjectNotificationChannelsList({
         <div>
           <Button variant="secondary" onClick={onAdd}>
             <Plus className="mr-2 h-4 w-4" />
-            Add channel
+            添加渠道
           </Button>
         </div>
       )}

@@ -48,9 +48,9 @@ function DeleteConversationDialog({
           close();
         }
       }}
-      title="Delete conversation"
-      description="This removes the conversation from your recent conversations. This action cannot be undone."
-      confirmLabel="Delete conversation"
+      title="删除会话"
+      description="这会将会话从您的最近会话中移除，此操作无法撤销。"
+      confirmLabel="删除会话"
       loading={isDeletingConversation}
       onConfirm={deleteConversation}
     />

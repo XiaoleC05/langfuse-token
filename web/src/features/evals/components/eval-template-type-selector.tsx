@@ -101,7 +101,7 @@ export function EvalTemplateTypeSelector({
       name="type"
       render={() => (
         <FormItem>
-          <FormLabel>Type</FormLabel>
+          <FormLabel>类型</FormLabel>
           <FormControl>
             <Tabs
               value={selectedValue}

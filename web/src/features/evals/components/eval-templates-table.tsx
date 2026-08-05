@@ -568,7 +568,7 @@ export default function EvalsTemplateTable({
           columnVisibility={columnVisibility}
           setColumnVisibility={setColumnVisibility}
           searchConfig={{
-            metadataSearchFields: ["Name"],
+            metadataSearchFields: ["名称"],
             updateQuery: setSearchQuery,
             currentQuery: searchQuery ?? undefined,
             tableAllowsFullTextSearch: false,

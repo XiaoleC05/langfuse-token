@@ -76,7 +76,7 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
         <Alert>
           <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            您没有查看此{scope}的 API 密钥的权限。
+            您没有查看此{scope === "project" ? "项目" : "组织"}的 API 密钥的权限。
           </AlertDescription>
         </Alert>
       </div>

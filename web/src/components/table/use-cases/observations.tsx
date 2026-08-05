@@ -1143,7 +1143,7 @@ export default function ObservationsTable({
         {
           accessorKey: "tokensPerSecond",
           id: "tokensPerSecond",
-          header: "Tokens per second",
+          header: "每秒 Token 数",
           size: 200,
           cell: ({ row }) => {
             const latency: number | undefined = row.getValue("latency");

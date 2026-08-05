@@ -88,7 +88,7 @@ export function usePersistedWindowIds() {
   const removeWindowId = useCallback(
     (windowId: string) => {
       if (windowIds.length <= 1) {
-        toast.error("Cannot remove the last remaining window");
+        toast.error("无法删除最后一个窗口");
         return;
       }
 

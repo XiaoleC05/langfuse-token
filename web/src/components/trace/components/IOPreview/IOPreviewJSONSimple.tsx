@@ -132,7 +132,7 @@ export function IOPreviewJSONSimple({
       {showInput &&
         (inputTooLarge ? (
           <LargeJsonFieldFallback
-            title="Input"
+            title="输入"
             serialized={inputProbe.serialized}
             isString={inputProbe.isString}
             charCount={inputProbe.size}
@@ -140,7 +140,7 @@ export function IOPreviewJSONSimple({
           />
         ) : (
           <PrettyJsonView
-            title="Input"
+            title="输入"
             json={input}
             parsedJson={effectiveInput}
             isLoading={isLoading}
@@ -159,7 +159,7 @@ export function IOPreviewJSONSimple({
       {showOutput &&
         (outputTooLarge ? (
           <LargeJsonFieldFallback
-            title="Output"
+            title="输出"
             serialized={outputProbe.serialized}
             isString={outputProbe.isString}
             charCount={outputProbe.size}
@@ -167,7 +167,7 @@ export function IOPreviewJSONSimple({
           />
         ) : (
           <PrettyJsonView
-            title="Output"
+            title="输出"
             json={output}
             parsedJson={effectiveOutput}
             isLoading={isLoading}
@@ -201,7 +201,7 @@ export function IOPreviewJSONSimple({
       {showMetadata &&
         (metadataTooLarge ? (
           <LargeJsonFieldFallback
-            title="Metadata"
+            title="元数据"
             serialized={metadataProbe.serialized}
             isString={metadataProbe.isString}
             charCount={metadataProbe.size}
@@ -209,7 +209,7 @@ export function IOPreviewJSONSimple({
           />
         ) : (
           <PrettyJsonView
-            title="Metadata"
+            title="元数据"
             json={metadata}
             parsedJson={effectiveMetadata}
             isLoading={isLoading}

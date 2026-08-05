@@ -15,9 +15,9 @@ export function DatasetChoiceStep(props: DatasetChoiceStepProps) {
         <div className="bg-primary/10 mb-4 rounded-full p-4">
           <Database className="text-primary h-8 w-8" />
         </div>
-        <h3 className="mb-2 text-lg font-bold">Existing Dataset</h3>
+        <h3 className="mb-2 text-lg font-bold">现有数据集</h3>
         <p className="text-muted-foreground text-sm">
-          Add to a dataset that already exists
+          添加到已存在的数据集
         </p>
       </button>
 
@@ -30,9 +30,9 @@ export function DatasetChoiceStep(props: DatasetChoiceStepProps) {
         <div className="bg-primary/10 mb-4 rounded-full p-4">
           <Plus className="text-primary h-8 w-8" />
         </div>
-        <h3 className="mb-2 text-lg font-bold">New Dataset</h3>
+        <h3 className="mb-2 text-lg font-bold">新建数据集</h3>
         <p className="text-muted-foreground text-sm">
-          Create a new dataset for these observations
+          为这些观测创建一个新数据集
         </p>
       </button>
     </div>

@@ -164,14 +164,14 @@ function TracePanelNavigationHeaderExpanded({
 
         if (observations.length >= TRACE_DOWNLOAD_OMIT_LARGE_FIELDS_THRESHOLD) {
           toast.warning(
-            `Trace download excludes IO, metadata, toolDefinitions, and toolCalls for traces with ${TRACE_DOWNLOAD_OMIT_LARGE_FIELDS_THRESHOLD}+ observations.`,
+            `对于观测数达到 ${TRACE_DOWNLOAD_OMIT_LARGE_FIELDS_THRESHOLD}+ 的追踪，下载将排除 IO、元数据、工具定义和工具调用。`,
           );
         }
       } catch (error) {
         toast.error(
           error instanceof Error
             ? error.message
-            : "Failed to download trace JSON",
+            : "下载追踪 JSON 失败",
         );
       }
     }, [isBetaEnabled, observations, trace, capture, analyticsDimensions]);
@@ -209,7 +209,7 @@ function TracePanelNavigationHeaderExpanded({
         >
           <CommandInput
             showBorder={false}
-            placeholder="Search"
+            placeholder="搜索"
             className="h-7 min-w-20 border-0 pr-0 focus:ring-0 @max-[300px]/navheader:min-w-10"
             value={searchInputValue}
             onValueChange={setSearchInputValue}
@@ -223,7 +223,7 @@ function TracePanelNavigationHeaderExpanded({
               onClick={handleToggleTreeNodes}
               variant="ghost"
               size="icon"
-              title={isEverythingCollapsed ? "Expand all" : "Collapse all"}
+              title={isEverythingCollapsed ? "全部展开" : "全部折叠"}
               className="h-7 w-7"
             >
               {isEverythingCollapsed ? (
@@ -242,7 +242,7 @@ function TracePanelNavigationHeaderExpanded({
               size="icon"
               onClick={handleDownload}
               disabled={isDownloading}
-              title="Download trace as JSON"
+              title="下载追踪为 JSON"
               className="h-7 w-7"
             >
               {isDownloading ? (
@@ -259,8 +259,8 @@ function TracePanelNavigationHeaderExpanded({
               <Button
                 variant="ghost"
                 size="icon"
-                title="More"
-                aria-label="More options"
+                title="更多"
+                aria-label="更多选项"
                 className="h-7 w-7 @min-[360px]/navheader:hidden"
               >
                 <MoreHorizontal className="h-3.5 w-3.5" />
@@ -273,14 +273,14 @@ function TracePanelNavigationHeaderExpanded({
                 ) : (
                   <FoldVertical className="mr-2 h-3.5 w-3.5" />
                 )}
-                {isEverythingCollapsed ? "Expand all" : "Collapse all"}
+                {isEverythingCollapsed ? "全部展开" : "全部折叠"}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => handleDownload()}
                 disabled={isDownloading}
               >
                 <Download className="mr-2 h-3.5 w-3.5" />
-                Download trace as JSON
+                下载追踪为 JSON
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <TraceViewOptionsMenuItems
@@ -331,13 +331,13 @@ function ViewModeSwitch({
         active={!isTimelineView}
         onClick={() => onSelect(false)}
         icon={ListTree}
-        label="Tree"
+        label="树形"
       />
       <ViewModeSegment
         active={isTimelineView}
         onClick={() => onSelect(true)}
         icon={GanttChartSquare}
-        label="Timeline"
+        label="时间线"
       />
     </div>
   );

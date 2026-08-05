@@ -93,7 +93,7 @@ export const ResizableImage = ({
     return (
       <ImageErrorDisplay
         src={src}
-        displayError="Images not rendered on public traces and observations"
+        displayError="公开的追踪和观测中不渲染图片"
       />
     );
   }
@@ -101,12 +101,12 @@ export const ResizableImage = ({
   if (isValidImage.isLoading && isImageVisible) {
     return (
       <Skeleton className="h-8 w-1/2 items-center p-2 text-xs">
-        <span className="opacity-80">Loading image...</span>
+        <span className="opacity-80">加载图片中...</span>
       </Skeleton>
     );
   }
 
-  const displayError = `Cannot load image. ${src.includes("http") ? "Http images are not rendered in Langfuse for security reasons" : "Invalid image URL"}`;
+  const displayError = `无法加载图片。${src.includes("http") ? "出于安全原因，Langfuse 不渲染 HTTP 图片" : "图片地址无效"}`;
 
   return (
     <div
@@ -168,14 +168,14 @@ export const ResizableImage = ({
           ) : (
             <div className="bg-muted/30 text-muted-foreground/60 flex w-full items-center gap-2 rounded border border-dashed p-2 text-xs">
               <Button
-                title="Render image"
+                title="渲染图片"
                 type="button"
                 size="sm"
                 variant="secondary"
                 onClick={() => setIsImageVisible(!isImageVisible)}
                 disabled={!safeSrc}
               >
-                Load Image
+                加载图片
               </Button>
               <div className="flex min-w-0 flex-1 items-center overflow-hidden">
                 {safeSrc ? (

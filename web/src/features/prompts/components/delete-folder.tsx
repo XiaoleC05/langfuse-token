@@ -71,30 +71,29 @@ export function DeleteFolder({ folderPath }: { folderPath: string }) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="break-all">
-            Delete All Prompts in Folder &quot;
-            <i className="font-normal">{folderName}</i>&quot;
+            删除文件夹 &quot;
+            <i className="font-normal">{folderName}</i>&quot; 中的所有提示词
           </DialogTitle>
         </DialogHeader>
         <DialogBody>
           <p className="text-muted-foreground text-sm">
-            This action permanently deletes the folder{" "}
+            此操作将永久删除文件夹{" "}
             <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-bold break-all">
               {folderPath}
             </code>{" "}
-            and <b>all prompts inside it recursively</b>. This cannot be undone.
-            If a prompt is still used in your application, your application will
-            break.
+            及其<b>内部所有提示词（递归）</b>。此操作无法撤销。
+            如果提示词仍在您的应用程序中使用，您的应用程序将无法正常工作。
           </p>
 
           <div className="bg-muted/50 rounded-md border p-4">
-            <h4 className="mb-2 text-sm font-bold">Prompts to delete:</h4>
+            <h4 className="mb-2 text-sm font-bold">要删除的提示词：</h4>
             {prompts.isLoading ? (
               <div className="flex items-center justify-center py-4">
                 <Spinner size="sm" variant="muted" />
               </div>
             ) : prompts.isError ? (
               <div className="py-2 text-xs text-red-500">
-                Failed to load prompts: {prompts.error.message}
+                加载提示词失败：{prompts.error.message}
               </div>
             ) : (
               <ul className="max-h-32 space-y-1 overflow-y-auto text-xs">
@@ -115,12 +114,12 @@ export function DeleteFolder({ folderPath }: { folderPath: string }) {
                 ))}
                 {(prompts.data?.totalCount ?? 0) > 100 && (
                   <li className="text-muted-foreground pt-1 italic">
-                    And {(prompts.data?.totalCount ?? 0) - 100} more prompts...
+                    以及另外 {(prompts.data?.totalCount ?? 0) - 100} 个提示词...
                   </li>
                 )}
                 {prompts.data?.prompts.length === 0 && (
                   <li className="text-muted-foreground italic">
-                    No prompts found in this folder.
+                    此文件夹中未找到提示词。
                   </li>
                 )}
               </ul>
@@ -129,19 +128,19 @@ export function DeleteFolder({ folderPath }: { folderPath: string }) {
 
           <div className="space-y-2">
             <label className="text-sm font-bold">
-              To confirm, type the full path of the folder to delete:
+              请确认：输入要删除文件夹的完整路径：
             </label>
             <Input
               value={confirmName}
               onChange={(e) => setConfirmName(e.target.value)}
-              placeholder="folder to delete (full path)"
+              placeholder="要删除的文件夹（完整路径）"
               className="h-9"
             />
           </div>
 
           {error && (
             <div className="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-              <p className="font-bold">Error:</p>
+              <p className="font-bold">错误：</p>
               <p className="whitespace-pre-wrap">{error}</p>
             </div>
           )}
@@ -152,7 +151,7 @@ export function DeleteFolder({ folderPath }: { folderPath: string }) {
             variant="ghost"
             onClick={() => setIsOpen(false)}
           >
-            Cancel
+            取消
           </Button>
           <Button
             type="button"
@@ -167,7 +166,7 @@ export function DeleteFolder({ folderPath }: { folderPath: string }) {
               });
             }}
           >
-            Delete Folder
+            删除文件夹
           </Button>
         </DialogFooter>
       </DialogContent>

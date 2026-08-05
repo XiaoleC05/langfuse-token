@@ -109,20 +109,20 @@ export function ScoreConfigsTable({ projectId }: { projectId: string }) {
     {
       accessorKey: "name",
       id: "name",
-      header: "Name",
+      header: "名称",
       enableHiding: true,
     },
     {
       accessorKey: "dataType",
       id: "dataType",
-      header: "Data Type",
+      header: "数据类型",
       size: 80,
       enableHiding: true,
     },
     {
       accessorKey: "range",
       id: "range",
-      header: "Range",
+      header: "范围",
       enableHiding: true,
       size: 300,
       cell: ({ row }) => {
@@ -136,7 +136,7 @@ export function ScoreConfigsTable({ projectId }: { projectId: string }) {
     {
       accessorKey: "description",
       id: "description",
-      header: "Description",
+      header: "描述",
       enableHiding: true,
       cell: ({ row }) => {
         const value = row.original.description;
@@ -149,31 +149,31 @@ export function ScoreConfigsTable({ projectId }: { projectId: string }) {
     {
       accessorKey: "id",
       id: "id",
-      header: "Config ID",
+      header: "配置 ID",
       enableHiding: true,
       defaultHidden: true,
     },
     {
       accessorKey: "createdAt",
       id: "createdAt",
-      header: "Created At",
+      header: "创建时间",
       enableHiding: true,
       defaultHidden: true,
     },
     {
       accessorKey: "isArchived",
       id: "isArchived",
-      header: "Status",
+      header: "状态",
       size: 80,
       enableHiding: true,
       cell: ({ row }) => {
         const { isArchived } = row.original;
-        return isArchived ? "Archived" : "Active";
+        return isArchived ? "已归档" : "启用";
       },
     },
     {
       accessorKey: "action",
-      header: "Action",
+      header: "操作",
       size: 70,
       isFixedPosition: true,
       enableHiding: true,
@@ -190,11 +190,11 @@ export function ScoreConfigsTable({ projectId }: { projectId: string }) {
             <DropdownMenuContent>
               <DropdownMenuItem
                 key={configId}
-                aria-label="edit"
+                aria-label="编辑"
                 onClick={() => setEditConfigId(configId)}
               >
                 <Edit className="mr-2 h-4 w-4" />
-                Edit
+                编辑
               </DropdownMenuItem>
               <DropdownMenuItem asChild key="archive">
                 <ArchiveScoreConfigButton

@@ -75,7 +75,7 @@ export const DatasetActionButton = forwardRef<
           ref={ref}
           icon={<Pen className="h-4 w-4" />}
           label="编辑"
-          aria-label="edit"
+          aria-label="编辑"
           disabledReason={
             hasAccess
               ? undefined
@@ -120,7 +120,7 @@ export const DatasetActionButton = forwardRef<
           ref={ref}
           icon={<Trash className="h-4 w-4" />}
           label="删除"
-          aria-label="delete"
+          aria-label="删除"
           disabledReason={
             hasAccess
               ? undefined

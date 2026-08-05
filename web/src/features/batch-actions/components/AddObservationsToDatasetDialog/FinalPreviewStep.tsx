@@ -122,21 +122,21 @@ export function FinalPreviewStep({
       ) : (
         <div className="space-y-4">
           <PreviewCard
-            label="Input"
+            label="输入"
             data={previewResult?.input}
             onEdit={() => onEditStep("input-mapping")}
             pathErrors={errorsByField["input"]}
             pathMisses={missesByField["input"]}
           />
           <PreviewCard
-            label="Expected Output"
+            label="预期输出"
             data={previewResult?.expectedOutput}
             onEdit={() => onEditStep("output-mapping")}
             pathErrors={errorsByField["expectedOutput"]}
             pathMisses={missesByField["expectedOutput"]}
           />
           <PreviewCard
-            label="Metadata"
+            label="元数据"
             data={previewResult?.metadata}
             onEdit={() => onEditStep("metadata-mapping")}
             pathErrors={errorsByField["metadata"]}

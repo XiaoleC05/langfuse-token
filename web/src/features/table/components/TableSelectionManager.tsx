@@ -81,7 +81,7 @@ function SelectionHeaderCheckbox<TData>({
             setSelectAll(false);
           }
         }}
-        aria-label="Select all"
+        aria-label="全选"
       />
     </div>
   );
@@ -183,7 +183,7 @@ function SelectionRowCheckbox<TData>({
           row.toggleSelected(!!value);
           if (!value) setSelectAll(false);
         }}
-        aria-label="Select row"
+        aria-label="选择行"
       />
     </div>
   );

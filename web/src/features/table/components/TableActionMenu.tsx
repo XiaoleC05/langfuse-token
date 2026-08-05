@@ -89,9 +89,9 @@ export function TableActionMenu({
         <div className="ring-dark-blue/20 dark:border-dark-blue/30 dark:ring-dark-blue/30 bg-background pointer-events-auto flex items-center gap-2 rounded-lg border px-3 py-2 opacity-95 shadow-lg ring-2 backdrop-blur-md dark:shadow-none">
           <div className="text-sm font-bold">
             {approximateCount ? (
-              <span> All matching selected</span>
+              <span> 已选择所有匹配项</span>
             ) : selectedCount !== null ? (
-              <span> {`${numberFormatter(selectedCount, 0)} selected`}</span>
+              <span> {`已选择 ${numberFormatter(selectedCount, 0)} 项`}</span>
             ) : (
               <Spinner size="sm" />
             )}

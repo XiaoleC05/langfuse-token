@@ -42,10 +42,9 @@ export const BillingSettings = () => {
   if (!hasAccess) {
     return (
       <Alert>
-        <AlertTitle>Access Denied</AlertTitle>
+        <AlertTitle>无访问权限</AlertTitle>
         <AlertDescription>
-          You do not have permission to view the billing settings of this
-          organization.
+          您没有权限查看此组织的账单设置。
         </AlertDescription>
       </Alert>
     );

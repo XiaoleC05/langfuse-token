@@ -36,12 +36,12 @@ export const UploadDatasetCsv = ({
 
     const result = FileSchema.safeParse(file);
     if (!result.success) {
-      showErrorToast("Invalid file type", "Please select a valid CSV file");
+      showErrorToast("文件类型无效", "请选择有效的 CSV 文件");
       return;
     }
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      showErrorToast("File too large", "Maximum file size is 10MB");
+      showErrorToast("文件过大", "最大文件大小为 10MB");
       return;
     }
 
@@ -53,15 +53,15 @@ export const UploadDatasetCsv = ({
       });
 
       if (!Boolean(preview.columns.length)) {
-        showErrorToast("Invalid CSV", "CSV must have at least 1 column");
+        showErrorToast("CSV 无效", "CSV 必须至少包含 1 列");
         return;
       }
 
       setPreview(preview);
     } catch (error) {
       showErrorToast(
-        "Failed to parse CSV",
-        error instanceof Error ? error.message : "Unknown error",
+        "解析 CSV 失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     }
   };
@@ -70,10 +70,9 @@ export const UploadDatasetCsv = ({
     <DialogBody className="border-t">
       <Card className="h-full items-center justify-center border-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-lg">Add items to dataset</CardTitle>
+          <CardTitle className="text-lg">向数据集添加数据项</CardTitle>
           <CardDescription>
-            Add items to dataset by uploading a file, add items manually or via
-            our SDKs/API
+            通过上传文件、手动添加或使用 SDK/API 向数据集添加数据项
           </CardDescription>
         </CardHeader>
         <CardContent>

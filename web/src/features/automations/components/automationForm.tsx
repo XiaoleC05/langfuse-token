@@ -83,7 +83,7 @@ const projectNotificationName = (data: FormValues): string => {
       return "Webhook";
     }
   }
-  return "Project notification";
+  return "项目通知";
 };
 
 /** CreateAutomationPrefill pre-fills the create-automation form from a deep link. */
@@ -243,11 +243,11 @@ const EventSourceField = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value={TriggerEventSource.Prompt}>Prompt</SelectItem>
+              <SelectItem value={TriggerEventSource.Prompt}>提示词</SelectItem>
               {(isLangfuseCloud ||
                 field.value === TriggerEventSource.Monitor) && (
                 <SelectItem value={TriggerEventSource.Monitor}>
-                  Monitor
+                  监视器
                 </SelectItem>
               )}
               <SelectItem disabled={true} value="planned">
@@ -451,7 +451,7 @@ export const AutomationForm = ({
         isEditing && automation
           ? automation.name
           : resolvedEventSource === TriggerEventSource.ProjectNotification
-            ? "Project notification"
+            ? "项目通知"
             : "",
       eventSource: resolvedEventSource,
       eventAction: resolvedEventAction,

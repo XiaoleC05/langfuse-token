@@ -30,7 +30,7 @@ export const BillingUsageChart = () => {
   const usageType = usage.data?.usageType
     ? usage.data.usageType.charAt(0).toUpperCase() +
       usage.data.usageType.slice(1)
-    : "Events";
+    : "事件";
 
   if (usage.data === null) {
     // Might happen in dev mode if STRIPE_SECRET_KEY is not set

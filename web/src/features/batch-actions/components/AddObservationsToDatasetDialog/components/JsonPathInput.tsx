@@ -108,7 +108,7 @@ export function JsonPathInput({
           setResolveError(null);
           setNoMatchWarning(result === undefined);
         } catch (e) {
-          setResolveError(e instanceof Error ? e.message : "Invalid JSONPath");
+          setResolveError(e instanceof Error ? e.message : "无效的 JSONPath");
           setNoMatchWarning(false);
         }
       } else {
@@ -166,7 +166,7 @@ export function JsonPathInput({
       )}
       {showWarning && (
         <p className="text-xs text-amber-600 dark:text-amber-500">
-          No match found in source data
+          在源数据中未找到匹配项
         </p>
       )}
     </div>

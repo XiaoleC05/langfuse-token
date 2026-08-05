@@ -78,16 +78,15 @@ export function InAppAgentWidgetComposer({
         Add with Langfuse Assistant
       </div>
       <p className="text-muted-foreground text-xs">
-        Describe the chart you need. The Assistant will create it as a widget
-        and add it to this dashboard.
+        描述您需要的图表。助手会将其创建为组件并添加到该仪表板。
       </p>
       <div className="flex items-end gap-2">
         <Textarea
-          aria-label="Describe the widget you want"
+          aria-label="描述您想要的组件"
           autoComplete="off"
           maxLength={2000}
           rows={1}
-          placeholder="e.g. Show p95 latency by model over the last 7 days"
+          placeholder="例如：显示最近 7 天各模型的 p95 延迟"
           value={request}
           onChange={(event) => {
             setRequest(event.target.value);
@@ -101,7 +100,7 @@ export function InAppAgentWidgetComposer({
           size="icon"
           className="h-8 w-8 shrink-0 rounded-md border"
           variant="outline"
-          aria-label="Add with Langfuse Assistant"
+          aria-label="使用 Langfuse 助手添加"
           disabled={!request.trim() || isRunning || isSubmitting}
         >
           <SendHorizontal className="h-4 w-4" />

@@ -51,12 +51,12 @@ export function MentionAutocomplete({
     <div
       className="absolute right-0 bottom-full left-0 z-50 mb-1"
       role="region"
-      aria-label="User mention suggestions"
+      aria-label="用户提及建议"
     >
       <Command
         className="max-h-60 rounded-md border shadow-md"
         value={selectedUserId}
-        aria-label="Mention user autocomplete"
+        aria-label="提及用户自动补全"
       >
         <CommandList
           role="listbox"
@@ -69,11 +69,11 @@ export function MentionAutocomplete({
               aria-live="polite"
             >
               <Spinner size="sm" />
-              <span className="sr-only">Loading users...</span>
+              <span className="sr-only">加载用户中...</span>
             </div>
           )}
           {!isLoading && users.length === 0 && (
-            <CommandEmpty role="status">No users found</CommandEmpty>
+            <CommandEmpty role="status">未找到用户</CommandEmpty>
           )}
           {!isLoading && users.length > 0 && (
             <>
@@ -121,7 +121,7 @@ export function MentionAutocomplete({
                   role="status"
                   aria-live="polite"
                 >
-                  and {remainingCount} more...
+                  另有 {remainingCount} 个...
                 </div>
               )}
             </>

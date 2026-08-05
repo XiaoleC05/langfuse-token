@@ -421,7 +421,7 @@ const DropdownMenuItemWithSecondaryAction = (
 };
 
 const DropdownMenuLoadingItem = () => (
-  <DropdownMenuItem disabled aria-label="Loading">
+  <DropdownMenuItem disabled aria-label="加载中">
     <Skeleton variant="contrast" className="h-4 w-24" />
   </DropdownMenuItem>
 );

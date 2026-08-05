@@ -103,7 +103,7 @@ export function Callout({
             size="sm"
             onClick={handleDismiss}
             className="text-muted-foreground hover:text-foreground h-6 w-6 p-0"
-            aria-label="Dismiss"
+            aria-label="关闭"
           >
             <X className="h-4 w-4" />
           </Button>

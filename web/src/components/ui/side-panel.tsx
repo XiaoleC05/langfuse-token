@@ -175,7 +175,7 @@ const SidePanelHeader = ({ children }: { children: ReactNode }) => {
         variant="ghost"
         size="icon"
         onClick={() => setShowPanel(true)}
-        title="Show details"
+        title="显示详情"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
@@ -190,7 +190,7 @@ const SidePanelHeader = ({ children }: { children: ReactNode }) => {
           variant="outline"
           size="icon"
           onClick={() => setShowPanel(false)}
-          title="Hide details"
+          title="隐藏详情"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>

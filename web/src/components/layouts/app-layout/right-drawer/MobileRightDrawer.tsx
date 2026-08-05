@@ -41,7 +41,7 @@ export function MobileRightDrawer({ children }: PropsWithChildren) {
               <div className="bg-muted h-2 w-20 rounded-full" />
             </div>
             {/* sr-only for screen readers and accessibility */}
-            <DrawerTitle className="sr-only">Support</DrawerTitle>
+            <DrawerTitle className="sr-only">支持</DrawerTitle>
             <DrawerDescription className="sr-only">
               A list of resources and options to help you with your questions.
             </DrawerDescription>

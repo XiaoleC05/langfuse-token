@@ -68,7 +68,7 @@ export function useLogViewDownload({
         try {
           const data = buildDataFromCache();
           copyTextToClipboard(JSON.stringify(data, null, 2));
-          toast.success("Copied to clipboard (cache only)");
+          toast.success("已复制到剪贴板（仅缓存）");
         } finally {
           setIsActionLoading(false);
         }
@@ -80,10 +80,10 @@ export function useLogViewDownload({
         // Show warning if some observations failed to load
         if (failedObservationIds.length > 0) {
           toast.warning(
-            `Copied to clipboard. ${failedObservationIds.length} observation${failedObservationIds.length === 1 ? "" : "s"} failed to load and ${failedObservationIds.length === 1 ? "is" : "are"} missing I/O data.`,
+            `已复制到剪贴板。${failedObservationIds.length} 条观测加载失败，缺少输入输出数据。`,
           );
         } else {
-          toast.success("Copied to clipboard");
+          toast.success("已复制到剪贴板");
         }
       } else {
         setIsActionLoading(true);
@@ -93,10 +93,10 @@ export function useLogViewDownload({
           // Check for failures after loading
           if (failedObservationIds.length > 0) {
             toast.warning(
-              `Copied to clipboard. ${failedObservationIds.length} observation${failedObservationIds.length === 1 ? "" : "s"} failed to load and ${failedObservationIds.length === 1 ? "is" : "are"} missing I/O data.`,
+              `已复制到剪贴板。${failedObservationIds.length} 条观测加载失败，缺少输入输出数据。`,
             );
           } else {
-            toast.success("Copied to clipboard");
+            toast.success("已复制到剪贴板");
           }
         } finally {
           setIsActionLoading(false);
@@ -121,7 +121,7 @@ export function useLogViewDownload({
         try {
           const data = buildDataFromCache();
           downloadJsonData(data);
-          toast.success("Downloaded trace data (cache only)");
+          toast.success("已下载追踪数据（仅缓存）");
         } finally {
           setIsActionLoading(false);
         }
@@ -133,10 +133,10 @@ export function useLogViewDownload({
         // Show warning if some observations failed to load
         if (failedObservationIds.length > 0) {
           toast.warning(
-            `Downloaded trace data. ${failedObservationIds.length} observation${failedObservationIds.length === 1 ? "" : "s"} failed to load and ${failedObservationIds.length === 1 ? "is" : "are"} missing I/O data.`,
+            `已下载追踪数据。${failedObservationIds.length} 条观测加载失败，缺少输入输出数据。`,
           );
         } else {
-          toast.success("Downloaded trace data");
+          toast.success("已下载追踪数据");
         }
       } else {
         setIsActionLoading(true);
@@ -146,10 +146,10 @@ export function useLogViewDownload({
           // Check for failures after loading
           if (failedObservationIds.length > 0) {
             toast.warning(
-              `Downloaded trace data. ${failedObservationIds.length} observation${failedObservationIds.length === 1 ? "" : "s"} failed to load and ${failedObservationIds.length === 1 ? "is" : "are"} missing I/O data.`,
+              `已下载追踪数据。${failedObservationIds.length} 条观测加载失败，缺少输入输出数据。`,
             );
           } else {
-            toast.success("Downloaded trace data");
+            toast.success("已下载追踪数据");
           }
         } finally {
           setIsActionLoading(false);

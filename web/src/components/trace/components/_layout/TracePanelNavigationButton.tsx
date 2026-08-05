@@ -29,7 +29,7 @@ export function TracePanelNavigationButton({
         }}
         variant="ghost"
         size="icon"
-        title={isPanelCollapsed ? "Expand panel" : "Collapse panel"}
+        title={isPanelCollapsed ? "展开面板" : "折叠面板"}
         className="h-7 w-7 shrink-0"
       >
         {isPanelCollapsed ? (

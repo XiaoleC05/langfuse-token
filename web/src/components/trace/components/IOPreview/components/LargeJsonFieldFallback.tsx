@@ -61,8 +61,8 @@ export function LargeJsonFieldFallback({
   // Beta viewer (node/tree-build cost), characters for the plain view.
   const sizeSummary =
     rowCount != null
-      ? `${compactNumberFormatter(rowCount, 1)} rows`
-      : `${compactNumberFormatter(charCount, 1)} characters`;
+      ? `${compactNumberFormatter(rowCount, 1)} 行`
+      : `${compactNumberFormatter(charCount, 1)} 个字符`;
 
   const previewText = useMemo(
     () =>
@@ -92,7 +92,7 @@ export function LargeJsonFieldFallback({
           <span>{sizeSummary}</span>
           <Button variant="outline" size="sm" onClick={onDownload}>
             <Download className="mr-1 h-3.5 w-3.5" />
-            Download {title}
+            下载 {title}
           </Button>
         </div>
       </div>
@@ -106,12 +106,11 @@ export function LargeJsonFieldFallback({
           {!hideTitle && (
             <span className="text-foreground font-bold">{title}</span>
           )}
-          <span>{sizeSummary} — too large to render in JSON view</span>
+          <span>{sizeSummary} — 内容过大，无法在 JSON 视图中渲染</span>
         </div>
         <p className="text-muted-foreground text-xs">
-          Rendering this much JSON at once freezes the tab. Use the{" "}
-          <span className="font-bold">Formatted</span> view for the full
-          payload, or download it below.
+          一次渲染这么多 JSON 会卡死页面。使用{" "}
+          <span className="font-bold">格式化</span> 视图查看完整内容，或在此下方下载。
         </p>
         <pre className="bg-muted/50 max-h-40 overflow-hidden rounded-md border p-2 font-mono text-xs break-all whitespace-pre-wrap">
           {previewText}
@@ -119,7 +118,7 @@ export function LargeJsonFieldFallback({
         <div>
           <Button variant="outline" size="sm" onClick={onDownload}>
             <Download className="mr-1 h-3.5 w-3.5" />
-            Download {title}
+            下载 {title}
           </Button>
         </div>
       </div>

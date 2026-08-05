@@ -69,13 +69,13 @@ export const TopbarBrand = ({
           <img
             className="max-h-5 max-w-24 dark:hidden"
             src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/wordart-black.svg`}
-            alt="Langfuse Logo"
+            alt="Langfuse 标志"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="hidden max-h-5 max-w-24 dark:block"
             src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/wordart-white.svg`}
-            alt="Langfuse Logo"
+            alt="Langfuse 标志"
           />
         </>
       ) : (

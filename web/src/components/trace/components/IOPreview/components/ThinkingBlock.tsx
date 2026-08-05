@@ -30,7 +30,7 @@ export function ThinkingBlock({
             expanded && "rotate-90",
           )}
         />
-        <span className="text-xs font-bold">Thinking</span>
+        <span className="text-xs font-bold">思考</span>
         {!expanded && (
           <span className="line-clamp-1 text-xs italic">{displayContent}</span>
         )}
@@ -71,9 +71,9 @@ export function RedactedThinkingBlock({
             expanded && "rotate-90",
           )}
         />
-        <span className="text-xs font-bold">Thinking (redacted)</span>
+        <span className="text-xs font-bold">思考（已隐藏）</span>
         {!expanded && (
-          <span className="text-xs italic">[Encrypted thinking data]</span>
+          <span className="text-xs italic">[加密的思考数据]</span>
         )}
       </button>
 

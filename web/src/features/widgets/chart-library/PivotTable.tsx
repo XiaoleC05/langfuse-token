@@ -127,8 +127,8 @@ const SortableHeader: React.FC<{
             className="ml-1"
             title={
               sortDirection === "ASC"
-                ? "Sorted ascending"
-                : "Sort by this column"
+                ? "已按升序排序"
+                : "按此列排序"
             }
           >
             {sortDirection === "ASC" ? "▲" : "▼"}
@@ -347,7 +347,7 @@ export const PivotTable: React.FC<PivotTableProps> = ({
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
-          <p className="text-muted-foreground text-sm">No data available</p>
+          <p className="text-muted-foreground text-sm">暂无数据</p>
         </div>
       </div>
     );
@@ -363,7 +363,7 @@ export const PivotTable: React.FC<PivotTableProps> = ({
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
           <p className="text-muted-foreground text-sm">
-            Unable to process data for pivot table
+            无法处理透视表数据
           </p>
         </div>
       </div>
@@ -380,7 +380,7 @@ export const PivotTable: React.FC<PivotTableProps> = ({
               label={
                 config?.dimensions && config.dimensions.length > 0
                   ? config.dimensions.map(formatColumnHeader).join(" / ") // Show all dimensions
-                  : "Dimension"
+                  : "维度"
               }
               className="p-2 text-left font-bold first:pl-2"
             />

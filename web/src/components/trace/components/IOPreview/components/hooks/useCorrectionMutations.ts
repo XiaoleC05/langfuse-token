@@ -80,7 +80,7 @@ export function useCorrectionMutations({
       return { previousValue, correctionId: effectiveCorrection.id };
     },
     onError: (error, _, context) => {
-      toast.error("Failed to delete correction");
+      toast.error("删除修正内容失败");
       // Rollback delete - restore to cache if we had a previous value
       if (context?.correctionId) {
         correctionCache.rollbackDelete(

@@ -96,7 +96,7 @@ export const jsonSchemaStringValidator = z.string().refine(
     }
   },
   {
-    message: "Must be a valid JSON Schema",
+    message: "必须是有效的 JSON Schema",
   },
 );
 
@@ -116,7 +116,7 @@ const formSchema = z.object({
     },
     {
       message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+        "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
   inputSchema: jsonSchemaStringValidator,
@@ -188,7 +188,7 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
       currentName: form.watch("name"),
       allNames: allDatasetNames,
       form,
-      errorMessage: "Dataset name already exists.",
+      errorMessage: "数据集名称已存在。",
       whitelistedName: props.mode === "update" ? props.datasetName : undefined,
     });
 
@@ -332,10 +332,10 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>名称</FormLabel>
                     <FormDescription>
-                      Use slashes &apos;/&apos; in dataset names to organize
-                      them into <em>folders</em>.
+                      在数据集名称中使用斜杠 &apos;/&apos; 可将其组织到{" "}
+                      <em>文件夹</em>中。
                     </FormDescription>
                     <FormControl>
                       <Input {...field} />
@@ -349,7 +349,7 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description (optional)</FormLabel>
+                    <FormLabel>描述（可选）</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -362,7 +362,7 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                 name="metadata"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Metadata (optional)</FormLabel>
+                    <FormLabel>元数据（可选）</FormLabel>
                     <FormControl>
                       <CodeMirrorEditor
                         mode="json"
@@ -381,8 +381,8 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                 name="inputSchema"
                 render={({ field }) => (
                   <DatasetSchemaInput
-                    label="Input schema"
-                    description="Validate dataset item inputs against a JSON Schema. All new and existing items must conform to this schema."
+                    label="输入 Schema"
+                    description="根据 JSON Schema 校验数据项输入。所有新建和现有的数据项都必须符合此 schema。"
                     value={field.value}
                     onChange={field.onChange}
                     initialValue={inputSchemaString}
@@ -394,8 +394,8 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                 name="expectedOutputSchema"
                 render={({ field }) => (
                   <DatasetSchemaInput
-                    label="Expected output schema"
-                    description="Validate dataset item expected outputs against a JSON Schema. All new and existing items must conform to this schema."
+                    label="预期输出 Schema"
+                    description="根据 JSON Schema 校验数据项的预期输出。所有新建和现有的数据项都必须符合此 schema。"
                     value={field.value}
                     onChange={field.onChange}
                     initialValue={expectedOutputSchemaString}
@@ -428,12 +428,12 @@ export const DatasetForm = forwardRef<DatasetFormRef, DatasetFormProps>(
                   className="w-full"
                 >
                   {props.mode === "create"
-                    ? "Create dataset"
-                    : "Update dataset"}
+                    ? "创建数据集"
+                    : "更新数据集"}
                 </Button>
                 {formError && (
                   <p className="mt-4 text-center text-sm text-red-500">
-                    <span className="font-bold">Error:</span> {formError}
+                    <span className="font-bold">错误：</span> {formError}
                   </p>
                 )}
               </div>

@@ -75,7 +75,7 @@ export function AnnotateDrawer<Target extends ScoreTarget>({
               }
             />
           )}
-          <span className={isMenu ? "text-sm" : undefined}>Annotate</span>
+          <span className={isMenu ? "text-sm" : undefined}>标注</span>
         </Button>
       </DrawerTrigger>
       <DrawerContent className="p-3">
@@ -87,7 +87,7 @@ export function AnnotateDrawer<Target extends ScoreTarget>({
         />
         {hasNonAnnotationScores && (
           <div className="text-muted-foreground mt-4 text-xs">
-            API and eval scores visible on left. Add manual annotations above.
+            API 和评估评分显示在左侧。请在上方添加手动标注。
           </div>
         )}
       </DrawerContent>

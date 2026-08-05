@@ -104,7 +104,7 @@ export const InAppAiAgentButton = ({
           reveal in the 640–767px band and overflow the box. */}
       {!prominent && (
         <>
-          <span className="hidden sm:inline">Assistant</span>
+          <span className="hidden sm:inline">助手</span>
           <KeyboardShortcut
             className="bg-transparent shadow-none"
             keys={[

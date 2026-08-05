@@ -132,7 +132,7 @@ function useTimelinePlayhead({
         handle.style.transform = t;
         // Slider semantics for assistive tech, updated on the same feed.
         handle.setAttribute("aria-valuenow", sec.toFixed(2));
-        handle.setAttribute("aria-valuetext", `${sec.toFixed(2)} seconds`);
+        handle.setAttribute("aria-valuetext", `${sec.toFixed(2)} 秒`);
       }
       // Follow the playhead while PLAYING so the sweep never exits the
       // viewport — but never during manual scrubbing or while paused, so we
@@ -557,8 +557,8 @@ export function TraceTimeline() {
           className="bg-background text-muted-foreground flex shrink-0 items-center pl-2 text-xs font-bold"
           style={{ width: `${gutterWidth}px` }}
         >
-          <span className="truncate" title="Name">
-            Name
+          <span className="truncate" title="名称">
+            名称
           </span>
         </div>
         <div className="bg-border-contrast/60 w-px shrink-0" />
@@ -583,7 +583,7 @@ export function TraceTimeline() {
                 ref={playheadHandleRef}
                 role="slider"
                 tabIndex={0}
-                aria-label="Playhead position"
+                aria-label="播放头位置"
                 aria-valuemin={0}
                 aria-valuemax={Number(traceDuration.toFixed(2))}
                 aria-valuenow={Number(getPlayheadSec().toFixed(2))}
@@ -664,7 +664,7 @@ export function TraceTimeline() {
           <div
             role="separator"
             aria-orientation="vertical"
-            aria-label="Resize name column"
+            aria-label="调整名称列宽度"
             onPointerDown={startGutterResize}
             className={cn(
               "hover:bg-primary/40 active:bg-primary/40 absolute inset-y-0 left-1/2 z-20 w-2",

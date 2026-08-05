@@ -71,7 +71,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "status",
       id: "status",
-      header: "Status",
+      header: "状态",
       size: 110,
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
@@ -83,7 +83,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "progress",
       id: "progress",
-      header: "Progress",
+      header: "进度",
       size: 150,
       cell: ({ row }) => {
         const totalCount = row.original.totalCount;
@@ -100,7 +100,7 @@ export function BatchActionsTable(props: { projectId: string }) {
             </div>
             {failedCount > 0 && (
               <div className="text-destructive text-xs">
-                {failedCount} failed
+                {failedCount} 个失败
               </div>
             )}
           </div>
@@ -110,7 +110,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "createdAt",
       id: "createdAt",
-      header: "Created",
+      header: "创建时间",
       size: 150,
       cell: ({ row }) => {
         const createdAt = row.getValue("createdAt") as Date;
@@ -120,7 +120,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "finishedAt",
       id: "finishedAt",
-      header: "Finished",
+      header: "完成时间",
       size: 150,
       cell: ({ row }) => {
         const finishedAt = row.getValue("finishedAt") as Date | null;
@@ -134,7 +134,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "user",
       id: "user",
-      header: "Created By",
+      header: "创建者",
       size: 150,
       cell: ({ row }) => {
         const user = row.getValue("user") as {
@@ -146,10 +146,10 @@ export function BatchActionsTable(props: { projectId: string }) {
             <Avatar className="h-7 w-7">
               <AvatarImage
                 src={user?.image ?? undefined}
-                alt={user?.name ?? "User Avatar"}
+                alt={user?.name ?? "用户头像"}
               />
             </Avatar>
-            <span>{user?.name ?? "Unknown"}</span>
+            <span>{user?.name ?? "未知"}</span>
           </div>
         );
       },
@@ -157,7 +157,7 @@ export function BatchActionsTable(props: { projectId: string }) {
     {
       accessorKey: "log",
       id: "log",
-      header: "Log",
+      header: "日志",
       size: 300,
       cell: ({ row }) => {
         const log = row.getValue("log") as string | null;

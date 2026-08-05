@@ -48,7 +48,7 @@ export function InAppAgentToolCallCard({
           </div>
           <div className="mt-2 space-y-2">
             <InAppAgentToolPayload
-              label="Arguments"
+              label="参数"
               value={tool.args}
               variant="default"
             />
@@ -109,7 +109,7 @@ export function InAppAgentToolCallCard({
           </summary>
           <div className="mt-2 space-y-2">
             <InAppAgentToolPayload
-              label="Arguments"
+              label="参数"
               value={tool.args}
               variant="default"
             />

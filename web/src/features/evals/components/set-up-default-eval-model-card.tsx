@@ -22,15 +22,14 @@ export function SetupDefaultEvalModelCard({
                 rel="noopener noreferrer"
                 className="underline"
               >
-                Learn more.
+                了解更多。
               </a>
             </>
           }
           variant="color-coded"
         />
         <p className="text-dark-yellow/70 text-xs">
-          This evaluator expects to use the default evaluation model for your
-          project.
+          此评估器预期使用您项目的默认评估模型。
         </p>
       </CardContent>
     </Card>

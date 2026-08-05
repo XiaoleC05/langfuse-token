@@ -148,8 +148,8 @@ export const ObservationDetailViewHeader = memo(
             </span>
             <DetailHeaderActionsMenu
               idItems={[
-                { id: traceId, name: "Trace ID" },
-                { id: observation.id, name: "Observation ID" },
+                { id: traceId, name: "追踪 ID" },
+                { id: observation.id, name: "观测 ID" },
               ]}
               observationType={observation.type}
               projectId={projectId}
@@ -168,7 +168,7 @@ export const ObservationDetailViewHeader = memo(
                   <Button
                     variant="outline"
                     size="icon"
-                    aria-label="More actions"
+                    aria-label="更多操作"
                     className="ml-auto shrink-0"
                   >
                     <MoreHorizontal className="h-4 w-4" />
@@ -213,7 +213,7 @@ export const ObservationDetailViewHeader = memo(
                               ) : (
                                 <SquarePen className="h-4 w-4" />
                               )}
-                              <span className="text-sm">Annotate</span>
+                              <span className="text-sm">标注</span>
                             </Button>
                           </DrawerTrigger>
                           <DrawerContent className="p-3">
@@ -309,7 +309,7 @@ export const ObservationDetailViewHeader = memo(
                           ) : (
                             <SquarePen className="mr-1.5 h-3.5 w-3.5" />
                           )}
-                          <span>Annotate</span>
+                          <span>标注</span>
                         </Button>
                       </DrawerTrigger>
                       <DrawerContent className="p-3">

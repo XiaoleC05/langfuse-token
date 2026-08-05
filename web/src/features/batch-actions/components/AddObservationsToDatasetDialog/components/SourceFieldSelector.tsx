@@ -28,9 +28,9 @@ export function SourceFieldSelector({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="input">Input</SelectItem>
-        <SelectItem value="output">Output</SelectItem>
-        <SelectItem value="metadata">Metadata</SelectItem>
+        <SelectItem value="input">输入</SelectItem>
+        <SelectItem value="output">输出</SelectItem>
+        <SelectItem value="metadata">元数据</SelectItem>
       </SelectContent>
     </Select>
   );

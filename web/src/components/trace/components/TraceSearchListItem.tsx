@@ -59,9 +59,9 @@ export function TraceSearchListItem({
         {/* Temporal and depth context - only show for observations (not TRACE root) */}
         {node.type !== "TRACE" && (
           <div className="text-muted-foreground/70 text-xs">
-            depth {node.depth} • +{traceRelativeTime}
+            深度 {node.depth} • +{traceRelativeTime}
             {parentRelativeTime !== null &&
-              ` • +${parentRelativeTime} from parent`}
+              ` • 相对父级 +${parentRelativeTime}`}
           </div>
         )}
       </div>

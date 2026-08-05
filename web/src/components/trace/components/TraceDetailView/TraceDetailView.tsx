@@ -233,23 +233,23 @@ export function TraceDetailView({
         {showTabsBar && (
           <TooltipProvider>
             <TabsBarList>
-              <TabsBarTrigger value="preview">Preview</TabsBarTrigger>
+              <TabsBarTrigger value="preview">预览</TabsBarTrigger>
               {showLogViewTab && (
                 <TabsBarTrigger value="log">
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span>Log View</span>
+                      <span>日志视图</span>
                     </TooltipTrigger>
                     <TooltipContent className="text-xs">
                       {isLogViewVirtualized
-                        ? `Shows all ${observations.length} observations with virtualization enabled.`
-                        : "Shows all observations concatenated. Great for quickly scanning through them."}
+                        ? `显示全部 ${observations.length} 个观测（已启用虚拟化）。`
+                        : "按顺序显示所有观测，方便快速浏览。"}
                     </TooltipContent>
                   </Tooltip>
                 </TabsBarTrigger>
               )}
               {showScoresTab && (
-                <TabsBarTrigger value="scores">Scores</TabsBarTrigger>
+                <TabsBarTrigger value="scores">评分</TabsBarTrigger>
               )}
 
               {/* View toggle (Formatted/JSON) - show for preview and log tabs when pretty view available */}
@@ -281,7 +281,7 @@ export function TraceDetailView({
                         value="pretty"
                         className="h-fit px-1 text-xs"
                       >
-                        Formatted
+                        格式化
                       </TabsTrigger>
                       {selectedTab === "log" && isLogViewVirtualized ? (
                         <HoverCard openDelay={200}>
@@ -299,14 +299,14 @@ export function TraceDetailView({
                             className="w-64 text-sm"
                             sideOffset={8}
                           >
-                            <p className="font-bold">JSON view unavailable</p>
+                            <p className="font-bold">JSON 视图不可用</p>
                             <p className="text-muted-foreground mt-1">
-                              Disabled for traces with{" "}
+                              为保持性能，包含{" "}
                               {
                                 TRACE_VIEW_CONFIG.logView
                                   .virtualizationThreshold
                               }
-                              + observations to maintain performance.
+                              + 个观测的追踪已禁用此功能。
                             </p>
                           </HoverCardContent>
                         </HoverCard>
@@ -358,7 +358,7 @@ export function TraceDetailView({
                 <div
                   className={`px-2 pt-2 text-sm font-bold ${currentView !== "pretty" ? "shrink-0" : ""}`}
                 >
-                  Tags
+                  标签
                 </div>
                 <div
                   className={`flex flex-wrap gap-x-1 gap-y-1 px-2 pb-2 ${currentView !== "pretty" ? "shrink-0" : ""}`}

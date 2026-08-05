@@ -36,7 +36,7 @@ export function StarToggle({
   // tooltip — all derived from `value`, so an optimistic flip updates the icon
   // and every text surface together, and a screen reader always hears the real
   // state in both the toolbar and the menu (LFE-10535).
-  const stateLabel = value ? "Remove bookmark" : "Bookmark";
+  const stateLabel = value ? "取消书签" : "添加书签";
 
   const button = (
     <Button

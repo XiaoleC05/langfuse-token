@@ -19,7 +19,7 @@ export const TabComponent = ({ tabs }: TabComponentProps) => {
     <div className="flex min-h-0 grow flex-col">
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
-          Select a tab
+          选择一个标签页
         </label>
         <select
           id="tabs"
@@ -37,7 +37,7 @@ export const TabComponent = ({ tabs }: TabComponentProps) => {
         <div className="border-border border-b">
           <nav
             className="-mb-px flex space-x-2 md:space-x-4 lg:space-x-6 xl:space-x-8"
-            aria-label="Tabs"
+            aria-label="标签页"
           >
             {tabs.map((tab, index) => (
               <a

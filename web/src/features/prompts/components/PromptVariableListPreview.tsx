@@ -12,7 +12,7 @@ export const PromptVariableListPreview = ({
   return (
     <div>
       <p className="text-muted-foreground mb-2 text-sm">
-        The following variables are available:
+        以下变量可用：
       </p>
       <div className="flex min-h-6 flex-wrap gap-2">
         {variables.map((variable) => (

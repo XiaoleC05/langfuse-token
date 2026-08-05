@@ -74,10 +74,10 @@ export function DetailHeaderActionsMenu({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          aria-label="Options"
+          aria-label="选项"
           className="mt-0.5 shrink-0"
           size="icon-xs"
-          title="Options"
+          title="选项"
           variant="ghost"
         >
           <EllipsisVertical className="h-4 w-4" />
@@ -103,7 +103,7 @@ export function DetailHeaderActionsMenu({
                 onSelect={() => router.push(href)}
               >
                 <span className="max-w-[260px] truncate" title={spanName}>
-                  filter by <span className="font-bold">name:{spanName}</span>
+                  按 <span className="font-bold">name:{spanName}</span> 筛选
                 </span>
               </DropdownMenuItem>
             )}
@@ -116,7 +116,7 @@ export function DetailHeaderActionsMenu({
                   className="max-w-[260px] truncate"
                   title={filterTypeLabel}
                 >
-                  filter by <span className="font-bold">{filterTypeLabel}</span>
+                  按 <span className="font-bold">{filterTypeLabel}</span> 筛选
                 </span>
               </DropdownMenuItem>
             )}
@@ -135,7 +135,7 @@ export function DetailHeaderActionsMenu({
               <CopyIcon className="mr-2 h-4 w-4" />
             )}
             <span className="max-w-[260px] truncate" title={item.id}>
-              Copy {item.name}
+              复制 {item.name}
             </span>
           </DropdownMenuItem>
         ))}

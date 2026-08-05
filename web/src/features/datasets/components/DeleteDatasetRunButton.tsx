@@ -41,7 +41,7 @@ export const DeleteDatasetRunButton = ({
     >
       <div className="flex w-full flex-row items-center gap-1">
         <Trash className="h-4 w-4" />
-        <span className="text-sm font-normal">Delete</span>
+        <span className="text-sm font-normal">删除</span>
       </div>
     </Button>
   );
@@ -51,9 +51,9 @@ export const DeleteDatasetRunButton = ({
       open={isDialogOpen}
       onOpenChange={setIsDialogOpen}
       trigger={button}
-      title="Please confirm"
-      description="This action cannot be undone. Traces linked to this run must be deleted manually."
-      confirmLabel="Delete Dataset Run"
+      title="请确认"
+      description="此操作无法撤销。与此运行关联的追踪必须手动删除。"
+      confirmLabel="删除数据集运行"
       loading={mutDelete.isPending}
       onConfirm={async () => {
         capture("dataset_run:delete_form_submit");

@@ -102,18 +102,17 @@ export function PromptSelectionDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add inline prompt reference</DialogTitle>
+          <DialogTitle>添加内联提示词引用</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <div className="flex flex-col gap-4">
             <p className="text-muted-foreground text-sm">
-              Referenced prompts are dynamically resolved and inserted when
-              fetched via API/SDK. This enables modular design—create complex
-              prompts from reusable, independently maintained components.
+              被引用的提示词会通过 API/SDK 获取时动态解析并插入。
+              这支持模块化设计——从可复用、独立维护的组件构建复杂的提示词。
             </p>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="prompt-name">Prompt name</Label>
+              <Label htmlFor="prompt-name">提示词名称</Label>
               <Select
                 value={selectedPromptName}
                 onValueChange={(value) => {
@@ -122,7 +121,7 @@ export function PromptSelectionDialog({
                 }}
               >
                 <SelectTrigger id="prompt-name">
-                  <SelectValue placeholder="Select a text prompt" />
+                  <SelectValue placeholder="选择文本提示词" />
                 </SelectTrigger>
                 <SelectContent>
                   {promptOptions?.map((prompt) => (
@@ -133,13 +132,13 @@ export function PromptSelectionDialog({
                 </SelectContent>
               </Select>
               <p className="text-muted-foreground text-xs">
-                Only text prompts can be referenced inline.
+                只有文本提示词可以被内联引用。
               </p>
             </div>
 
             {selectedPromptName && (
               <div className="flex flex-col gap-2">
-                <Label htmlFor="selection-type">Reference by</Label>
+                <Label htmlFor="selection-type">引用方式</Label>
                 <Select
                   value={selectionType}
                   onValueChange={(value: "version" | "label") => {
@@ -148,11 +147,11 @@ export function PromptSelectionDialog({
                   }}
                 >
                   <SelectTrigger id="selection-type">
-                    <SelectValue placeholder="Select link type" />
+                    <SelectValue placeholder="选择链接类型" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="label">Label</SelectItem>
-                    <SelectItem value="version">Version</SelectItem>
+                    <SelectItem value="label">标签</SelectItem>
+                    <SelectItem value="version">版本</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -161,7 +160,7 @@ export function PromptSelectionDialog({
             {selectedPromptName && (
               <div className="flex flex-col gap-2">
                 <Label htmlFor="version-or-label">
-                  {selectionType === "version" ? "Version" : "Label"}
+                  {selectionType === "version" ? "版本" : "标签"}
                 </Label>
                 <div className="flex gap-2">
                   <Select
@@ -172,8 +171,8 @@ export function PromptSelectionDialog({
                       <SelectValue
                         placeholder={
                           selectionType === "version"
-                            ? "Select a version"
-                            : "Select a label"
+                            ? "选择版本"
+                            : "选择标签"
                         }
                       />
                     </SelectTrigger>
@@ -212,7 +211,7 @@ export function PromptSelectionDialog({
 
           {selectedTag && (
             <div className="space-y-2">
-              <Label>Tag preview</Label>
+              <Label>标签预览</Label>
               <div className="relative">
                 <div className="bg-muted rounded-md border p-3 pr-10 font-mono text-xs">
                   {selectedTag}
@@ -229,8 +228,8 @@ export function PromptSelectionDialog({
               </div>
               <p className="text-muted-foreground text-xs">
                 {onSelect
-                  ? "This tag will be inserted into the prompt content."
-                  : "This tag will be copied to clipboard to be then inserted into the prompt"}
+                  ? "此标签将插入到提示词内容中。"
+                  : "此标签将复制到剪贴板，随后插入到提示词中"}
               </p>
             </div>
           )}
@@ -238,10 +237,10 @@ export function PromptSelectionDialog({
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            取消
           </Button>
           <Button type="button" onClick={handleConfirm} disabled={!selectedTag}>
-            {onSelect ? "Insert" : "Copy and close"}
+            {onSelect ? "插入" : "复制并关闭"}
           </Button>
         </DialogFooter>
       </DialogContent>

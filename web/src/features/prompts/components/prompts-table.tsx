@@ -269,7 +269,7 @@ export function PromptTable() {
   const promptColumns: LangfuseColumnDef<PromptTableRow>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "名称",
       id: "name",
       enableSorting: true,
       size: 250,
@@ -297,7 +297,7 @@ export function PromptTable() {
     },
     {
       accessorKey: "version",
-      header: "Versions",
+      header: "版本",
       id: "version",
       enableSorting: true,
       size: 70,
@@ -308,14 +308,14 @@ export function PromptTable() {
     },
     {
       accessorKey: "type",
-      header: "Type",
+      header: "类型",
       id: "type",
       enableSorting: true,
       size: 60,
     },
     {
       accessorKey: "createdAt",
-      header: "Latest Version Created At",
+      header: "最新版本创建时间",
       id: "createdAt",
       enableSorting: true,
       size: 200,
@@ -327,7 +327,7 @@ export function PromptTable() {
     },
     {
       accessorKey: "numberOfObservations",
-      header: "Number of Observations (7d)",
+      header: "观测数量（7 天）",
       id: "numberOfObservations",
       size: 170,
       cell: ({ getValue, row }) => {
@@ -351,7 +351,7 @@ export function PromptTable() {
     },
     {
       accessorKey: "tags",
-      header: "Tags",
+      header: "标签",
       id: "tags",
       enableSorting: true,
       size: 120,
@@ -382,7 +382,7 @@ export function PromptTable() {
     {
       accessorKey: "id",
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 70,
       enableSorting: false,
       cell: ({ row }) => {
@@ -420,15 +420,15 @@ export function PromptTable() {
           filterState={queryFilter.filterState}
           columnsWithCustomSelect={["labels", "tags"]}
           searchConfig={{
-            metadataSearchFields: ["Name", "Tags", "Content"],
+            metadataSearchFields: ["名称", "标签", "内容"],
             updateQuery: useDebounce(setSearchQuery, 300),
             currentQuery: searchQuery ?? undefined,
             tableAllowsFullTextSearch: true,
             setSearchType,
             searchType,
             customDropdownLabels: {
-              metadata: "Names, Tags",
-              fullText: "Full Text",
+              metadata: "名称、标签",
+              fullText: "全文",
             },
             hidePerformanceWarning: true,
             availableSearchTypes: {

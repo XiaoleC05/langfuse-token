@@ -564,7 +564,7 @@ export const VariableMappingCard = ({
                                 <div className="flex items-center gap-2">
                                   <VariableMappingDescription
                                     title="JsonPath"
-                                    description="Optional selection: Use JsonPath syntax to select from a JSON object stored on a trace. If not selected, we will pass the entire object into the prompt."
+                                    description="可选：使用 JsonPath 语法从存储在追踪上的 JSON 对象中选择。如果未选择，我们将把整个对象传入提示词。"
                                     href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
                                   />
                                   <FormItem className="w-2/3">
@@ -612,8 +612,8 @@ export const VariableMappingCard = ({
                                 <Input
                                   value={
                                     isEventTarget(form.watch("target"))
-                                      ? "Observation"
-                                      : "Experiment item"
+                                      ? "观测"
+                                      : "实验项"
                                   }
                                   disabled
                                 />
@@ -678,7 +678,7 @@ export const VariableMappingCard = ({
                                 <div className="flex items-center gap-2">
                                   <VariableMappingDescription
                                     title="JsonPath"
-                                    description="Optional selection: Use JsonPath syntax to select from a JSON object. If not selected, we will pass the entire object into the prompt."
+                                    description="可选：使用 JsonPath 语法从 JSON 对象中选择。如果未选择，我们将把整个对象传入提示词。"
                                     href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
                                   />
                                   <FormItem className="w-2/3">

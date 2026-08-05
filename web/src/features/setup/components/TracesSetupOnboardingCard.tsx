@@ -86,7 +86,7 @@ export function TracesSetupOnboardingCard({
       await mutCreateApiKey.mutateAsync({ projectId });
     } catch (error) {
       console.error("Error creating API key:", error);
-      toast.error("Failed to create API key");
+      toast.error("创建 API 密钥失败");
     }
   };
 

@@ -31,7 +31,7 @@ export function SectionToolDefinitions({
     <div className="[&_.io-message-content]:px-2 [&_.io-message-header]:px-2">
       <div className="border-border mb-4 border-b pb-4">
         <div className="io-message-header px-1 py-1 text-sm font-bold capitalize">
-          Tools
+          工具
         </div>
         <ToolCallDefinitionCard
           tools={tools}

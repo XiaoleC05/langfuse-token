@@ -64,9 +64,9 @@ export default function BlobStorageIntegrationSettings() {
   return (
     <ContainerPage
       headerProps={{
-        title: "Blob Storage Integration",
+        title: "Blob Storage 集成",
         breadcrumb: [
-          { name: "Settings", href: `/project/${projectId}/settings` },
+          { name: "设置", href: `/project/${projectId}/settings` },
         ],
         actionButtonsLeft: (
           <>
@@ -79,24 +79,21 @@ export default function BlobStorageIntegrationSettings() {
               href="https://langfuse.com/docs/api-and-data-platform/features/export-to-blob-storage"
               target="_blank"
             >
-              Integration Docs ↗
+              集成文档 ↗
             </Link>
           </Button>
         ),
       }}
     >
       <p className="text-primary mb-4 text-sm">
-        Configure scheduled exports of your trace data to AWS S3, S3-compatible
-        storages, or Azure Blob Storage. Set up a hourly, daily, or weekly
-        export to your own storage for data analysis or backup purposes. Use the
-        &quot;Validate&quot; button to test your configuration by uploading a
-        small test file, and the &quot;Run Now&quot; button to trigger an
-        immediate export.
+        将您的追踪数据按计划导出到 AWS S3、兼容 S3 的存储或 Azure Blob
+        Storage。可设置每小时、每天或每周导出到您自己的存储，用于数据分析或备份。使用
+        &quot;验证&quot;按钮上传一个小测试文件来测试您的配置，使用
+        &quot;立即运行&quot;按钮触发立即导出。
       </p>
       {!hasAccess && (
         <p className="text-sm">
-          Your current role does not grant you access to these settings, please
-          reach out to your project admin or owner.
+          您当前的角色无权访问这些设置，请联系您的项目管理员或所有者。
         </p>
       )}
       {state.data?.config && (
@@ -104,7 +101,7 @@ export default function BlobStorageIntegrationSettings() {
       )}
       {hasAccess && (
         <>
-          <Header title="Configuration" className="mt-8" />
+          <Header title="配置" className="mt-8" />
           <Card className="p-3">
             <BlobStorageIntegrationContainer
               config={state.data?.config ?? null}

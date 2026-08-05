@@ -108,12 +108,11 @@ export default function ProtectedLabelsSettings({
 
   return (
     <div>
-      <Header title="Protected Prompt Labels" />
+      <Header title="受保护的提示词标签" />
       <Card className="mb-4 p-3">
         <p className="text-primary mb-4 text-sm">
-          Protected labels can only be modified by users with admin or owner
-          access. This prevents other users from changing or removing these
-          labels from prompts.
+          受保护的标签只能由具有管理员或所有者权限的用户修改。
+          这可防止其他用户更改或移除提示词上的这些标签。
         </p>
         <div className="mb-4 flex flex-wrap gap-2">
           {protectedLabels.map((label) => (
@@ -132,7 +131,7 @@ export default function ProtectedLabelsSettings({
                   onClick={() => {
                     if (
                       confirm(
-                        `Are you sure you want to remove the protected label "${label}"?`,
+                        `您确定要移除受保护的标签 "${label}" 吗？`,
                       )
                     ) {
                       removeProtectedLabel.mutate({ projectId, label });
@@ -168,7 +167,7 @@ export default function ProtectedLabelsSettings({
                           )}
                           disabled={!hasAccess || !hasEntitlement}
                         >
-                          {field.value || "Select or enter a label"}
+                          {field.value || "选择或输入标签"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
@@ -176,12 +175,12 @@ export default function ProtectedLabelsSettings({
                     <PopoverContent className="w-full p-0">
                       <Command>
                         <CommandInput
-                          placeholder="Search or enter a new label..."
+                          placeholder="搜索或输入新标签..."
                           onValueChange={(value) => {
                             field.onChange(value);
                           }}
                         />
-                        <CommandEmpty>No label found</CommandEmpty>
+                        <CommandEmpty>未找到标签</CommandEmpty>
                         <CommandGroup>
                           {availableLabels.map((label) => (
                             <CommandItem
@@ -218,7 +217,7 @@ export default function ProtectedLabelsSettings({
               hasAccess={hasAccess}
               hasEntitlement={hasEntitlement}
             >
-              Add
+              添加
             </ActionButton>
           </form>
         </Form>

@@ -30,8 +30,8 @@ export const useViewMutations = ({
       });
       utils.TableViewPresets.getByTableName.invalidate();
       showSuccessToast({
-        title: "View updated",
-        description: `${data.view.name} has been updated to reflect your current table state`,
+        title: "视图已更新",
+        description: `${data.view.name} 已更新以反映您当前的表格状态`,
       });
     },
   });
@@ -57,14 +57,14 @@ export const useViewMutations = ({
         copyTextToClipboard(data)
           .then(() =>
             showSuccessToast({
-              title: "Permalink copied to clipboard",
-              description: "You can now share the permalink with others",
+              title: "永久链接已复制到剪贴板",
+              description: "您现在可以将此永久链接分享给他人",
             }),
           )
           .catch(() =>
             showErrorToast(
-              "Failed to copy permalink",
-              "Could not write to the clipboard. Please copy the link manually.",
+              "复制永久链接失败",
+              "无法写入剪贴板，请手动复制该链接。",
               "WARNING",
             ),
           );

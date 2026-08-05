@@ -257,7 +257,7 @@ export function useLogViewAllObservationsIO({
     } catch {
       setIsError(true);
       setIsLoading(false);
-      throw new Error("Failed to load observation data");
+      throw new Error("加载观测数据失败");
     }
   }, [items, traceId, projectId, utils, queryClient]);
 

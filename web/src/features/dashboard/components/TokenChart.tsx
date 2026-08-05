@@ -37,7 +37,7 @@ export function TokenChart({ projectId }: { projectId: string }) {
       },
       yAxis: {
         type: "value",
-        name: "Tokens",
+        name: "Token 用量",
         nameTextStyle: { color: theme.mutedColor },
         axisLabel: { color: theme.mutedColor, fontSize: 11 },
         splitLine: { lineStyle: { color: theme.borderColor, opacity: 0.5 } },

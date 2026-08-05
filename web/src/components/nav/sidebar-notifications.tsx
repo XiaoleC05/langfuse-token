@@ -64,23 +64,23 @@ export const notifications: SidebarNotification[] = [
   },
   {
     id: "lw5-5",
-    title: "Launch Week: Day 5",
+    title: "发布周：第 5 天",
     description:
-      "Langfuse MCP now covers observations, metrics, scores, datasets, comments, and more.",
+      "Langfuse MCP 现已覆盖观测、指标、评分、数据集、评论等更多内容。",
     link: "https://langfuse.com/changelog/2026-05-29-mcp-update",
-    linkTitle: "Learn more",
+    linkTitle: "了解更多",
     createdAt: "2026-05-29",
   },
   {
     id: "github-star",
-    title: "Star Langfuse",
+    title: "为 Langfuse 点亮 Star",
     description:
-      "See the latest releases and help grow the community on GitHub",
+      "查看最新版本，并在 GitHub 上帮助我们壮大社区",
     link: "https://github.com/langfuse/langfuse",
     linkContent: (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        alt="Langfuse GitHub stars"
+        alt="Langfuse GitHub 星标"
         src="https://img.shields.io/github/stars/langfuse/langfuse?label=langfuse&style=social"
       />
     ),
@@ -161,7 +161,7 @@ export function SidebarNotifications() {
               });
               dismissNotification(frontNotification.id);
             }}
-            title="Dismiss"
+            title="关闭"
           >
             <X className="h-3.5 w-3.5" />
           </Button>
@@ -201,7 +201,7 @@ export function SidebarNotifications() {
                       });
                     }}
                   >
-                    {frontNotification.linkTitle ?? "Learn more"} &rarr;
+                    {frontNotification.linkTitle ?? "了解更多"} &rarr;
                   </Link>
                 </Button>
               ))}

@@ -28,7 +28,7 @@ export function ChartLoadingState({
   isLoading,
   className,
   hintClassName,
-  spinnerLabel = "Loading chart data",
+  spinnerLabel = "图表数据加载中",
   hintText = SLOW_QUERY_HINT_TEXT,
   hintDelayMs = DEFAULT_HINT_DELAY_MS,
   showSpinner = true,
@@ -36,7 +36,7 @@ export function ChartLoadingState({
   progress,
   layout = "default",
   onRetry,
-  retryLabel = "Retry",
+  retryLabel = "重试",
 }: ChartLoadingStateProps) {
   const [showHint, setShowHint] = useState(false);
   const [showProgressPhase, setShowProgressPhase] = useState(false);
@@ -109,10 +109,10 @@ export function ChartLoadingState({
 
   const statusTitle =
     isPendingProgressState || shouldShowProgress
-      ? "Running query"
+      ? "查询运行中"
       : showSpinner
-        ? "Loading widget"
-        : "Query needs attention";
+        ? "组件加载中"
+        : "查询需要处理";
 
   return (
     <div

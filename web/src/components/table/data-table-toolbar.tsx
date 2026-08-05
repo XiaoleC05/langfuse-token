@@ -196,7 +196,7 @@ function getSearchDescription(
     );
   }
   return (
-    <p className="text-primary text-xs font-normal">Searches in {fields}.</p>
+    <p className="text-primary text-xs font-normal">在 {fields} 中搜索。</p>
   );
 }
 
@@ -321,8 +321,8 @@ export function DataTableToolbar<TData, TValue>({
                 autoFocus
                 placeholder={
                   searchConfig.tableAllowsFullTextSearch
-                    ? "Search..."
-                    : `Search (${searchConfig.metadataSearchFields?.join(", ")})`
+                    ? "搜索..."
+                    : `搜索 (${searchConfig.metadataSearchFields?.join(", ")})`
                 }
                 value={searchString}
                 onChange={(event) => {
@@ -384,7 +384,7 @@ export function DataTableToolbar<TData, TValue>({
                   >
                     <DropdownMenuRadioItem value="metadata">
                       {searchConfig.customDropdownLabels?.metadata ??
-                        "IDs / Names"}
+                        "ID / 名称"}
                     </DropdownMenuRadioItem>
                     <DropdownMenuSub>
                       <DropdownMenuSubTrigger
@@ -398,7 +398,7 @@ export function DataTableToolbar<TData, TValue>({
                             <span className="h-2 w-2 shrink-0 rounded-full bg-current" />
                           )}
                           {searchConfig.customDropdownLabels?.fullText ??
-                            "Full Text"}
+                            "全文"}
                         </span>
                       </DropdownMenuSubTrigger>
                       <DropdownMenuSubContent>
@@ -417,19 +417,19 @@ export function DataTableToolbar<TData, TValue>({
                           {(searchConfig.availableSearchTypes === undefined ||
                             searchConfig.availableSearchTypes.content) && (
                             <DropdownMenuRadioItem value="metadata_fulltext">
-                              Input/Output
+                              输入/输出
                             </DropdownMenuRadioItem>
                           )}
                           {(searchConfig.availableSearchTypes === undefined ||
                             searchConfig.availableSearchTypes.input) && (
                             <DropdownMenuRadioItem value="metadata_fulltext_input">
-                              Input
+                              输入
                             </DropdownMenuRadioItem>
                           )}
                           {(searchConfig.availableSearchTypes === undefined ||
                             searchConfig.availableSearchTypes.output) && (
                             <DropdownMenuRadioItem value="metadata_fulltext_output">
-                              Output
+                              输出
                             </DropdownMenuRadioItem>
                           )}
                         </DropdownMenuRadioGroup>
@@ -460,8 +460,8 @@ export function DataTableToolbar<TData, TValue>({
         )}
         {environmentFilter && (
           <MultiSelectFilter
-            title="Environment"
-            label="Env"
+            title="环境"
+            label="环境"
             values={environmentFilter.values}
             onValueChange={environmentFilter.onValueChange}
             options={environmentFilter.options}

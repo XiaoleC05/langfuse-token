@@ -314,47 +314,47 @@ export const ModelUsageChart = ({
 
   const data = [
     {
-      tabTitle: "Cost by model",
+      tabTitle: "按模型的成本",
       data: costByModel,
       totalMetric: costFormatter(totalCost),
-      metricDescription: `Cost`,
+      metricDescription: `成本`,
       chartMetricLabel: "USD",
       chartUnit: "USD",
     },
     {
-      tabTitle: "Cost by type",
+      tabTitle: "按类型的成本",
       data: costByType,
       totalMetric: costFormatter(totalCost),
-      metricDescription: `Cost`,
+      metricDescription: `成本`,
       chartMetricLabel: "USD",
       chartUnit: "USD",
     },
     {
-      tabTitle: "Usage by model",
+      tabTitle: "按模型的用量",
       data: unitsByModel,
       totalMetric: totalTokens
         ? compactNumberFormatter(totalTokens)
         : compactNumberFormatter(0),
-      metricDescription: `Units`,
-      chartMetricLabel: "Tokens",
-      chartUnit: "tokens",
+      metricDescription: `用量`,
+      chartMetricLabel: "Token 用量",
+      chartUnit: "Token",
     },
     {
-      tabTitle: "Usage by type",
+      tabTitle: "按类型的用量",
       data: unitsByType,
       totalMetric: totalTokens
         ? compactNumberFormatter(totalTokens)
         : compactNumberFormatter(0),
-      metricDescription: `Units`,
-      chartMetricLabel: "Tokens",
-      chartUnit: "tokens",
+      metricDescription: `用量`,
+      chartMetricLabel: "Token 用量",
+      chartUnit: "Token",
     },
   ];
 
   return (
     <DashboardCard
       className={className}
-      title="Model Usage"
+      title="模型用量"
       isLoading={
         isLoading || (queryResult.isPending && selectedModels.length > 0)
       }

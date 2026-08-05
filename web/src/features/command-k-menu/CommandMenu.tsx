@@ -32,7 +32,7 @@ function MainNavigationGroup({
   const capture = usePostHogClientCapture();
 
   return (
-    <CommandGroup heading="Main Navigation">
+    <CommandGroup heading="主导航">
       {navItems.map((item) => (
         <CommandItem
           key={item.url}
@@ -65,7 +65,7 @@ function ProjectsGroup({ onNavigate }: { onNavigate: () => void }) {
   return (
     <>
       <CommandSeparator />
-      <CommandGroup heading="Projects">
+      <CommandGroup heading="项目">
         {allProjectItems.map((item) => (
           <CommandItem
             key={item.url}
@@ -118,11 +118,11 @@ function DashboardsGroup({ onNavigate }: { onNavigate: () => void }) {
   return (
     <>
       <CommandSeparator />
-      <CommandGroup heading="Dashboards">
+      <CommandGroup heading="仪表板">
         {dashboards.map((dashboard) => (
           <CommandItem
             key={dashboard.id}
-            value={`Dashboard > ${dashboard.name}`}
+            value={`仪表板 > ${dashboard.name}`}
             keywords={[
               "dashboard",
               dashboard.name.toLowerCase(),
@@ -134,7 +134,7 @@ function DashboardsGroup({ onNavigate }: { onNavigate: () => void }) {
               router.push(url);
               capture("cmd_k_menu:navigated", {
                 type: "dashboard",
-                title: `Dashboard > ${dashboard.name}`,
+                title: `仪表板 > ${dashboard.name}`,
                 url: url,
               });
               onNavigate();
@@ -157,7 +157,7 @@ function ProjectSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   const projectSettingsItems = settingsPages
     .filter((page) => page.show !== false && !("href" in page))
     .map((page) => ({
-      title: `Project Settings > ${page.title}`,
+      title: `项目设置 > ${page.title}`,
       url: `/project/${project?.id}/settings${page.slug === "index" ? "" : `/${page.slug}`}`,
       keywords: page.cmdKKeywords || [],
     }));
@@ -167,7 +167,7 @@ function ProjectSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   return (
     <>
       <CommandSeparator />
-      <CommandGroup heading="Project Settings">
+      <CommandGroup heading="项目设置">
         {projectSettingsItems.map((item) => (
           <CommandItem
             key={item.url}
@@ -200,7 +200,7 @@ function OrganizationSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   const orgSettingsItems = orgSettingsPages
     .filter((page) => page.show !== false && !("href" in page))
     .map((page) => ({
-      title: `Organization Settings > ${page.title}`,
+      title: `组织设置 > ${page.title}`,
       url: `/organization/${organization?.id}/settings${page.slug === "index" ? "" : `/${page.slug}`}`,
       keywords: page.cmdKKeywords || [],
     }));
@@ -210,7 +210,7 @@ function OrganizationSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   return (
     <>
       <CommandSeparator />
-      <CommandGroup heading="Organization Settings">
+      <CommandGroup heading="组织设置">
         {orgSettingsItems.map((item) => (
           <CommandItem
             key={item.url}
@@ -240,7 +240,7 @@ function AccountSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   const accountSettingsPages = useAccountSettingsPages();
 
   const accountSettingsItems = accountSettingsPages.map((page) => ({
-    title: `Account Settings > ${page.title}`,
+    title: `账户设置 > ${page.title}`,
     url: `/account/settings${page.slug === "index" ? "" : `/${page.slug}`}`,
     keywords: page.cmdKKeywords || [],
   }));
@@ -250,7 +250,7 @@ function AccountSettingsGroup({ onNavigate }: { onNavigate: () => void }) {
   return (
     <>
       <CommandSeparator />
-      <CommandGroup heading="Account Settings">
+      <CommandGroup heading="账户设置">
         {accountSettingsItems.map((item) => (
           <CommandItem
             key={item.url}

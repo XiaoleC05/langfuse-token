@@ -132,7 +132,7 @@ export function TableActionDialog({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select..." />
+                            <SelectValue placeholder="选择..." />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -152,7 +152,7 @@ export function TableActionDialog({
                   <div className="flex items-center gap-1">
                     <Spinner size="xxs" />
                     <p className="text-muted-foreground text-sm">
-                      Batch action is in progress, please wait.
+                      批量操作正在进行中，请稍候。
                     </p>
                   </div>
                 )}
@@ -163,7 +163,7 @@ export function TableActionDialog({
                   loading={isInProgress.isLoading}
                   disabled={isInProgress.data || !form.watch("targetId")}
                 >
-                  Confirm
+                  确认
                 </ActionButton>
               </DialogFooter>
             </form>

@@ -33,11 +33,11 @@ export const AutomationButton = ({ projectId }: AutomationButtonProps) => {
       href={`/project/${projectId}/automations`}
       icon={<Zap className="h-4 w-4" aria-hidden="true" />}
       hasAccess={hasAccess}
-      title="Automations"
+      title="自动化"
       variant="outline"
     >
       <span className="hidden md:ml-1 md:inline">
-        Automations
+        自动化
         {numberIndicator}
       </span>
     </ActionButton>

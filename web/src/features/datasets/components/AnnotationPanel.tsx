@@ -74,7 +74,7 @@ export const AnnotationPanel = ({ projectId }: { projectId: string }) => {
                   onClick={() => {
                     if (hasCommentDraft)
                       toast.error(
-                        "Please save or discard your comment before proceeding",
+                        "请先保存或放弃您的评论再继续",
                       );
                     else clearActiveCell();
                   }}
@@ -85,8 +85,7 @@ export const AnnotationPanel = ({ projectId }: { projectId: string }) => {
             />
             {hasNonAnnotationScores && (
               <div className="text-muted-foreground mt-4 text-xs">
-                API and eval scores visible on left. Add manual annotations
-                above.
+                左侧显示 API 和评估分数。请在上方添加手动标注。
               </div>
             )}
           </>

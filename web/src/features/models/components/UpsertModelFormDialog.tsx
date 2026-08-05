@@ -379,7 +379,7 @@ export const UpsertModelFormDialog = (({
                       <SelectContent>
                         {["openai", "claude", "None"].map((unit) => (
                           <SelectItem value={unit} key={unit}>
-                            {unit}
+                            {unit === "None" ? "无" : unit}
                           </SelectItem>
                         ))}
                       </SelectContent>

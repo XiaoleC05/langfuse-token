@@ -56,17 +56,17 @@ export type PreviewState = {
 const PREVIEW_REGISTRY: PreviewRegistryItem[] = [
   {
     flag: "modernSession",
-    title: "Compact Session View",
-    sidebarLabel: "Compact Session View",
+    title: "紧凑会话视图",
+    sidebarLabel: "紧凑会话视图",
     description:
-      "Navigate every trace in a session from one continuous conversation feed, with tools and structured data available on demand.",
+      "在一个连续的会话对话流中浏览会话内的所有追踪，并按需查看工具调用和结构化数据。",
     details:
-      "Compact Session View replaces separate trace cards with a compact minimap and a virtualized feed. Jump between traces, keep the active trace in view, or temporarily show inline tool calls and system prompts.",
+      "紧凑会话视图以紧凑的缩略图和虚拟化列表取代独立的追踪卡片。您可以在追踪之间跳转、保持当前追踪可见，或临时显示内联的工具调用和系统提示词。",
     feedbackUrl: "https://github.com/orgs/langfuse/discussions",
     illustration: {
       light: modernSessionLightIllustration,
       dark: modernSessionDarkIllustration,
-      alt: "Compact Session View showing a trace minimap beside a continuous session conversation feed.",
+      alt: "紧凑会话视图：在连续的会话对话流旁显示追踪缩略图。",
     },
   },
   // TODO(remove ~2026-06-19): dead registry entry — "searchBar" is GA on the v4
@@ -75,17 +75,17 @@ const PREVIEW_REGISTRY: PreviewRegistryItem[] = [
   // Kept for a safe rollback; delete with the rest of the searchBar plumbing.
   {
     flag: "searchBar",
-    title: "Filter Search Bar",
-    sidebarLabel: "Filter Search Bar",
+    title: "筛选搜索栏",
+    sidebarLabel: "筛选搜索栏",
     description:
-      "A keyboard-driven query bar on the Observations and Traces tables — type filters like level:ERROR -env:dev latency:>2 with inline suggestions, alongside the existing filter sidebar.",
+      "观测表和追踪表上的键盘驱动查询栏——可输入类似 level:ERROR -env:dev latency:>2 的筛选条件并获得内联建议，与现有筛选侧边栏并存。",
     details:
-      "The search bar lets you build and edit filters by typing a compact query language with autocomplete, instead of clicking through the sidebar. It stays in sync with the sidebar (both read and write the same filter state) and supports field filters, comparisons, any-of groups, negation, metadata/score paths, and full-text search across input/output. It is available on the new (v4) Observations and Traces tables.",
+      "搜索栏让您通过输入带自动补全的简洁查询语言来构建和编辑筛选条件，而无需在侧边栏中逐项点击。它与侧边栏保持同步（两者读写同一套筛选状态），并支持字段筛选、比较、任意组合分组、取反、元数据/评分路径以及跨输入/输出的全文搜索。该功能在新版（v4）观测表和追踪表上可用。",
     feedbackUrl: "https://github.com/orgs/langfuse/discussions/14196",
     illustration: {
       light: filterSearchBarLightIllustration,
       dark: filterSearchBarDarkIllustration,
-      alt: "The filter search bar turns typed queries like level:ERROR -env:dev into Observations and Traces table filters with inline suggestions.",
+      alt: "筛选搜索栏将 level:ERROR -env:dev 之类的输入查询转换为观测表和追踪表的筛选条件，并提供内联建议。",
     },
   },
 ];
@@ -202,7 +202,7 @@ export function FeaturePreviewModal({
                         selectedState.isToggling === true
                       }
                       onCheckedChange={selectedState.onToggle}
-                      aria-label={`Toggle ${selected.title}`}
+                      aria-label={`切换 ${selected.title}`}
                     />
                   </div>
                 </div>

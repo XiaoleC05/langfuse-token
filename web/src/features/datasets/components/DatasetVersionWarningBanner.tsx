@@ -31,27 +31,27 @@ export function DatasetVersionWarningBanner({
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <div className="flex items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm wrap-break-word">
-            Viewing version from{" "}
+            正在查看自{" "}
             <span className="text-foreground font-bold">
               {format(selectedVersion, "MMM d, yyyy 'at' h:mm a")}
-            </span>
+            </span>{" "}
+            起的版本
           </p>
           <Button
             onClick={resetToLatest}
             variant="link"
             className="h-auto shrink-0 p-0 text-sm underline-offset-4"
           >
-            Return to latest
+            返回最新版本
           </Button>
         </div>
         {changeCounts && hasChanges && (
           <p className="text-muted-foreground text-xs">
-            {totalChanges} change{totalChanges !== 1 ? "s" : ""} since this
-            version,
+            自该版本以来共有 {totalChanges} 处变更，
             {changeCounts.upserts > 0 &&
-              ` ${changeCounts.upserts} upsert${changeCounts.upserts !== 1 ? "s" : ""}`}
+              ` 其中 ${changeCounts.upserts} 次新增/更新`}
             {changeCounts.deletes > 0 &&
-              ` ${changeCounts.deletes} delete${changeCounts.deletes !== 1 ? "s" : ""}`}
+              `，${changeCounts.deletes} 次删除`}
           </p>
         )}
       </div>

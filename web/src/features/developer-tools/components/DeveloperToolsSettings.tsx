@@ -8,7 +8,7 @@ import { Bot, SquareTerminal, Sparkles } from "lucide-react";
 const DocsButton = ({ href }: { href: string }) => (
   <Button asChild variant="ghost">
     <Link href={href} target="_blank">
-      Documentation ↗
+      文档 ↗
     </Link>
   </Button>
 );
@@ -16,7 +16,7 @@ const DocsButton = ({ href }: { href: string }) => (
 const ManageApiKeysButton = ({ projectId }: { projectId: string }) => (
   <Button asChild variant="secondary">
     <Link href={`/project/${projectId}/settings/api-keys`}>
-      Manage API keys
+      管理 API 密钥
     </Link>
   </Button>
 );
@@ -58,9 +58,8 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
           <p className="text-primary mb-4 text-sm">
             Langfuse MCP 服务器让助手和代理通过 Model Context Protocol
             以编程方式与您的 Langfuse 数据交互。
-            It supports both read and write operations, and you can restrict it
-            to read-only access with an allowlist. Authenticate with a
-            project-scoped API key pair.
+            它同时支持读取和写入操作，您可以通过白名单将其限制为只读访问。
+            使用项目范围的 API 密钥对进行身份验证。
           </p>
           <CodeBlock
             language="shell"
@@ -80,10 +79,9 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
             <span className="font-bold">CLI</span>
           </div>
           <p className="text-primary mb-4 text-sm">
-            The Langfuse CLI provides terminal access to the full Langfuse API.
-            It wraps every API endpoint, so you can manage traces, prompts,
-            datasets, scores, and sessions directly from your shell or scripts.
-            It uses the same API key pair as the Langfuse SDKs.
+            Langfuse CLI 提供对完整 Langfuse API 的终端访问。
+            它封装了每个 API 端点，因此您可以直接在终端或脚本中管理追踪、提示词、
+            数据集、评分和会话。它使用与 Langfuse SDK 相同的 API 密钥对。
           </p>
           <CodeBlock
             language="shell"

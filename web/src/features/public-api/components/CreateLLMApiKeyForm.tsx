@@ -765,7 +765,7 @@ export function CreateLLMApiKeyForm({
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={`e.g. ${currentAdapter}`}
+                        placeholder={`例如：${currentAdapter}`}
                         disabled={isFieldDisabled("provider")}
                       />
                     </FormControl>
@@ -863,7 +863,7 @@ export function CreateLLMApiKeyForm({
                           <FormDescription>
                             {mode === "update" ? (
                               <>
-                                Use{" "}
+                                使用{" "}
                                 <a
                                   href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html"
                                   target="_blank"
@@ -876,7 +876,7 @@ export function CreateLLMApiKeyForm({
                               </>
                             ) : (
                               <>
-                                Use{" "}
+                                使用{" "}
                                 <a
                                   href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html"
                                   target="_blank"
@@ -1123,17 +1123,17 @@ export function CreateLLMApiKeyForm({
                         </p>
                         <ul className="ml-2 list-inside list-disc space-y-1">
                           <li>
-                            Environment variable
+                            环境变量
                             (GOOGLE_APPLICATION_CREDENTIALS)
                           </li>
                           <li>
-                            gcloud CLI credentials (gcloud auth
-                            application-default login)
+                            gcloud CLI 凭证（gcloud auth
+                            application-default login）
                           </li>
                           <li>GKE Workload Identity</li>
-                          <li>Cloud Run service account</li>
+                          <li>Cloud Run 服务账号</li>
                           <li>
-                            GCE instance service account (metadata service)
+                            GCE 实例服务账号（元数据服务）
                           </li>
                         </ul>
                         <p>

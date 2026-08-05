@@ -89,9 +89,9 @@ export const CorrectedOutputDiffDialog: React.FC<
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent size="xl">
         <DialogHeader>
-          <DialogTitle>Output Correction Diff</DialogTitle>
+          <DialogTitle>输出修正对比</DialogTitle>
           <DialogDescription>
-            Compare the original output with the corrected version
+            将原始输出与修正后的版本进行对比
           </DialogDescription>
         </DialogHeader>
 
@@ -100,16 +100,14 @@ export const CorrectedOutputDiffDialog: React.FC<
             <div className="space-y-4">
               <div className="text-muted-foreground rounded-md border border-dashed p-4 text-sm">
                 <p className="text-foreground font-bold">
-                  Original output too large to diff
+                  原始输出过大，无法对比
                 </p>
                 <p className="mt-1">
-                  The original output is too large to load here, so it cannot be
-                  compared side by side. Your correction is shown below and will
-                  be saved as-is.
+                  原始输出过大，无法在此加载，因此无法并排比较。您的修正内容显示在下方，并将按原样保存。
                 </p>
               </div>
               <div>
-                <p className="mb-1 text-sm font-bold">Corrected Output</p>
+                <p className="mb-1 text-sm font-bold">修正后的输出</p>
                 <pre className="bg-muted/30 max-h-[50vh] overflow-auto rounded-md border p-3 text-xs break-words whitespace-pre-wrap">
                   {formattedCorrectedOutput}
                 </pre>
@@ -118,9 +116,9 @@ export const CorrectedOutputDiffDialog: React.FC<
           ) : hasNoOriginalOutput ? (
             <div className="flex flex-col items-center justify-center p-8 text-center">
               <div className="text-muted-foreground">
-                <p className="text-lg font-bold">No original output</p>
+                <p className="text-lg font-bold">无原始输出</p>
                 <p className="mt-2 text-sm">
-                  There is no original output to compare with the correction.
+                  没有可与修正内容进行比较的原始输出。
                 </p>
               </div>
             </div>
@@ -129,15 +127,15 @@ export const CorrectedOutputDiffDialog: React.FC<
               <DiffViewer
                 oldString={formattedActualOutput}
                 newString={formattedCorrectedOutput}
-                oldLabel="Original Output"
-                newLabel="Corrected Output"
+                oldLabel="原始输出"
+                newLabel="修正后的输出"
               />
             </div>
           )}
         </DialogBody>
 
         <DialogFooter>
-          <Button onClick={() => setIsOpen(false)}>Close</Button>
+          <Button onClick={() => setIsOpen(false)}>关闭</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -147,7 +147,7 @@ export function MultiSelect({
           )}
           disabled={disabled}
         >
-          {label ?? "Select"}
+          {label ?? "选择"}
           <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
           {selectedValues.size > 0 && (
             <>
@@ -164,13 +164,13 @@ export function MultiSelect({
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
                   >
-                    {selectedValues.size} selected
+                    已选择 {selectedValues.size}
                   </Badge>
                 ) : (
                   getSelectedOptions().map((option) => {
                     const displayValue =
                       option.displayValue ??
-                      (option.value === "" ? "(empty)" : option.value);
+                      (option.value === "" ? "(空)" : option.value);
                     return (
                       <Badge
                         variant="secondary"
@@ -198,7 +198,7 @@ export function MultiSelect({
           <InputCommandList>
             {/* if isCustomSelectEnabled we always show custom select hence never empty */}
             {!isCustomSelectEnabled && (
-              <InputCommandEmpty>No results found.</InputCommandEmpty>
+              <InputCommandEmpty>未找到结果。</InputCommandEmpty>
             )}
             <InputCommandGroup>
               {selectableOptions.length > 0 && (
@@ -215,7 +215,7 @@ export function MultiSelect({
                       <Check className="h-4 w-4" />
                     </div>
                     <div className="font-bold">
-                      {allSelectedState ? "Deselect All" : "Select All"}
+                      {allSelectedState ? "取消全选" : "全选"}
                     </div>
                   </InputCommandItem>
                   <InputCommandSeparator />
@@ -226,10 +226,10 @@ export function MultiSelect({
                 const isSelected = selectedValues.has(option.value);
                 const displayValue =
                   option.displayValue ??
-                  (option.value === "" ? "(empty)" : option.value);
+                  (option.value === "" ? "(空)" : option.value);
                 const displayTitle =
                   option.displayValue ??
-                  (option.value === "" ? "(empty)" : option.value);
+                  (option.value === "" ? "(空)" : option.value);
 
                 const commandItem = (
                   <InputCommandItem
@@ -337,7 +337,7 @@ export function MultiSelect({
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    placeholder="Enter custom value"
+                    placeholder="输入自定义值"
                     className="h-6 w-full rounded-none border-t-0 border-r-0 border-b-2 border-l-0 border-dotted p-0 text-sm"
                   />
                 </InputCommandItem>

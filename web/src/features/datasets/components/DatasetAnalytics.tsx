@@ -12,8 +12,8 @@ export function DatasetAnalytics(props: {
   return (
     <MultiSelectKeyValues
       className="max-w-fit focus:ring-0! focus:ring-offset-0!"
-      placeholder="Search..."
-      title="Charts"
+      placeholder="搜索..."
+      title="图表"
       variant="outline"
       hideClearButton
       showSelectedValueStrings={false}
@@ -34,14 +34,14 @@ export function DatasetAnalytics(props: {
       }}
       values={props.selectedMetrics}
       options={RESOURCE_METRICS}
-      groupedOptions={[{ label: "Scores", options: props.scoreOptions }]}
+      groupedOptions={[{ label: "分数", options: props.scoreOptions }]}
       controlButtons={
         <DropdownMenuItem
           onSelect={() => {
             props.setSelectedMetrics([]);
           }}
         >
-          Hide all charts
+          隐藏所有图表
         </DropdownMenuItem>
       }
     />

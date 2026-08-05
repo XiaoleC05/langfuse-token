@@ -147,10 +147,10 @@ const TracesPreview = memo(
       <>
         <div className="flex flex-col items-start gap-1">
           <span className="text-sm leading-none font-bold">
-            Preview sample matched traces
+            预览匹配的示例追踪
           </span>
           <FormDescription>
-            Sample over the last 24 hours that match these filters
+            过去 24 小时内匹配这些筛选条件的示例
           </FormDescription>
         </div>
         <div className="mb-4 flex max-h-[30dvh] w-full flex-col overflow-hidden border-r border-b border-l">
@@ -202,7 +202,7 @@ const ObservationsPreview = memo(
       <>
         <div className="flex flex-col items-start gap-1">
           <FormDescription>
-            Sample over the last 24 hours that match filters
+            过去 24 小时内匹配筛选条件的示例
           </FormDescription>
         </div>
         <div className="mb-4 flex max-h-[30dvh] w-full flex-col overflow-hidden border-r border-b border-l">
@@ -212,23 +212,21 @@ const ObservationsPreview = memo(
                 <AlertTriangle className="text-dark-yellow h-8 w-8" />
                 <div className="flex flex-col gap-1">
                   <span className="text-foreground font-bold">
-                    Please verify your SDK version
+                    请验证您的 SDK 版本
                   </span>
                   <span className="text-muted-foreground max-w-md text-sm">
-                    We did not find any data ingested with langfuse
-                    OTEL-compatible SDKs in the last 7 days. Observation-level
-                    evaluators require JS SDK v4+ or Python SDK v3+. You can
-                    still configure this evaluator now—it will start running
-                    once you upgrade.{" "}
+                    在过去 7 天内，我们未找到通过 langfuse OTEL 兼容 SDK 摄取的数据。
+                    观测级评估器需要 JS SDK v4+ 或 Python SDK v3+。
+                    您现在仍可以配置此评估器——升级后它将开始运行。{" "}
                     <a
                       href="https://langfuse.com/docs/observability/sdk/upgrade-path"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-dark-blue font-bold hover:opacity-80"
                     >
-                      Learn more
+                      了解更多
                     </a>
-                    .
+                    。
                   </span>
                 </div>
               </div>
@@ -285,7 +283,7 @@ function CodeEvalSourceLink({
         target="_blank"
         rel="noopener noreferrer"
       >
-        Edit source code
+        编辑源代码
         <ExternalLink className="ml-1 h-3.5 w-3.5" />
       </Link>
     </Button>
@@ -293,9 +291,9 @@ function CodeEvalSourceLink({
     <Button
       variant="outline"
       disabled
-      title="Only user-managed templates can be edited"
+      title="只有用户管理的模板才能编辑"
     >
-      Edit source code
+      编辑源代码
       <ExternalLink className="ml-1 h-3.5 w-3.5" />
     </Button>
   );
@@ -577,14 +575,14 @@ export const InnerEvaluatorForm = (props: {
       form.setError("timeScope", {
         type: "manual",
         message:
-          "The evaluator ran on existing traces already. This cannot be changed anymore.",
+          "此评估器已在现有追踪上运行过，此设置无法再更改。",
       });
       return;
     }
     if (form.getValues("timeScope").length === 0) {
       form.setError("timeScope", {
         type: "manual",
-        message: "Please select at least one.",
+        message: "请至少选择一个。",
       });
       return;
     }
@@ -592,7 +590,7 @@ export const InnerEvaluatorForm = (props: {
     if (validatedFilter.success === false) {
       form.setError("filter", {
         type: "manual",
-        message: "Please fill out all filter fields",
+        message: "请填写所有筛选字段",
       });
       return;
     }
@@ -604,7 +602,7 @@ export const InnerEvaluatorForm = (props: {
     ) {
       form.setError("target", {
         type: "manual",
-        message: "Code evaluators can only run on observations or experiments.",
+        message: "代码评估器只能在观测或实验上运行。",
       });
       return;
     }
@@ -621,7 +619,7 @@ export const InnerEvaluatorForm = (props: {
       form.setError("mapping", {
         type: "manual",
         message:
-          "Trace-level evaluators targeting observations are no longer supported. Please use observation-level evaluators or target trace IO instead.",
+          "不再支持针对观测的追踪级评估器。请改用观测级评估器或将目标改为追踪输入输出。",
       });
       return;
     }
@@ -788,7 +786,7 @@ export const InnerEvaluatorForm = (props: {
           name="scoreName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Generated Score Name</FormLabel>
+              <FormLabel>生成的评分名称</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -802,11 +800,10 @@ export const InnerEvaluatorForm = (props: {
           {hasInvalidTraceFilters && (
             <Alert variant="destructive">
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Unsupported filter detected</AlertTitle>
+              <AlertTitle>检测到不支持的筛选条件</AlertTitle>
               <AlertDescription>
-                This evaluator has a filter that is not supported for
-                trace-level evaluators. It is effectively paused. Please remove
-                all filters and re-add them from scratch to resume execution.
+                此评估器包含追踪级评估器不支持的筛选条件，实际上已暂停。
+                请移除所有筛选条件并从头重新添加，以恢复执行。
               </AlertDescription>
             </Alert>
           )}
@@ -818,7 +815,7 @@ export const InnerEvaluatorForm = (props: {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Run on{" "}
+                      运行于{" "}
                       {props.mode === "edit" && (
                         <Tooltip>
                           <TooltipTrigger>
@@ -826,8 +823,7 @@ export const InnerEvaluatorForm = (props: {
                           </TooltipTrigger>
                           <TooltipContent className="max-w-[200px] p-2">
                             <span className="leading-4">
-                              An evaluator&apos;s target data may only be
-                              configured at creation.
+                              评估器的目标数据只能在创建时配置。
                             </span>
                           </TooltipContent>
                         </Tooltip>
@@ -850,7 +846,7 @@ export const InnerEvaluatorForm = (props: {
                             className="min-w-[100px] gap-1.5"
                           >
                             <CircleDot className="h-3.5 w-3.5" />
-                            Observations
+                            观测
                           </TabsTrigger>
                           {allowLegacy && (
                             <TabsTrigger
@@ -859,13 +855,13 @@ export const InnerEvaluatorForm = (props: {
                               className="min-w-[100px] gap-1.5"
                             >
                               <ListTree className="h-3.5 w-3.5" />
-                              Traces
+                              追踪
                               <Badge
                                 variant="secondary"
                                 size="sm"
                                 className="border-border border font-normal"
                               >
-                                Legacy
+                                旧版
                               </Badge>
                             </TabsTrigger>
                           )}
@@ -875,7 +871,7 @@ export const InnerEvaluatorForm = (props: {
                             className="min-w-[100px] gap-1.5"
                           >
                             <FlaskConical className="h-3.5 w-3.5" />
-                            Experiments
+                            实验
                           </TabsTrigger>
                         </TabsList>
                       </Tabs>
@@ -891,7 +887,7 @@ export const InnerEvaluatorForm = (props: {
               userFacingTarget === "offline-experiment" &&
               props.evalCapabilities.allowLegacy && (
                 <div className="flex flex-col gap-2">
-                  <FormLabel className="text-sm">Experiment Method</FormLabel>
+                  <FormLabel className="text-sm">实验方法</FormLabel>
                   <Tabs
                     value={useOtelDataForExperiment ? "otel" : "non-otel"}
                     onValueChange={(value) => {
@@ -931,7 +927,7 @@ export const InnerEvaluatorForm = (props: {
                         disabled={props.mode === "edit" || props.disabled}
                       >
                         <FlaskConical className="h-3.5 w-3.5" />
-                        Experiment Runner SDK
+                        实验运行器 SDK
                       </TabsTrigger>
                       <TabsTrigger
                         value="non-otel"
@@ -939,13 +935,13 @@ export const InnerEvaluatorForm = (props: {
                         disabled={props.mode === "edit" || props.disabled}
                       >
                         <BetweenHorizonalStart className="h-3.5 w-3.5" />
-                        Low-level SDK methods
+                        底层 SDK 方法
                         <Badge
                           variant="secondary"
                           size="sm"
                           className="border-border border font-normal"
                         >
-                          Legacy
+                          旧版
                         </Badge>
                       </TabsTrigger>
                     </TabsList>
@@ -970,7 +966,7 @@ export const InnerEvaluatorForm = (props: {
                   name="timeScope"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Evaluate</FormLabel>
+                      <FormLabel>评估</FormLabel>
                       <FormControl>
                         <div className="flex flex-col gap-2">
                           <div className="flex space-x-2">
@@ -990,7 +986,7 @@ export const InnerEvaluatorForm = (props: {
                                 htmlFor="newObjects"
                                 className="text-sm leading-none font-bold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                               >
-                                New {getTargetDisplayName(form.watch("target"))}
+                                新增{getTargetDisplayName(form.watch("target"))}
                               </label>
                             </div>
                           </div>
@@ -1015,7 +1011,7 @@ export const InnerEvaluatorForm = (props: {
                                 htmlFor="existingObjects"
                                 className="text-sm leading-none font-bold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                               >
-                                Existing{" "}
+                                现有的{" "}
                                 {getTargetDisplayName(form.watch("target"))}
                               </label>
                               {field.value.includes("EXISTING") &&
@@ -1027,17 +1023,15 @@ export const InnerEvaluatorForm = (props: {
                                     </TooltipTrigger>
                                     <TooltipContent className="max-w-[300px] p-2">
                                       <span className="leading-4">
-                                        This evaluator has already run on
-                                        existing{" "}
+                                        此评估器已在现有的{" "}
                                         {getTargetDisplayName(
                                           form.watch("target"),
                                         )}{" "}
-                                        once. Set up a new evaluator to re-run
-                                        on existing{" "}
+                                        上运行过一次。请设置新的评估器以在现有的{" "}
                                         {getTargetDisplayName(
                                           form.watch("target"),
-                                        )}
-                                        .
+                                        )}{" "}
+                                        上重新运行。
                                       </span>
                                     </TooltipContent>
                                   </Tooltip>
@@ -1072,12 +1066,12 @@ export const InnerEvaluatorForm = (props: {
                           <div className="space-y-0.5">
                             <FormLabel>
                               {isEventTarget(target)
-                                ? "Run on live incoming observations"
-                                : "Run on new experiments"}
+                                ? "对实时传入的观测运行"
+                                : "对新实验运行"}
                             </FormLabel>
                             <FormDescription>
-                              Automatically evaluate new incoming{" "}
-                              {getTargetDisplayName(target)}.
+                              自动评估新传入的{" "}
+                              {getTargetDisplayName(target)}。
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -1090,15 +1084,14 @@ export const InnerEvaluatorForm = (props: {
                         </FormItem>
                         {!field.value && isEventTarget(target) && (
                           <p className="text-muted-foreground text-xs">
-                            This evaluator can still be used for batched
-                            evaluation of historic observations.{" "}
+                            此评估器仍可用于对历史观测进行批量评估。{" "}
                             <a
                               href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-dark-blue hover:opacity-80"
                             >
-                              Read the docs
+                              阅读文档
                             </a>
                           </p>
                         )}
@@ -1145,13 +1138,12 @@ export const InnerEvaluatorForm = (props: {
 
                     return (
                       <FormItem>
-                        <FormLabel>Filter</FormLabel>
+                        <FormLabel>筛选</FormLabel>
                         <FormControl>
                           <div className="max-w-[500px]">
                             {props.disabled && !hasFilters ? (
                               <p className="text-muted-foreground text-xs">
-                                All {getTargetDisplayName(target)} will be
-                                evaluated
+                                将评估所有{getTargetDisplayName(target)}
                               </p>
                             ) : (
                               <InlineFilterBuilder
@@ -1197,8 +1189,8 @@ export const InnerEvaluatorForm = (props: {
                           <div className="flex max-w-[500px] gap-1">
                             <AlertTriangle className="text-dark-yellow h-4 w-4" />
                             <AlertDescription className="text-dark-yellow">
-                              No filters set. This evaluator will run on all{" "}
-                              {getTargetDisplayName(target)}.
+                              未设置筛选条件。此评估器将运行在所有{" "}
+                              {getTargetDisplayName(target)} 上。
                             </AlertDescription>
                           </div>
                         )}
@@ -1238,7 +1230,7 @@ export const InnerEvaluatorForm = (props: {
                       name="sampling"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Sampling</FormLabel>
+                          <FormLabel>采样</FormLabel>
                           <FormControl>
                             <div className="max-w-[500px]">
                               <Slider
@@ -1265,14 +1257,13 @@ export const InnerEvaluatorForm = (props: {
                         name="delay"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Delay (seconds)</FormLabel>
+                            <FormLabel>延迟（秒）</FormLabel>
                             <FormControl>
                               <Input {...field} type="number" min={0} />
                             </FormControl>
                             <FormDescription>
-                              Time between first Trace/Dataset run event and
-                              evaluation execution to ensure all data is
-                              available
+                              首个追踪/数据集运行事件与评估执行之间的时间间隔，
+                              以确保所有数据可用
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -1333,7 +1324,7 @@ export const InnerEvaluatorForm = (props: {
           loading={mutationIsLoading}
           className="mt-3 max-w-fit"
         >
-          {props.mode === "edit" ? "Update" : "Execute"}
+          {props.mode === "edit" ? "更新" : "执行"}
         </Button>
       ) : null}
     </div>
@@ -1371,19 +1362,18 @@ export const InnerEvaluatorForm = (props: {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>You selected a legacy evaluator</DialogTitle>
+            <DialogTitle>您选择了旧版评估器</DialogTitle>
           </DialogHeader>
           <DialogBody className="text-sm">
-            We strongly recommend using observation evaluators. Trace evaluators
-            will be deprecated in the future. Only proceed if you are sure you
-            cannot upgrade your SDK version now.
+            我们强烈建议使用观测评估器。追踪评估器未来将被弃用。
+            仅当您确定现在无法升级 SDK 版本时才继续。
           </DialogBody>
           <DialogFooter>
             <Button
               variant="outline"
               onClick={() => setShowTraceConfirmDialog(false)}
             >
-              Cancel
+              取消
             </Button>
             <Button
               onClick={() => {
@@ -1403,7 +1393,7 @@ export const InnerEvaluatorForm = (props: {
                 form.setValue("target", actualTarget);
               }}
             >
-              Continue
+              继续
             </Button>
           </DialogFooter>
         </DialogContent>

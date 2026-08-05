@@ -352,7 +352,7 @@ function IOPreviewJSONInner({
     // Gated fields have no materialized value (effective* is undefined), so
     // copy a placeholder rather than silently dropping the key — the field is
     // visibly present on screen (fallback + download), it just can't be inlined.
-    const TOO_LARGE = "<omitted: too large to render — use the field download>";
+    const TOO_LARGE = "<已省略：内容过大无法渲染——请使用字段下载>";
     const dataObj: Record<string, unknown> = {};
     if (showInput) dataObj.input = inputTooLarge ? TOO_LARGE : effectiveInput;
     if (showOutput)
@@ -472,10 +472,10 @@ function IOPreviewJSONInner({
     if (showInput) {
       result.push(
         inputTooLarge
-          ? gatedSection("input", "Input", inputBgColor, inputProbe, inputRows)
+          ? gatedSection("input", "输入", inputBgColor, inputProbe, inputRows)
           : {
               key: "input",
-              title: "Input",
+              title: "输入",
               data: effectiveInput,
               backgroundColor: inputBgColor,
               minHeight: "200px",
@@ -487,14 +487,14 @@ function IOPreviewJSONInner({
         outputTooLarge
           ? gatedSection(
               "output",
-              "Output",
+              "输出",
               outputBgColor,
               outputProbe,
               outputRows,
             )
           : {
               key: "output",
-              title: "Output",
+              title: "输出",
               data: effectiveOutput,
               backgroundColor: outputBgColor,
               minHeight: "200px",
@@ -504,7 +504,7 @@ function IOPreviewJSONInner({
     if (showCorrections) {
       result.push({
         key: "corrections",
-        title: "Output correction",
+        title: "输出修正",
         data: null,
         hideData: true, // Hide key/value display, only show header/footer
         backgroundColor: outputBgColor,
@@ -536,14 +536,14 @@ function IOPreviewJSONInner({
         metadataTooLarge
           ? gatedSection(
               "metadata",
-              "Metadata",
+              "元数据",
               metadataBgColor,
               metadataProbe,
               metadataRows,
             )
           : {
               key: "metadata",
-              title: "Metadata",
+              title: "元数据",
               data: effectiveMetadata,
               backgroundColor: metadataBgColor,
               minHeight: "200px",
@@ -584,7 +584,7 @@ function IOPreviewJSONInner({
     return (
       <div className="flex min-h-0 flex-1 flex-col border-t border-b">
         <div className="flex h-full items-center justify-center">
-          <div className="text-muted-foreground text-sm">Parsing data...</div>
+          <div className="text-muted-foreground text-sm">正在解析数据...</div>
         </div>
       </div>
     );
@@ -629,7 +629,7 @@ function IOPreviewJSONInner({
         <Command className="flex-1 rounded-none border-0 bg-transparent">
           <CommandInput
             showBorder={false}
-            placeholder="Search across all sections..."
+            placeholder="在所有分区中搜索..."
             className="h-7 border-0 focus:ring-0"
             value={searchQuery}
             onValueChange={setSearchQuery}
@@ -652,8 +652,8 @@ function IOPreviewJSONInner({
         {searchQuery && (
           <span className="text-muted-foreground text-xs whitespace-nowrap">
             {searchMatchCount > 0
-              ? `${currentMatchIndex + 1} of ${searchMatchCount}`
-              : "No matches"}
+              ? `${currentMatchIndex + 1} / ${searchMatchCount}`
+              : "无匹配"}
           </span>
         )}
 
@@ -665,7 +665,7 @@ function IOPreviewJSONInner({
               size="icon"
               className="h-7 w-7"
               onClick={handlePreviousMatch}
-              title="Previous match (Shift+Enter)"
+              title="上一个匹配 (Shift+Enter)"
             >
               <ChevronUp className="h-3.5 w-3.5" />
             </Button>
@@ -674,7 +674,7 @@ function IOPreviewJSONInner({
               size="icon"
               className="h-7 w-7"
               onClick={handleNextMatch}
-              title="Next match (Enter)"
+              title="下一个匹配 (Enter)"
             >
               <ChevronDown className="h-3.5 w-3.5" />
             </Button>
@@ -687,7 +687,7 @@ function IOPreviewJSONInner({
           size="icon"
           className="h-7 w-7"
           onClick={handleCycleWrapMode}
-          title={`String wrap mode: ${stringWrapMode}`}
+          title={`字符串换行模式：${stringWrapMode}`}
         >
           {wrapIcon}
         </Button>
@@ -698,7 +698,7 @@ function IOPreviewJSONInner({
           size="icon"
           className="h-7 w-7"
           onClick={handleCopy}
-          title="Copy to clipboard"
+          title="复制到剪贴板"
         >
           <Copy className="h-3.5 w-3.5" />
         </Button>
@@ -706,7 +706,7 @@ function IOPreviewJSONInner({
 
       {/* Section navigation hint bar */}
       <div className="bg-background flex h-6 shrink-0 items-center gap-1.5 border-b px-2">
-        <span className="text-muted-foreground text-xs">Jump to:</span>
+        <span className="text-muted-foreground text-xs">跳转至：</span>
         {sections.map((section, index) => (
           <span key={section.key} className="flex items-center">
             <button
@@ -716,7 +716,7 @@ function IOPreviewJSONInner({
               {section.title}
             </button>
             {index < sections.length - 1 && (
-              <span className="text-muted-foreground text-xs">,&nbsp;</span>
+              <span className="text-muted-foreground text-xs">、</span>
             )}
           </span>
         ))}
@@ -724,18 +724,16 @@ function IOPreviewJSONInner({
           <HoverCard>
             <HoverCardTrigger asChild>
               <span className="bg-muted text-muted-foreground ml-auto cursor-help rounded px-1.5 py-px text-[10px] font-bold">
-                Virtualized
+                虚拟化
               </span>
             </HoverCardTrigger>
             <HoverCardContent className="w-80" side="bottom" align="end">
               <div className="space-y-2">
-                <p className="text-sm font-bold">Virtualized View</p>
+                <p className="text-sm font-bold">虚拟化视图</p>
                 <p className="text-muted-foreground text-xs">
-                  This view is using virtualization due to a large number of
-                  keys ({rowCounts.input.toLocaleString()} input,{" "}
-                  {rowCounts.output.toLocaleString()} output,{" "}
-                  {rowCounts.metadata.toLocaleString()} metadata). Only visible
-                  rows are rendered for optimal performance.
+                  由于键数量较多（{rowCounts.input.toLocaleString()} 输入，{" "}
+                  {rowCounts.output.toLocaleString()} 输出，{" "}
+                  {rowCounts.metadata.toLocaleString()} 元数据），此视图正在使用虚拟化。为获得最佳性能，仅渲染可见行。
                 </p>
               </div>
             </HoverCardContent>

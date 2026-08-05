@@ -66,7 +66,7 @@ export function ApiKeyDetailContent(props: ApiKeyDetailContentProps) {
               .
             </p>
             <div className="mt-4">
-              <Label>Header</Label>
+              <Label>请求头</Label>
               <CodeView
                 content={`Authorization: Basic ${mcpCredential}`}
                 className="mt-2"

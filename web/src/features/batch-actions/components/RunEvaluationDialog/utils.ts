@@ -37,7 +37,7 @@ export function renderPromptPreviewFromObservation(params: {
   const { prompt, variableMapping, observation } = params;
 
   if (!prompt) {
-    return "Template has no prompt.";
+    return "模板没有提示词。";
   }
 
   // Both source records carry tool calls in the raw storage shape (name-less

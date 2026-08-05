@@ -594,8 +594,8 @@ TraceLayoutDesktop.DetailPanel = function Detail({
           <Button
             variant="ghost"
             size="icon"
-            title="Show detail panel"
-            aria-label="Show detail panel"
+            title="显示详情面板"
+            aria-label="显示详情面板"
             onClick={expandDetailPanel}
             className="h-7 w-7 shrink-0"
           >

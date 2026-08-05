@@ -26,7 +26,7 @@ type EvaluatorPausedCalloutProps = {
 };
 
 const DEFAULT_BLOCK_MESSAGE =
-  "This evaluator is paused until its configuration is fixed and reactivated.";
+  "该评估器已暂停，直到其配置被修复并重新激活。";
 
 function getResolutionActionLabel(params: {
   blockReason: EvaluatorBlockReason;
@@ -42,10 +42,10 @@ function getResolutionActionLabel(params: {
   }
 
   if (templateId) {
-    return "Open evaluator template";
+    return "打开评估器模板";
   }
 
-  return "Open evaluators";
+  return "打开评估器";
 }
 
 export function EvaluatorPausedCallout({
@@ -59,12 +59,12 @@ export function EvaluatorPausedCallout({
     onSuccess: async () => {
       await utils.evals.invalidate();
       showSuccessToast({
-        title: "Evaluator reactivated",
-        description: "The evaluator is active again.",
+        title: "评估器已重新激活",
+        description: "该评估器已恢复运行。",
       });
     },
     onError: (error) => {
-      showErrorToast("Reactivation failed", error.message);
+      showErrorToast("重新激活失败", error.message);
     },
   });
 
@@ -102,7 +102,7 @@ export function EvaluatorPausedCallout({
 
         <div className="min-w-0 flex-1">
           <h3 className="text-foreground text-base leading-5 font-bold">
-            Evaluator paused
+            评估器已暂停
           </h3>
 
           <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-2 text-sm leading-5">
@@ -113,7 +113,7 @@ export function EvaluatorPausedCallout({
               <Fragment>
                 <span className="bg-border h-1 w-1 rounded-full" />
                 <span title={blockedAt.toLocaleString()}>
-                  Paused {blockedAtLabel}
+                  已暂停 {blockedAtLabel}
                 </span>
               </Fragment>
             ) : null}
@@ -151,7 +151,7 @@ export function EvaluatorPausedCallout({
               className="h-8 px-3"
             >
               <RefreshCcw className="mr-1.5 h-3.5 w-3.5" />
-              Reactivate
+              重新激活
             </Button>
           </div>
         </div>

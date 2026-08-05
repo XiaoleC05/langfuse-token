@@ -42,7 +42,7 @@ export function DiffLabel({
   if (diff.isDifferent)
     return (
       <Badge size="sm" variant="warning" className="font-bold">
-        Varies
+        有变化
       </Badge>
     );
 }

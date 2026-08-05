@@ -66,8 +66,8 @@ export function ScoreAnalytics(props: {
   return (
     <DashboardCard
       className={props.className}
-      title="Scores Analytics"
-      description="Aggregate scores and averages over time"
+      title="评分分析"
+      description="随时间聚合的评分和平均值"
       isLoading={props.isLoading || scoreKeysAndProps.isPending}
       headerClassName="grid grid-cols-[1fr_auto_auto] items-center"
       headerChildren={
@@ -75,7 +75,7 @@ export function ScoreAnalytics(props: {
         !props.isLoading &&
         Boolean(scoreKeysAndProps.data?.scoreColumns.length) && (
           <MultiSelectKeyValues
-            placeholder="Search score..."
+            placeholder="搜索评分..."
             onValueChange={(values, changedValueId, selectedValueKeys) => {
               if (values.length === 0) setSelectedDashboardScoreKeys([]);
 
@@ -115,11 +115,11 @@ export function ScoreAnalytics(props: {
                   {/* aggregate */}
                   <div>
                     <div className="text-muted-foreground mb-2 text-sm">
-                      Total aggregate scores
+                      聚合评分总数
                       {isNumericDataType(dataType) && (
                         // TODO: v2 histogram aggregates all rows server-side (no 10k cap).
                         // Make this tooltip conditional on metricsVersion.
-                        <DocPopup description="Aggregate of up to 10,000 scores" />
+                        <DocPopup description="最多聚合 10,000 个评分" />
                       )}
                     </div>
                     {isCategoricalDataType(dataType) && (
@@ -154,8 +154,8 @@ export function ScoreAnalytics(props: {
                   <div>
                     <div className="text-muted-foreground mb-2 text-sm">
                       {isNumericDataType(dataType)
-                        ? "Moving average over time"
-                        : "Scores over time"}
+                        ? "随时间变化的移动平均值"
+                        : "随时间变化的评分"}
                     </div>
                     {isCategoricalDataType(dataType) && (
                       <CategoricalScoreChart
@@ -202,7 +202,7 @@ export function ScoreAnalytics(props: {
       ) : Boolean(scoreKeysAndProps.data?.scoreColumns.length) ? (
         <div className="flex min-h-36 w-full flex-1 items-center justify-center rounded-md border">
           <p className="text-muted-foreground">
-            Select a score to view analytics
+            选择评分以查看分析
           </p>
         </div>
       ) : (

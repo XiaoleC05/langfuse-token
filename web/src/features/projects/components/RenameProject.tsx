@@ -64,20 +64,20 @@ export default function RenameProject() {
 
   return (
     <div>
-      <Header title="Project Name" />
+      <Header title="项目名称" />
       <Card className="mb-4 p-3">
         {form.getValues().name !== "" ? (
           <p className="text-primary mb-4 text-sm">
-            Your Project will be renamed from &quot;
+            您的项目将从&quot;
             {project?.name ?? ""}
-            &quot; to &quot;
-            <b>{form.watch().name}</b>&quot;.
+            &quot;重命名为&quot;
+            <b>{form.watch().name}</b>&quot;。
           </p>
         ) : (
           <p className="text-primary mb-4 text-sm">
-            Your Project is currently named &quot;
+            您项目的当前名称为&quot;
             <b>{project?.name ?? ""}</b>
-            &quot;.
+            &quot;。
           </p>
         )}
         <Form {...form}>
@@ -100,7 +100,7 @@ export default function RenameProject() {
                         disabled={!hasAccess}
                       />
                       {!hasAccess && (
-                        <span title="No access">
+                        <span title="无访问权限">
                           <LockIcon className="text-muted absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform" />
                         </span>
                       )}
@@ -118,7 +118,7 @@ export default function RenameProject() {
                 disabled={form.getValues().name === "" || !hasAccess}
                 className="mt-4"
               >
-                Save
+                保存
               </Button>
             )}
           </form>

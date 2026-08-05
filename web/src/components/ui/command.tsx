@@ -55,7 +55,7 @@ const CommandDialog = ({
         overlayMode="invisible"
       >
         <DialogHeader className="sr-only p-0">
-          <DialogTitle>Search</DialogTitle>
+          <DialogTitle>搜索</DialogTitle>
         </DialogHeader>
         <DialogBody className="p-0">
           <Command

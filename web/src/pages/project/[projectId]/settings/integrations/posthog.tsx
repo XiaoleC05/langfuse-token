@@ -82,40 +82,35 @@ export default function PosthogIntegrationSettings() {
   return (
     <ContainerPage
       headerProps={{
-        title: "PostHog Integration",
+        title: "PostHog 集成",
         breadcrumb: [
-          { name: "Settings", href: `/project/${projectId}/settings` },
+          { name: "设置", href: `/project/${projectId}/settings` },
         ],
         actionButtonsLeft: <>{status && <StatusBadge type={status} />}</>,
         actionButtonsRight: (
           <Button asChild variant="secondary">
             <Link href="https://langfuse.com/integrations/analytics/posthog">
-              Integration Docs ↗
+              集成文档 ↗
             </Link>
           </Button>
         ),
       }}
     >
       <p className="text-primary mb-4 text-sm">
-        We have teamed up with{" "}
+        我们已与{" "}
         <Link href="https://posthog.com" className="underline">
           PostHog
         </Link>{" "}
-        (OSS product analytics) to make Langfuse events/metrics available in
-        your PostHog dashboards. Upon activation, all historical data from your
-        project will be synced. After the initial sync, new data is
-        automatically synced every hour to keep your PostHog dashboards up to
-        date.
+        （开源产品分析）合作，使 Langfuse 的事件/指标可用于您的 PostHog 仪表板。激活后，您项目的所有历史数据将被同步。初始同步后，新数据将每小时自动同步，以保持您的 PostHog 仪表板为最新状态。
       </p>
       {!hasAccess && (
         <p className="text-sm">
-          You current role does not grant you access to these settings, please
-          reach out to your project admin or owner.
+          您当前的角色无权访问这些设置，请联系您的项目管理员或所有者。
         </p>
       )}
       {hasAccess && (
         <>
-          <Header title="Configuration" />
+          <Header title="配置" />
           <Card className="p-3">
             <PostHogLogo className="text-foreground mb-4 w-36" />
             <PostHogIntegrationSettings
@@ -129,12 +124,12 @@ export default function PosthogIntegrationSettings() {
       )}
       {state.data?.config?.enabled && (
         <>
-          <Header title="Status" className="mt-8" />
+          <Header title="状态" className="mt-8" />
           <p className="text-primary text-sm">
-            Data synced until:{" "}
+            数据已同步至：{" "}
             {state.data?.config?.lastSyncAt
               ? new Date(state.data.config.lastSyncAt).toLocaleString()
-              : "Never (pending)"}
+              : "从未（待处理）"}
           </p>
         </>
       )}
@@ -204,7 +199,7 @@ const PostHogIntegrationSettings = ({
           ctx.addIssue({
             code: "custom",
             path: ["posthogProjectApiKey"],
-            message: "PostHog Project API Key is required",
+            message: "PostHog 项目 API 密钥为必填项",
           });
         }
         if (!isExportSourceSelectable(data.exportSource, exportSourceCtx)) {
@@ -212,7 +207,7 @@ const PostHogIntegrationSettings = ({
             code: "custom",
             path: ["exportSource"],
             message:
-              "This export source is not available on this deployment. Select an available export source to save.",
+              "此导出源在此部署中不可用。请选择可用的导出源以保存。",
           });
         }
       }),
@@ -283,12 +278,12 @@ const PostHogIntegrationSettings = ({
           name="posthogHostname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Posthog Hostname</FormLabel>
+              <FormLabel>PostHog 主机名</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                US region: https://us.posthog.com; EU region:
+                美国区域：https://us.posthog.com；欧盟区域：
                 https://eu.posthog.com
               </FormDescription>
               <FormMessage />
@@ -300,7 +295,7 @@ const PostHogIntegrationSettings = ({
           name="posthogProjectApiKey"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Posthog Project API Key</FormLabel>
+              <FormLabel>PostHog 项目 API 密钥</FormLabel>
               <FormControl>
                 <PasswordInput
                   {...field}
@@ -309,7 +304,7 @@ const PostHogIntegrationSettings = ({
               </FormControl>
               {state && (
                 <FormDescription>
-                  Leave blank to keep the current API key.
+                  留空以保留当前 API 密钥。
                 </FormDescription>
               )}
               <FormMessage />
@@ -323,7 +318,7 @@ const PostHogIntegrationSettings = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-1.5 pt-2">
-                  Export Source
+                  导出源
                   <Tooltip>
                     <TooltipTrigger>
                       <Info className="text-muted-foreground h-3.5 w-3.5" />
@@ -347,7 +342,7 @@ const PostHogIntegrationSettings = ({
                           rel="noopener noreferrer"
                           className="text-muted-foreground hover:text-primary inline-flex items-center gap-1 text-xs hover:underline"
                         >
-                          For further information see
+                          了解更多信息，请参阅
                           <ExternalLink className="h-3 w-3" />
                         </a>
                       </div>
@@ -357,7 +352,7 @@ const PostHogIntegrationSettings = ({
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select data to export" />
+                      <SelectValue placeholder="选择要导出的数据" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -368,15 +363,14 @@ const PostHogIntegrationSettings = ({
                         disabled={option.unavailable}
                       >
                         {option.unavailable
-                          ? `${option.label} (not available on this deployment)`
+                          ? `${option.label}（此部署不可用）`
                           : option.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Choose which data sources to export to PostHog. Scores are
-                  always included.
+                  选择要导出到 PostHog 的数据源。评分始终包含在内。
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -385,7 +379,7 @@ const PostHogIntegrationSettings = ({
         )}
         {!watchedValidation.ok && (
           <Alert variant="destructive">
-            <AlertTitle>Saved export source is no longer available</AlertTitle>
+            <AlertTitle>已保存的导出源不再可用</AlertTitle>
             <AlertDescription>
               {getExportSourceUnavailableMessage(watchedValidation.reason)}
             </AlertDescription>
@@ -396,7 +390,7 @@ const PostHogIntegrationSettings = ({
           name="enabled"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enabled</FormLabel>
+              <FormLabel>启用</FormLabel>
               <FormControl>
                 <div className="mt-1 ml-4">
                   <Switch
@@ -419,7 +413,7 @@ const PostHogIntegrationSettings = ({
           onClick={posthogForm.handleSubmit(onSubmit)}
           disabled={isLoading}
         >
-          Save
+          保存
         </Button>
         <Button
           variant="ghost"
@@ -428,13 +422,13 @@ const PostHogIntegrationSettings = ({
           onClick={() => {
             if (
               confirm(
-                "Are you sure you want to reset the PostHog integration for this project?",
+                "确定要重置此项目的 PostHog 集成吗？",
               )
             )
               mutDelete.mutate({ projectId });
           }}
         >
-          Reset
+          重置
         </Button>
       </div>
     </Form>

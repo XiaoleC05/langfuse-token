@@ -52,7 +52,7 @@ export function CollapsibleBadgeRow({
         type="button"
         variant="ghost"
         size="icon-xs"
-        aria-label={expanded ? "Show fewer details" : "Show more details"}
+        aria-label={expanded ? "显示更少详情" : "显示更多详情"}
         aria-expanded={expanded}
         className="mt-0.5 shrink-0"
         onClick={() => setExpanded((prev) => !prev)}

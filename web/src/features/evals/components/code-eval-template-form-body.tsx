@@ -280,7 +280,7 @@ export function CodeEvalTemplateFormBody({
             {isFormatting && (
               <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
             )}
-            Format
+            格式化
             <KeyboardShortcut
               className="ml-2 h-4"
               keys={
@@ -303,15 +303,15 @@ export function CodeEvalTemplateFormBody({
         className="overflow-hidden rounded-md border text-xs"
       />
       <p className="text-muted-foreground text-xs">
-        The evaluate function receives an EvaluationContext and returns an
-        EvaluationResult with one or more scores.{" "}
+        evaluate 函数接收一个 EvaluationContext，并返回包含一个或多个评分的
+        EvaluationResult。{" "}
         <a
           href={FUNCTION_CONTRACT_DOCS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="underline"
         >
-          See type definitions.
+          查看类型定义。
         </a>
       </p>
     </div>

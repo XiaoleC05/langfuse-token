@@ -26,12 +26,12 @@ import { Info } from "lucide-react";
 const spendAlertSchema = z.object({
   title: z
     .string()
-    .min(1, "Title is required")
-    .max(100, "Title must be less than 100 characters"),
+    .min(1, "标题为必填项")
+    .max(100, "标题不能超过 100 个字符"),
   limit: z.coerce
     .number()
-    .positive("Limit must be positive")
-    .max(1000000, "Limit must be less than $1,000,000"),
+    .positive("限额必须为正数")
+    .max(1000000, "限额必须小于 $1,000,000"),
 });
 
 type SpendAlertFormInput = z.input<typeof spendAlertSchema>;
@@ -86,7 +86,7 @@ export function SpendAlertDialog({
           alertId: alert.id,
           limit: data.limit,
         });
-        toast.success("Spend alert updated successfully");
+        toast.success("消费提醒已更新");
       } else {
         // Create new alert
         await createMutation.mutateAsync({
@@ -98,13 +98,13 @@ export function SpendAlertDialog({
           orgId,
           limit: data.limit,
         });
-        toast.success("Spend alert created successfully");
+        toast.success("消费提醒已创建");
       }
       onSuccess();
     } catch (error) {
       console.error("Failed to save spend alert:", error);
       toast.error(
-        `Failed to ${alert ? "update" : "create"} spend alert. Please try again.`,
+        `${alert ? "更新" : "创建"}消费提醒失败，请重试。`,
       );
     } finally {
       setIsSubmitting(false);
@@ -115,10 +115,10 @@ export function SpendAlertDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="p-4 sm:max-w-[425px]">
         <DialogTitle>
-          {alert ? "Edit Spend Alert" : "Create Spend Alert"}
+          {alert ? "编辑消费提醒" : "创建消费提醒"}
         </DialogTitle>
         <DialogDescription className="text-muted-foreground pt-1 pb-2 text-sm">
-          Get notified when your organization&apos;s spending exceeds a limit.
+          当您组织的消费超过限额时收到通知。
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -127,9 +127,9 @@ export function SpendAlertDialog({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Alert Title</FormLabel>
+                  <FormLabel>提醒标题</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Production Alert" {...field} />
+                    <Input placeholder="例如：生产环境提醒" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,7 +140,7 @@ export function SpendAlertDialog({
               name="limit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Limit (USD)</FormLabel>
+                  <FormLabel>限额（USD）</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -167,16 +167,16 @@ export function SpendAlertDialog({
             <div className="text-muted-foreground text-xs">
               <div className="flex flex-row items-center">
                 <Info className="mr-2 h-3 w-3" />
-                <span className="font-bold">How it works</span>
+                <span className="font-bold">工作原理</span>
               </div>
               <ul className="list-disc pl-5">
                 <li>
-                  The limit is evaluated against your upcoming invoice total,
-                  including base fee, running usage fees, discounts, and taxes.
+                  限额将对照您即将收到的发票总额进行评估，包括基础费用、实时用量
+                  费用、折扣和税费。
                 </li>
-                <li>Alerts trigger once per billing cycle.</li>
-                <li>You will receive an email when the alert is triggered.</li>
-                <li>Alerts are evaluated with a 90 minute delay.</li>
+                <li>每个计费周期触发一次提醒。</li>
+                <li>提醒触发时，您将收到一封邮件。</li>
+                <li>提醒评估存在 90 分钟的延迟。</li>
               </ul>
             </div>
             <div className="flex flex-row items-center justify-end gap-2">
@@ -186,16 +186,16 @@ export function SpendAlertDialog({
                 onClick={() => onOpenChange(false)}
                 disabled={isSubmitting}
               >
-                Cancel
+                取消
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting
                   ? alert
-                    ? "Updating..."
-                    : "Creating..."
+                    ? "正在更新..."
+                    : "正在创建..."
                   : alert
-                    ? "Update Alert"
-                    : "Create Alert"}
+                    ? "更新提醒"
+                    : "创建提醒"}
               </Button>
             </div>
           </form>

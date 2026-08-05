@@ -14,7 +14,7 @@ import {
 } from "@/src/ee/features/in-app-agent/quickActions";
 
 const SANDBOX_CONVERSATION_WRITE_LOCK_MESSAGE =
-  "Sandbox-enabled conversations become read-only after 8 hours. Start a new conversation to continue.";
+  "沙盒会话在 8 小时后变为只读。请开启新会话以继续。";
 
 type ControlledInAppAgentWindowBaseProps = {
   isHeaderDragHandleEnabled?: boolean;

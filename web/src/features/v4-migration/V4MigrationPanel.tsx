@@ -37,13 +37,13 @@ export const V4MigrationPanel = ({
     >
       <div className="bg-background">
         <div className="flex min-h-11 w-full items-center justify-between gap-1 px-4 py-1">
-          <span className="text-sm font-bold">Update</span>
+          <span className="text-sm font-bold">更新</span>
           {showCloseButton && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setOpen(false)}
-              aria-label="Close"
+              aria-label="关闭"
             >
               <X className="h-4 w-4" />
             </Button>

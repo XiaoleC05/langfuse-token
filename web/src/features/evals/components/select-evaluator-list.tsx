@@ -119,7 +119,7 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
     <>
       <div className="mb-4 flex max-h-full min-h-0 flex-col gap-5">
         <div className="shrink-0 space-y-2">
-          <h2 className="text-base font-bold">Create from scratch</h2>
+          <h2 className="text-base font-bold">从零创建</h2>
           <div className="flex flex-wrap gap-3">
             {isCodeEvalEnabled ? (
               <Button
@@ -130,9 +130,9 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
               >
                 <Code2 className="h-5 w-5 shrink-0" />
                 <span className="flex flex-col gap-1">
-                  <span className="font-bold">Code evaluator</span>
+                  <span className="font-bold">代码评估器</span>
                   <span className="text-muted-foreground text-sm font-normal">
-                    Use code to create Langfuse scores.
+                    使用代码创建 Langfuse 评分。
                   </span>
                 </span>
               </Button>
@@ -149,7 +149,7 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
               <span className="flex flex-col gap-1">
                 <span className="font-bold">自动评估器</span>
                 <span className="text-muted-foreground text-sm font-normal">
-                  Use a prompt and model to score traces or observations.
+                  使用提示词和模型为追踪或观测评分。
                 </span>
               </span>
             </Button>
@@ -157,18 +157,18 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
         </div>
 
         <div className="flex max-h-full min-h-0 flex-col gap-2">
-          <h2 className="shrink-0 text-base font-bold">Use existing</h2>
+          <h2 className="shrink-0 text-base font-bold">使用现有</h2>
           <Card className="grid max-h-full min-h-0 grid-rows-[minmax(0,1fr)_auto] overflow-y-auto p-3">
             <div className="flex min-h-0 flex-col overflow-hidden">
               {templates.isLoading ? (
                 <Skeleton className="h-full w-full" />
               ) : templates.isError ? (
                 <div className="text-destructive py-8 text-center">
-                  Error: {templates.error.message}
+                  错误：{templates.error.message}
                 </div>
               ) : templates.data?.templates.length === 0 ? (
                 <div className="text-muted-foreground py-8 text-center">
-                  No evaluators found. Create a new evaluator to get started.
+                  未找到评估器。请创建新的评估器以开始使用。
                 </div>
               ) : (
                 <div className="flex-1 overflow-hidden">
@@ -209,7 +209,7 @@ export function SelectEvaluatorList({ projectId }: SelectEvaluatorListProps) {
           }
         >
           <DialogHeader>
-            <DialogTitle>Create new evaluator</DialogTitle>
+            <DialogTitle>创建新的评估器</DialogTitle>
             {useLlmCreateWizard ? (
               <DialogDescription>
                 请先设置模型连接，然后定义评估器。
@@ -295,7 +295,7 @@ function CreateLlmEvaluatorWizard({
 }) {
   const steps: Array<{ id: CreateEvaluatorStep; label: string }> = [
     { id: "connection", label: "设置模型连接" },
-    { id: "define", label: "Define evaluator" },
+    { id: "define", label: "定义评估器" },
   ];
   const shouldUseDefaultModel = hasDefaultEvalModel;
 
@@ -352,7 +352,7 @@ function CreateLlmEvaluatorWizard({
         <InlineDefaultEvalModelSetup
           projectId={projectId}
           onSuccess={onProviderConfigured}
-          submitLabel="Save and continue"
+          submitLabel="保存并继续"
         />
       </DialogBody>
       <div className={cn(activeStep !== "define" && "hidden")}>
@@ -405,8 +405,8 @@ function CreateEvaluatorTemplateForm({
       onFormSuccess={(newTemplate) => {
         onSuccess(newTemplate);
         showSuccessToast({
-          title: "Evaluator created successfully",
-          description: "You can now use this evaluator.",
+          title: "评估器创建成功",
+          description: "您现在可以使用此评估器。",
         });
       }}
     />

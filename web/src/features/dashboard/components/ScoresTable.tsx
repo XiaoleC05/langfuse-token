@@ -147,7 +147,7 @@ export const ScoresTable = ({
 
   if (!zeroValueScores || !oneValueScores) {
     return (
-      <DashboardCard title="Scores" isLoading={false}>
+      <DashboardCard title="评分" isLoading={false}>
         <NoDataOrLoading isLoading={false} />
       </DashboardCard>
     );
@@ -199,7 +199,7 @@ export const ScoresTable = ({
       // shrink so the row area scrolls internally. (LFE-11035)
       className={cn(className, "h-full")}
       cardContentClassName="min-h-0"
-      title="Scores"
+      title="评分"
       isLoading={
         isLoading ||
         metrics.isPending ||
@@ -209,9 +209,9 @@ export const ScoresTable = ({
     >
       <DashboardTable
         headers={[
-          "Name",
+          "名称",
           <RightAlignedCell key="count">#</RightAlignedCell>,
-          <RightAlignedCell key="average">Avg</RightAlignedCell>,
+          <RightAlignedCell key="average">平均值</RightAlignedCell>,
           <RightAlignedCell key="zero">0</RightAlignedCell>,
           <RightAlignedCell key="one">1</RightAlignedCell>,
         ]}
@@ -253,7 +253,7 @@ export const ScoresTable = ({
       >
         <TotalMetric
           metric={totalScores ? compactNumberFormatter(totalScores) : "0"}
-          description="Total scores tracked"
+          description="已跟踪的评分总数"
         />
       </DashboardTable>
     </DashboardCard>

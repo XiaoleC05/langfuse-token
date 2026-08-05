@@ -314,7 +314,7 @@ export function IOPreview({
                     : [...prev, EMPTY_IO_ALERT_ID],
                 );
               }}
-              title="Dismiss"
+              title="关闭"
             >
               <X className="h-3.5 w-3.5" />
             </Button>
@@ -323,11 +323,11 @@ export function IOPreview({
                 <BookOpen className="text-muted-foreground h-4 w-4" />
               </div>
               <h3 className="text-sm font-bold">
-                Looks like this trace didn&apos;t receive an input or output.
+                此追踪似乎没有收到输入或输出。
               </h3>
             </div>
             <p className="text-muted-foreground max-w-sm text-sm">
-              Add it in your code to make debugging a lot easier.
+              在代码中添加它，调试会容易得多。
             </p>
             <ActionButton
               variant="outline"
@@ -336,7 +336,7 @@ export function IOPreview({
               trackingEventName="notification:click_link"
               trackingProps={{ notification_id: EMPTY_IO_ALERT_ID }}
             >
-              View Documentation
+              查看文档
             </ActionButton>
           </div>
         </div>

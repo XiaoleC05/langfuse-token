@@ -20,7 +20,7 @@ import {
 import { isPresent } from "@langfuse/shared";
 
 const SUBTREE_DURATION_TITLE =
-  "Subtree wall-clock duration (first start → last end)";
+  "子树墙钟时长（从首个开始到最后结束）";
 
 // Keep zero/near-zero-duration spans visible as a small marker.
 const MIN_BAR_WIDTH = 4;
@@ -137,7 +137,7 @@ export function TimelineBar({
           <div
             className="bg-muted h-full border-r border-gray-400 opacity-60"
             style={{ width: `${firstTokenWidth}px` }}
-            title="Time to first token"
+            title="首个 Token 时间"
           />
           <div
             className="bg-muted h-full"

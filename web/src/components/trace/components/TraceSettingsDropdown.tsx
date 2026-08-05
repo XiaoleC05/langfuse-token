@@ -46,7 +46,7 @@ export function TraceSettingsDropdown({
         <Button
           variant="ghost"
           size="icon"
-          title="View Options"
+          title="视图选项"
           className="h-7 w-7"
         >
           <Settings2 className="h-3.5 w-3.5" />
@@ -109,7 +109,7 @@ export function TraceViewOptionsMenuItems({
             className="space-y-0 px-2 py-1"
           >
             <div className="flex w-full items-center justify-between">
-              <span className="mr-2">Show Graph</span>
+              <span className="mr-2">显示图表</span>
               <Switch
                 size="sm"
                 checked={showGraph}
@@ -132,7 +132,7 @@ export function TraceViewOptionsMenuItems({
           className="px-2 py-1"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="mr-2">Show Comments</span>
+            <span className="mr-2">显示评论</span>
             <Switch
               size="sm"
               checked={showComments}
@@ -148,7 +148,7 @@ export function TraceViewOptionsMenuItems({
           className="px-2 py-1"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="mr-2">Show Scores</span>
+            <span className="mr-2">显示评分</span>
             <Switch
               size="sm"
               checked={showScores}
@@ -170,7 +170,7 @@ export function TraceViewOptionsMenuItems({
           className="px-2 py-1"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="mr-2">Show Duration</span>
+            <span className="mr-2">显示耗时</span>
             <Switch
               size="sm"
               checked={showDuration}
@@ -186,7 +186,7 @@ export function TraceViewOptionsMenuItems({
           className="px-2 py-1"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="mr-2">Show Cost/Tokens</span>
+            <span className="mr-2">显示成本/Token</span>
             <Switch
               size="sm"
               checked={showCostTokens}
@@ -217,7 +217,7 @@ export function TraceViewOptionsMenuItems({
                 !isColorCodeEnabled && "cursor-not-allowed",
               )}
             >
-              Show Color Code Metrics
+              显示颜色编码指标
             </span>
             <Switch
               size="sm"
@@ -235,7 +235,7 @@ export function TraceViewOptionsMenuItems({
           className="px-2 py-1"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="mr-2">Collapse System Prompts</span>
+            <span className="mr-2">折叠系统提示词</span>
             <Switch
               size="sm"
               checked={collapseSystemPrompt}
@@ -258,12 +258,12 @@ export function TraceViewOptionsMenuItems({
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
           <span className="flex items-center">
-            Min Level: {minObservationLevel}
+            最低级别：{minObservationLevel}
           </span>
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent>
           <DropdownMenuLabel className="font-bold">
-            Minimum Level
+            最低级别
           </DropdownMenuLabel>
           {Object.values(ObservationLevel).map((level) => (
             <DropdownMenuItem

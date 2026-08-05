@@ -153,7 +153,7 @@ export function AuthenticatedLayout({
       ...(hasFeaturePreviews
         ? [
             {
-              name: "Feature Preview",
+              name: "功能预览",
               onClick: () => setFeaturePreviewOpen(true),
             },
           ]
@@ -161,20 +161,20 @@ export function AuthenticatedLayout({
       ...(isLangfuseCloud
         ? [
             {
-              name: "Regions",
+              name: "区域",
               subItems: regionMenuItems,
               content: (
                 <>
-                  Regions
+                  区域
                   <div className="ml-2 inline-flex rounded bg-black/5 p-1 text-xs dark:bg-white/10">
-                    Current: {currentRegion}
+                    当前：{currentRegion}
                   </div>
                 </>
               ),
             },
           ]
         : []),
-      { name: "Sign out", onClick: onSignOut },
+      { name: "退出登录", onClick: onSignOut },
     ],
   };
 

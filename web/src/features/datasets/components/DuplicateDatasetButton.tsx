@@ -22,7 +22,7 @@ export const DuplicateDatasetButton: React.FC<{
   const handleDuplicate = () => {
     if (
       confirm(
-        "Are you sure you want to duplicate this dataset and all of its items?",
+        "确定要复制此数据集及其所有数据项吗？",
       )
     ) {
       duplicateDataset.mutate({ projectId, datasetId });
@@ -33,12 +33,12 @@ export const DuplicateDatasetButton: React.FC<{
     <Button
       onClick={handleDuplicate}
       variant="ghost"
-      title="Duplicate dataset"
+      title="复制数据集"
       loading={duplicateDataset.isPending}
       disabled={!hasAccess}
     >
       <Copy className="mr-2 h-4 w-4" />
-      Duplicate
+      复制
     </Button>
   );
 };

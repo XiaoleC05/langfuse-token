@@ -108,13 +108,13 @@ export const ModelCostTable = ({
       // shrink so the row area scrolls internally. (LFE-11035)
       className={cn(className, "h-full")}
       cardContentClassName="min-h-0"
-      title="Model costs"
+      title="模型成本"
       isLoading={isLoading || metrics.isLoading}
     >
       <DashboardTable
         headers={[
-          "Model",
-          <RightAlignedCell key="tokens">Tokens</RightAlignedCell>,
+          "模型",
+          <RightAlignedCell key="tokens">Token 用量</RightAlignedCell>,
           <RightAlignedCell key="cost">USD</RightAlignedCell>,
         ]}
         rows={metricsData}
@@ -123,10 +123,10 @@ export const ModelCostTable = ({
       >
         <TotalMetric
           metric={costFormatter(totalTokenCost)}
-          description="Total cost"
+          description="总成本"
         >
           <DocPopup
-            description="Calculated multiplying the number of tokens with cost per token for each model."
+            description="通过将每个模型的 Token 数量乘以每个 Token 的成本计算得出。"
             href="https://langfuse.com/docs/model-usage-and-cost"
           />
         </TotalMetric>

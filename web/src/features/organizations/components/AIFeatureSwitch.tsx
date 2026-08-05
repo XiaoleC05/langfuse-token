@@ -126,18 +126,17 @@ export default function AIFeatureSwitch() {
               为您的组织启用智能功能
             </h4>
             <p className="text-sm">
-              This setting applies to all users and projects. Any data{" "}
-              <i>can</i> be sent to AWS Bedrock within the Langfuse data region.
-              Traces are sent to Langfuse Cloud in your data region. Your data
-              will not be used for training models. Applicable HIPAA, SOC2,
-              GDPR, and ISO 27001 compliance remains intact.{" "}
+              此设置适用于所有用户和项目。在 Langfuse 数据区域内，任何数据{" "}
+              <i>可能</i>会被发送到 AWS Bedrock。追踪会被发送到您所在数据区域内的
+              Langfuse Cloud。您的数据不会被用于训练模型。相关的 HIPAA、SOC2、
+              GDPR 和 ISO 27001 合规要求不受影响。{" "}
               <a
                 href="https://langfuse.com/security/ai-features"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 hover:underline"
               >
-                More details in the docs here.
+                更多详情请参阅文档。
                 <ExternalLink className="h-3 w-3" />
               </a>
             </p>
@@ -149,7 +148,7 @@ export default function AIFeatureSwitch() {
               disabled={!hasAccess}
             />
             {!hasAccess && (
-              <span title="No access">
+              <span title="无访问权限">
                 <LockIcon className="text-muted absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform" />
               </span>
             )}
@@ -172,7 +171,7 @@ export default function AIFeatureSwitch() {
                 disabled={!hasAccess || updateAITelemetry.isPending}
               />
               {!hasAccess && (
-                <span title="No access">
+                <span title="无访问权限">
                   <LockIcon className="text-muted absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform" />
                 </span>
               )}
@@ -209,12 +208,12 @@ export default function AIFeatureSwitch() {
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 hover:underline"
               >
-                Learn more in the docs.
+                在文档中了解更多。
                 <ExternalLink className="h-3 w-3" />
               </a>
             </span>
             <p className="text-muted-foreground mt-3 text-sm">
-              Are you sure you want to proceed?
+              您确定要继续吗？
             </p>
           </DialogBody>
           <DialogFooter>
@@ -225,14 +224,14 @@ export default function AIFeatureSwitch() {
                 disabled={updateAIFeatures.isPending}
                 onClick={handleCancel}
               >
-                Cancel
+                取消
               </Button>
               <Button
                 type="submit"
                 onClick={handleConfirm}
                 loading={updateAIFeatures.isPending}
               >
-                Confirm
+                确认
               </Button>
             </div>
           </DialogFooter>

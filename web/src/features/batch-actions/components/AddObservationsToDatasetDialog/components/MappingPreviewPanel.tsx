@@ -97,9 +97,9 @@ export function MappingPreviewPanel({
     const jsonPathErrorItems: SchemaValidationError[] = jsonPathErrors.map(
       (err) => ({
         path: err.mappingKey
-          ? `${err.sourceField} (key: "${err.mappingKey}")`
+          ? `${err.sourceField} (键："${err.mappingKey}")`
           : err.sourceField,
-        message: `Invalid JSONPath "${err.jsonPath}": ${err.message}`,
+        message: `无效的 JSONPath "${err.jsonPath}"：${err.message}`,
       }),
     );
 
@@ -288,7 +288,7 @@ export function MappingPreviewPanel({
             {jsonPathErrors.map((err, idx) => (
               <IssueItem key={idx}>
                 <span className="font-mono">{err.jsonPath}</span>
-                {err.mappingKey ? ` (key: "${err.mappingKey}")` : ""}:{" "}
+                {err.mappingKey ? ` (键："${err.mappingKey}")` : ""}：{" "}
                 {err.message}
               </IssueItem>
             ))}

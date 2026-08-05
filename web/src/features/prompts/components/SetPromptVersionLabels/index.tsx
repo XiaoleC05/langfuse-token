@@ -183,7 +183,7 @@ export function SetPromptVersionLabels({
           />
           <Button
             variant="outline"
-            title="Add prompt label"
+            title="添加提示词标签"
             className={cn(
               "bg-muted-gray text-primary h-6 w-6",
               showOnlyOnHover && "opacity-0 group-hover:opacity-100",
@@ -204,16 +204,15 @@ export function SetPromptVersionLabels({
           onClick={(event) => event.stopPropagation()}
           className="flex flex-col"
         >
-          <h2 className="mb-3 font-bold">Prompt labels</h2>
+          <h2 className="mb-3 font-bold">提示词标签</h2>
           <h2 className="mb-3 text-xs">
-            Use labels to fetch prompts via SDKs. The{" "}
-            <strong>production</strong> labeled prompt will be served by
-            default.
+            使用标签通过 SDK 获取提示词。默认返回带有{" "}
+            <strong>production</strong> 标签的提示词。
           </h2>
           <InputCommand className="mx-0 my-3 px-0">
             <InputCommandList className="max-h-full overflow-hidden">
               <InputCommandSeparator />
-              <InputCommandGroup heading="Promote to production?">
+              <InputCommandGroup heading="升级到生产环境？">
                 <LabelCommandItem
                   {...{
                     selectedLabels,
@@ -223,11 +222,11 @@ export function SetPromptVersionLabels({
                 />
               </InputCommandGroup>
               <InputCommandSeparator />
-              <InputCommandGroup heading="Custom labels">
+              <InputCommandGroup heading="自定义标签">
                 {/* Search + create input */}
                 <div className="px-2 pt-1 pb-2">
                   <Input
-                    placeholder="Search or create label…"
+                    placeholder="搜索或创建标签…"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={(e) => {
@@ -255,8 +254,8 @@ export function SetPromptVersionLabels({
                       }
                     >
                       {filteredUnselectedCount > 0
-                        ? `Select all ${filteredUnselectedCount}`
-                        : "Select all"}
+                        ? `全选 ${filteredUnselectedCount}`
+                        : "全选"}
                     </button>
                     <span className="text-muted-foreground text-xs">·</span>
                     <button
@@ -277,7 +276,7 @@ export function SetPromptVersionLabels({
                         )
                       }
                     >
-                      Clear
+                      清除
                     </button>
                   </div>
                 )}
@@ -309,9 +308,9 @@ export function SetPromptVersionLabels({
                     >
                       <span
                         className="truncate"
-                        title={`Create a new label: ${trimmedSearch}`}
+                        title={`创建新标签：${trimmedSearch}`}
                       >
-                        Create a new label:{" "}
+                        创建新标签：{" "}
                         <strong className="text-foreground">
                           {trimmedSearch}
                         </strong>
@@ -335,10 +334,10 @@ export function SetPromptVersionLabels({
             onClick={handleSubmitLabels}
           >
             {isPromotingToProduction
-              ? "Save and promote to production"
+              ? "保存并升级到生产环境"
               : isDemotingFromProduction
-                ? "Save and remove from production"
-                : "Save"}
+                ? "保存并从生产环境移除"
+                : "保存"}
           </Button>
         </div>
       </PopoverContent>

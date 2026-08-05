@@ -65,7 +65,7 @@ export function useScoreMutations({
       if (!variables.id) return;
       // Rollback failed create from cache
       cacheRollbackSet(variables.id);
-      showErrorToast("Failed to create score", err.message, "WARNING");
+      showErrorToast("创建评分失败", err.message, "WARNING");
     },
   });
 
@@ -114,7 +114,7 @@ export function useScoreMutations({
         // No cache entry → was DB-persisted → rollback optimistic update
         cacheRollbackSet(variables.id);
       }
-      showErrorToast("Failed to update score", err.message, "WARNING");
+      showErrorToast("更新评分失败", err.message, "WARNING");
     },
   });
 
@@ -131,7 +131,7 @@ export function useScoreMutations({
     onError: (err, variables, context) => {
       // Rollback
       cacheRollbackDelete(variables.id, context?.previousCacheValue);
-      showErrorToast("Failed to delete score", err.message, "WARNING");
+      showErrorToast("删除评分失败", err.message, "WARNING");
     },
   });
 

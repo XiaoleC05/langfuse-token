@@ -32,7 +32,7 @@ export function MappingModeSelector({
           htmlFor={`${fieldName}-custom`}
           className="flex-1 cursor-pointer py-3 text-sm font-bold"
         >
-          Custom mapping
+          自定义映射
         </Label>
       </div>
       {fieldName !== "input" && (
@@ -46,7 +46,7 @@ export function MappingModeSelector({
             htmlFor={`${fieldName}-none`}
             className="flex-1 cursor-pointer py-3 text-sm font-bold"
           >
-            None
+            无
           </Label>
         </div>
       )}

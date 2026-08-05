@@ -123,7 +123,7 @@ const MEDIA_KIND_PREVIEW = {
   file: () => (
     <div className="text-muted-foreground flex h-24 w-64 flex-col items-center justify-center gap-2">
       <File className="h-5 w-5" />
-      <span className="text-xs">No inline preview</span>
+      <span className="text-xs">无内联预览</span>
     </div>
   ),
 } satisfies Record<MediaKind, PreviewRenderer>;
@@ -145,7 +145,7 @@ function PeekBody({
     return (
       <div className="text-muted-foreground flex h-24 w-64 flex-col items-center justify-center gap-2">
         <ImageOff className="h-5 w-5" />
-        <span className="text-xs">Failed to load media</span>
+        <span className="text-xs">媒体加载失败</span>
       </div>
     );
   }
@@ -199,7 +199,7 @@ export const MediaTag = React.forwardRef<HTMLButtonElement, MediaTagProps>(
             // (`closest("[data-media-tag]")`): IOTableCell suppresses its
             // expand-on-hover card and native title while over a chip.
             data-media-tag=""
-            aria-label={`${chipLabel} media`}
+            aria-label={`${chipLabel} 媒体`}
             aria-expanded={isOpen}
             className="hover:bg-accent focus-visible:ring-ring bg-background inline-flex h-3.5 max-w-full items-center gap-1 rounded-sm border px-1 py-0 align-middle text-xs leading-none transition-colors focus-visible:ring-2 focus-visible:outline-hidden"
             onClick={openPeek}
@@ -241,7 +241,7 @@ export const MediaTag = React.forwardRef<HTMLButtonElement, MediaTagProps>(
                 asChild
                 variant="outline"
                 size="icon-xs"
-                title="Open in new tab"
+                title="在新标签页中打开"
               >
                 <a href={url} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-3 w-3" />
@@ -252,7 +252,7 @@ export const MediaTag = React.forwardRef<HTMLButtonElement, MediaTagProps>(
                 variant="outline"
                 size="icon-xs"
                 disabled
-                title="Open in new tab"
+                title="在新标签页中打开"
               >
                 <ExternalLink className="h-3 w-3" />
               </Button>

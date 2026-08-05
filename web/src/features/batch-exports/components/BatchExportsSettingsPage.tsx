@@ -12,12 +12,10 @@ export function BatchExportsSettingsPage(props: { projectId: string }) {
 
   return (
     <>
-      <Header title="Exports" />
+      <Header title="导出" />
       <p className="mb-4 text-sm">
-        Export large datasets in your preferred format via the export buttons
-        across Langfuse. Exports are processed asynchronously and remain
-        available for download for one hour. You will receive an email
-        notification once your export is ready.
+        通过 Langfuse 各处的导出按钮，以您偏好的格式导出大型数据集。导出会
+        异步处理，并在完成后一小时内可供下载。导出就绪后，您将收到邮件通知。
       </p>
       {hasAccess ? (
         <SettingsTableCard>
@@ -25,9 +23,9 @@ export function BatchExportsSettingsPage(props: { projectId: string }) {
         </SettingsTableCard>
       ) : (
         <Alert>
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>访问被拒绝</AlertTitle>
           <AlertDescription>
-            You do not have permission to view batch exports.
+            您没有权限查看批量导出。
           </AlertDescription>
         </Alert>
       )}

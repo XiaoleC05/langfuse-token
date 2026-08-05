@@ -344,7 +344,7 @@ export const TemplateSelector = ({
                           )}
                           {isInactive && (
                             <div
-                              title="The evaluator has been used in the past but is currently paused. It will not run against outputs created in this dataset run. You can reactivate it if you wish"
+                              title="该评估器过去曾被使用，但目前已暂停。它不会对此数据集运行中创建的输出执行评估。您可以根据需要重新激活。"
                               className="text-muted-foreground ml-2 text-xs"
                             >
                               已暂停
@@ -364,8 +364,8 @@ export const TemplateSelector = ({
                               }
                               title={
                                 isInvalid
-                                  ? "Configure default model first"
-                                  : "Configure evaluator"
+                                  ? "请先配置默认模型"
+                                  : "配置评估器"
                               }
                               disabled={isInvalid || disabled}
                             >
@@ -402,7 +402,7 @@ export const TemplateSelector = ({
                         );
                       }}
                     >
-                      Configure default model
+                      配置默认模型
                       <ExternalLink className="ml-auto h-4 w-4" />
                     </InputCommandItem>
                   )}

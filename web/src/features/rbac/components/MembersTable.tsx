@@ -150,7 +150,7 @@ export function MembersTable({
     {
       accessorKey: "user",
       id: "user",
-      header: "Name",
+      header: "姓名",
       cell: ({ row }) => {
         const { name, image } = row.getValue("user") as MembersTableRow["user"];
         return (
@@ -158,7 +158,7 @@ export function MembersTable({
             <Avatar className="h-7 w-7">
               <AvatarImage
                 src={image ?? undefined}
-                alt={name ?? "User Avatar"}
+                alt={name ?? "用户头像"}
               />
               <AvatarFallback>
                 {name
@@ -178,12 +178,12 @@ export function MembersTable({
     {
       accessorKey: "email",
       id: "email",
-      header: "Email",
+      header: "邮箱",
     },
     {
       accessorKey: "providers",
       id: "providers",
-      header: "SSO Provider",
+      header: "SSO 提供商",
       enableHiding: true,
       cell: ({ row }) => {
         const providers = row.getValue("providers") as string[];
@@ -195,10 +195,10 @@ export function MembersTable({
     {
       accessorKey: "orgRole",
       id: "orgRole",
-      header: "Organization Role",
+      header: "组织角色",
       headerTooltip: {
         description:
-          "The org-role is the default role for this user in this organization and applies to the organization and all its projects.",
+          "组织角色是该用户在此组织中的默认角色，适用于该组织及其所有项目。",
         href: "https://langfuse.com/docs/administration/rbac",
       },
       cell: ({ row }) => {
@@ -233,14 +233,14 @@ export function MembersTable({
                     side="right"
                   >
                     <p className="text-xs">
-                      The organization-level role can be edited in the{" "}
+                      组织级角色可在
                       <Link
                         href={`/organization/${orgId}/settings/members`}
                         className="underline"
                       >
-                        organization settings
+                        组织设置
                       </Link>
-                      .
+                      中编辑。
                     </p>
                   </HoverCardContent>
                 </HoverCardPortal>
@@ -257,10 +257,10 @@ export function MembersTable({
           {
             accessorKey: "projectRole",
             id: "projectRole",
-            header: "Project Role",
+            header: "项目角色",
             headerTooltip: {
               description:
-                "The role for this user in this specific project. This role overrides the default project role.",
+                "该用户在此项目中的角色。此角色会覆盖默认项目角色。",
               href: "https://langfuse.com/docs/administration/rbac",
             },
             cell: ({ row }) => {
@@ -271,7 +271,7 @@ export function MembersTable({
                 "meta",
               ) as MembersTableRow["meta"];
 
-              if (!projectRolesEntitlement) return "N/A on plan";
+              if (!projectRolesEntitlement) return "当前套餐不支持";
 
               return (
                 <ProjectRoleDropdown
@@ -292,7 +292,7 @@ export function MembersTable({
     {
       accessorKey: "createdAt",
       id: "createdAt",
-      header: "Member Since",
+      header: "加入时间",
       enableHiding: true,
       defaultHidden: true,
       cell: ({ row }) => {
@@ -303,7 +303,7 @@ export function MembersTable({
     {
       accessorKey: "meta",
       id: "meta",
-      header: "Actions",
+      header: "操作",
       enableHiding: false,
       cell: ({ row }) => {
         const { orgMembershipId, userId } = row.getValue(
@@ -317,8 +317,8 @@ export function MembersTable({
                 if (
                   confirm(
                     userId === session.data?.user?.id
-                      ? "Are you sure you want to leave the organization?"
-                      : "Are you sure you want to remove this member from the organization?",
+                      ? "确定要退出该组织吗？"
+                      : "确定要将此成员从组织中移除吗？",
                   )
                 ) {
                   mutDeleteMember.mutate({ orgId, orgMembershipId });
@@ -367,9 +367,9 @@ export function MembersTable({
   if (project ? !hasProjectViewAccess : !hasOrgViewAccess) {
     return (
       <Alert>
-        <AlertTitle>Access Denied</AlertTitle>
+        <AlertTitle>无访问权限</AlertTitle>
         <AlertDescription>
-          You do not have permission to view members of this organization.
+          您没有权限查看此组织的成员。
         </AlertDescription>
       </Alert>
     );
@@ -387,7 +387,7 @@ export function MembersTable({
           <CreateProjectMemberButton orgId={orgId} project={project} />
         }
         searchConfig={{
-          metadataSearchFields: ["Name", "Email"],
+          metadataSearchFields: ["姓名", "邮箱"],
           updateQuery: setSearchQuery,
           currentQuery: searchQuery ?? undefined,
           tableAllowsFullTextSearch: false,
@@ -487,8 +487,8 @@ const OrgRoleDropdown = ({
       utils.members.invalidate();
       if (data.userId === session.data?.user?.id) session.update();
       showSuccessToast({
-        title: "Saved",
-        description: "Organization role updated successfully",
+        title: "已保存",
+        description: "组织角色更新成功",
         duration: 2000,
       });
     },
@@ -501,9 +501,7 @@ const OrgRoleDropdown = ({
       onValueChange={(value) => {
         if (
           userId !== session.data?.user?.id ||
-          confirm(
-            "Are you sure that you want to change your own organization role?",
-          )
+          confirm("确定要更改您自己的组织角色吗？")
         ) {
           mut.mutate({
             orgId,
@@ -547,8 +545,8 @@ const ProjectRoleDropdown = ({
       utils.members.invalidate();
       if (data.userId === session.data?.user?.id) session.update();
       showSuccessToast({
-        title: "Saved",
-        description: "Project role updated successfully",
+        title: "已保存",
+        description: "项目角色更新成功",
         duration: 2000,
       });
     },
@@ -561,7 +559,7 @@ const ProjectRoleDropdown = ({
       onValueChange={(value) => {
         if (
           userId !== session.data?.user?.id ||
-          confirm("Are you sure that you want to change your own project role?")
+          confirm("确定要更改您自己的项目角色吗？")
         ) {
           mut.mutate({
             orgId,

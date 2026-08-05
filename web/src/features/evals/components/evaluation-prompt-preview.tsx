@@ -201,7 +201,7 @@ export const EvaluationPromptPreview = ({
     <div className="max-h-full min-h-0 flex-1 overflow-y-auto rounded-md border">
       {isLoading ? (
         <div className="flex items-center justify-center p-8">
-          <p>Loading variables...</p>
+          <p>正在加载变量...</p>
         </div>
       ) : (
         <ColoredPromptView fragments={getPromptFragments()} />
@@ -234,7 +234,7 @@ export const EvaluationPromptPreview = ({
     <div className={cn("flex flex-col", className)}>
       <span className="mb-1 flex flex-row items-center justify-between py-0 text-sm font-bold capitalize">
         <div className="flex flex-row items-center gap-2">
-          Evaluation Prompt Preview
+          评估提示词预览
           {targetLink && (
             <Link
               href={targetLink.href}

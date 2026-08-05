@@ -59,7 +59,7 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "name",
       id: "name",
-      header: "Name",
+      header: "名称",
       size: 200,
       cell: ({ row }) => {
         const name = row.getValue("name") as string;
@@ -74,9 +74,9 @@ export function BatchExportsTable(props: { projectId: string }) {
                 </TooltipTrigger>
                 <TooltipContent>
                   <div className="space-y-1">
-                    <div>Created: {new Date(createdAt).toLocaleString()}</div>
+                    <div>创建时间：{new Date(createdAt).toLocaleString()}</div>
                     <div>
-                      Finished:{" "}
+                      完成时间：{" "}
                       {finishedAt ? new Date(finishedAt).toLocaleString() : "-"}
                     </div>
                   </div>
@@ -90,7 +90,7 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "status",
       id: "status",
-      header: "Status",
+      header: "状态",
       size: 90,
       cell: (row) => {
         const status = row.getValue() as string;
@@ -102,7 +102,7 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "url",
       id: "url",
-      header: "Download URL",
+      header: "下载地址",
       size: 130,
       cell: (info) => {
         const url = info.getValue() as string | null;
@@ -110,11 +110,11 @@ export function BatchExportsTable(props: { projectId: string }) {
           return null;
         }
         if (url === "expired") {
-          return <span className="text-muted-foreground">Expired</span>;
+          return <span className="text-muted-foreground">已过期</span>;
         }
         return (
           <ActionButton href={url} icon={<DownloadIcon size={16} />} size="sm">
-            Download
+            下载
           </ActionButton>
         );
       },
@@ -122,13 +122,13 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "format",
       id: "format",
-      header: "Format",
+      header: "格式",
       size: 70,
     },
     {
       accessorKey: "user",
       id: "user",
-      header: "Created By",
+      header: "创建人",
       size: 150,
       cell: ({ row }) => {
         const user = row.getValue("user") as {
@@ -140,10 +140,10 @@ export function BatchExportsTable(props: { projectId: string }) {
             <Avatar className="h-7 w-7">
               <AvatarImage
                 src={user?.image ?? undefined}
-                alt={user?.name ?? "User Avatar"}
+                alt={user?.name ?? "用户头像"}
               />
             </Avatar>
-            <span>{user?.name ?? "Unknown"}</span>
+            <span>{user?.name ?? "未知"}</span>
           </div>
         );
       },
@@ -151,7 +151,7 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "log",
       id: "log",
-      header: "Log",
+      header: "日志",
       size: 300,
       cell: (row) => {
         const log = row.getValue() as string | null;
@@ -161,7 +161,7 @@ export function BatchExportsTable(props: { projectId: string }) {
     {
       accessorKey: "actions",
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 100,
       cell: ({ row }) => {
         const id = row.original.id;
@@ -191,19 +191,18 @@ export function BatchExportsTable(props: { projectId: string }) {
                   setCancelDialogOpen(true);
                 }}
               >
-                Cancel
+                取消
               </ActionButton>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Cancel batch export?</AlertDialogTitle>
+                <AlertDialogTitle>取消批量导出？</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Are you sure you want to cancel this batch export? This action
-                  cannot be undone.
+                  确定要取消此批量导出吗？此操作无法撤销。
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>No, keep it</AlertDialogCancel>
+                <AlertDialogCancel>不，保留它</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => {
                     cancelBatchExport.mutate({
@@ -212,7 +211,7 @@ export function BatchExportsTable(props: { projectId: string }) {
                     });
                   }}
                 >
-                  Yes, cancel export
+                  是，取消导出
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

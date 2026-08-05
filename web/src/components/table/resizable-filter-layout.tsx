@@ -85,7 +85,7 @@ export function ResizableFilterLayout({ children }: PropsWithChildren) {
               // the panel's controls.
               className="flex h-[85svh] flex-col gap-0 p-0 [&>button]:hidden"
             >
-              <SheetTitle className="sr-only">Filters</SheetTitle>
+              <SheetTitle className="sr-only">筛选</SheetTitle>
               {filterSidebar}
             </SheetContent>
           </Sheet>

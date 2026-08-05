@@ -54,7 +54,7 @@ const SupportDrawerContent = ({
             <BreadcrumbList>
               {currentMode === "intro" ? (
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Support</BreadcrumbPage>
+                  <BreadcrumbPage>支持</BreadcrumbPage>
                 </BreadcrumbItem>
               ) : (
                 <>
@@ -65,7 +65,7 @@ const SupportDrawerContent = ({
                         onClick={() => setCurrentMode("intro")}
                         className="text-foreground"
                       >
-                        Support
+                        支持
                       </button>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
@@ -73,7 +73,7 @@ const SupportDrawerContent = ({
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Email Engineer</BreadcrumbPage>
+                    <BreadcrumbPage>邮件联系工程师</BreadcrumbPage>
                   </BreadcrumbItem>
                 </>
               )}
@@ -84,7 +84,7 @@ const SupportDrawerContent = ({
               variant="ghost"
               size="icon"
               onClick={close}
-              aria-label="Close"
+              aria-label="关闭"
             >
               <X className="h-4 w-4" />
             </Button>

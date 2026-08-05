@@ -245,22 +245,21 @@ export function PreviewCsvImport({
               htmlFor="wrapSingleColumn"
               className="cursor-pointer text-sm font-normal"
             >
-              Force Objects
+              强制对象
             </Label>
             <Tooltip>
               <TooltipTrigger asChild>
                 <InfoIcon className="text-muted-foreground h-3.5 w-3.5" />
               </TooltipTrigger>
               <TooltipContent className="max-w-[300px]">
-                When a single csv column is mapped to a dataset item field, wrap
-                its value in an object instead of using the raw value. Example:{" "}
-                {`{"columnName": "value"}`} instead of {`"value"`}
+                当单个 CSV 列映射到数据项字段时，将其值包装为对象而不是使用原始值。
+                例如：{`{"columnName": "value"}`} 而不是 {`"value"`}
               </TooltipContent>
             </Tooltip>
           </div>
         )}
         <Button variant="outline" onClick={handleCancel}>
-          Cancel
+          取消
         </Button>
         <Button
           disabled={
@@ -270,8 +269,8 @@ export function PreviewCsvImport({
           onClick={handleImport}
         >
           {csvImport.progress.status === "processing"
-            ? "Importing..."
-            : "Import"}
+            ? "导入中..."
+            : "导入"}
         </Button>
         {csvImport.progress.status === "processing" && (
           <div className="mt-2">

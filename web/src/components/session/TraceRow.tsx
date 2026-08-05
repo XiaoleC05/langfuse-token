@@ -98,7 +98,7 @@ const TraceRow = React.memo(
               />
             </div>
             <div className="flex-1">
-              <p className="mb-1 font-bold">Scores</p>
+              <p className="mb-1 font-bold">评分</p>
               <div className="flex flex-wrap content-start items-start gap-1">
                 <GroupedScoreBadges scores={trace.scores} />
               </div>

@@ -198,7 +198,7 @@ export function DatasetItemMediaUploadButton({
         size="icon-xs"
         className="text-muted-foreground"
         disabled={disabled || isUploading}
-        title="Attach media"
+        title="附加媒体"
         onClick={() => inputRef.current?.click()}
       >
         {isUploading ? (
@@ -225,7 +225,7 @@ function CopyFieldValueButton({ value }: { value: string }) {
       variant="ghost"
       size="icon-xs"
       className="text-muted-foreground"
-      title="Copy to clipboard"
+      title="复制到剪贴板"
       onClick={async () => {
         await copyTextToClipboard(value);
         setCopied(true);
@@ -300,7 +300,7 @@ function DatasetItemAttachments({
     return null;
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-bold">Attachments</span>
+      <span className="text-sm font-bold">附件</span>
       <div className="flex flex-wrap gap-2">
         {referenceStrings.map((referenceString) => (
           <LangfuseMediaView

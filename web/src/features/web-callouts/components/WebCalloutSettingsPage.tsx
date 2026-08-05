@@ -84,7 +84,7 @@ const webCalloutFormSchema = z
       if (!WEB_CALLOUT_HEADER_NAME_PATTERN.test(name)) {
         ctx.addIssue({
           code: "custom",
-          message: "Invalid header name.",
+          message: "无效的请求头名称。",
           path: ["headers", index, "name"],
         });
       }
@@ -92,7 +92,7 @@ const webCalloutFormSchema = z
       if (WEB_CALLOUT_BLOCKED_HEADER_NAMES.has(lowerName)) {
         ctx.addIssue({
           code: "custom",
-          message: "This header is set by Langfuse and cannot be customized.",
+          message: "此请求头由 Langfuse 自动设置，无法自定义。",
           path: ["headers", index, "name"],
         });
       }
@@ -100,7 +100,7 @@ const webCalloutFormSchema = z
       if (seenHeaderNames.has(lowerName)) {
         ctx.addIssue({
           code: "custom",
-          message: "Header names must be unique.",
+          message: "请求头名称必须唯一。",
           path: ["headers", index, "name"],
         });
       }
@@ -646,7 +646,7 @@ const endpointToFormValues = (
   endpoint: WebCalloutEndpoint | null,
 ): WebCalloutFormValues => ({
   id: endpoint?.id,
-  name: endpoint?.name ?? "Default",
+  name: endpoint?.name ?? "默认",
   url: endpoint?.url ?? "",
   enabled: endpoint?.enabled ?? true,
   toastMessage: endpoint?.toastMessage ?? "提示已发送",

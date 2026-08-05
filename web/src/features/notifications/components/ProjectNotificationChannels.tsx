@@ -32,14 +32,14 @@ const NOTIFIED_EVENTS: {
 }[] = [
   {
     value: "blob-export-failed",
-    title: "Blob storage export failed",
-    description: "Sent when a scheduled blob storage export fails.",
+    title: "对象存储导出失败",
+    description: "当定时对象存储导出失败时发送。",
   },
   {
     value: "evaluator-blocked",
-    title: "Evaluator deactivated",
+    title: "评估器已停用",
     description:
-      "Sent when an evaluator is deactivated due to an unrecoverable error, such as a deleted model or model connection.",
+      "当评估器因不可恢复的错误（例如模型或模型连接被删除）而停用时发送。",
   },
 ];
 
@@ -72,10 +72,9 @@ export function ProjectNotificationChannels({
 
   return (
     <div>
-      <Header title="Project Notifications" />
+      <Header title="项目通知" />
       <p className="text-muted-foreground mb-4 text-sm">
-        Manage project notifications. Channel notifications are sent in addition
-        to the admin emails.
+        管理项目通知。除管理员邮件外，还会发送渠道通知。
       </p>
 
       {mode === "list" ? (
@@ -93,11 +92,11 @@ export function ProjectNotificationChannels({
 
           <div className="flex flex-col gap-4">
             <div>
-              <h3 className="text-lg font-bold">Events</h3>
+              <h3 className="text-lg font-bold">事件</h3>
               <p className="text-muted-foreground text-sm">
                 {hasChannels
-                  ? "Choose which events are delivered to your channels."
-                  : "Configure a channel above to enable project notifications."}
+                  ? "选择要将哪些事件投递到您的渠道。"
+                  : "请先在上方配置渠道以启用项目通知。"}
               </p>
             </div>
             {NOTIFIED_EVENTS.map((event) => (
@@ -149,9 +148,9 @@ export function ProjectNotificationChannels({
       >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Webhook Secret Created</DialogTitle>
+            <DialogTitle>Webhook 密钥已创建</DialogTitle>
             <DialogDescription>
-              Copy the webhook secret below — it will only be shown once.
+              请复制下方的 Webhook 密钥——它只会显示一次。
             </DialogDescription>
           </DialogHeader>
           <DialogBody>
@@ -161,7 +160,7 @@ export function ProjectNotificationChannels({
           </DialogBody>
           <DialogFooter>
             <Button onClick={actions.dismissWebhookSecret}>
-              {"I've saved the secret"}
+              {"我已保存密钥"}
             </Button>
           </DialogFooter>
         </DialogContent>

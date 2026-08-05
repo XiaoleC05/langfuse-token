@@ -149,7 +149,7 @@ export const UserChart = ({
         .filter((item) => item.userId !== undefined)
         .map((item) => {
           return {
-            name: (item.userId as string | null | undefined) ?? "Unknown",
+            name: (item.userId as string | null | undefined) ?? "未知",
             value: item.sum_totalCost ? Number(item.sum_totalCost) : 0,
           };
         })
@@ -178,22 +178,22 @@ export const UserChart = ({
 
   const data = [
     {
-      tabTitle: "Token cost",
+      tabTitle: "Token 成本",
       data: transformedCost,
       totalMetric: costFormatter(totalCost),
-      metricDescription: "Total cost",
+      metricDescription: "总成本",
       chartMetricLabel: "USD",
       chartUnit: "USD",
     },
     {
-      tabTitle: "Count of Traces",
+      tabTitle: "追踪数量",
       data: transformedNumberOfTraces,
       totalMetric: totalTraces
         ? compactNumberFormatter(totalTraces)
         : compactNumberFormatter(0),
-      metricDescription: "Total traces",
-      chartMetricLabel: "Traces",
-      chartUnit: "traces",
+      metricDescription: "追踪总数",
+      chartMetricLabel: "追踪",
+      chartUnit: "追踪",
     },
   ] as const;
 
@@ -204,7 +204,7 @@ export const UserChart = ({
       // shrink so the chart viewport scrolls internally. (LFE-11035)
       className={cn(className, "h-full")}
       cardContentClassName="min-h-0"
-      title="User consumption"
+      title="用户用量"
       isLoading={isLoading || user.isPending}
     >
       <TabComponent
@@ -240,7 +240,7 @@ export const UserChart = ({
                 ) : (
                   <NoDataOrLoading
                     isLoading={isLoading || user.isPending}
-                    description="Consumption per user is tracked by passing their ids on traces."
+                    description="每个用户的用量通过在追踪中传递其 ID 来跟踪。"
                     href="https://langfuse.com/docs/observability/features/users"
                     className="h-auto grow"
                   />
@@ -257,8 +257,8 @@ export const UserChart = ({
         maxLength={Math.min(rowCount, transformedCost.length)}
         expandText={
           transformedCost.length > maxNumberOfEntries.expanded
-            ? `Show top ${maxNumberOfEntries.expanded}`
-            : "Show all"
+            ? `显示前 ${maxNumberOfEntries.expanded} 个`
+            : "显示全部"
         }
       />
     </DashboardCard>

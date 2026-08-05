@@ -48,7 +48,7 @@ export function summarizeTableViewPreset(view: TableViewPresetState) {
   }
 
   if (previewParts.length < 2 && view.orderBy?.column) {
-    previewParts.push(`Sort ${view.orderBy.column} ${view.orderBy.order}`);
+    previewParts.push(`排序 ${view.orderBy.column} ${view.orderBy.order}`);
   }
 
   if (
@@ -56,7 +56,7 @@ export function summarizeTableViewPreset(view: TableViewPresetState) {
     (view.columnOrder.length > 0 ||
       Object.keys(view.columnVisibility).length > 0)
   ) {
-    previewParts.push("Saved column layout");
+    previewParts.push("已保存的列布局");
   }
 
   return previewParts.join(" · ");

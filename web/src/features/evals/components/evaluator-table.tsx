@@ -196,7 +196,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
       },
     }),
     columnHelper.accessor("totalCost", {
-      header: "Total Cost (7d)",
+      header: "总成本（7 天）",
       id: "totalCost",
       size: 120,
       cell: (row) => {
@@ -303,7 +303,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
     }),
     columnHelper.accessor("target", {
       id: "target",
-      header: "Runs on",
+      header: "运行目标",
       size: 150,
       enableHiding: true,
       cell: (row) => {
@@ -463,7 +463,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
           columnVisibility={columnVisibility}
           setColumnVisibility={setColumnVisibility}
           searchConfig={{
-            metadataSearchFields: ["Name"],
+            metadataSearchFields: ["名称"],
             updateQuery: setSearchQuery,
             currentQuery: searchQuery ?? undefined,
             tableAllowsFullTextSearch: false,

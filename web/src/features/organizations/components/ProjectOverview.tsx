@@ -108,15 +108,15 @@ const OrganizationProjectTiles = ({
                         (t) => t.projectId === project.id,
                       )?.lastTraceAt;
                       return lastTraceAt
-                        ? `Last trace ${formatCompactRelativeTime(new Date(lastTraceAt))}`
-                        : "No traces in the last 30d";
+                        ? `上次追踪 ${formatCompactRelativeTime(new Date(lastTraceAt))}`
+                        : "最近 30 天内无追踪";
                     })()}
                   </p>
                 </CardContent>
               )}
               {project.deletedAt && (
                 <CardContent>
-                  <CardDescription>Project is being deleted</CardDescription>
+                  <CardDescription>项目正在删除中</CardDescription>
                 </CardContent>
               )}
             </Card>
@@ -130,7 +130,7 @@ const OrganizationProjectTiles = ({
               {!project.deletedAt ? (
                 <CardFooter className="gap-2">
                   <Button asChild variant="secondary">
-                    <Link href={`/project/${project.id}`}>Go to project</Link>
+                    <Link href={`/project/${project.id}`}>进入项目</Link>
                   </Button>
                   <Button asChild variant="ghost">
                     <Link href={`/project/${project.id}/settings`}>
@@ -140,7 +140,7 @@ const OrganizationProjectTiles = ({
                 </CardFooter>
               ) : (
                 <CardContent>
-                  <CardDescription>Project is being deleted</CardDescription>
+                  <CardDescription>项目正在删除中</CardDescription>
                 </CardContent>
               )}
             </Card>
@@ -156,11 +156,11 @@ const DemoOrganizationTile = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Try Langfuse Demo</CardTitle>
+        <CardTitle>试用 Langfuse 演示</CardTitle>
       </CardHeader>
       <CardContent>
-        We have built a Q&A chatbot that answers questions based on the Langfuse
-        Docs. Interact with it to see traces in Langfuse.
+        我们构建了一个基于 Langfuse 文档回答问题的问答机器人。
+        与它交互即可在 Langfuse 中查看追踪。
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary">
@@ -172,7 +172,7 @@ const DemoOrganizationTile = () => {
               })
             }
           >
-            View Demo Project
+            查看演示项目
           </Link>
         </Button>
       </CardFooter>
@@ -214,13 +214,13 @@ const OrganizationActionButtons = ({
         <Button asChild variant={primaryButtonVariant}>
           <Link href={createProjectRoute(orgId)}>
             <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-            New project
+            新建项目
           </Link>
         </Button>
       ) : (
         <Button disabled variant={primaryButtonVariant}>
           <LockIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-          New project
+          新建项目
         </Button>
       )}
     </>
@@ -249,7 +249,7 @@ const SingleOrganizationPage = ({
     return (
       <ContainerPage
         headerProps={{
-          title: "Demo Organization",
+          title: "演示组织",
         }}
       >
         <DemoOrganizationTile />
@@ -260,7 +260,7 @@ const SingleOrganizationPage = ({
   return (
     <ContainerPage
       headerProps={{
-        title: org?.name ?? "Organization",
+        title: org?.name ?? "组织",
         actionButtonsRight: <OrganizationActionButtons orgId={orgId} />,
       }}
     >
@@ -300,7 +300,7 @@ const SingleOrganizationProjectOverviewTile = ({
       <Header
         title={org.name}
         className="truncate"
-        status={orgId === env.NEXT_PUBLIC_DEMO_ORG_ID ? "Demo Org" : undefined}
+        status={orgId === env.NEXT_PUBLIC_DEMO_ORG_ID ? "演示组织" : undefined}
         label={
           isCloudPlan(org.plan)
             ? {
@@ -330,7 +330,7 @@ export const OrganizationProjectOverview = () => {
   const [{ search }, setQueryParams] = useQueryParams({ search: StringParam });
 
   if (organizations === undefined) {
-    return "loading...";
+    return "加载中…";
   }
 
   const showOnboarding =
@@ -352,15 +352,15 @@ export const OrganizationProjectOverview = () => {
   return (
     <ContainerPage
       headerProps={{
-        title: "Organizations",
+        title: "组织",
         help: {
           description:
-            "Organizations help you manage access to projects. Each organization can have multiple projects and team members with different roles.",
+            "组织帮助您管理对项目的访问权限。每个组织可以拥有多个项目以及承担不同角色的团队成员。",
           href: "https://langfuse.com/docs/rbac",
         },
         breadcrumb: [
           {
-            name: "Organizations",
+            name: "组织",
             href: "/",
           },
         ],
@@ -368,14 +368,14 @@ export const OrganizationProjectOverview = () => {
           <>
             <Input
               className="mr-1 w-36 lg:w-56"
-              placeholder="Search projects"
+              placeholder="搜索项目"
               onChange={(e) => setQueryParams({ search: e.target.value })}
             />
             {canCreateOrg && (
               <Button data-testid="create-organization-btn" asChild>
                 <Link href={createOrganizationRoute}>
                   <PlusIcon className="mr-1.5 h-4 w-4" aria-hidden="true" />
-                  New Organization
+                  新建组织
                 </Link>
               </Button>
             )}
@@ -419,14 +419,14 @@ const Onboarding = () => {
     <Card className="mt-5">
       <CardHeader>
         <CardTitle data-testid="create-new-project-title">
-          Get Started
+          开始使用
         </CardTitle>
       </CardHeader>
       <CardContent>
         <CardDescription>
           {canCreateOrgs
-            ? "Create an organization to get started. Alternatively, ask your organization admin to invite you."
-            : "You need to get invited to an organization to get started with Langfuse."}
+            ? "创建一个组织即可开始使用。或者，请您的组织管理员邀请您加入。"
+            : "您需要被邀请加入某个组织才能开始使用 Langfuse。"}
         </CardDescription>
       </CardContent>
       <CardFooter className="flex gap-4">
@@ -441,7 +441,7 @@ const Onboarding = () => {
         <Button variant="secondary" asChild>
           <Link href="https://langfuse.com/docs" target="_blank">
             <BookOpen className="mr-2 h-4 w-4" aria-hidden="true" />
-            Docs
+            文档
           </Link>
         </Button>
         <Button variant="secondary" asChild>

@@ -429,7 +429,7 @@ export function SSOButtons({
             <>
               <AuthProviderButton
                 icon={<Code className="mr-3" size={18} />}
-                label="WorkOS (organization)"
+                label="WorkOS（组织）"
                 onClick={() => {
                   const organization = window.prompt(
                     "请输入您的组织 ID",
@@ -449,7 +449,7 @@ export function SSOButtons({
               />
               <AuthProviderButton
                 icon={<Code className="mr-3" size={18} />}
-                label="WorkOS (connection)"
+                label="WorkOS（连接）"
                 onClick={() => {
                   const connection = window.prompt(
                     "请输入您的连接 ID",

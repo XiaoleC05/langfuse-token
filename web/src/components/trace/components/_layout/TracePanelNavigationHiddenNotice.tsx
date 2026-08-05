@@ -31,8 +31,7 @@ export function TracePanelNavigationHiddenNotice() {
     <div className="flex shrink-0 items-center justify-end gap-1 border-b px-4 py-1">
       <span className="text-muted-foreground flex flex-col gap-1 text-xs sm:flex-row">
         <p>
-          {hiddenObservationsCount} hidden observations below{" "}
-          {minObservationLevel} level.
+          {hiddenObservationsCount} 个低于 {minObservationLevel} 级别的观测被隐藏。
         </p>
         <p
           className="cursor-pointer underline"
@@ -45,7 +44,7 @@ export function TracePanelNavigationHiddenNotice() {
             }
           }}
         >
-          Show all
+          显示全部
         </p>
       </span>
     </div>

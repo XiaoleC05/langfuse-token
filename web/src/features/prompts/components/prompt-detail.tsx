@@ -213,10 +213,10 @@ export const PromptDetail = ({
     utils.datasets.baseRunDataByDatasetId.invalidate();
     utils.datasets.runsByDatasetId.invalidate();
     showSuccessToast({
-      title: "Experiment triggered successfully",
-      description: "Waiting for experiment to complete...",
+      title: "实验已成功触发",
+      description: "等待实验完成...",
       link: {
-        text: "View experiment",
+        text: "查看实验",
         href: `/project/${projectId}/datasets/${data.datasetId}/compare?runs=${data.runId}`,
       },
     });
@@ -260,7 +260,7 @@ export const PromptDetail = ({
   }, [prompt?.id]);
 
   if (!promptHistory.data || !prompt) {
-    return <div className="p-3">Loading...</div>;
+    return <div className="p-3">加载中...</div>;
   }
 
   const extractedVariables = prompt
@@ -280,16 +280,16 @@ export const PromptDetail = ({
       headerProps={{
         title: prompt.name,
         titleTooltip:
-          "Prompt names cannot be changed. Instead, duplicate this prompt to a different name.",
+          "提示词名称无法更改。您可以改为将该提示词复制为一个新名称。",
         itemType: "PROMPT",
         help: {
           description:
-            "You can use this prompt within your application through the Langfuse SDKs and integrations. Refer to the documentation for more information.",
+            "您可以通过 Langfuse SDK 和集成在应用程序中使用此提示词。更多信息请参阅文档。",
           href: "https://langfuse.com/docs/prompts",
         },
         breadcrumb: [
           {
-            name: "Prompts",
+            name: "提示词",
             href: `/project/${projectId}/prompts/`,
           },
           ...breadcrumbItems.map((item) => ({
@@ -337,7 +337,7 @@ export const PromptDetail = ({
           <div className="mt-3 flex items-center justify-between">
             <CommandInput
               showBorder={false}
-              placeholder="Search..."
+              placeholder="搜索..."
               className="text-muted-foreground h-fit border-none py-0 text-sm focus:ring-0"
             />
 
@@ -352,7 +352,7 @@ export const PromptDetail = ({
                 href={`/project/${projectId}/prompts/new?promptId=${encodeURIComponent(prompt.id)}`}
               >
                 <Plus className="h-4 w-4 md:mr-2" />
-                <span className="hidden lg:inline">New version</span>
+                <span className="hidden lg:inline">新版本</span>
               </Link>
             </Button>
           </div>
@@ -422,7 +422,7 @@ export const PromptDetail = ({
                       >
                         <FlaskConical className="h-4 w-4" />
                         <span className="hidden md:ml-2 md:inline">
-                          Run experiment
+                          运行实验
                         </span>
                       </Button>
                     </DialogTrigger>
@@ -481,12 +481,12 @@ export const PromptDetail = ({
             onValueChange={(value) => setCurrentTab(value)}
           >
             <TabsBarList className="max-w-full min-w-0 justify-start overflow-x-auto">
-              <TabsBarTrigger value="prompt">Prompt</TabsBarTrigger>
-              <TabsBarTrigger value="config">Config</TabsBarTrigger>
+              <TabsBarTrigger value="prompt">提示词</TabsBarTrigger>
+              <TabsBarTrigger value="config">配置</TabsBarTrigger>
               <TabsBarTrigger value="linked-generations">
-                Linked Generations
+                关联的生成
               </TabsBarTrigger>
-              <TabsBarTrigger value="use-prompt">Use Prompt</TabsBarTrigger>
+              <TabsBarTrigger value="use-prompt">使用提示词</TabsBarTrigger>
             </TabsBarList>
             <TabsBarContent
               value="linked-generations"
@@ -529,13 +529,13 @@ export const PromptDetail = ({
                           value="resolved"
                           className="h-fit px-1 text-xs"
                         >
-                          Resolved prompt
+                          解析后的提示词
                         </TabsTrigger>
                         <TabsTrigger
                           value="tagged"
                           className="h-fit px-1 text-xs"
                         >
-                          Tagged prompt
+                          带标签的提示词
                         </TabsTrigger>
                       </TabsList>
                     </Tabs>
@@ -557,17 +557,17 @@ export const PromptDetail = ({
                     promptGraph.data?.resolvedPrompt ? (
                       <CodeView
                         content={String(promptGraph.data.resolvedPrompt)}
-                        title="Text Prompt (resolved)"
+                        title="文本提示词（已解析）"
                       />
                     ) : (
                       <CodeView
                         content={renderRichPromptContent(prompt.prompt)}
                         originalContent={prompt.prompt}
-                        title="Text Prompt"
+                        title="文本提示词"
                       />
                     )
                   ) : (
-                    <JSONView json={prompt.prompt} title="Prompt" />
+                    <JSONView json={prompt.prompt} title="提示词" />
                   )}
                 </PromptReferenceProvider>
                 <PromptVariableListPreview variables={extractedVariables} />
@@ -580,7 +580,7 @@ export const PromptDetail = ({
               <div className="flex max-h-full min-h-0 w-full flex-col overflow-y-auto pb-4">
                 <JSONView
                   json={prompt.config}
-                  title="Config"
+                  title="配置"
                   className="pb-2"
                 />
               </div>
@@ -593,17 +593,16 @@ export const PromptDetail = ({
                 {pythonCode && <CodeView content={pythonCode} title="Python" />}
                 {jsCode && <CodeView content={jsCode} title="JS/TS" />}
                 <p className="text-muted-foreground pl-1 text-xs">
-                  See{" "}
+                  有关如何在 Langchain 等框架中使用提示词的更多详情，请参阅{" "}
                   <a
                     href="https://langfuse.com/docs/prompts"
                     className="underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    documentation
-                  </a>{" "}
-                  for more details on how to use prompts in frameworks such as
-                  Langchain.
+                    文档
+                  </a>
+                  。
                 </p>
               </div>
             </TabsBarContent>

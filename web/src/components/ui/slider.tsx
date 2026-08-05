@@ -137,7 +137,7 @@ const Slider = React.forwardRef<
                     : 100
                   : props.max
               }
-              aria-label="Slider value"
+              aria-label="滑块数值"
             />
             {displayAsPercentage && (
               <span className="text-muted-foreground text-sm">%</span>

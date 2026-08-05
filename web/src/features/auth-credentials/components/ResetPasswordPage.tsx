@@ -102,7 +102,7 @@ export function ResetPasswordPage({
           setFormError(error.message);
         } else {
           console.error(error);
-          setFormError("An unknown error occurred");
+          setFormError("发生未知错误");
         }
       });
   }

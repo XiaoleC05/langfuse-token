@@ -77,7 +77,7 @@ export const PromptVersionDiffDialog: React.FC<PromptVersionDiffDialogProps> = (
           onClick={(event) => {
             event.stopPropagation();
           }}
-          title="Compare with selected prompt"
+          title="与所选提示词比较"
         >
           <FileDiffIcon className="h-4 w-4" />
         </Button>
@@ -91,18 +91,18 @@ export const PromptVersionDiffDialog: React.FC<PromptVersionDiffDialogProps> = (
       >
         <DialogHeader>
           <DialogTitle>
-            Changes v{leftPrompt.version} → v{rightPrompt.version}
+            变更 v{leftPrompt.version} → v{rightPrompt.version}
           </DialogTitle>
 
           <DialogDescription className="flex items-center gap-2">
-            <span className="font-bold">Prompt {leftPrompt.name}</span>
+            <span className="font-bold">提示词 {leftPrompt.name}</span>
           </DialogDescription>
         </DialogHeader>
         <DialogBody>
           <div className="space-y-6">
             <div className="space-y-4">
               <div>
-                <h3 className="mb-2 text-base font-bold">Content</h3>
+                <h3 className="mb-2 text-base font-bold">内容</h3>
                 <DiffViewer
                   {...createSmartDiff(leftPrompt, rightPrompt)}
                   oldLabel={`v${leftPrompt.version}`}
@@ -112,7 +112,7 @@ export const PromptVersionDiffDialog: React.FC<PromptVersionDiffDialogProps> = (
                 />
               </div>
               <div>
-                <h3 className="mb-2 text-base font-bold">Config</h3>
+                <h3 className="mb-2 text-base font-bold">配置</h3>
                 <DiffViewer
                   oldString={JSON.stringify(leftPrompt.config, null, 2)}
                   newString={JSON.stringify(rightPrompt.config, null, 2)}
@@ -130,7 +130,7 @@ export const PromptVersionDiffDialog: React.FC<PromptVersionDiffDialogProps> = (
               setIsOpen(false);
             }}
           >
-            Close
+            关闭
           </Button>
         </DialogFooter>
       </DialogContent>

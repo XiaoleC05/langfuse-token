@@ -37,7 +37,7 @@ const formSchema = z.object({
     },
     {
       message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+        "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
   expectedOutput: z.string().refine(
@@ -46,7 +46,7 @@ const formSchema = z.object({
     },
     {
       message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+        "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
   metadata: z.string().refine(
@@ -55,7 +55,7 @@ const formSchema = z.object({
     },
     {
       message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+        "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
 });
@@ -137,7 +137,7 @@ export const EditDatasetItemDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent size="xl">
         <DialogHeader>
-          <DialogTitle>Edit Dataset Item</DialogTitle>
+          <DialogTitle>编辑数据项</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -147,7 +147,7 @@ export const EditDatasetItemDialog = ({
             <DialogBody>
               {formError ? (
                 <p className="text-destructive mb-4">
-                  <span className="font-bold">Error:</span> {formError}
+                  <span className="font-bold">错误：</span> {formError}
                 </p>
               ) : null}
               <DatasetItemFields
@@ -168,7 +168,7 @@ export const EditDatasetItemDialog = ({
                 onClick={() => onOpenChange(false)}
                 disabled={updateDatasetItemMutation.isPending}
               >
-                Cancel
+                取消
               </Button>
               <SaveChangesButton
                 control={form.control}
@@ -226,7 +226,7 @@ const SaveChangesButton = ({
         pendingUploads.length > 0
       }
     >
-      Save changes
+      保存更改
     </Button>
   );
 };

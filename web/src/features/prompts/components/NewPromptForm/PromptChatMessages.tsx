@@ -160,7 +160,7 @@ export const PromptChatMessages: React.FC<PromptChatMessagesProps> = ({
                 onClick={() => setIsDialogOpen(true)}
               >
                 <PlusIcon className="h-4 w-4" />
-                <span className="text-xs">Add prompt reference</span>
+                <span className="text-xs">添加提示词引用</span>
               </Button>
 
               {projectId && (

@@ -420,7 +420,7 @@ function InAppAiAgentProviderInner({
 
     fetchNextConversationsPage().catch((error) => {
       const errorMessage = getAgentErrorMessage(error);
-      showErrorToast("Failed to load conversations", errorMessage);
+      showErrorToast("加载会话失败", errorMessage);
       console.error("Failed to load in-app agent conversations", error);
     });
   }, [
@@ -439,7 +439,7 @@ function InAppAiAgentProviderInner({
     }
 
     const errorMessage = getAgentErrorMessage(conversationListQuery.error);
-    showErrorToast("Failed to load conversations", errorMessage);
+    showErrorToast("加载会话失败", errorMessage);
     console.error("Failed to load in-app agent conversations", {
       error: conversationListQuery.error,
       projectId,
@@ -863,7 +863,7 @@ function InAppAiAgentProviderInner({
         ]);
       } catch (error) {
         const errorMessage = getAgentErrorMessage(error);
-        showErrorToast("Failed to delete conversation", errorMessage);
+        showErrorToast("删除会话失败", errorMessage);
         console.error("Failed to delete in-app agent conversation", error);
         throw error;
       }
@@ -1037,7 +1037,7 @@ function InAppAiAgentProviderInner({
         });
       } catch (error) {
         const errorMessage = getAgentErrorMessage(error);
-        showErrorToast("Failed to save feedback", errorMessage);
+        showErrorToast("保存反馈失败", errorMessage);
         console.error("Failed to save in-app agent feedback", error);
         throw error;
       }
@@ -1106,8 +1106,8 @@ function InAppAiAgentProviderInner({
       const agent = agentRef.current;
       if (!agent || agent.threadId !== selectedConversationId) {
         showErrorToast(
-          "Failed to resume tool call",
-          "The interrupted assistant run is no longer available.",
+          "恢复工具调用失败",
+          "被中断的助手运行已不可用。",
         );
         return;
       }
@@ -1161,7 +1161,7 @@ function InAppAiAgentProviderInner({
           );
           setError({
             type: "generic",
-            message: "This tool approval is no longer valid. Please try again.",
+            message: "此工具审批已失效，请重试。",
           });
           console.error("Failed to resume in-app agent tool call", error);
           return;
@@ -1647,7 +1647,7 @@ function getAgentErrorMessage(error: unknown): string {
     }
   }
 
-  return "Assistant request failed. Please try again.";
+  return "助手请求失败，请重试。";
 }
 
 export function useInAppAiAgent() {

@@ -56,7 +56,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
         )}
         {path && (
           <div className={`text-sm leading-tight ${textColor}`}>
-            Path: {path}
+            路径：{path}
           </div>
         )}
 

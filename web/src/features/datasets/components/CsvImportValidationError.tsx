@@ -19,17 +19,16 @@ export const CsvImportValidationError: React.FC<
   return (
     <Alert variant="destructive" className="mt-4">
       <AlertTitle className="text-base font-bold">
-        Schema Validation Failed
+        Schema 校验失败
       </AlertTitle>
       <AlertDescription className="mt-2 space-y-3">
         <p className="text-sm">
           {hasMoreThan10
-            ? `${errorCount}+ items failed validation. Showing first ${errorCount} errors.`
-            : `${errorCount} item${errorCount === 1 ? "" : "s"} failed validation.`}
+            ? `${errorCount}+ 个数据项校验失败。显示前 ${errorCount} 个错误。`
+            : `${errorCount} 个数据项校验失败。`}
         </p>
         <p className="text-muted-foreground text-sm">
-          The CSV data does not match the required schema for this dataset. Fix
-          the errors in your CSV file and try importing again.
+          CSV 数据与数据集所需的 schema 不匹配。请修复 CSV 文件中的错误后重新导入。
         </p>
 
         <Button
@@ -44,7 +43,7 @@ export const CsvImportValidationError: React.FC<
           ) : (
             <ChevronRight className="mr-1 h-4 w-4" />
           )}
-          {isExpanded ? "Hide" : "Show"} error details
+          {isExpanded ? "隐藏" : "显示"}错误详情
         </Button>
 
         {isExpanded && (
@@ -59,12 +58,12 @@ export const CsvImportValidationError: React.FC<
                     #{idx + 1}
                   </span>
                   <span className="text-sm font-bold">
-                    CSV Row {error.itemIndex + 2}:{" "}
+                    CSV 行 {error.itemIndex + 2}：{" "}
                     {error.field === "input"
-                      ? "Input"
+                      ? "输入"
                       : error.field === "metadata"
-                        ? "Metadata"
-                        : "Expected Output"}
+                        ? "元数据"
+                        : "预期输出"}
                   </span>
                 </div>
 
@@ -85,8 +84,7 @@ export const CsvImportValidationError: React.FC<
 
             {hasMoreThan10 && (
               <p className="text-muted-foreground pt-2 text-xs">
-                Fix these errors to see if there are additional validation
-                issues.
+                修复这些错误，以查看是否还有其他校验问题。
               </p>
             )}
           </div>

@@ -58,10 +58,10 @@ export const StripeCustomerPortalButton = ({
       if (data) {
         window.location.href = data;
       } else {
-        toast.error("Could not open billing portal");
+        toast.error("无法打开账单门户");
       }
     } catch (_e) {
-      toast.error("Failed to open billing portal");
+      toast.error("打开账单门户失败");
     } finally {
       // do not reset to avoid flickering when opening the portal
       // setLoading(false);
@@ -79,7 +79,7 @@ export const StripeCustomerPortalButton = ({
       disabled={!orgId || loading}
       title={title}
     >
-      {loading ? "Opening…" : title}
+      {loading ? "正在打开…" : title}
     </Button>
   );
 };

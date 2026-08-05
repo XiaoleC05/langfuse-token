@@ -31,13 +31,13 @@ export const DatasetSchemaValidationError: React.FC<
   return (
     <Alert variant="destructive" className="mt-4">
       <AlertTitle className="text-base font-bold">
-        Schema Validation Failed
+        Schema 校验失败
       </AlertTitle>
       <AlertDescription className="mt-2 space-y-3">
         <p className="text-sm">
           {hasMoreThan10
-            ? `More than 10 items failed validation. Showing first 10 errors.`
-            : `${errorCount} item${errorCount === 1 ? "" : "s"} failed validation.`}
+            ? `超过 10 个数据项校验失败。显示前 10 个错误。`
+            : `${errorCount} 个数据项校验失败。`}
         </p>
 
         <Button
@@ -52,7 +52,7 @@ export const DatasetSchemaValidationError: React.FC<
           ) : (
             <ChevronRight className="mr-1 h-4 w-4" />
           )}
-          {isExpanded ? "Hide" : "Show"} error details
+          {isExpanded ? "隐藏" : "显示"}错误详情
         </Button>
 
         {isExpanded && (
@@ -73,12 +73,12 @@ export const DatasetSchemaValidationError: React.FC<
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-sm font-bold hover:underline"
                     >
-                      Item: {error.datasetItemId}
+                      数据项：{error.datasetItemId}
                       <ExternalLink className="h-3 w-3" />
                     </Link>
                   </div>
                   <span className="bg-destructive/20 rounded px-2 py-0.5 text-xs font-bold">
-                    {error.field === "input" ? "Input" : "Expected Output"}
+                    {error.field === "input" ? "输入" : "预期输出"}
                   </span>
                 </div>
 
@@ -86,7 +86,7 @@ export const DatasetSchemaValidationError: React.FC<
                   {error.errors.map((err, errIdx) => (
                     <li key={errIdx} className="text-destructive">
                       <span className="text-muted-foreground font-mono text-xs">
-                        Path {err.path}
+                        路径 {err.path}
                       </span>
                       : {err.message}
                     </li>
@@ -97,8 +97,7 @@ export const DatasetSchemaValidationError: React.FC<
 
             {hasMoreThan10 && (
               <p className="text-muted-foreground pt-2 text-xs">
-                Fix these errors to see if there are additional validation
-                issues.
+                修复这些错误，以查看是否还有其他校验问题。
               </p>
             )}
           </div>

@@ -76,7 +76,7 @@ export const ReviewPromptDialog: React.FC<ReviewPromptDialogProps> = (
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent size="xl">
         <DialogHeader>
-          <DialogTitle>Review Prompt Changes</DialogTitle>
+          <DialogTitle>审阅提示词变更</DialogTitle>
           <DialogDescription className="flex items-center gap-2">
             <span className="font-bold">{initialPrompt.name}</span>
           </DialogDescription>
@@ -87,21 +87,21 @@ export const ReviewPromptDialog: React.FC<ReviewPromptDialogProps> = (
             <div className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <h3 className="mb-2 text-base font-bold">Content</h3>
+                  <h3 className="mb-2 text-base font-bold">内容</h3>
                   <DiffViewer
                     oldString={initialPromptContent}
                     newString={newPromptContent}
-                    oldLabel={`Previous content (v${initialPrompt.version})`}
-                    newLabel="New content (draft)"
+                    oldLabel={`上一版内容（v${initialPrompt.version}）`}
+                    newLabel="新内容（草稿）"
                   />
                 </div>
                 <div>
-                  <h3 className="mb-2 text-base font-bold">Config</h3>
+                  <h3 className="mb-2 text-base font-bold">配置</h3>
                   <DiffViewer
                     oldString={JSON.stringify(initialPrompt.config, null, 2)}
                     newString={newConfig ?? "failed"}
-                    oldLabel={`Previous config (v${initialPrompt.version})`}
-                    newLabel="New config (draft)"
+                    oldLabel={`上一版配置（v${initialPrompt.version}）`}
+                    newLabel="新配置（草稿）"
                   />
                 </div>
               </div>
@@ -116,7 +116,7 @@ export const ReviewPromptDialog: React.FC<ReviewPromptDialogProps> = (
             onClick={() => setOpen(false)}
             className="min-w-32"
           >
-            Cancel
+            取消
           </Button>
           <Button
             onClick={onConfirm}
@@ -124,8 +124,8 @@ export const ReviewPromptDialog: React.FC<ReviewPromptDialogProps> = (
             variant={newPromptValue?.isActive ? "destructive" : "default"}
             className="min-w-32"
           >
-            Save new version
-            {newPromptValue?.isActive ? " and promote to production" : ""}
+            保存新版本
+            {newPromptValue?.isActive ? "并升级到生产环境" : ""}
           </Button>
         </DialogFooter>
       </DialogContent>

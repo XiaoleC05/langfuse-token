@@ -25,39 +25,39 @@ export const DatasetItemDiffView = ({
         className="w-full"
       >
         <AccordionItem value="input">
-          <AccordionTrigger>Input</AccordionTrigger>
+          <AccordionTrigger>输入</AccordionTrigger>
           <AccordionContent>
             <DiffViewer
               oldString={stringifyDatasetItemData(selectedVersion.input)}
               newString={stringifyDatasetItemData(latestVersion.input)}
-              oldLabel="Selected Version"
-              newLabel="Latest Version"
+              oldLabel="所选版本"
+              newLabel="最新版本"
             />
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="output">
-          <AccordionTrigger>Expected Output</AccordionTrigger>
+          <AccordionTrigger>预期输出</AccordionTrigger>
           <AccordionContent>
             <DiffViewer
               oldString={stringifyDatasetItemData(
                 selectedVersion.expectedOutput,
               )}
               newString={stringifyDatasetItemData(latestVersion.expectedOutput)}
-              oldLabel="Selected Version"
-              newLabel="Latest Version"
+              oldLabel="所选版本"
+              newLabel="最新版本"
             />
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="metadata">
-          <AccordionTrigger>Metadata</AccordionTrigger>
+          <AccordionTrigger>元数据</AccordionTrigger>
           <AccordionContent>
             <DiffViewer
               oldString={stringifyDatasetItemData(selectedVersion.metadata)}
               newString={stringifyDatasetItemData(latestVersion.metadata)}
-              oldLabel="Selected Version"
-              newLabel="Latest Version"
+              oldLabel="所选版本"
+              newLabel="最新版本"
             />
           </AccordionContent>
         </AccordionItem>

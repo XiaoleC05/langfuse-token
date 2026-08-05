@@ -7,12 +7,12 @@ export const SupportOrUpgradePage = () => {
       <div className="w-full max-w-md">
         <Alert>
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Access Restricted</AlertTitle>
+          <AlertTitle>访问受限</AlertTitle>
           <AlertDescription>
-            <p className="mb-2">This feature requires additional permissions</p>
+            <p className="mb-2">此功能需要额外的权限</p>
             <p>
-              Contact your system/project administrator for access or upgrade
-              your plan. Need help? Reach out to support.
+              请联系您的系统/项目管理员获取访问权限，或升级您的套餐。
+              需要帮助？请联系支持团队。
             </p>
           </AlertDescription>
         </Alert>

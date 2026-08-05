@@ -52,14 +52,14 @@ export const MockEventsTable = React.memo(function MockEventsTable({
         <Table>
           <TableHeader className="bg-background sticky top-0 z-10">
             <TableRow>
-              <TableHead className="h-8">Type</TableHead>
-              <TableHead className="h-8">Name</TableHead>
-              <TableHead className="h-8">Model</TableHead>
-              <TableHead className="h-8">Level</TableHead>
-              <TableHead className="h-8 text-right">Latency</TableHead>
-              <TableHead className="h-8 text-right">Cost</TableHead>
-              <TableHead className="h-8 text-right">Tokens</TableHead>
-              <TableHead className="h-8 text-right">Time</TableHead>
+              <TableHead className="h-8">类型</TableHead>
+              <TableHead className="h-8">名称</TableHead>
+              <TableHead className="h-8">模型</TableHead>
+              <TableHead className="h-8">级别</TableHead>
+              <TableHead className="h-8 text-right">延迟</TableHead>
+              <TableHead className="h-8 text-right">成本</TableHead>
+              <TableHead className="h-8 text-right">Token 用量</TableHead>
+              <TableHead className="h-8 text-right">时间</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,7 +102,7 @@ export const MockEventsTable = React.memo(function MockEventsTable({
         </Table>
       </div>
       <div className="text-muted-foreground border-t px-3 py-1.5 text-xs">
-        Showing {rows.length} of {events.length.toLocaleString()} events
+        显示 {events.length.toLocaleString()} 个事件中的 {rows.length} 个
       </div>
     </div>
   );

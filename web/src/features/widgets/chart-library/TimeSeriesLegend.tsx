@@ -202,11 +202,11 @@ export function TimeSeriesLegend({
           const ariaLabel =
             interaction === "toggle"
               ? item.dimmed
-                ? `Show ${labelText}`
-                : `Hide ${labelText}`
+                ? `显示 ${labelText}`
+                : `隐藏 ${labelText}`
               : item.focused
-                ? "Show all series"
-                : `Show only ${labelText}`;
+                ? "显示全部系列"
+                : `仅显示 ${labelText}`;
           // aria-pressed reflects state: visible (toggle) / focused (highlight).
           const ariaPressed =
             interaction === "toggle" ? !item.dimmed : item.focused;

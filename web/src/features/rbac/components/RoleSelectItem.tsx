@@ -114,5 +114,12 @@ const reduceScopesToListItems = (
   );
 };
 
-const formatRole = (role: Role) =>
-  role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+const roleDisplayNames: Record<Role, string> = {
+  [Role.OWNER]: "所有者",
+  [Role.ADMIN]: "管理员",
+  [Role.MEMBER]: "成员",
+  [Role.VIEWER]: "查看者",
+  [Role.NONE]: "无",
+};
+
+const formatRole = (role: Role) => roleDisplayNames[role];

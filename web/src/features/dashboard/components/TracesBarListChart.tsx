@@ -110,7 +110,7 @@ export const TracesBarListChart = ({
       return {
         name: item[traceNameField]
           ? (item[traceNameField] as string)
-          : "Unknown",
+          : "未知",
         value: Number(item[countField]),
       };
     }) ?? [];
@@ -142,7 +142,7 @@ export const TracesBarListChart = ({
       // scrolls internally instead of overflowing the tile. (LFE-11035)
       className={cn(className, "h-full")}
       cardContentClassName="min-h-0"
-      title="Traces"
+      title="追踪"
       description={null}
       isLoading={isLoading || traces.isPending || totalTraces.isPending}
     >
@@ -153,7 +153,7 @@ export const TracesBarListChart = ({
               ? Number(totalTraces.data[0][countField])
               : 0,
           )}
-          description="Total traces tracked"
+          description="已跟踪的追踪总数"
         />
         {transformedTraces.length > 0 ? (
           <BarListChartArea
@@ -164,8 +164,8 @@ export const TracesBarListChart = ({
             barRowHeightPx={BAR_ROW_HEIGHT}
             axisPaddingPx={CHART_AXIS_PADDING}
             maxExpandedBars={MAX_EXPANDED_BARS}
-            metricLabel="Traces"
-            unit="traces"
+            metricLabel="追踪"
+            unit="追踪"
             metricFormatter={(value) => formatMetric(value, { style: "full" })}
           />
         ) : (
@@ -183,8 +183,8 @@ export const TracesBarListChart = ({
           maxLength={collapsedCount}
           expandText={
             transformedTraces.length > MAX_EXPANDED_BARS
-              ? `Show top ${MAX_EXPANDED_BARS}`
-              : "Show all"
+              ? `显示前 ${MAX_EXPANDED_BARS} 个`
+              : "显示全部"
           }
         />
       </>

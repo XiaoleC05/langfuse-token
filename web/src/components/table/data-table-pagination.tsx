@@ -82,7 +82,7 @@ export function DataTablePagination<TData>({
       </div>
       <div className="flex flex-wrap items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-bold whitespace-nowrap md:hidden">Rows</p>
+          <p className="text-sm font-bold whitespace-nowrap md:hidden">行数</p>
           <p className="hidden text-sm font-bold whitespace-nowrap md:block">
             Rows per page
           </p>

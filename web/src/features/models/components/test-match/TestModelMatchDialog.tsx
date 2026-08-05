@@ -87,7 +87,7 @@ export function TestModelMatchDialog({
                     您生成中的模型名称。
                   </div>
                   <Input
-                    placeholder="e.g. gpt-4-turbo"
+                    placeholder="例如 gpt-4-turbo"
                     value={modelName}
                     onChange={(e) => setModelName(e.target.value.trim())}
                     autoFocus

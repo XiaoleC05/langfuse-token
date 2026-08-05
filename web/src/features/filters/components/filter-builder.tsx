@@ -357,7 +357,7 @@ export function InlineFilterState({
             ? new Date(filter.value).toLocaleString()
             : filter.type === "stringOptions" || filter.type === "arrayOptions"
               ? filter.value.length > 2
-                ? `${filter.value.length} selected`
+                ? `已选择 ${filter.value.length}`
                 : filter.value.join(", ")
               : filter.type === "number" || filter.type === "numberObject"
                 ? filter.value
@@ -539,7 +539,7 @@ function FilterBuilderForm({
 
         if (result && Array.isArray(result.filters)) {
           if (result.filters.length === 0) {
-            setAiError("Failed to generate filters, try again");
+            setAiError("生成筛选条件失败，请重试");
             return;
           }
 
@@ -552,12 +552,12 @@ function FilterBuilderForm({
             "filterBuilder.aiGenerate: invalid response format",
             JSON.stringify(result),
           );
-          setAiError("Invalid response format from API");
+          setAiError("API 返回格式无效");
         }
       } catch (error) {
         console.error("Error calling tRPC API:", error);
         setAiError(
-          error instanceof Error ? error.message : "Failed to generate filters",
+          error instanceof Error ? error.message : "生成筛选条件失败",
         );
       }
     }
@@ -593,7 +593,7 @@ function FilterBuilderForm({
                 <ExternalLink className="ml-2 h-4 w-4" />
               </>
             ) : showAiFilter ? (
-              "Cancel"
+              "取消"
             ) : (
               "使用自动筛选创建筛选条件"
             )}
@@ -606,7 +606,7 @@ function FilterBuilderForm({
                   setAiPrompt(e.target.value);
                   if (aiError) setAiError(null); // Clear error when user starts typing
                 }}
-                placeholder="Describe the filters you want to apply..."
+                placeholder="描述您要应用的筛选条件..."
                 className="min-h-[80px] min-w-112 resize-none"
                 disabled={createFilterMutation.isPending}
                 onKeyDown={(e) => {
@@ -628,8 +628,8 @@ function FilterBuilderForm({
                   disabled={createFilterMutation.isPending || !aiPrompt.trim()}
                 >
                   {createFilterMutation.isPending
-                    ? "Loading..."
-                    : "Generate filters"}
+                    ? "加载中..."
+                    : "生成筛选条件"}
                 </Button>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -637,8 +637,7 @@ function FilterBuilderForm({
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="text-xs">
-                      We convert natural language into deterministic filters
-                      which you can adjust afterwards
+                      我们将自然语言转换为确定性筛选条件，您之后可以进行调整
                     </p>
                   </TooltipContent>
                 </Tooltip>
@@ -674,10 +673,10 @@ function FilterBuilderForm({
                         (o) => NonEmptyString.safeParse(o).success,
                       )
                     : undefined;
-                const columnLabel = column ? column.name : "Column";
+                const columnLabel = column ? column.name : "列";
                 return (
                   <tr key={i}>
-                    <td className="p-1 text-sm">{i === 0 ? "Where" : "And"}</td>
+                    <td className="p-1 text-sm">{i === 0 ? "当" : "且"}</td>
                     <td className="flex gap-2 p-1">
                       {/* selector of the column to be filtered */}
                       <Popover>
@@ -706,12 +705,12 @@ function FilterBuilderForm({
                         >
                           <InputCommand>
                             <InputCommandInput
-                              placeholder="Search for column"
+                              placeholder="搜索列"
                               variant="bottom"
                             />
                             <InputCommandList>
                               <InputCommandEmpty>
-                                No options found.
+                                未找到选项。
                               </InputCommandEmpty>
                               <InputCommandGroup>
                                 {columns.map((option) => {
@@ -820,7 +819,7 @@ function FilterBuilderForm({
                           // Case 2: object without keyOptions - text input
                           <Input
                             value={filter.key ?? ""}
-                            placeholder="key"
+                            placeholder="键"
                             disabled={disabled}
                             onChange={(e) =>
                               handleFilterChange(
@@ -932,7 +931,7 @@ function FilterBuilderForm({
                         <Input
                           disabled={disabled}
                           value={filter.value ?? ""}
-                          placeholder="string"
+                          placeholder="字符串"
                           onChange={(e) =>
                             handleFilterChange(
                               { ...filter, value: e.target.value },
@@ -952,7 +951,7 @@ function FilterBuilderForm({
                           min={
                             column?.type === "number" ? column.min : undefined
                           }
-                          placeholder="number"
+                          placeholder="数字"
                           lang="en-US"
                           onChange={(e) =>
                             handleFilterChange(
@@ -987,7 +986,7 @@ function FilterBuilderForm({
                       ) : filter.type === "stringOptions" ||
                         filter.type === "arrayOptions" ? (
                         <MultiSelect
-                          title="Value"
+                          title="值"
                           className="min-w-[100px]"
                           options={
                             column?.type === filter.type ? column.options : []
@@ -1007,7 +1006,7 @@ function FilterBuilderForm({
                       ) : filter.type === "categoryOptions" &&
                         column?.type === "categoryOptions" ? (
                         <MultiSelect
-                          title="Value"
+                          title="值"
                           className="min-w-[100px]"
                           options={
                             column?.options
@@ -1106,7 +1105,7 @@ function FilterBuilderForm({
               size="sm"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add filter
+              添加筛选
             </Button>
           ) : null}
         </>

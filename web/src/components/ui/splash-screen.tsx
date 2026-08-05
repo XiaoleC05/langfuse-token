@@ -150,7 +150,7 @@ export function SplashScreen({
       {gettingStarted && (
         <Alert className="w-full max-w-3xl">
           <InfoIcon className="mr-2 h-4 w-4" />
-          <AlertTitle>Getting Started</AlertTitle>
+          <AlertTitle>快速开始</AlertTitle>
           <AlertDescription>{gettingStarted}</AlertDescription>
         </Alert>
       )}

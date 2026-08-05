@@ -311,8 +311,8 @@ export function useTableViewManager({
         validFilters.length !== viewData.filters.length
       ) {
         showErrorToast(
-          "Outdated view",
-          "This view is outdated. Some old filters or ordering may have been ignored. Please update your view.",
+          "视图已过期",
+          "此视图已过期。部分旧筛选条件或排序可能已被忽略，请更新您的视图。",
           "WARNING",
         );
       }
@@ -541,13 +541,13 @@ export function useTableViewManager({
         viewId: requestedViewId,
       });
       showErrorToast(
-        "View no longer available",
-        "This suggested view was retired — showing the default view instead.",
+        "视图已不可用",
+        "此建议视图已被停用——改为显示默认视图。",
         "WARNING",
       );
     } else {
       showErrorToast(
-        "Error applying view",
+        "应用视图出错",
         selectedViewError.message,
         "WARNING",
       );

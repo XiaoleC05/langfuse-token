@@ -33,21 +33,20 @@ const getCalloutContent = (
 
     return {
       visible: true,
-      title: "Please verify your SDK version",
+      title: "请验证您的 SDK 版本",
       description: (
         <>
-          This evaluator targets observations, which require JS SDK v4+ or
-          Python SDK v3+. You can still configure this evaluator now—it will
-          start running once you upgrade.{" "}
+          此评估器以观测为目标，需要 JS SDK v4+ 或 Python SDK v3+。
+          您现在仍可以配置此评估器——升级后它将开始运行。{" "}
           <a
             href="https://langfuse.com/docs/observability/sdk/upgrade-path"
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"
           >
-            Learn more
+            了解更多
           </a>
-          .
+          。
         </>
       ),
     };
@@ -58,21 +57,20 @@ const getCalloutContent = (
     if (!evalCapabilities.isNewCompatible) {
       return {
         visible: true,
-        title: "Please verify you are using the Experiment Runner SDK",
+        title: "请验证您正在使用实验运行器 SDK",
         description: (
           <>
-            The Experiment Runner SDK requires JS SDK v4.4+ or Python SDK v3.9+.
-            You can still configure this evaluator now—it will start running
-            once you upgrade.{" "}
+            实验运行器 SDK 需要 JS SDK v4.4+ 或 Python SDK v3.9+。
+            您现在仍可以配置此评估器——升级后它将开始运行。{" "}
             <a
               href="https://langfuse.com/docs/evaluation/experiments/experiments-via-sdk#experiment-runner-sdk"
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"
             >
-              Learn more about the Experiment Runner SDK.
+              了解更多关于实验运行器 SDK 的信息。
             </a>
-            .
+            。
           </>
         ),
       };
@@ -85,22 +83,20 @@ const getCalloutContent = (
   if (isDatasetTarget(targetObject)) {
     return {
       visible: true,
-      title: "Legacy low-level SDK methods",
+      title: "旧版底层 SDK 方法",
       description: (
         <>
-          This evaluator targets traces from legacy low-level SDK methods for
-          dataset runs that manually linked dataset items to traces. Consider
-          upgrading to the Experiment Runner SDK for improved performance and
-          features.{" "}
+          此评估器针对的是使用旧版底层 SDK 方法的数据集运行中的追踪，
+          这些运行手动将数据项关联到追踪。建议升级到实验运行器 SDK 以获得更好的性能和功能。{" "}
           <a
             href="https://langfuse.com/docs/evaluation/experiments/experiments-via-sdk#experiment-runner-sdk"
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"
           >
-            Learn more
+            了解更多
           </a>
-          .
+          。
         </>
       ),
     };
@@ -110,20 +106,20 @@ const getCalloutContent = (
   if (isTraceTarget(targetObject)) {
     return {
       visible: true,
-      title: "Consider upgrading to observation evaluators",
+      title: "建议升级到观测评估器",
       description: (
         <>
-          Observation evaluators provide more granular control and an easier
-          workflow. We strongly recommend upgrading to observation evaluators.{" "}
+          观测评估器提供更细粒度的控制以及更简单的工作流程。
+          我们强烈建议升级到观测评估器。{" "}
           <a
             href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"
           >
-            Learn more
+            了解更多
           </a>
-          .
+          。
         </>
       ),
     };

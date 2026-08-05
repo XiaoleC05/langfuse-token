@@ -220,9 +220,9 @@ export default function ScoresAnalyticsV2Page() {
             <div className="bg-destructive/10 flex flex-col items-center justify-center gap-4 rounded-lg border p-12">
               <BarChart3 className="text-destructive h-12 w-12" />
               <div className="text-center">
-                <h3 className="text-lg font-bold">Error Loading Scores</h3>
+                <h3 className="text-lg font-bold">加载评分出错</h3>
                 <p className="text-muted-foreground mt-2 text-sm">
-                  Failed to load score data. Please try refreshing the page.
+                  加载评分数据失败。请尝试刷新页面。
                 </p>
               </div>
             </div>
@@ -230,10 +230,9 @@ export default function ScoresAnalyticsV2Page() {
             <div className="bg-muted/20 flex flex-col items-center justify-center gap-4 rounded-lg border p-12">
               <BarChart3 className="text-muted-foreground h-12 w-12" />
               <div className="text-center">
-                <h3 className="text-lg font-bold">No Scores Available</h3>
+                <h3 className="text-lg font-bold">暂无可用评分</h3>
                 <p className="text-muted-foreground mt-2 text-sm">
-                  Create scores by adding evaluations to your traces and
-                  observations.
+                  通过向您的追踪和观测添加评估来创建评分。
                 </p>
               </div>
             </div>
@@ -241,25 +240,23 @@ export default function ScoresAnalyticsV2Page() {
             <div className="bg-muted/20 flex flex-col items-center justify-center gap-6 rounded-lg border p-12">
               <BarChart3 className="text-muted-foreground h-16 w-16" />
               <div className="max-w-2xl text-center">
-                <h3 className="text-2xl font-bold">Select a Score</h3>
+                <h3 className="text-2xl font-bold">选择评分</h3>
                 <p className="text-muted-foreground mt-3 text-base">
-                  Choose one or two scores from the dropdowns above to view
-                  analytics
+                  从上方下拉列表中选择一个或两个评分以查看分析
                 </p>
                 <div className="text-muted-foreground mt-6 space-y-3 text-sm">
                   <div className="bg-background/50 rounded-lg p-4">
                     <p className="text-foreground mb-1 font-bold">
-                      Single score selected:
+                      已选择单个评分：
                     </p>
-                    <p>View distribution and trends over time</p>
+                    <p>查看分布和随时间变化的趋势</p>
                   </div>
                   <div className="bg-background/50 rounded-lg p-4">
                     <p className="text-foreground mb-1 font-bold">
-                      Two scores selected:
+                      已选择两个评分：
                     </p>
                     <p>
-                      Compare scores with heatmaps, correlation analysis, and
-                      statistical metrics
+                      通过热力图、相关性分析和统计指标比较评分
                     </p>
                   </div>
                 </div>
@@ -273,7 +270,7 @@ export default function ScoresAnalyticsV2Page() {
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border p-12">
               <Spinner size="xxl" variant="muted" />
               <p className="text-muted-foreground text-sm">
-                Loading analytics data...
+                正在加载分析数据...
               </p>
             </div>
           )}

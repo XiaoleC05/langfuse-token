@@ -112,17 +112,16 @@ export const BreakdownTooltip = ({
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <span className="font-bold">
-                {isCost ? "Cost breakdown" : "Usage breakdown"}
+                {isCost ? "成本明细" : "用量明细"}
               </span>
               {Array.isArray(details) && details.length > 0 && (
                 <span className="text-muted-foreground text-xs italic">
-                  Aggregate across {details.length}{" "}
-                  {details.length === 1 ? "generation" : "generations"}
+                  跨 {details.length} 次生成聚合
                 </span>
               )}
               {pricingTierName && (
                 <div className="text-muted-foreground flex justify-between text-xs">
-                  <span>Pricing Tier:</span>
+                  <span>定价层级：</span>
                   <span className="font-mono">{pricingTierName}</span>
                 </div>
               )}
@@ -130,7 +129,7 @@ export const BreakdownTooltip = ({
 
             {/* Input Section */}
             <Section
-              title={isCost ? "Input cost" : "Input usage"}
+              title={isCost ? "输入成本" : "输入用量"}
               details={aggregatedDetails}
               filterFn={(key) => key.includes("input")}
               formatValue={(v) => formatValueWithPadding(v, maxDecimals)}
@@ -138,7 +137,7 @@ export const BreakdownTooltip = ({
 
             {/* Output Section */}
             <Section
-              title={isCost ? "Output cost" : "Output usage"}
+              title={isCost ? "输出成本" : "输出用量"}
               details={aggregatedDetails}
               filterFn={(key) => key.includes("output")}
               formatValue={(v) => formatValueWithPadding(v, maxDecimals)}
@@ -154,7 +153,7 @@ export const BreakdownTooltip = ({
             {/* Total */}
             <div className="flex justify-between border-t border-b-4 border-double py-1">
               <span className="text-xs font-bold">
-                {isCost ? "Total cost" : "Total usage"}
+                {isCost ? "总成本" : "总用量"}
               </span>
               <span className="font-mono text-xs font-bold">
                 {formatValueWithPadding(
@@ -235,7 +234,7 @@ const OtherSection = ({ details, isCost, formatValue }: OtherSectionProps) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between border-b pb-2">
         <span className="text-xs font-bold">
-          {isCost ? "Other cost" : "Other usage"}
+          {isCost ? "其他成本" : "其他用量"}
         </span>
         <span className="text-right font-mono text-xs font-bold">
           {formatValue(otherTotal)}

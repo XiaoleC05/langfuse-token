@@ -79,7 +79,7 @@ export const TracesAndObservationsTimeSeriesChart = ({
       traces.data
         ? traces.data.map((item) => ({
             ts: new Date(item.time_dimension as any).getTime(),
-            values: [{ label: "Traces", value: Number(item.count_count) }],
+            values: [{ label: "追踪", value: Number(item.count_count) }],
           }))
         : [],
     [traces.data],
@@ -159,34 +159,34 @@ export const TracesAndObservationsTimeSeriesChart = ({
   const data = isV2
     ? [
         {
-          tabTitle: "Observations by Level",
+          tabTitle: "按级别的观测",
           data: transformedObservations,
           totalMetric: totalObservations,
-          metricDescription: `Observations tracked`,
-          chartMetricLabel: "Observations",
+          metricDescription: `已跟踪的观测`,
+          chartMetricLabel: "观测",
         },
       ]
     : [
         {
-          tabTitle: "Traces",
+          tabTitle: "追踪",
           data: transformedTraces,
           totalMetric: total,
-          metricDescription: `Traces tracked`,
-          chartMetricLabel: "Traces",
+          metricDescription: `已跟踪的追踪`,
+          chartMetricLabel: "追踪",
         },
         {
-          tabTitle: "Observations by Level",
+          tabTitle: "按级别的观测",
           data: transformedObservations,
           totalMetric: totalObservations,
-          metricDescription: `Observations tracked`,
-          chartMetricLabel: "Observations",
+          metricDescription: `已跟踪的观测`,
+          chartMetricLabel: "观测",
         },
       ];
 
   return (
     <DashboardCard
       className={className}
-      title={isV2 ? "Observations by time" : "Traces by time"}
+      title={isV2 ? "按时间统计的观测" : "按时间统计的追踪"}
       isLoading={
         isLoading || observations.isPending || (!isV2 && traces.isPending)
       }

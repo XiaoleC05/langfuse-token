@@ -175,7 +175,7 @@ export function CorrectedOutputField({
                   compact ? "text-xs" : "text-sm",
                 )}
               >
-                {compact ? "" : "Corrected Output"}
+                {compact ? "" : "修正后的输出"}
               </span>
               <HoverCard>
                 <HoverCardTrigger asChild>
@@ -185,17 +185,16 @@ export function CorrectedOutputField({
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80 text-xs" side="right">
                   <p>
-                    Corrected outputs allow you to save the expected output for
-                    a trace or observation. Learn more in the{" "}
+                    修正后的输出允许您为追踪或观测保存预期输出。更多信息请参阅{" "}
                     <Link
                       href="https://langfuse.com/docs/observability/features/corrections"
                       target="_blank"
                       rel="noreferrer"
                       className="hover:text-foreground underline"
                     >
-                      documentation
+                      文档
                     </Link>
-                    .
+                    。
                   </p>
                 </HoverCardContent>
               </HoverCard>
@@ -205,22 +204,22 @@ export function CorrectedOutputField({
                 {!isValidJson && isEditing && hasContent && (
                   <span className="mr-2 text-xs text-red-500">
                     {strictJsonMode
-                      ? "Invalid JSON - fix to save"
-                      : "Cannot save empty content"}
+                      ? "JSON 无效 - 请修正后保存"
+                      : "无法保存空内容"}
                   </span>
                 )}
                 {isValidJson && saveStatus === "saving" && (
                   <div className="mr-2 flex items-center gap-1">
                     <Spinner size="xxs" />
                     <span className="text-muted-foreground text-xs">
-                      Saving
+                      正在保存
                     </span>
                   </div>
                 )}
                 {isValidJson && saveStatus === "saved" && (
                   <div className="mr-2 flex items-center gap-1">
                     <Check className="h-3 w-3" />
-                    <span className="text-muted-foreground text-xs">Saved</span>
+                    <span className="text-muted-foreground text-xs">已保存</span>
                   </div>
                 )}
                 {hasContent && (
@@ -230,7 +229,7 @@ export function CorrectedOutputField({
                       variant="ghost"
                       onClick={() => setIsDiffDialogOpen(true)}
                       className="hover:bg-border"
-                      title="View diff between original and corrected output"
+                      title="查看原始输出与修正后输出的差异"
                     >
                       <FileDiff className="h-3 w-3" />
                     </Button>
@@ -241,7 +240,7 @@ export function CorrectedOutputField({
                         onClick={handleEdit}
                         disabled={!hasAccess}
                         className="hover:bg-border"
-                        title="Edit corrected output"
+                        title="编辑修正后的输出"
                       >
                         <Pencil className="h-3 w-3" />
                       </Button>
@@ -252,7 +251,7 @@ export function CorrectedOutputField({
                       onClick={handleDeleteWithExitEdit}
                       disabled={!hasAccess}
                       className="hover:bg-border"
-                      title="Delete corrected output"
+                      title="删除修正后的输出"
                     >
                       <Trash className="h-3 w-3" />
                     </Button>
@@ -279,7 +278,7 @@ export function CorrectedOutputField({
               disabled={!hasAccess}
               className="text-muted-foreground hover:bg-muted/50 w-full cursor-pointer rounded-md border px-3 py-4 text-center text-xs transition-colors"
             >
-              Click to add corrected output
+              点击添加修正后的输出
             </button>
           ) : isEditing ? (
             <CodeMirrorEditor
@@ -287,7 +286,7 @@ export function CorrectedOutputField({
               onChange={handleEditorChange}
               mode={strictJsonMode ? "json" : "text"}
               minHeight={200}
-              placeholder="Enter corrected output..."
+              placeholder="输入修正后的输出..."
               className="bg-accent-light-green"
             />
           ) : (

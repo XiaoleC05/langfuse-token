@@ -58,7 +58,7 @@ export const DatasetSchemaInput: React.FC<DatasetSchemaInputProps> = ({
         <FormLabel>{label}</FormLabel>
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground text-sm">
-            {isEnabled ? "Enabled" : "Disabled"}
+            {isEnabled ? "已启用" : "已禁用"}
           </span>
           <Switch
             checked={isEnabled}

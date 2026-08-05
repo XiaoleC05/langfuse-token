@@ -79,7 +79,7 @@ function ToolCallArgumentsList({
           >
             <div className="mb-1.5 flex min-w-0 items-center justify-between gap-2">
               <div className="text-foreground font-mono text-xs font-bold">
-                Call {toolCall.invocationNumber}
+                调用 {toolCall.invocationNumber}
               </div>
               {toolCall.id && (
                 <div
@@ -98,7 +98,7 @@ function ToolCallArgumentsList({
               />
             ) : (
               <div className="text-muted-foreground rounded-sm border px-2 py-1.5 text-xs">
-                No arguments
+                无参数
               </div>
             )}
           </div>
@@ -109,9 +109,9 @@ function ToolCallArgumentsList({
 }
 
 function getStatusText(callCount: number) {
-  if (callCount === 0) return "not called";
-  if (callCount === 1) return "called";
-  return `called ${callCount}x`;
+  if (callCount === 0) return "未调用";
+  if (callCount === 1) return "已调用";
+  return `已调用 ${callCount} 次`;
 }
 
 function ToolGroupHoverContent({
@@ -189,8 +189,8 @@ function ToolGroupSummary({
 }) {
   const isCalledGroup = kind === "called";
   const summaryText = isCalledGroup
-    ? `${tools.length} ${tools.length === 1 ? "tool was" : "tools were"} called`
-    : `${tools.length} available ${tools.length === 1 ? "tool was" : "tools were"} not called`;
+    ? `${tools.length} 个工具已被调用`
+    : `${tools.length} 个可用工具未被调用`;
 
   const summaryButton = (
     <button
@@ -229,7 +229,7 @@ function ToolGroupSummary({
               "bg-light-green text-dark-green hover:bg-light-green border-transparent select-none",
           )}
         >
-          {expanded ? "hide" : "show"}
+          {expanded ? "收起" : "展开"}
         </Badge>
         {expanded ? (
           <ChevronDown className="text-muted-foreground h-3.5 w-3.5" />
@@ -295,10 +295,10 @@ function ToolCallStatusBadge({
       >
         <div className="border-border border-b px-3 py-2">
           <div className="text-foreground text-xs font-bold">
-            Tool call arguments
+            工具调用参数
           </div>
           <div className="text-muted-foreground text-xs">
-            {toolCalls.length === 1 ? "1 call" : `${toolCalls.length} calls`}
+            {toolCalls.length === 1 ? "1 次调用" : `${toolCalls.length} 次调用`}
           </div>
         </div>
         <ToolCallArgumentsList toolCalls={toolCalls} className="p-3" />
@@ -377,7 +377,7 @@ function ToolDefinitionRow({
             >
               <TabsList className="h-fit p-0.5">
                 <TabsTrigger value="formatted" className="h-fit px-1 text-xs">
-                  Formatted
+                  格式化
                 </TabsTrigger>
                 <TabsTrigger value="json" className="h-fit px-1 text-xs">
                   JSON
@@ -391,7 +391,7 @@ function ToolDefinitionRow({
               {tool.description && (
                 <div>
                   <div className="text-muted-foreground mb-1.5 text-xs font-bold">
-                    Description
+                    描述
                   </div>
                   <div className="text-foreground text-sm">
                     {tool.description}
@@ -402,7 +402,7 @@ function ToolDefinitionRow({
               {tool.parameters && (
                 <div>
                   <div className="text-muted-foreground mb-1.5 text-xs font-bold">
-                    Parameters
+                    参数
                   </div>
                   <PrettyJsonView
                     json={tool.parameters}
@@ -415,7 +415,7 @@ function ToolDefinitionRow({
               {toolCalls.length > 0 && (
                 <div>
                   <div className="text-muted-foreground mb-1.5 text-xs font-bold">
-                    Tool call arguments
+                    工具调用参数
                   </div>
                   <ToolCallArgumentsList toolCalls={toolCalls} />
                 </div>
@@ -425,7 +425,7 @@ function ToolDefinitionRow({
                 !tool.parameters &&
                 toolCalls.length === 0 && (
                   <div className="text-muted-foreground text-sm">
-                    No additional details available
+                    没有其他可用详情
                   </div>
                 )}
             </div>

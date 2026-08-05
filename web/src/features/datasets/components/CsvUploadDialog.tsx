@@ -48,7 +48,7 @@ export function CsvUploadDialog({
       <DialogContent className="flex h-[80dvh] max-w-7xl flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Upload CSV
+            上传 CSV
             {csvFile && (
               <Tooltip>
                 <TooltipTrigger asChild>

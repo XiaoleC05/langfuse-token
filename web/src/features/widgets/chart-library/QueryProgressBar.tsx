@@ -30,7 +30,7 @@ export function QueryProgressBar({
     <div className={cn("w-full min-w-0", className)}>
       <div
         role="progressbar"
-        aria-label="Query progress"
+        aria-label="查询进度"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={hasProgress ? Math.round(percent) : undefined}
@@ -54,10 +54,10 @@ export function QueryProgressBar({
           )}
         >
           {hasProgress
-            ? `Reading ${formatRows(progress.read_rows)} / ~${formatRows(
+            ? `正在读取 ${formatRows(progress.read_rows)} / 约 ${formatRows(
                 progress.total_rows_to_read,
-              )} rows`
-            : "Reading query progress..."}
+              )} 行`
+            : "正在读取查询进度..."}
         </p>
       ) : null}
     </div>

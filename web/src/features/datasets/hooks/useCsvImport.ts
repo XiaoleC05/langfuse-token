@@ -85,7 +85,7 @@ export function useCsvImport(options: UseCsvImportOptions) {
 
     if (!csvFile) return false;
     if (csvFile.size > MAX_FILE_SIZE_BYTES) {
-      showErrorToast("File too large", "Maximum file size is 10MB");
+      showErrorToast("文件过大", "最大文件大小为 10MB");
       return false;
     }
 
@@ -241,11 +241,11 @@ export function useCsvImport(options: UseCsvImportOptions) {
         status: "not-started",
       });
       if (error instanceof Error && processedCount === 0) {
-        showErrorToast("Failed to import all dataset items", error.message);
+        showErrorToast("导入全部数据项失败", error.message);
       } else {
         showErrorToast(
-          "Failed to import all dataset items",
-          `Please try again starting from row ${processedCount + 1}.`,
+          "导入全部数据项失败",
+          `请从第 ${processedCount + 1} 行开始重试。`,
         );
       }
       return false;

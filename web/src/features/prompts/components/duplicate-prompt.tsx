@@ -37,7 +37,7 @@ enum CopySettings {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "名称为必填项"),
   isCopySingleVersion: z.enum(CopySettings),
 });
 
@@ -117,7 +117,7 @@ const DuplicatePromptForm: React.FC<{
             name="name"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>名称</FormLabel>
                 <FormControl>
                   <Input {...field} type="text" />
                 </FormControl>
@@ -130,7 +130,7 @@ const DuplicatePromptForm: React.FC<{
             name="isCopySingleVersion"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Settings</FormLabel>
+                <FormLabel>设置</FormLabel>
                 <FormControl>
                   <RadioGroup
                     {...field}
@@ -143,7 +143,7 @@ const DuplicatePromptForm: React.FC<{
                         <RadioGroupItem value={CopySettings.SINGLE_VERSION} />
                       </FormControl>
                       <FormLabel className="font-normal">
-                        Copy only version {promptVersion}
+                        仅复制版本 {promptVersion}
                       </FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-y-0 space-x-3">
@@ -151,7 +151,7 @@ const DuplicatePromptForm: React.FC<{
                         <RadioGroupItem value={CopySettings.ALL_VERSIONS} />
                       </FormControl>
                       <FormLabel className="font-normal">
-                        Copy all prompt versions and labels
+                        复制所有提示词版本和标签
                       </FormLabel>
                     </FormItem>
                   </RadioGroup>
@@ -167,7 +167,7 @@ const DuplicatePromptForm: React.FC<{
             loading={duplicatePrompt.isPending}
             className="mt-auto w-full"
           >
-            Submit
+            提交
           </Button>
         </DialogFooter>
       </form>
@@ -208,7 +208,7 @@ export const DuplicatePromptButton: React.FC<{
           hasAccess={hasAccess}
           trackingEventName="prompt_detail:duplicate_button_click"
           variant="outline"
-          title="Duplicate prompt"
+          title="复制提示词"
           usageLimit={
             typeof promptLimit === "number"
               ? {
@@ -218,12 +218,12 @@ export const DuplicatePromptButton: React.FC<{
               : undefined
           }
         >
-          <span className="hidden md:ml-1 md:inline">Duplicate</span>
+          <span className="hidden md:ml-1 md:inline">复制</span>
         </ActionButton>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] min-h-0">
         <DialogHeader>
-          <DialogTitle>Duplicate prompt</DialogTitle>
+          <DialogTitle>复制提示词</DialogTitle>
         </DialogHeader>
         <DuplicatePromptForm
           projectId={projectId}

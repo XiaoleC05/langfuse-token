@@ -143,8 +143,8 @@ const PromptHistoryTraceNode = (props: {
                 </div>
               )}
               <div className="text-muted-foreground flex flex-wrap gap-1 text-xs">
-                {prompt.createdAt.toLocaleString()} by{" "}
-                {prompt.creator || prompt.createdBy}
+                {prompt.createdAt.toLocaleString()} 由{" "}
+                {prompt.creator || prompt.createdBy} 创建
               </div>
             </div>
             <div className="flex flex-row justify-end space-x-1">

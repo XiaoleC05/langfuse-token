@@ -18,7 +18,7 @@ export function SessionBadge({
 }) {
   if (!sessionId) return null;
 
-  const text = `Session: ${sessionId}`;
+  const text = `会话：${sessionId}`;
 
   return (
     <Link
@@ -44,7 +44,7 @@ export function UserIdBadge({
 }) {
   if (!userId) return null;
 
-  const text = `User ID: ${userId}`;
+  const text = `用户 ID：${userId}`;
 
   return (
     <Link
@@ -70,7 +70,7 @@ export function TargetTraceBadge({
 }) {
   if (!targetTraceId) return null;
 
-  const text = `Target Trace: ${targetTraceId}`;
+  const text = `目标追踪：${targetTraceId}`;
 
   return (
     <Link
@@ -93,15 +93,15 @@ export function EnvironmentBadge({
   environment: string | null;
 }) {
   if (!environment) return null;
-  return <Badge variant="tertiary">Env: {environment}</Badge>;
+  return <Badge variant="tertiary">环境：{environment}</Badge>;
 }
 
 export function ReleaseBadge({ release }: { release: string | null }) {
   if (!release) return null;
-  return <Badge variant="tertiary">Release: {release}</Badge>;
+  return <Badge variant="tertiary">发布版本：{release}</Badge>;
 }
 
 export function VersionBadge({ version }: { version: string | null }) {
   if (!version) return null;
-  return <Badge variant="tertiary">Version: {version}</Badge>;
+  return <Badge variant="tertiary">版本：{version}</Badge>;
 }

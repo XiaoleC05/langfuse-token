@@ -1,4 +1,3 @@
-import capitalize from "lodash/capitalize";
 import router from "next/router";
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -240,21 +239,20 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
               return (
                 <div>
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>名称</FormLabel>
                     <FormDescription>
-                      Use slashes &apos;/&apos; in prompt names to organize them
-                      into{" "}
+                      在提示词名称中使用斜杠 &apos;/&apos; 可将其组织到{" "}
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://langfuse.com/docs/prompt-management/get-started#prompt-folders-for-organization"
                       >
-                        <i>folders</i>
+                        <i>文件夹</i>
                       </a>
-                      .
+                      中。
                     </FormDescription>
                     <FormControl>
-                      <Input placeholder="Name your prompt" {...field} />
+                      <Input placeholder="为提示词命名" {...field} />
                     </FormControl>
                     {/* Custom form message to include a link to the already existing prompt */}
                     {form.getFieldState("name").error ? (
@@ -267,7 +265,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                             href={`/project/${projectId}/prompts/${currentName.trim()}`}
                             className="flex flex-row items-center"
                           >
-                            Create a new version for it here.
+                            在此为其创建新版本。
                             <SquareArrowOutUpRight className="ml-1 h-3 w-3" />
                           </Link>
                         ) : null}
@@ -283,14 +281,13 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
         {/* Prompt content field - text vs. chat */}
         <>
           <FormItem>
-            <FormLabel>Prompt</FormLabel>
+            <FormLabel>提示词</FormLabel>
             <FormDescription>
-              Define your prompt template. You can use{" "}
-              <code className="text-xs">{"{{variable}}"}</code> to insert
-              variables into your prompt.
-              <b className="font-bold"> Note:</b> Variables must be alphabetical
-              characters or underscores. You can also link other text prompts
-              using the plus button.
+              定义您的提示词模板。您可以使用{" "}
+              <code className="text-xs">{"{{variable}}"}</code>{" "}
+              在提示词中插入变量。
+              <b className="font-bold"> 注意：</b>变量必须为字母或下划线。
+              您还可以使用加号按钮关联其他文本提示词。
             </FormDescription>
             <Tabs
               value={form.watch("type")}
@@ -308,7 +305,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                     className="flex-1"
                     value={PromptType.Text}
                   >
-                    {capitalize(PromptType.Text)}
+                    文本
                   </TabsTrigger>
                   <TabsTrigger
                     disabled={
@@ -318,7 +315,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                     className="flex-1"
                     value={PromptType.Chat}
                   >
-                    {capitalize(PromptType.Chat)}
+                    对话
                   </TabsTrigger>
                 </TabsList>
               ) : null}
@@ -326,7 +323,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                 <p
                   className={`text-muted-foreground mb-1 text-right text-xs ${initialPrompt ? "-mt-2" : "mt-1"}`}
                 >
-                  Draft restored.{" "}
+                  已恢复草稿。{" "}
                   <button
                     type="button"
                     className="hover:text-foreground underline"
@@ -340,7 +337,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                       );
                     }}
                   >
-                    Discard
+                    放弃
                   </button>
                 </p>
               )}
@@ -390,9 +387,9 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
           name="config"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Config</FormLabel>
+              <FormLabel>配置</FormLabel>
               <FormDescription>
-                Arbitrary JSON configuration that is available on the prompt.
+                可供提示词使用的任意 JSON 配置。
                 使用此字段追踪模型参数、函数定义或任何其他元数据。
               </FormDescription>
               <CodeMirrorEditor
@@ -421,7 +418,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel>Set the &quot;production&quot; label</FormLabel>
+                  <FormLabel>设置 &quot;production&quot; 标签</FormLabel>
                 </div>
               </div>
             </FormItem>
@@ -433,14 +430,13 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
           name="commitMessage"
           render={({ field }) => (
             <FormItem className="relative">
-              <FormLabel>Commit message</FormLabel>
+              <FormLabel>提交信息</FormLabel>
               <FormDescription>
-                Provide information about the changes made in this version.
-                Helps maintain a clear history of prompt iterations.
+                提供关于此版本变更的信息，有助于维护清晰的提示词迭代历史。
               </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder="Add commit message..."
+                  placeholder="添加提交信息..."
                   {...field}
                   className="rounded-md border text-sm focus:ring-0 focus:outline-hidden focus-visible:ring-0 focus-visible:ring-offset-0 active:ring-0"
                 />
@@ -463,7 +459,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                 variant="secondary"
                 className="w-full"
               >
-                Review changes
+                审阅变更
               </Button>
             </ReviewPromptDialog>
 
@@ -473,7 +469,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
               className="w-full"
               disabled={!form.formState.isValid}
             >
-              Save new prompt version
+              保存新的提示词版本
             </Button>
           </div>
         ) : (
@@ -485,13 +481,13 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
               !initialPrompt && form.formState.errors.name?.message,
             )} // Disable button if prompt name already exists. Check is dynamic and not part of zod schema
           >
-            Create prompt
+            创建提示词
           </Button>
         )}
       </form>
       {formError && (
         <p className="text-center">
-          <span className="font-bold">Error:</span> {formError}
+          <span className="font-bold">错误：</span> {formError}
         </p>
       )}
     </Form>

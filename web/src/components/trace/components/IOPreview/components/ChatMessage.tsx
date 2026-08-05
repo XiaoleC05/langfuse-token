@@ -71,7 +71,7 @@ export function ChatMessage({
         size="icon-xs"
         onClick={() => setShowTableView((v) => !v)}
         title={
-          showTableView ? "Show formatted view" : "Show passthrough JSON data"
+          showTableView ? "显示格式化视图" : "显示透传 JSON 数据"
         }
         className="hover:bg-border -mr-2"
       >
@@ -89,15 +89,15 @@ export function ChatMessage({
       <div className="hover:bg-muted transition-colors">
         <div style={{ display: shouldRenderMarkdown ? "block" : "none" }}>
           <MarkdownJsonView
-            title="Placeholder"
-            content={message.name || "Unnamed placeholder"}
+            title="占位符"
+            content={message.name || "未命名的占位符"}
             customCodeHeaderVariant="card"
           />
         </div>
         <div style={{ display: shouldRenderMarkdown ? "none" : "block" }}>
           <PrettyJsonView
-            title="Placeholder"
-            json={message.name || "Unnamed placeholder"}
+            title="占位符"
+            json={message.name || "未命名的占位符"}
             currentView={currentView}
           />
         </div>
@@ -110,7 +110,7 @@ export function ChatMessage({
     return (
       <div className="hover:bg-muted transition-colors">
         <PrettyJsonView
-          title={title || (isOutputMessage ? "Output" : "Input")}
+          title={title || (isOutputMessage ? "输出" : "输入")}
           json={message.json}
           currentView={currentView}
         />
@@ -238,7 +238,7 @@ export function ChatMessage({
     return (
       <div className="hover:bg-muted transition-colors">
         <PrettyJsonView
-          title={title || (isOutputMessage ? "Output" : "Input")}
+          title={title || (isOutputMessage ? "输出" : "输入")}
           json={message}
           currentView={currentView}
         />

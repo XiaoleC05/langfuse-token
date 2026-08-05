@@ -153,15 +153,16 @@ export function CreateProjectMemberButton(props: {
             icon={<PlusIcon className="h-5 w-5" aria-hidden="true" />}
           >
             {hasOnlySingleProjectAccess
-              ? "Add project member"
-              : "Add new member"}
+              ? "添加项目成员"
+              : "添加新成员"}
           </ActionButton>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Add new member to the{" "}
-              {hasOnlySingleProjectAccess ? "project" : "organization"}
+              {hasOnlySingleProjectAccess
+                ? "向项目添加新成员"
+                : "向组织添加新成员"}
             </DialogTitle>
           </DialogHeader>
           <Form {...form}>
@@ -172,7 +173,7 @@ export function CreateProjectMemberButton(props: {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>邮箱</FormLabel>
                       <FormControl>
                         <Input placeholder="jsdoe@example.com" {...field} />
                       </FormControl>
@@ -186,7 +187,7 @@ export function CreateProjectMemberButton(props: {
                     name="orgRole"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Organization Role</FormLabel>
+                        <FormLabel>组织角色</FormLabel>
                         <Select
                           defaultValue={field.value}
                           onValueChange={(value) =>
@@ -197,7 +198,7 @@ export function CreateProjectMemberButton(props: {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select an organization role" />
+                              <SelectValue placeholder="选择组织角色" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -217,7 +218,7 @@ export function CreateProjectMemberButton(props: {
                     name="projectRole"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Project Role</FormLabel>
+                        <FormLabel>项目角色</FormLabel>
                         <Select
                           defaultValue={field.value}
                           onValueChange={(value) =>
@@ -228,7 +229,7 @@ export function CreateProjectMemberButton(props: {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a project role" />
+                              <SelectValue placeholder="选择项目角色" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -249,8 +250,7 @@ export function CreateProjectMemberButton(props: {
                         </Select>
                         {!hasOnlySingleProjectAccess && (
                           <FormDescription>
-                            This project role will override the default role for
-                            this current project ({props.project!.name}).
+                            此项目角色将覆盖当前项目（{props.project!.name}）的默认角色。
                           </FormDescription>
                         )}
                         <FormMessage />
@@ -265,7 +265,7 @@ export function CreateProjectMemberButton(props: {
                   className="w-full"
                   loading={form.formState.isSubmitting}
                 >
-                  Grant access
+                  授予访问权限
                 </Button>
                 <FormMessage />
               </DialogFooter>

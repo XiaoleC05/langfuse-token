@@ -76,7 +76,7 @@ export const getOrganizationSettingsPages = ({
         <div>
           <Header title="调试信息" />
           <JSONView
-            title="Metadata"
+            title="元数据"
             json={{
               name: organization.name,
               id: organization.id,
@@ -102,7 +102,7 @@ export const getOrganizationSettingsPages = ({
     ),
   },
   {
-    title: "API Keys",
+    title: "API 密钥",
     slug: "api-keys",
     content: (
       <div className="flex flex-col gap-6">
@@ -118,7 +118,7 @@ export const getOrganizationSettingsPages = ({
     content: (
       <div className="flex flex-col gap-6">
         <div>
-          <Header title="Organization Members" />
+          <Header title="组织成员" />
           <MembersTable orgId={organization.id} />
         </div>
         <div>
@@ -128,14 +128,14 @@ export const getOrganizationSettingsPages = ({
     ),
   },
   {
-    title: "Audit Logs",
+    title: "审计日志",
     slug: "audit-logs",
     cmdKKeywords: ["audit", "logs", "history", "changes"],
     content: <OrgAuditLogsSettingsPage orgId={organization.id} />,
     show: showAuditLogs,
   },
   {
-    title: "Billing",
+    title: "账单",
     slug: "billing",
     cmdKKeywords: ["payment", "subscription", "plan", "invoice"],
     content: <BillingSettings />,

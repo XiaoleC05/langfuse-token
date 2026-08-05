@@ -71,15 +71,6 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
           </a>{" "}
           提供支持
         </span>
-        <span>·</span>
-        <a
-          href="https://github.com/XiaoleC05/Oxelia51"
-          target="_blank"
-          rel="noreferrer"
-          className="hover:text-foreground"
-        >
-          源码仓库
-        </a>
       </div>
     </div>
   );

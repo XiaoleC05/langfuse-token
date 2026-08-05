@@ -273,12 +273,16 @@ export const ROUTES: Route[] = [
     pathname: "/project/[projectId]/settings",
     icon: Settings,
     section: RouteSection.Secondary,
+    // Oxelia51：项目设置仅在项目上下文显示，避免与组织设置重复
+    show: ({ projectId }) => projectId !== undefined,
   },
   {
     title: "设置",
     pathname: "/organization/[organizationId]/settings",
     icon: Settings,
     section: RouteSection.Secondary,
+    // 组织设置仅在组织上下文显示
+    show: ({ organization }) => organization !== undefined,
   },
 ];
 
@@ -297,7 +301,7 @@ function CommandMenuTrigger() {
       className="whitespace-nowrap"
     >
       <Search className="h-4 w-4" />
-      Go to...
+      前往...
       <KeyboardShortcut
         className="ml-auto"
         keys={[navigator.userAgent.includes("Mac") ? "⌘" : "Ctrl", "K"]}

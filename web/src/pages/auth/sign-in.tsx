@@ -625,6 +625,12 @@ export default function SignIn({
         callbackUrl: targetPath ?? "/",
         redirect: false,
       });
+      if (result?.ok) {
+        // Oxelia51：登录成功后立即显式跳转。若依赖会话刷新→守卫重定向的
+        // 异步时序，会慢一拍导致「要点两下才能登录」的观感。
+        void router.push(targetPath ?? "/");
+        return;
+      }
       if (result === undefined) {
         setCredentialsFormError("发生未知错误。");
         captureException(new Error("Sign in result is undefined"));
@@ -830,7 +836,10 @@ export default function SignIn({
                       disabled={
                         credentialsForm.watch("email") === "" ||
                         (showPasswordStep &&
-                          credentialsForm.watch("password") === "")
+                          credentialsForm.watch("password") === "") ||
+                        // Oxelia51：提交期间禁止重复点击，避免二次提交
+                        credentialsForm.formState.isSubmitting ||
+                        continueLoading
                       }
                       data-testid="submit-email-password-sign-in-form"
                     >

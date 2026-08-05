@@ -41,7 +41,7 @@ export function useAuthGuard(
 
     // Loading state
     if (session.status === "loading") {
-      return { action: "loading", message: "加载中" };
+      return { action: "loading", message: "正在加载账户" };
     }
 
     const isUnauthPath = PATH_CONSTANTS.unauthenticated.some((p) =>
@@ -77,7 +77,7 @@ export function useAuthGuard(
       !isPublishable &&
       !isPublicPath
     ) {
-      return { action: "sign-out", message: "Redirecting" };
+      return { action: "sign-out", message: "正在退出登录" };
     }
 
     // Unauthenticated user trying to access protected route
@@ -101,7 +101,7 @@ export function useAuthGuard(
       return {
         action: "redirect",
         url: `/auth/sign-in${targetPathQuery}`,
-        message: "Redirecting",
+        message: "正在跳转到登录页",
       };
     }
 
@@ -113,7 +113,7 @@ export function useAuthGuard(
       return {
         action: "redirect",
         url: routerRedirectUrl,
-        message: "Redirecting",
+        message: "正在进入",
       };
     }
 

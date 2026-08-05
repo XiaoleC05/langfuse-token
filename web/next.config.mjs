@@ -121,15 +121,10 @@ const nextConfig = {
   },
 
   /**
-   * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
-   * out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
+   * Oxelia51：站点已全面中文化（HTML lang=zh-CN），删除 i18n 配置——
+   * 消除 /en 等 locale 路由与浏览器语言自动重定向导致的「路由混乱」。
+   * 注意：删除后 /en 将返回 404，所有页面走无前缀路径。
    */
-  i18n: {
-    locales: ["en", "zh-CN"],
-    defaultLocale: "zh-CN",
-  },
   output: "standalone",
 
   async rewrites() {

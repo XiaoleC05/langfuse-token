@@ -41,7 +41,7 @@ export const TopbarBrand = ({
   return (
     <Link
       href="/"
-      aria-label="Langfuse home"
+      aria-label="Langfuse 首页"
       className={cn("flex shrink-0 items-center gap-1", className)}
     >
       {logoLight && logoDark ? (
@@ -51,13 +51,13 @@ export const TopbarBrand = ({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logoLight}
-            alt="Logo"
+            alt="标志"
             className="max-h-5 max-w-16 dark:hidden"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logoDark}
-            alt="Logo"
+            alt="标志"
             className="hidden max-h-5 max-w-16 dark:block"
           />
           <PlusIcon size={8} className="text-muted-foreground" />

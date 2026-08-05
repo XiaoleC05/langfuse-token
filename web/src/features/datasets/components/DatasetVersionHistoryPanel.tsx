@@ -83,8 +83,8 @@ export function DatasetVersionHistoryPanel({
     const isoTimestamp = version.toISOString();
     navigator.clipboard.writeText(isoTimestamp);
     showSuccessToast({
-      title: "Copied!",
-      description: `Version timestamp: ${isoTimestamp}`,
+      title: "已复制！",
+      description: `版本时间戳：${isoTimestamp}`,
     });
   };
 
@@ -110,7 +110,7 @@ export function DatasetVersionHistoryPanel({
       <div className="flex h-full items-center justify-center p-4">
         <div className="text-muted-foreground text-center text-sm">
           <Clock className="mx-auto mb-2 h-8 w-8" />
-          <p>No versions found</p>
+          <p>未找到版本</p>
         </div>
       </div>
     );
@@ -156,7 +156,7 @@ export function DatasetVersionHistoryPanel({
               {isItemVersion && (
                 <span
                   className="bg-primary h-1.5 w-1.5 shrink-0 rounded-full"
-                  title="Item modified in this version"
+                  title="此版本中修改了条目"
                 />
               )}
               <span
@@ -168,7 +168,7 @@ export function DatasetVersionHistoryPanel({
             </div>
             {isLatest && (
               <span className="bg-accent-light-green text-accent-dark-green dark:bg-accent-dark-green dark:text-accent-light-green shrink-0 rounded-md px-2 py-0.5 text-xs font-bold">
-                Latest
+                最新
               </span>
             )}
           </div>
@@ -190,7 +190,7 @@ export function DatasetVersionHistoryPanel({
               onClick={(e) => e.stopPropagation()}
             >
               <MoreVertical className="h-4 w-4" />
-              <span className="sr-only">Version actions</span>
+              <span className="sr-only">版本操作</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -201,7 +201,7 @@ export function DatasetVersionHistoryPanel({
               }}
             >
               <Copy className="mr-2 h-4 w-4" />
-              Copy version timestamp (UTC)
+              复制版本时间戳 (UTC)
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={(e) => {
@@ -210,7 +210,7 @@ export function DatasetVersionHistoryPanel({
               }}
             >
               <ExternalLink className="mr-2 h-4 w-4" />
-              How to use in experiments
+              如何在实验中使用
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -222,9 +222,9 @@ export function DatasetVersionHistoryPanel({
     <div className="flex h-full w-full flex-col">
       {/* Header */}
       <div className="border-b p-4">
-        <h3 className="text-lg font-bold">Version History</h3>
+        <h3 className="text-lg font-bold">版本历史</h3>
         <p className="text-muted-foreground text-sm">
-          {versions.length} version{versions.length !== 1 ? "s" : ""}
+          {versions.length} 个版本
         </p>
       </div>
 
@@ -235,7 +235,7 @@ export function DatasetVersionHistoryPanel({
           {groupedVersions.today.length > 0 && (
             <AccordionItem value="today" className="px-2">
               <AccordionTrigger className="text-sm font-bold">
-                Today ({groupedVersions.today.length})
+                今天 ({groupedVersions.today.length})
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-1">
@@ -249,7 +249,7 @@ export function DatasetVersionHistoryPanel({
           {groupedVersions.yesterday.length > 0 && (
             <AccordionItem value="yesterday" className="px-2">
               <AccordionTrigger className="text-sm font-bold">
-                Yesterday ({groupedVersions.yesterday.length})
+                昨天 ({groupedVersions.yesterday.length})
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-1">
@@ -265,7 +265,7 @@ export function DatasetVersionHistoryPanel({
           {groupedVersions.last7Days.length > 0 && (
             <AccordionItem value="last7days" className="px-2">
               <AccordionTrigger className="text-sm font-bold">
-                Last 7 Days ({groupedVersions.last7Days.length})
+                最近 7 天 ({groupedVersions.last7Days.length})
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-1">
@@ -281,7 +281,7 @@ export function DatasetVersionHistoryPanel({
           {groupedVersions.last30Days.length > 0 && (
             <AccordionItem value="last30days" className="px-2">
               <AccordionTrigger className="text-sm font-bold">
-                Last 30 Days ({groupedVersions.last30Days.length})
+                最近 30 天 ({groupedVersions.last30Days.length})
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-1">
@@ -297,7 +297,7 @@ export function DatasetVersionHistoryPanel({
           {groupedVersions.older.length > 0 && (
             <AccordionItem value="older" className="px-2">
               <AccordionTrigger className="text-sm font-bold">
-                Older ({groupedVersions.older.length})
+                更早 ({groupedVersions.older.length})
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-1">

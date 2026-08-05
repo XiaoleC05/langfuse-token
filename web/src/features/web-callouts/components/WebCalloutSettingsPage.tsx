@@ -174,18 +174,17 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
   return (
     <div>
       <p className="text-primary mb-4 text-sm">
-        Configure a project-level callout. Your users can trigger a POST to an
-        endpoint on trace, observation, and session detail screens. This can be
-        used to integrate with your services to trigger workflows. See the docs{" "}
+        配置项目级提示。您的用户可以在追踪、观测和会话详情页面触发向端点的 POST
+        请求。这可用于与您的服务集成以触发工作流。更多信息请参阅文档{" "}
         <a
           href="https://langfuse.com/docs/observability/features/web-callouts"
           target="_blank"
           rel="noreferrer"
           className="underline underline-offset-2"
         >
-          here
-        </a>{" "}
-        for more info.
+          此处
+        </a>
+        。
       </p>
 
       <div className="mb-4 flex justify-end">
@@ -212,11 +211,11 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-primary">Name</TableHead>
-              <TableHead className="text-primary">Endpoint</TableHead>
-              <TableHead className="text-primary">Toast Message</TableHead>
-              <TableHead className="text-primary">Headers</TableHead>
-              <TableHead className="text-primary">Status</TableHead>
+              <TableHead className="text-primary">名称</TableHead>
+              <TableHead className="text-primary">端点</TableHead>
+              <TableHead className="text-primary">提示消息</TableHead>
+              <TableHead className="text-primary">请求头</TableHead>
+              <TableHead className="text-primary">状态</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
@@ -301,7 +300,7 @@ function AddEndpointButton(props: {
       onClick={props.onClick}
     >
       <Plus className="mr-1 h-4 w-4" />
-      Add endpoint
+      添加端点
     </Button>
   );
 
@@ -323,7 +322,7 @@ function HeaderList(props: { endpoint: WebCalloutEndpoint }) {
   const headers = props.endpoint.requestHeaderKeys;
 
   if (headers.length === 0) {
-    return <span className="text-muted-foreground">None</span>;
+    return <span className="text-muted-foreground">无</span>;
   }
 
   return (
@@ -400,20 +399,19 @@ function WebCalloutEndpointDialog(props: {
       <DialogContent size="lg">
         <DialogHeader>
           <DialogTitle>
-            {props.endpoint ? "Edit Callout Endpoint" : "Add Callout Endpoint"}
+            {props.endpoint ? "编辑提示端点" : "添加提示端点"}
           </DialogTitle>
           <DialogDescription>
-            Langfuse sends a backend JSON POST when a user clicks a web callout
-            action.{" "}
+            当用户点击网页提示操作时，Langfuse 会从后端发送 JSON POST 请求。{" "}
             <a
               href="https://langfuse.com/docs/observability/features/web-callouts"
               target="_blank"
               rel="noreferrer"
               className="underline underline-offset-2"
             >
-              View docs
+              查看文档
             </a>
-            .
+            。
           </DialogDescription>
         </DialogHeader>
 
@@ -428,7 +426,7 @@ function WebCalloutEndpointDialog(props: {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>名称</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -442,7 +440,7 @@ function WebCalloutEndpointDialog(props: {
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Endpoint URL</FormLabel>
+                    <FormLabel>端点 URL</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="https://example.com/langfuse/callout"
@@ -450,8 +448,8 @@ function WebCalloutEndpointDialog(props: {
                       />
                     </FormControl>
                     <FormDescription>
-                      HTTP or HTTPS URL. Custom ports are allowed. The endpoint
-                      is called from the Langfuse backend.
+                      HTTP 或 HTTPS URL。允许自定义端口。该端点由 Langfuse
+                      后端调用。
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -464,10 +462,9 @@ function WebCalloutEndpointDialog(props: {
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between rounded-md border p-3">
                     <div>
-                      <FormLabel>Enabled</FormLabel>
+                      <FormLabel>启用</FormLabel>
                       <FormDescription>
-                        Shows the callout action in trace, observation, and
-                        session detail headers.
+                        在追踪、观测和会话详情页头部显示提示操作。
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -485,24 +482,21 @@ function WebCalloutEndpointDialog(props: {
                 name="toastMessage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Toast message</FormLabel>
+                    <FormLabel>提示消息</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Shown after the backend callout succeeds.
-                    </FormDescription>
+                    <FormDescription>后端提示成功发送后显示。</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
               <div>
-                <FormLabel>Headers</FormLabel>
+                <FormLabel>请求头</FormLabel>
                 <FormDescription className="mb-2">
-                  Optional headers added to the backend POST. Content-Type is
-                  set automatically. Leave values empty for existing header
-                  names to keep encrypted values.
+                  可选的请求头，将添加到后端 POST 请求中。Content-Type
+                  会自动设置。对于已有的请求头名称，将值留空以保留加密的值。
                 </FormDescription>
                 <div className="space-y-2">
                   {fields.map((field, index) => {
@@ -525,7 +519,7 @@ function WebCalloutEndpointDialog(props: {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input placeholder="Header name" {...field} />
+                                <Input placeholder="请求头名称" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -539,9 +533,7 @@ function WebCalloutEndpointDialog(props: {
                               <FormControl>
                                 <Input
                                   placeholder={
-                                    preservesExistingValue
-                                      ? "***"
-                                      : "Header value"
+                                    preservesExistingValue ? "***" : "请求头值"
                                   }
                                   type="password"
                                   {...field}
@@ -562,7 +554,7 @@ function WebCalloutEndpointDialog(props: {
                               <X className="h-4 w-4" />
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Remove header</TooltipContent>
+                          <TooltipContent>移除请求头</TooltipContent>
                         </Tooltip>
                       </div>
                     );
@@ -580,7 +572,7 @@ function WebCalloutEndpointDialog(props: {
                   }
                 >
                   <Plus className="mr-1 h-4 w-4" />
-                  Add header
+                  添加请求头
                 </Button>
               </div>
             </DialogBody>
@@ -591,10 +583,10 @@ function WebCalloutEndpointDialog(props: {
                 variant="ghost"
                 onClick={() => props.onOpenChange(false)}
               >
-                Cancel
+                取消
               </Button>
               <Button type="submit" loading={upsertMutation.isPending}>
-                Save endpoint
+                保存端点
               </Button>
             </DialogFooter>
           </form>
@@ -625,15 +617,14 @@ function DeleteEndpointButton(props: {
       </Tooltip>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Callout Endpoint</DialogTitle>
+          <DialogTitle>删除提示端点</DialogTitle>
           <DialogDescription>
-            This removes the configured endpoint and hides the web callout
-            action.
+            这将删除已配置的端点并隐藏网页提示操作。
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="ghost" onClick={() => setOpen(false)}>
-            Cancel
+            取消
           </Button>
           <Button
             variant="destructive"
@@ -658,7 +649,7 @@ const endpointToFormValues = (
   name: endpoint?.name ?? "Default",
   url: endpoint?.url ?? "",
   enabled: endpoint?.enabled ?? true,
-  toastMessage: endpoint?.toastMessage ?? "Callout sent",
+  toastMessage: endpoint?.toastMessage ?? "提示已发送",
   headers: (endpoint?.requestHeaderKeys ?? []).map((name) => ({
     name,
     value: "",
@@ -698,18 +689,17 @@ export function WebCalloutIntegrationCard(props: {
     <Card className="p-3">
       <div className="mb-4 flex items-center gap-2">
         <Webhook className="text-foreground h-5 w-5" />
-        <span className="font-bold">Web Callouts</span>
+        <span className="font-bold">网页提示</span>
       </div>
       <p className="text-primary mb-4 text-sm">
-        Send backend callouts from trace, observation, and session detail views
-        to your own application.
+        从追踪、观测和会话详情视图向您自己的应用发送后端提示。
       </p>
       <ActionButton
         variant="secondary"
         hasAccess={props.hasAccess}
         href={`/project/${props.projectId}/settings/integrations/web-callouts`}
       >
-        Configure
+        配置
       </ActionButton>
     </Card>
   );

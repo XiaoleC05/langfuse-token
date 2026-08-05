@@ -50,7 +50,7 @@ export const TopbarAccount = ({ className }: { className?: string }) => {
           "focus-visible:ring-ring rounded-full focus-visible:ring-2 focus-visible:outline-hidden",
           className,
         )}
-        aria-label="Account menu"
+        aria-label="账户菜单"
       >
         <Avatar className="h-8 w-8">
           <AvatarImage src={user.image ?? undefined} alt={name} />

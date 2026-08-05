@@ -202,7 +202,7 @@ const DatasetAggregateCellContent = ({
                 />
               ))
             ) : (
-              <span className="text-muted-foreground text-xs">No scores</span>
+              <span className="text-muted-foreground text-xs">无评分</span>
             )}
           </div>
         </div>
@@ -255,14 +255,14 @@ const DatasetAggregateCellContent = ({
                 className="h-6 px-1 text-xs"
                 onClick={handleOpenReview}
               >
-                Annotate
+                标注
               </Button>
               {/* Triggers peek view */}
               <Button
                 variant="outline"
                 size="icon"
                 className="h-6 w-6 p-0"
-                title="View trace/observation"
+                title="查看追踪/观测"
                 onClick={handleOpenPeek}
               >
                 <ListTree className="h-3 w-3" />

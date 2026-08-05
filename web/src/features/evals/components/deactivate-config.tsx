@@ -69,11 +69,11 @@ export function DeactivateEvalConfig({
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <h2 className="mb-3 font-bold">Please confirm</h2>
+        <h2 className="mb-3 font-bold">请确认</h2>
         <p className="mb-3 text-sm">
           {evalConfig?.status === "ACTIVE"
-            ? "This action will deactivate the evaluator. No more traces will be evaluated based on this evaluator."
-            : "This action will activate the evaluator. New traces will be evaluated based on this evaluator."}
+            ? "此操作将停用该评估器。此评估器将不再评估任何追踪。"
+            : "此操作将激活该评估器。新追踪将根据此评估器进行评估。"}
         </p>
         <div className="flex justify-end space-x-4">
           <Button
@@ -84,7 +84,7 @@ export function DeactivateEvalConfig({
             loading={mutEvaluator.isPending}
             onClick={onClick}
           >
-            {evalConfig?.status === "ACTIVE" ? "Deactivate" : "Activate"}
+            {evalConfig?.status === "ACTIVE" ? "停用" : "激活"}
           </Button>
         </div>
       </PopoverContent>

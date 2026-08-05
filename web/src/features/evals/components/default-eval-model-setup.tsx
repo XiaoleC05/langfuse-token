@@ -111,7 +111,7 @@ function DefaultEvalModelFields({
   return (
     <>
       <ModelParameters
-        customHeader={<p className="leading-none font-bold">LLM connection</p>}
+        customHeader={<p className="leading-none font-bold">LLM 连接</p>}
         modelParams={setup.modelParams}
         availableModels={setup.availableModels}
         providerModelCombinations={setup.providerModelCombinations}
@@ -121,11 +121,11 @@ function DefaultEvalModelFields({
         formDisabled={!setup.hasWriteAccess}
       />
       <p className="text-muted-foreground text-xs">
-        Select a model which supports function calling.
+        请选择支持函数调用的模型。
       </p>
       {setup.formError ? (
         <p className={errorClassName}>
-          <span className="font-bold">Error:</span> {setup.formError}
+          <span className="font-bold">错误：</span> {setup.formError}
         </p>
       ) : null}
     </>
@@ -147,8 +147,8 @@ export function DefaultEvalModelSetup({
       onSuccess?.();
     },
     successMessage: {
-      title: "Default evaluation model updated",
-      description: "All running evaluators will use the new model.",
+      title: "默认评估模型已更新",
+      description: "所有正在运行的评估器将使用新模型。",
     },
   });
 
@@ -161,22 +161,22 @@ export function DefaultEvalModelSetup({
       <Card className="mt-3 flex flex-col gap-6">
         <CardContent>
           <p className="my-2 text-lg font-bold">
-            Set up LLM connection to use for evaluations
+            设置用于评估的 LLM 连接
           </p>
           <ManageDefaultEvalModel
             projectId={projectId}
             variant="color-coded"
             setUpMessage={
               <>
-                LLM-as-a-judge evaluations require an LLM connection for
-                scoring. You can also specify a custom model for each evaluator.{" "}
+                LLM 评判（LLM-as-a-Judge）评估需要 LLM 连接来进行评分。
+                你也可以为每个评估器指定自定义模型。{" "}
                 <a
                   href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline"
                 >
-                  Learn more.
+                  了解更多。
                 </a>
               </>
             }
@@ -211,7 +211,7 @@ export function DefaultEvalModelSetup({
               }}
             >
               <Pencil className="mr-2 h-4 w-4" />
-              {setup.selectedModel ? "Edit" : "Set up"}
+              {setup.selectedModel ? "编辑" : "设置"}
             </Button>
           </DialogTrigger>
           <DialogContent className="px-3 py-10">
@@ -219,7 +219,7 @@ export function DefaultEvalModelSetup({
               <DefaultEvalModelFields setup={setup} />
               <div className="mt-2 flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsEditing(false)}>
-                  Cancel
+                  取消
                 </Button>
                 {setup.selectedModel ? (
                   <UpdateButton
@@ -234,7 +234,7 @@ export function DefaultEvalModelSetup({
                     }
                     onClick={setup.executeUpsertMutation}
                   >
-                    Save
+                    保存
                   </Button>
                 )}
               </div>
@@ -249,7 +249,7 @@ export function DefaultEvalModelSetup({
 export function InlineDefaultEvalModelSetup({
   projectId,
   onSuccess,
-  submitLabel = "Save",
+  submitLabel = "保存",
 }: {
   projectId: string;
   onSuccess?: () => void;
@@ -259,8 +259,8 @@ export function InlineDefaultEvalModelSetup({
     projectId,
     onSuccess,
     successMessage: {
-      title: "Default evaluation model set",
-      description: "LLM-as-a-judge evaluators can now use this model.",
+      title: "默认评估模型已设置",
+      description: "LLM 评判（LLM-as-a-Judge）评估器现在可以使用此模型。",
     },
   });
 
@@ -315,22 +315,20 @@ function UpdateButton({
             e.stopPropagation();
           }}
         >
-          Update
+          更新
         </Button>
       </PopoverTrigger>
       <PopoverContent
         onClick={(e) => e.stopPropagation()}
         className="w-fit max-w-[500px]"
       >
-        <h2 className="mb-3 font-bold">Please confirm</h2>
+        <h2 className="mb-3 font-bold">请确认</h2>
         <p className="mb-3 text-sm">
-          Updating the default model will impact any currently running
-          evaluators that use it. Please confirm that you want to proceed with
-          this change.
+          更新默认模型将影响任何正在使用它的评估器。请确认你想要继续进行此更改。
         </p>
         <div className="mb-4 grid w-full gap-1.5">
           <Label htmlFor="update-confirmation">
-            Type &quot;{CONFIRMATION}&quot; to confirm
+            输入 &quot;{CONFIRMATION}&quot; 以确认
           </Label>
           <Input
             id="update-confirmation"
@@ -344,13 +342,13 @@ function UpdateButton({
             loading={isLoading}
             onClick={() => {
               if (confirmationInput !== CONFIRMATION) {
-                alert("Please type the correct confirmation");
+                alert("请输入正确的确认词");
                 return;
               }
               executeUpsertMutation();
             }}
           >
-            Confirm
+            确认
           </Button>
         </div>
       </PopoverContent>

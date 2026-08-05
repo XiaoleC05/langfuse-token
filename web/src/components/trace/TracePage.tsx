@@ -43,29 +43,29 @@ export function TracePage({
   useEffect(() => {
     if (trace.cutoffObservationsAfterMaxCount) {
       showErrorToast(
-        "Trace truncated",
-        "This trace has too many observations for the detail view. Only a subset is shown.",
+        "追踪被截断",
+        "该追踪的观测数量过多，无法在详情视图中全部显示。仅显示一部分。",
         "WARNING",
       );
     }
   }, [trace.cutoffObservationsAfterMaxCount]);
 
   if (trace.isUnauthorized)
-    return <ErrorPage message="You do not have access to this trace." />;
+    return <ErrorPage message="你没有访问此追踪的权限。" />;
 
   if (trace.isNotFound)
     return (
       <ErrorPage
-        title="Trace not found"
-        message="The trace is either still being processed or has been deleted."
+        title="未找到追踪"
+        message="该追踪可能仍在处理中，或已被删除。"
         additionalButton={{
-          label: "Retry",
+          label: "重试",
           onClick: () => window.location.reload(),
         }}
       />
     );
 
-  if (!trace.data) return <div className="p-3">Loading...</div>;
+  if (!trace.data) return <div className="p-3">加载中...</div>;
 
   const isSharedTrace = trace.data.public;
   const showPublicIndicators = isSharedTrace && !hasProjectAccess;
@@ -78,7 +78,7 @@ export function TracePage({
         asChild
         size="sm"
         variant="outline"
-        title="Back to Langfuse"
+        title="返回 Langfuse"
         className="px-3"
       >
         <Link href="/">Langfuse</Link>
@@ -88,18 +88,18 @@ export function TracePage({
         asChild
         size="sm"
         variant="default"
-        title="Sign in to Langfuse"
+        title="登录 Langfuse"
         className="px-3"
       >
         <Link href={`/auth/sign-in?targetPath=${encodedTargetPath}`}>
-          Sign in
+          登录
         </Link>
       </Button>
     )
   ) : undefined;
   const sharedBadge = showPublicIndicators ? (
     <Badge variant="outline" className="text-xs font-bold">
-      Public
+      公开
     </Badge>
   ) : undefined;
 
@@ -110,7 +110,7 @@ export function TracePage({
         itemType: "TRACE",
         breadcrumb: [
           {
-            name: "Traces",
+            name: "追踪",
             href: `/project/${router.query.projectId as string}/traces`,
           },
         ],

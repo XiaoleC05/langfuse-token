@@ -22,9 +22,9 @@ export const NotFoundCard = ({
 
   return (
     <Card className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-sm p-3">
-      <h2 className="mb-1.5 text-sm font-bold">Not found</h2>
+      <h2 className="mb-1.5 text-sm font-bold">未找到</h2>
       <p className="text-muted-foreground max-w-xs text-center text-xs">
-        The {itemType} is either still being processed or has been deleted.
+        该 {itemType} 可能仍在处理中，或已被删除。
       </p>
     </Card>
   );

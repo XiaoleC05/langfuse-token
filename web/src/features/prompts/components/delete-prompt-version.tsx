@@ -73,21 +73,21 @@ export function DeletePromptVersion({
           }}
         >
           <Trash className="mr-2 h-4 w-4" />
-          Delete version
+          删除版本
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <h2 className="mb-3 font-bold">Please confirm</h2>
+        <h2 className="mb-3 font-bold">请确认</h2>
         <p className="mb-3 text-sm">
-          This action deletes the prompt version. Requests of version{" "}
+          此操作将删除该提示词版本。该提示词版本{" "}
           <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-bold">
             {version}
           </code>
-          of this prompt will return an error.
+          的请求将返回错误。
         </p>
         {error && (
           <div className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-            <p className="font-bold">Error:</p>
+            <p className="font-bold">错误：</p>
             <p className="whitespace-pre-wrap">{error}</p>
           </div>
         )}
@@ -110,7 +110,7 @@ export function DeletePromptVersion({
               });
             }}
           >
-            Delete Prompt Version
+            删除提示词版本
           </Button>
         </div>
       </PopoverContent>

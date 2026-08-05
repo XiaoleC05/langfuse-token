@@ -63,14 +63,13 @@ import {
 } from "../utils/parseDatasetJson";
 
 const formSchema = z.object({
-  datasetIds: z.array(z.string()).min(1, "Select at least one dataset"),
+  datasetIds: z.array(z.string()).min(1, "至少选择一个数据集"),
   input: z.string().refine(
     (value) => {
       return isValidDatasetJson(value);
     },
     {
-      message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+      message: "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
   expectedOutput: z.string().refine(
@@ -78,8 +77,7 @@ const formSchema = z.object({
       return isValidDatasetJson(value);
     },
     {
-      message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+      message: "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
   metadata: z.string().refine(
@@ -87,8 +85,7 @@ const formSchema = z.object({
       return isValidDatasetJson(value);
     },
     {
-      message:
-        "Invalid input. Please provide a JSON object or double-quoted string.",
+      message: "输入无效。请提供 JSON 对象或双引号字符串。",
     },
   ),
 });
@@ -175,10 +172,7 @@ export const NewDatasetItemForm = (props: {
   const uploadMedia = useCallback(
     async (file: File): Promise<string | null> => {
       if (!uploadDatasetId) {
-        showErrorToast(
-          "Select a dataset first",
-          "Choose a dataset before attaching media.",
-        );
+        showErrorToast("请先选择数据集", "附加媒体前请先选择数据集。");
         return null;
       }
       return uploadFile(file, "input");
@@ -288,7 +282,7 @@ export const NewDatasetItemForm = (props: {
       onError: (error) => {
         if (error.message.includes("Body exc")) {
           setFormError(
-            "Data exceeds maximum size (4.5MB). Please attempt to create dataset item programmatically.",
+            "数据超过最大大小 (4.5MB)。请尝试以编程方式创建数据集条目。",
           );
         } else {
           setFormError(error.message);
@@ -330,7 +324,7 @@ export const NewDatasetItemForm = (props: {
         // a bare console.error(object) would only add an opaque, non-actionable
         // Sentry capture (captureConsoleIntegration), so we omit it here.
         setFormError(
-          `Item does not match dataset schema. Errors: ${JSON.stringify(result.validationErrors, null, 2)}`,
+          `条目与数据集架构不匹配。错误：${JSON.stringify(result.validationErrors, null, 2)}`,
         );
       })
       .catch((error) => {
@@ -351,7 +345,7 @@ export const NewDatasetItemForm = (props: {
               name="datasetIds"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Target datasets</FormLabel>
+                  <FormLabel>目标数据集</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -364,8 +358,8 @@ export const NewDatasetItemForm = (props: {
                           )}
                         >
                           {field.value.length > 0
-                            ? `${field.value.length} dataset${field.value.length > 1 ? "s" : ""} selected`
-                            : "Select datasets"}
+                            ? `已选择 ${field.value.length} 个数据集`
+                            : "选择数据集"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
@@ -373,12 +367,10 @@ export const NewDatasetItemForm = (props: {
                     <PopoverContent className="p-0">
                       <InputCommand>
                         <InputCommandInput
-                          placeholder="Search datasets..."
+                          placeholder="搜索数据集..."
                           variant="bottom"
                         />
-                        <InputCommandEmpty>
-                          No datasets found.
-                        </InputCommandEmpty>
+                        <InputCommandEmpty>未找到数据集。</InputCommandEmpty>
                         <InputCommandGroup>
                           <ScrollArea className="h-fit">
                             {datasets.data?.map((dataset) => (
@@ -407,7 +399,7 @@ export const NewDatasetItemForm = (props: {
                                 {dataset.name}
                                 {dataset.id === props.currentDatasetId && (
                                   <span className="text-muted-foreground ml-1">
-                                    (current)
+                                    (当前)
                                   </span>
                                 )}
                               </InputCommandItem>
@@ -448,7 +440,7 @@ export const NewDatasetItemForm = (props: {
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <FormLabel>Input</FormLabel>
+                      <FormLabel>输入</FormLabel>
                       {hasInputSchema &&
                         selectedDatasets
                           .filter((d) => d.inputSchema)
@@ -494,7 +486,7 @@ export const NewDatasetItemForm = (props: {
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <FormLabel>Expected output</FormLabel>
+                      <FormLabel>预期输出</FormLabel>
                       {hasOutputSchema &&
                         selectedDatasets
                           .filter((d) => d.expectedOutputSchema)
@@ -544,7 +536,7 @@ export const NewDatasetItemForm = (props: {
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <FormLabel>Metadata</FormLabel>
+                    <FormLabel>元数据</FormLabel>
                     <DatasetItemFieldToolbar
                       copyValue={field.value}
                       onSelectFile={handleFileUpload(metadataEditorRef)}
@@ -581,7 +573,7 @@ export const NewDatasetItemForm = (props: {
             />
             {formError ? (
               <p className="mt-2 text-center">
-                <span className="font-bold">Error:</span> {formError}
+                <span className="font-bold">错误：</span> {formError}
               </p>
             ) : null}
           </div>
@@ -688,10 +680,10 @@ const AddItemsButton = ({
         pendingUploads.length > 0
       }
     >
-      Add
+      添加
       {selectedDatasetCount > 1
-        ? ` to ${selectedDatasetCount} datasets`
-        : " to dataset"}
+        ? `到 ${selectedDatasetCount} 个数据集`
+        : "到数据集"}
     </Button>
   );
 };

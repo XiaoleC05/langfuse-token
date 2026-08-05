@@ -122,7 +122,7 @@ interface SystemPreset {
 const SYSTEM_PRESETS: { DEFAULT: SystemPreset } = {
   DEFAULT: {
     id: "__langfuse_default__",
-    name: "My view (default)",
+    name: "我的视图（默认）",
     isSystem: true,
   },
 };
@@ -263,7 +263,7 @@ export function TableViewPresetsDrawer({
     currentName: form.watch("name"),
     allNames: allViewNames,
     form,
-    errorMessage: "View name already exists.",
+    errorMessage: "视图名称已存在。",
   });
 
   const handleSelectView = (view: TableViewPresetState & { id: string }) => {
@@ -413,14 +413,14 @@ export function TableViewPresetsDrawer({
       copyTextToClipboard(window.location.href)
         .then(() =>
           showSuccessToast({
-            title: "Permalink copied to clipboard",
-            description: "You can now share the permalink with others",
+            title: "永久链接已复制到剪贴板",
+            description: "你现在可以与其他人分享此永久链接",
           }),
         )
         .catch(() =>
           showErrorToast(
-            "Failed to copy permalink",
-            "Could not write to the clipboard. Please copy the page URL manually.",
+            "复制永久链接失败",
+            "无法写入剪贴板。请手动复制页面 URL。",
             "WARNING",
           ),
         );
@@ -436,8 +436,8 @@ export function TableViewPresetsDrawer({
       });
     } else {
       showErrorToast(
-        "Failed to generate permalink",
-        "Please reach out to langfuse support and report this issue.",
+        "生成永久链接失败",
+        "请联系 langfuse 支持并报告此问题。",
         "WARNING",
       );
     }
@@ -456,8 +456,8 @@ export function TableViewPresetsDrawer({
         }}
       >
         <DrawerTrigger asChild>
-          <Button variant="outline" id={triggerId} title="My Views">
-            <span>My Views</span>
+          <Button variant="outline" id={triggerId} title="我的视图">
+            <span>我的视图</span>
             {selectedViewId ? (
               <ChevronDown className="ml-1 h-4 w-4" />
             ) : (
@@ -471,13 +471,13 @@ export function TableViewPresetsDrawer({
           <div className="mx-auto w-full">
             <DrawerHeader className="bg-modal flex flex-row items-center justify-between rounded-sm px-3 py-1.5">
               <DrawerTitle className="flex flex-row items-center gap-1">
-                Views{" "}
+                视图{" "}
                 <a
                   href="https://github.com/orgs/langfuse/discussions/4657"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center"
-                  title="Saving table view presets is currently in beta. Click here to provide feedback!"
+                  title="保存表格视图预设目前处于测试阶段。点击此处提供反馈！"
                 ></a>
               </DrawerTitle>
               <DrawerClose asChild>
@@ -490,13 +490,13 @@ export function TableViewPresetsDrawer({
 
             <Command className="h-fit rounded-none border-none pb-1 shadow-none">
               <CommandInput
-                placeholder="Search views..."
+                placeholder="搜索视图..."
                 value={searchQuery}
                 onValueChange={setSearchQueryLocal}
                 className="h-9 border-none focus:ring-0"
               />
               <CommandList className="max-h-[calc(100vh-150px)]">
-                <CommandEmpty>No views found</CommandEmpty>
+                <CommandEmpty>未找到视图</CommandEmpty>
                 <CommandGroup className="pb-0">
                   {/* System Preset: Langfuse Default - hidden when page-specific presets exist */}
                   {!systemFilterPresets?.length && (
@@ -507,14 +507,14 @@ export function TableViewPresetsDrawer({
                         "hover:bg-muted/50 group mt-1 flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors",
                         selectedViewId === null && "bg-muted",
                       )}
-                      title="Reflects your current table settings without applying any saved custom table views"
+                      title="反映你当前的表格设置，不应用任何已保存的自定义表格视图"
                     >
                       <div className="flex flex-col">
                         <span className="text-muted-foreground text-sm">
                           {SYSTEM_PRESETS.DEFAULT.name}
                         </span>
                         <span className="text-muted-foreground w-fit pl-0 text-xs">
-                          Your working view
+                          你的工作视图
                         </span>
                       </div>
                     </CommandItem>
@@ -588,12 +588,12 @@ export function TableViewPresetsDrawer({
                             </span>
                             {isUserDefault && (
                               <Badge variant="secondary" className="text-xs">
-                                Your default
+                                你的默认
                               </Badge>
                             )}
                             {isProjectDefault && (
                               <Badge variant="outline" className="text-xs">
-                                Project default
+                                项目默认
                               </Badge>
                             )}
                           </div>
@@ -629,7 +629,7 @@ export function TableViewPresetsDrawer({
                               }}
                               disabled={!hasWriteAccess}
                             >
-                              Update view with current filters
+                              使用当前筛选更新视图
                             </Button>
                           )}
                         </div>
@@ -699,13 +699,13 @@ export function TableViewPresetsDrawer({
                                           ) : (
                                             <Lock className="mr-2 h-4 w-4" />
                                           )}
-                                          Rename
+                                          重命名
                                         </Button>
                                       </PopoverTrigger>
                                       <PopoverContent
                                         onClick={(e) => e.stopPropagation()}
                                       >
-                                        <h2 className="mb-3 font-bold">Edit</h2>
+                                        <h2 className="mb-3 font-bold">编辑</h2>
                                         <Form {...form}>
                                           <form
                                             onSubmit={form.handleSubmit(
@@ -719,7 +719,7 @@ export function TableViewPresetsDrawer({
                                               render={({ field }) => (
                                                 <FormItem>
                                                   <FormLabel>
-                                                    View name
+                                                    视图名称
                                                   </FormLabel>
                                                   <FormControl>
                                                     <Input
@@ -742,7 +742,7 @@ export function TableViewPresetsDrawer({
                                                   !!form.formState.errors.name
                                                 }
                                               >
-                                                Save
+                                                保存
                                               </Button>
                                             </div>
                                           </form>
@@ -766,9 +766,9 @@ export function TableViewPresetsDrawer({
                                 disabled={isSettingDefault}
                               >
                                 {isUserDefault ? (
-                                  <>Remove as my default</>
+                                  <>取消我的默认</>
                                 ) : (
-                                  <>Set as my default</>
+                                  <>设为我的默认</>
                                 )}
                               </DropdownMenuItem>
                               {/* Set as project default - requires write access */}
@@ -785,9 +785,9 @@ export function TableViewPresetsDrawer({
                                 disabled={!hasWriteAccess || isSettingDefault}
                               >
                                 {isProjectDefault ? (
-                                  <>Remove as project default</>
+                                  <>取消项目默认</>
                                 ) : (
-                                  <>Set as project default</>
+                                  <>设为项目默认</>
                                 )}
                                 {!hasWriteAccess && (
                                   <Lock className="ml-auto h-4 w-4" />
@@ -801,7 +801,7 @@ export function TableViewPresetsDrawer({
                                       itemId={view.id}
                                       projectId={projectId}
                                       scope="TableViewPresets:CUD"
-                                      entityToDeleteName="view"
+                                      entityToDeleteName="视图"
                                       executeDeleteMutation={async () => {
                                         await handleDeleteView(view.id);
                                       }}
@@ -833,7 +833,7 @@ export function TableViewPresetsDrawer({
                                 <AvatarImage
                                   src={view.createdByUser?.image ?? undefined}
                                   alt={
-                                    view.createdByUser?.name ?? "User Avatar"
+                                    view.createdByUser?.name ?? "用户头像"
                                   }
                                 />
                                 <AvatarFallback className="bg-tertiary">
@@ -868,7 +868,7 @@ export function TableViewPresetsDrawer({
                 className="w-full justify-start px-1"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Create Custom View
+                创建自定义视图
               </Button>
             </div>
           </div>
@@ -887,7 +887,7 @@ export function TableViewPresetsDrawer({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Save Current Table View</DialogTitle>
+            <DialogTitle>保存当前表格视图</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
@@ -900,7 +900,7 @@ export function TableViewPresetsDrawer({
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>View name</FormLabel>
+                      <FormLabel>视图名称</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -910,18 +910,16 @@ export function TableViewPresetsDrawer({
                 />
 
                 <div className="text-muted-foreground mt-4 text-sm">
-                  <p>This will save the current:</p>
+                  <p>这将保存当前：</p>
                   <ul className="mt-2 list-disc pl-5">
                     <li>
-                      Column arrangement ({currentState.columnOrder.length}{" "}
-                      columns)
+                      列布局（{currentState.columnOrder.length} 列）
                     </li>
-                    <li>Filters ({currentState.filters.length} active)</li>
+                    <li>筛选（{currentState.filters.length} 个生效）</li>
                     <li>
-                      Sort order ({formatOrderBy(currentState.orderBy)}{" "}
-                      criteria)
+                      排序（{formatOrderBy(currentState.orderBy)} 条件）
                     </li>
-                    {currentState.searchQuery && <li>Search term</li>}
+                    {currentState.searchQuery && <li>搜索词</li>}
                   </ul>
                 </div>
               </DialogBody>
@@ -931,7 +929,7 @@ export function TableViewPresetsDrawer({
                   variant="outline"
                   onClick={() => setIsCreateDialogOpen(false)}
                 >
-                  Cancel
+                  取消
                 </Button>
                 <Button
                   type="submit"
@@ -942,7 +940,7 @@ export function TableViewPresetsDrawer({
                   }
                 >
                   {!hasWriteAccess && <Lock className="mr-2 h-4 w-4" />}
-                  {createMutation.isPending ? "Saving..." : "Save View"}
+                  {createMutation.isPending ? "保存中..." : "保存视图"}
                 </Button>
               </DialogFooter>
             </form>

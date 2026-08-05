@@ -48,7 +48,7 @@ const ModernSessionMinimapItem = React.memo(
     onSelect: (index: number) => void;
   }) => {
     const observationCount = trace.observationCount ?? 0;
-    const observationLabel = `${observationCount} observation${observationCount === 1 ? "" : "s"}`;
+    const observationLabel = `${observationCount} 个观测`;
 
     return (
       <div
@@ -72,9 +72,9 @@ const ModernSessionMinimapItem = React.memo(
             <ItemBadge type="TRACE" isSmall />
             <span
               className="min-w-0 flex-1 truncate text-xs font-bold"
-              title={trace.name ?? "Trace"}
+              title={trace.name ?? "追踪"}
             >
-              {trace.name ?? "Trace"}
+              {trace.name ?? "追踪"}
             </span>
           </span>
           <time className="text-muted-foreground text-xs">
@@ -90,9 +90,9 @@ const ModernSessionMinimapItem = React.memo(
             <span>{observationLabel}</span>
             <span>·</span>
             {trace.scores.length > 0 ? (
-              <span>{trace.scores.length} scores</span>
+              <span>{trace.scores.length} 个评分</span>
             ) : (
-              <span>no scores</span>
+              <span>无评分</span>
             )}
           </span>
           {isActive && trace.scores.length > 0 ? (
@@ -156,15 +156,15 @@ const ModernSessionMinimap = React.memo(
       <div
         ref={minimapRef}
         role="complementary"
-        aria-label="Session traces"
+        aria-label="会话追踪"
         className="bg-muted/10 min-h-0 overflow-y-auto border-r"
       >
         <div className="bg-background sticky top-0 z-10 flex items-center justify-between gap-2 border-b px-3 py-2">
           <span className="text-muted-foreground text-xs font-bold tracking-wide uppercase">
-            Traces · {traces.length}
+            追踪 · {traces.length}
           </span>
           <span className="text-muted-foreground text-xs font-bold">
-            Total cost · {usdFormatter(totalCost, 2)}
+            总成本 · {usdFormatter(totalCost, 2)}
           </span>
         </div>
         <div

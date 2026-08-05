@@ -138,9 +138,9 @@ function ColumnVisibilityListItem<TData, TValue>({
           )}
           title={
             !column.enableHiding
-              ? "This column may not be hidden"
+              ? "此列不可隐藏"
               : isFixedPosition
-                ? "This column is fixed in position and cannot be hidden"
+                ? "此列位置固定，无法隐藏"
                 : undefined
           }
         >
@@ -162,7 +162,7 @@ function ColumnVisibilityListItem<TData, TValue>({
           {...listeners}
           variant="ghost"
           size="xs"
-          title="Drag and drop to reorder columns"
+          title="拖放以重新排列列"
           className="invisible group-hover:visible"
         >
           <Menu className="h-3 w-3" />
@@ -231,7 +231,7 @@ function GroupVisibilityHeader<TData, TValue>({
                 {...listeners}
                 variant="ghost"
                 size="xs"
-                title="Drag and drop to reorder columns"
+                title="拖放以重新排列列"
                 className="opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <Menu className="h-3 w-3" />
@@ -247,8 +247,8 @@ function GroupVisibilityHeader<TData, TValue>({
               }}
             >
               {groupVisibleCount === groupTotalCount
-                ? "Deselect All"
-                : "Select All"}
+                ? "取消全选"
+                : "全选"}
             </Button>
             {isOpen ? (
               <ChevronDown className="h-4 w-4" />
@@ -394,8 +394,8 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
     >
       <Drawer modal={false}>
         <DrawerTrigger asChild>
-          <Button variant="outline" title="Show/hide columns">
-            <span>Columns</span>
+          <Button variant="outline" title="显示/隐藏列">
+            <span>列</span>
             <div className="bg-input ml-1 rounded-sm px-1 text-xs">{`${count}/${total}`}</div>
           </Button>
         </DrawerTrigger>
@@ -403,7 +403,7 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
           <div className="mx-auto w-full overflow-y-auto md:max-h-full">
             <div className="sticky top-0 z-10">
               <DrawerHeader className="bg-modal flex flex-row items-center justify-between rounded-sm px-3 py-2">
-                <DrawerTitle>Column Visibility</DrawerTitle>
+                <DrawerTitle>列可见性</DrawerTitle>
                 <div className="flex flex-row gap-2">
                   <Button
                     variant="outline"
@@ -414,7 +414,7 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
                       setColumnVisibility(defaultColumnVisibility);
                     }}
                   >
-                    Restore Defaults
+                    恢复默认
                   </Button>
                   <DrawerClose asChild>
                     <Button variant="outline" size="icon">
@@ -440,8 +440,8 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
                   >
                     <span className="text-sm font-bold">
                       {count === total
-                        ? "Deselect All Columns"
-                        : "Select All Columns"}
+                        ? "取消全选列"
+                        : "全选列"}
                     </span>
                     <div className="bg-input ml-1 rounded-sm px-1 text-xs">{`${count}/${total}`}</div>
                   </Button>

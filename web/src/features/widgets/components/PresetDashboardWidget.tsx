@@ -161,7 +161,7 @@ export function PresetDashboardWidget({
       onDeleteWidget(placement.id);
       return;
     }
-    if (confirm("Please confirm deletion")) {
+    if (confirm("请确认删除")) {
       onDeleteWidget(placement.id);
     }
   };
@@ -191,7 +191,7 @@ export function PresetDashboardWidget({
         dashboard_id: dashboardId,
       });
     } catch {
-      showErrorToast("Copy failed", "Could not write to the clipboard.");
+      showErrorToast("复制失败", "无法写入剪贴板。");
     }
   };
 
@@ -199,7 +199,7 @@ export function PresetDashboardWidget({
     return (
       <div className="bg-background flex h-full items-center justify-center rounded-lg border p-4">
         <div className="text-muted-foreground">
-          Unknown preset: {placement.presetId}
+          未知预设：{placement.presetId}
         </div>
       </div>
     );
@@ -220,7 +220,7 @@ export function PresetDashboardWidget({
             <button
               onClick={handleDelete}
               className="text-muted-foreground hover:text-destructive"
-              aria-label="Delete widget"
+              aria-label="删除组件"
             >
               <TrashIcon size={16} />
             </button>
@@ -230,7 +230,7 @@ export function PresetDashboardWidget({
           <DropdownMenuTrigger asChild>
             <button
               className="text-muted-foreground hover:text-foreground"
-              aria-label="Widget actions"
+              aria-label="组件操作"
             >
               <MoreVerticalIcon size={16} />
             </button>
@@ -238,7 +238,7 @@ export function PresetDashboardWidget({
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={handleCopyToClipboard}>
               <CopyIcon className="mr-2 h-4 w-4" />
-              Copy to clipboard
+              复制到剪贴板
             </DropdownMenuItem>
             {onPasteWidget && (
               <DropdownMenuItem
@@ -246,13 +246,13 @@ export function PresetDashboardWidget({
                 onClick={() => onPasteWidget(placement)}
               >
                 <ClipboardPasteIcon className="mr-2 h-4 w-4" />
-                Paste to the right
+                粘贴到右侧
               </DropdownMenuItem>
             )}
             {onDuplicatePreset && (
               <DropdownMenuItem onClick={() => onDuplicatePreset(placement)}>
                 <CopyPlusIcon className="mr-2 h-4 w-4" />
-                Duplicate
+                复制
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>

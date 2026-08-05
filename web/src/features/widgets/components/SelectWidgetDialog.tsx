@@ -148,15 +148,15 @@ export function SelectWidgetDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px]">
         <DialogHeader>
-          <DialogTitle>Add widget</DialogTitle>
+          <DialogTitle>添加组件</DialogTitle>
         </DialogHeader>
 
         <DialogBody>
           {widgets.isPending ? (
-            <div className="py-8 text-center">Loading widgets...</div>
+            <div className="py-8 text-center">正在加载组件...</div>
           ) : widgets.isError ? (
             <div className="text-destructive py-8 text-center">
-              Error: {widgets.error.message}
+              错误：{widgets.error.message}
             </div>
           ) : (
             <div className="flex flex-col gap-3 p-1">
@@ -178,9 +178,9 @@ export function SelectWidgetDialog({
               >
                 <RowIllustration type="CUSTOM" />
                 <div className="min-w-0 flex-1">
-                  <div className="font-bold">Custom Chart</div>
+                  <div className="font-bold">自定义图表</div>
                   <div className="text-muted-foreground text-xs">
-                    Pick a data view, metrics, and chart type from scratch
+                    从头选择数据视图、指标和图表类型
                   </div>
                 </div>
               </button>
@@ -195,11 +195,11 @@ export function SelectWidgetDialog({
               >
                 <TabsList>
                   <TabsTrigger value="project">
-                    Your widgets ({projectWidgets.length})
+                    我的组件 ({projectWidgets.length})
                   </TabsTrigger>
                   {onSelectPreset && (
                     <TabsTrigger value="home-cards">
-                      Home cards ({HOME_DASHBOARD_PRESET_IDS.length})
+                      首页卡片 ({HOME_DASHBOARD_PRESET_IDS.length})
                     </TabsTrigger>
                   )}
                 </TabsList>
@@ -207,8 +207,7 @@ export function SelectWidgetDialog({
                   <div className="flex max-h-[360px] flex-col gap-2 overflow-y-auto p-1">
                     {projectWidgets.length === 0 ? (
                       <div className="text-muted-foreground py-8 text-center text-sm">
-                        No saved widgets in this project yet — build one with
-                        Custom Chart.
+                        此项目还没有保存的组件——使用「自定义图表」创建一个。
                       </div>
                     ) : (
                       projectWidgets.map((widget) => (
@@ -251,7 +250,7 @@ export function SelectWidgetDialog({
                                 {meta.description}
                               </div>
                               <div className="text-muted-foreground/80 mt-0.5 text-xs">
-                                Home card · fixed configuration
+                                首页卡片 · 固定配置
                               </div>
                             </div>
                           </button>
@@ -267,7 +266,7 @@ export function SelectWidgetDialog({
 
         <DialogFooter className="mt-4">
           <Button onClick={() => onOpenChange(false)} variant="outline">
-            Cancel
+            取消
           </Button>
         </DialogFooter>
       </DialogContent>

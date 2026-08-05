@@ -108,7 +108,7 @@ export const LogViewToolbar = memo(function LogViewToolbar({
         <HoverCard openDelay={200}>
           <HoverCardTrigger asChild>
             <span className="cursor-help rounded bg-yellow-100 px-1.5 py-0.5 text-xs font-bold text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300">
-              Large Trace
+              大型追踪
             </span>
           </HoverCardTrigger>
           <HoverCardContent
@@ -116,15 +116,15 @@ export const LogViewToolbar = memo(function LogViewToolbar({
             className="w-72 text-sm"
             sideOffset={8}
           >
-            <p className="font-bold">Optimized for performance</p>
+            <p className="font-bold">为性能优化</p>
             <p className="text-muted-foreground mt-1.5">
-              This trace has {observationCount?.toLocaleString() ?? "many"}{" "}
-              observations. To keep things smooth:
+              该追踪有 {observationCount?.toLocaleString() ?? "许多"}{" "}
+              条观测。为保持流畅：
             </p>
             <ul className="text-muted-foreground mt-1.5 list-inside list-disc space-y-0.5">
-              <li>Content loads as you scroll</li>
-              <li>JSON view is disabled</li>
-              <li>Download/copy includes I/O for cached observations only</li>
+              <li>内容随滚动加载</li>
+              <li>JSON 视图已禁用</li>
+              <li>下载/复制仅包含已缓存观测的输入输出</li>
             </ul>
           </HoverCardContent>
         </HoverCard>
@@ -137,7 +137,7 @@ export const LogViewToolbar = memo(function LogViewToolbar({
         <Command className="flex-1 rounded-none border-0 bg-transparent">
           <CommandInput
             showBorder={false}
-            placeholder="Search observations..."
+            placeholder="搜索观测..."
             className="h-7 border-0 focus:ring-0"
             value={searchQuery}
             onValueChange={onSearchChange}
@@ -165,8 +165,8 @@ export const LogViewToolbar = memo(function LogViewToolbar({
                   indentDisabled
                     ? undefined
                     : indentEnabled
-                      ? "Hide indentation"
-                      : "Show indentation"
+                      ? "隐藏缩进"
+                      : "显示缩进"
                 }
               >
                 <IndentIncrease className="h-3.5 w-3.5" />
@@ -174,9 +174,9 @@ export const LogViewToolbar = memo(function LogViewToolbar({
             </HoverCardTrigger>
             {indentDisabled && (
               <HoverCardContent className="w-56 text-sm" sideOffset={8}>
-                <p className="font-bold">Indentation unavailable</p>
+                <p className="font-bold">缩进不可用</p>
                 <p className="text-muted-foreground mt-1">
-                  Disabled for deeply nested trees to maintain readability.
+                  为保持可读性，已对深层嵌套树禁用。
                 </p>
               </HoverCardContent>
             )}
@@ -193,7 +193,7 @@ export const LogViewToolbar = memo(function LogViewToolbar({
               showMilliseconds && "bg-primary text-primary-foreground",
             )}
             onClick={onToggleMilliseconds}
-            title={showMilliseconds ? "Hide milliseconds" : "Show milliseconds"}
+            title={showMilliseconds ? "隐藏毫秒" : "显示毫秒"}
           >
             <Timer className="h-3.5 w-3.5" />
           </Button>
@@ -224,10 +224,10 @@ export const LogViewToolbar = memo(function LogViewToolbar({
             </TooltipTrigger>
             <TooltipContent>
               {isVirtualized
-                ? "Disabled for large traces"
+                ? "大型追踪已禁用"
                 : allRowsExpanded
-                  ? "Collapse all"
-                  : "Expand all"}
+                  ? "全部收起"
+                  : "全部展开"}
             </TooltipContent>
           </Tooltip>
         )}
@@ -258,27 +258,26 @@ export const LogViewToolbar = memo(function LogViewToolbar({
                 </TooltipTrigger>
                 <TooltipContent>
                   {isCopyOrDownloadLoading
-                    ? "Loading data..."
+                    ? "加载中..."
                     : isCopyOrDownloadCacheOnly
-                      ? "Copy as JSON (cache only)"
-                      : "Copy as JSON"}
+                      ? "复制为 JSON（仅缓存）"
+                      : "复制为 JSON"}
                 </TooltipContent>
               </Tooltip>
             </HoverCardTrigger>
             {isCopyOrDownloadCacheOnly && !isCopyOrDownloadLoading && (
               <HoverCardContent className="w-64 text-sm" sideOffset={8}>
-                <p className="font-bold">Cache-only mode</p>
+                <p className="font-bold">仅缓存模式</p>
                 <p className="text-muted-foreground mt-1">
-                  For large traces, only expanded observations include full I/O
-                  data.
+                  对于大型追踪，只有展开的观测包含完整的输入输出数据。
                 </p>
                 {loadedObservationCount !== undefined &&
                   observationCount !== undefined && (
                     <p className="text-muted-foreground mt-1.5">
                       <span className="font-bold">
-                        {loadedObservationCount} of {observationCount}
+                        {loadedObservationCount} / {observationCount}
                       </span>{" "}
-                      observations loaded
+                      条观测已加载
                     </p>
                   )}
               </HoverCardContent>
@@ -310,27 +309,26 @@ export const LogViewToolbar = memo(function LogViewToolbar({
                 </TooltipTrigger>
                 <TooltipContent>
                   {isCopyOrDownloadLoading
-                    ? "Loading data..."
+                    ? "加载中..."
                     : isCopyOrDownloadCacheOnly
-                      ? "Download as JSON (cache only)"
-                      : "Download as JSON"}
+                      ? "下载为 JSON（仅缓存）"
+                      : "下载为 JSON"}
                 </TooltipContent>
               </Tooltip>
             </HoverCardTrigger>
             {isCopyOrDownloadCacheOnly && !isCopyOrDownloadLoading && (
               <HoverCardContent className="w-64 text-sm" sideOffset={8}>
-                <p className="font-bold">Cache-only mode</p>
+                <p className="font-bold">仅缓存模式</p>
                 <p className="text-muted-foreground mt-1">
-                  For large traces, only expanded observations include full I/O
-                  data.
+                  对于大型追踪，只有展开的观测包含完整的输入输出数据。
                 </p>
                 {loadedObservationCount !== undefined &&
                   observationCount !== undefined && (
                     <p className="text-muted-foreground mt-1.5">
                       <span className="font-bold">
-                        {loadedObservationCount} of {observationCount}
+                        {loadedObservationCount} / {observationCount}
                       </span>{" "}
-                      observations loaded
+                      条观测已加载
                     </p>
                   )}
               </HoverCardContent>

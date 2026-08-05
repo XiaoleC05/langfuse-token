@@ -171,7 +171,7 @@ const DatasetRunTableMultiSelectAction = ({
                 setIsDeleteDialogOpen(false);
               }}
             >
-              Delete 实验
+              删除
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -362,7 +362,7 @@ export function DatasetRunsTable(props: {
                   setSelectedRows({});
                 }
               }}
-              aria-label="Select all"
+              aria-label="全选"
               variant="muted"
             />
           </div>
@@ -373,7 +373,7 @@ export function DatasetRunsTable(props: {
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
+            aria-label="选择行"
             variant="muted"
           />
         );
@@ -541,7 +541,7 @@ export function DatasetRunsTable(props: {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only relative">Open menu</span>
+                <span className="sr-only relative">打开菜单</span>
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -666,7 +666,7 @@ export function DatasetRunsTable(props: {
                         </span>
                         <NoDataOrLoading
                           isLoading={runsMetrics.isPending}
-                          description="No chart data available for the selected runs."
+                          description="所选运行没有可用的图表数据。"
                           className="min-h-[200px]"
                         />
                       </div>

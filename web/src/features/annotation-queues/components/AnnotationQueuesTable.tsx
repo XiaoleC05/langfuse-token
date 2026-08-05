@@ -57,7 +57,7 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
   const columns: LangfuseColumnDef<RowData>[] = [
     {
       accessorKey: "key",
-      header: "Name",
+      header: "名称",
       id: "key",
       size: 150,
       isPinnedLeft: true,
@@ -74,7 +74,7 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "描述",
       id: "description",
       enableHiding: true,
       size: 200,
@@ -94,21 +94,21 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
     },
     {
       accessorKey: "countCompletedItems",
-      header: "Completed Items",
+      header: "已完成条目",
       id: "countCompletedItems",
       enableHiding: true,
       size: 90,
     },
     {
       accessorKey: "countPendingItems",
-      header: "Pending Items",
+      header: "待处理条目",
       id: "countPendingItems",
       enableHiding: true,
       size: 90,
     },
     {
       accessorKey: "scoreConfigs",
-      header: "Score Configs",
+      header: "评分配置",
       id: "scoreConfigs",
       enableHiding: true,
       size: 200,
@@ -135,14 +135,14 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
     },
     {
       accessorKey: "createdAt",
-      header: "Created",
+      header: "创建时间",
       id: "createdAt",
       enableHiding: true,
       size: 150,
     },
     {
       accessorKey: "processAction",
-      header: "Process",
+      header: "处理",
       id: "processAction",
       isFixedPosition: true,
       cell: ({ row }) => {
@@ -150,7 +150,7 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
         return !hasAccess ? (
           <Button size="sm" disabled>
             <Lock className="mr-1 h-3 w-3" />
-            <span className="text-xs">Process queue</span>
+            <span className="text-xs">处理队列</span>
           </Button>
         ) : (
           <Button size="sm" asChild>
@@ -158,7 +158,7 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
               href={`/project/${projectId}/annotation-queues/${key.id}/items`}
             >
               <ClipboardPen className="mr-1 h-3 w-3" />
-              <span className="text-xs">Process queue</span>
+              <span className="text-xs">处理队列</span>
             </Link>
           </Button>
         );
@@ -166,7 +166,7 @@ export function AnnotationQueuesTable({ projectId }: { projectId: string }) {
     },
     {
       accessorKey: "actions",
-      header: "Actions",
+      header: "操作",
       id: "actions",
       size: 70,
       isFixedPosition: true,

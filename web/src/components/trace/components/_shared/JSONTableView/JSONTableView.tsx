@@ -251,7 +251,7 @@ export function JSONTableView<T>({
       {/* Empty state */}
       {!hasItems && (
         <div className="flex flex-1 items-center justify-center">
-          <div className="text-muted-foreground text-sm">No items</div>
+          <div className="text-muted-foreground text-sm">暂无条目</div>
         </div>
       )}
     </div>

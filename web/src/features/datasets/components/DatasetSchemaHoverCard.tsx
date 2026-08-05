@@ -23,8 +23,7 @@ export const DatasetSchemaHoverCard: React.FC<DatasetSchemaHoverCardProps> = ({
   schemaType,
   showLabel = false,
 }) => {
-  const title =
-    schemaType === "input" ? "Input Schema" : "Expected Output Schema";
+  const title = schemaType === "input" ? "输入架构" : "预期输出架构";
 
   const schemaString = JSON.stringify(schema, null, 2);
 
@@ -58,11 +57,11 @@ export const DatasetSchemaHoverCard: React.FC<DatasetSchemaHoverCardProps> = ({
         <Button
           variant="ghost"
           className="text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-1.5 rounded p-1 text-xs transition-colors"
-          aria-label={`View ${title}`}
+          aria-label={`查看${title}`}
           size="sm"
         >
           <LockIcon className={showLabel ? "h-3 w-3" : "h-4 w-4"} />
-          {showLabel && <span>Schema enforced</span>}
+          {showLabel && <span>已启用架构校验</span>}
         </Button>
       </HoverCardTrigger>
       <HoverCardContent
@@ -71,7 +70,7 @@ export const DatasetSchemaHoverCard: React.FC<DatasetSchemaHoverCardProps> = ({
       >
         <p className="text-sm font-bold">{title}</p>
         <p className="text-muted-foreground pt-2 text-sm">
-          Learn more about{" "}
+          了解更多关于{" "}
           <a
             href="https://json-schema.org/learn/miscellaneous-examples"
             target="_blank"
@@ -96,7 +95,7 @@ export const DatasetSchemaHoverCard: React.FC<DatasetSchemaHoverCardProps> = ({
           <>
             <Separator className="my-4" />
             <div className="flex items-center justify-between">
-              <p className="text-sm font-bold">Example Object</p>
+              <p className="text-sm font-bold">示例对象</p>
               <Button
                 variant="ghost"
                 size="sm"

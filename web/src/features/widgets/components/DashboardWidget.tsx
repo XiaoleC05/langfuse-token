@@ -535,7 +535,7 @@ export function DashboardWidget({
       });
     },
     onError: (e) => {
-      showErrorToast("Failed to clone widget", e.message);
+      showErrorToast("克隆组件失败", e.message);
     },
   });
   const handleCopy = () => {
@@ -553,7 +553,7 @@ export function DashboardWidget({
       onDeleteWidget(placement.id);
       return;
     }
-    if (onDeleteWidget && confirm("Please confirm deletion")) {
+    if (onDeleteWidget && confirm("请确认删除")) {
       onDeleteWidget(placement.id);
     }
   };
@@ -561,7 +561,7 @@ export function DashboardWidget({
   if (widget.isPending) {
     return (
       <div className="bg-background flex items-center justify-center rounded-lg border p-4">
-        <div className="text-muted-foreground">Loading...</div>
+        <div className="text-muted-foreground">加载中...</div>
       </div>
     );
   }
@@ -569,7 +569,7 @@ export function DashboardWidget({
   if (!widget.data) {
     return (
       <div className="bg-background flex items-center justify-center rounded-lg border p-4">
-        <div className="text-muted-foreground">Widget not found</div>
+        <div className="text-muted-foreground">未找到组件</div>
       </div>
     );
   }
@@ -603,7 +603,7 @@ export function DashboardWidget({
         dashboard_id: dashboardId,
       });
     } catch {
-      showErrorToast("Copy failed", "Could not write to the clipboard.");
+      showErrorToast("复制失败", "无法写入剪贴板。");
     }
   };
 
@@ -639,7 +639,7 @@ export function DashboardWidget({
             <Badge
               variant="secondary"
               className="shrink-0"
-              title="Maintained by Langfuse — editing creates your own copy"
+              title="由 Langfuse 维护 —— 编辑将创建你自己的副本"
             >
               Langfuse
             </Badge>
@@ -656,7 +656,7 @@ export function DashboardWidget({
                 <button
                   onClick={onLockedEditAttempt}
                   className="text-muted-foreground hover:text-foreground hidden group-hover:block"
-                  aria-label="Edit widget"
+                  aria-label="编辑组件"
                 >
                   <PencilIcon size={16} />
                 </button>
@@ -664,7 +664,7 @@ export function DashboardWidget({
                 <button
                   onClick={handleEdit}
                   className="text-muted-foreground hover:text-foreground hidden group-hover:block"
-                  aria-label="Edit widget"
+                  aria-label="编辑组件"
                 >
                   <PencilIcon size={16} />
                 </button>
@@ -678,7 +678,7 @@ export function DashboardWidget({
                     setIsCopyDialogOpen(true);
                   }}
                   className="text-muted-foreground hover:text-foreground hidden group-hover:block"
-                  aria-label="Edit widget"
+                  aria-label="编辑组件"
                 >
                   <PencilIcon size={16} />
                 </button>
@@ -686,7 +686,7 @@ export function DashboardWidget({
               <button
                 onClick={handleDelete}
                 className="text-muted-foreground hover:text-destructive hidden group-hover:block"
-                aria-label="Delete widget"
+                aria-label="删除组件"
               >
                 <TrashIcon size={16} />
               </button>
@@ -696,7 +696,7 @@ export function DashboardWidget({
             <DropdownMenuTrigger asChild>
               <button
                 className="text-muted-foreground hover:text-foreground hidden group-hover:block data-[state=open]:block"
-                aria-label="Widget actions"
+                aria-label="组件操作"
               >
                 <MoreVerticalIcon size={16} />
               </button>
@@ -710,12 +710,10 @@ export function DashboardWidget({
                   >
                     <TableIcon className="mr-2 h-4 w-4" />
                     <span className="flex flex-col">
-                      <span>View as table</span>
+                      <span>以表格查看</span>
                       {viewAsTableHint && (
                         <span className="text-muted-foreground text-xs">
-                          {viewAsTableHint.count} filter
-                          {viewAsTableHint.count === 1 ? "" : "s"} not shown in
-                          the table
+                          有 {viewAsTableHint.count} 个筛选未在表格中显示
                         </span>
                       )}
                     </span>
@@ -725,7 +723,7 @@ export function DashboardWidget({
               )}
               <DropdownMenuItem onClick={handleCopyToClipboard}>
                 <CopyIcon className="mr-2 h-4 w-4" />
-                Copy to clipboard
+                复制到剪贴板
               </DropdownMenuItem>
               {onPasteWidget && (
                 <DropdownMenuItem
@@ -733,7 +731,7 @@ export function DashboardWidget({
                   onClick={() => onPasteWidget(placement)}
                 >
                   <ClipboardPasteIcon className="mr-2 h-4 w-4" />
-                  Paste to the right
+                  粘贴到右侧
                 </DropdownMenuItem>
               )}
               {onDuplicateWidget && (
@@ -743,13 +741,13 @@ export function DashboardWidget({
                   }
                 >
                   <CopyPlusIcon className="mr-2 h-4 w-4" />
-                  Duplicate
+                  复制
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleDownloadJson}>
                 <FileJsonIcon className="mr-2 h-4 w-4" />
-                Download as JSON
+                下载为 JSON
               </DropdownMenuItem>
               {/* Chart data download needs the query result to have loaded */}
               <DropdownMenuItem
@@ -759,7 +757,7 @@ export function DashboardWidget({
                 }
               >
                 <DownloadIcon className="mr-2 h-4 w-4" />
-                Download data as CSV
+                下载数据为 CSV
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

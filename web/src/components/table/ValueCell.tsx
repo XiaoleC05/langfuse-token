@@ -86,7 +86,7 @@ function getValueType(value: unknown): JsonTableRow["type"] {
 
 function renderArrayValue(arr: unknown[]): JSX.Element {
   if (arr.length === 0) {
-    return <span className={PREVIEW_TEXT_CLASSES}>empty list</span>;
+    return <span className={PREVIEW_TEXT_CLASSES}>空列表</span>;
   }
 
   if (arr.length <= SMALL_ARRAY_THRESHOLD) {
@@ -123,7 +123,7 @@ function renderArrayValue(arr: unknown[]): JSX.Element {
     .join(", ");
   return (
     <span className={PREVIEW_TEXT_CLASSES}>
-      [{preview}, ...{arr.length - ARRAY_PREVIEW_ITEMS} more]
+      [{preview}, ...{arr.length - ARRAY_PREVIEW_ITEMS} 更多]
     </span>
   );
 }
@@ -131,9 +131,9 @@ function renderArrayValue(arr: unknown[]): JSX.Element {
 function renderObjectValue(obj: Record<string, unknown>): JSX.Element {
   const keys = Object.keys(obj);
   if (keys.length === 0) {
-    return <span className={PREVIEW_TEXT_CLASSES}>empty object</span>;
+    return <span className={PREVIEW_TEXT_CLASSES}>空对象</span>;
   }
-  return <span className={PREVIEW_TEXT_CLASSES}>{keys.length} items</span>;
+  return <span className={PREVIEW_TEXT_CLASSES}>{keys.length} 个条目</span>;
 }
 
 function getValueStringLength(value: unknown): number {
@@ -279,8 +279,8 @@ function ValueCellActionsMenu({
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Value actions"
-          title="Actions"
+          aria-label="值操作"
+          title="操作"
           className="bg-background/80 hover:bg-background absolute top-1/2 right-1 h-4 w-4 -translate-y-1/2 border p-0 opacity-0 shadow-xs transition-opacity duration-200 group-hover:opacity-100 data-[state=open]:opacity-100"
           onClick={(e) => e.stopPropagation()}
         >
@@ -294,11 +294,11 @@ function ValueCellActionsMenu({
       >
         <DropdownMenuItem className="text-xs" onSelect={handleCopyData}>
           <Copy className="mr-2 h-3.5 w-3.5 shrink-0" />
-          {hasChildren ? "Copy structure" : "Copy value"}
+          {hasChildren ? "复制结构" : "复制值"}
         </DropdownMenuItem>
         <DropdownMenuItem className="text-xs" onSelect={handleCopyPath}>
           <Copy className="mr-2 h-3.5 w-3.5 shrink-0" />
-          Copy path
+          复制路径
         </DropdownMenuItem>
         {isScalarLeaf && (
           <>
@@ -309,7 +309,7 @@ function ValueCellActionsMenu({
             >
               <Filter className="mr-2 h-3.5 w-3.5 shrink-0" />
               <span className="flex min-w-0 flex-col">
-                <span>Include in filter</span>
+                <span>包含在筛选中</span>
                 <span
                   className="text-muted-foreground truncate font-mono"
                   title={includeFilterText}
@@ -324,7 +324,7 @@ function ValueCellActionsMenu({
             >
               <FilterX className="mr-2 h-3.5 w-3.5 shrink-0" />
               <span className="flex min-w-0 flex-col">
-                <span>Exclude from filter</span>
+                <span>从筛选中排除</span>
                 <span
                   className="text-muted-foreground truncate font-mono"
                   title={excludeFilterText}
@@ -494,8 +494,8 @@ export const ValueCell = memo(
             }}
           >
             {isCellExpanded
-              ? "\n...collapse"
-              : `\n...expand (${getValueStringLength(value) - MAX_CELL_DISPLAY_CHARS} more characters)`}
+              ? "\n...收起"
+              : `\n...展开（还有 ${getValueStringLength(value) - MAX_CELL_DISPLAY_CHARS} 个字符）`}
           </div>
         )}
 
@@ -509,8 +509,8 @@ export const ValueCell = memo(
             size="icon"
             className="bg-background/80 hover:bg-background absolute top-0 right-0 h-5 w-5 border p-0.5 opacity-0 shadow-xs transition-opacity duration-200 group-hover:opacity-100"
             onClick={handleCopy}
-            title="Copy value"
-            aria-label="Copy cell value"
+            title="复制值"
+            aria-label="复制单元格值"
           >
             {showCopySuccess ? (
               <Check className="h-2.5 w-2.5 text-green-600" />

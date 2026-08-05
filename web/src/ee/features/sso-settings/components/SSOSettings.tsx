@@ -81,7 +81,7 @@ const SSO_PROVIDERS: ReadonlyArray<{
   { id: "keycloak", label: "Keycloak", fields: ["issuer"] },
   { id: "jumpcloud", label: "JumpCloud", fields: ["issuer"] },
   // Custom OIDC requires a display name on the schema; surface it in the form.
-  { id: "custom", label: "Custom OIDC", fields: ["name", "issuer"] },
+  { id: "custom", label: "自定义 OIDC", fields: ["name", "issuer"] },
 ];
 
 const providerLabel = (id: string) =>
@@ -456,7 +456,7 @@ function SsoConfigDialog({
                       <FormItem>
                         <FormLabel>显示名称</FormLabel>
                         <FormControl>
-                          <Input placeholder="Acme SSO" {...field} />
+                          <Input placeholder="Acme 单点登录(SSO)" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -56,8 +56,7 @@ export const webhookSchema = z.object({
           return !defaultHeaderKeys.includes(name.trim().toLowerCase());
         },
         {
-          message:
-            "This header is automatically added by Langfuse and cannot be customized",
+          message: "此标头由 Langfuse 自动添加，无法自定义",
         },
       ),
       value: z.string(),
@@ -124,7 +123,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
       <FormField
         control={form.control}
         name="webhook.url"
-        rules={{ required: "Webhook URL is required" }}
+        rules={{ required: "Webhook URL 为必填项" }}
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center">
@@ -138,8 +137,8 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
               />
             </FormControl>
             <FormDescription>
-              The HTTP URL to call when the trigger fires. We will send a POST
-              request to this URL. Only HTTPS URLs are allowed for security.
+              触发时要调用的 HTTP URL。我们将向此 URL 发送 POST 请求。
+              出于安全考虑，仅允许 HTTPS URL。
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -151,7 +150,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
         name="webhook.apiVersion.prompt"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>API Version</FormLabel>
+            <FormLabel>API 版本</FormLabel>
             <Select
               onValueChange={field.onChange}
               value={field.value}
@@ -159,7 +158,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select API version" />
+                  <SelectValue placeholder="请选择 API 版本" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -167,8 +166,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
               </SelectContent>
             </Select>
             <FormDescription>
-              The API version to use for the webhook payload format when prompt
-              events are triggered.
+              当提示词事件触发时，用于 webhook 负载格式的 API 版本。
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -176,12 +174,12 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
       />
 
       <div>
-        <FormLabel>Headers</FormLabel>
+        <FormLabel>标头</FormLabel>
 
         {/* Default Headers Section */}
         <div className="mb-4">
           <FormDescription className="mb-2">
-            Default headers (automatically added by Langfuse):
+            默认标头（由 Langfuse 自动添加）：
           </FormDescription>
           {Object.entries({
             ...WebhookDefaultHeaders,
@@ -211,7 +209,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
 
         {/* Custom Headers Section */}
         <FormDescription className="mb-2">
-          Optional custom headers to include in the webhook request:
+          要包含在 webhook 请求中的可选自定义标头：
         </FormDescription>
 
         {customHeaderFields.map((field) => {
@@ -238,7 +236,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Header Name"
+                        placeholder="标头名称"
                         {...field}
                         disabled={disabled}
                       />
@@ -257,7 +255,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
                         placeholder={
                           isSecret && displayValue
                             ? displayValue
-                            : displayValue || "Value"
+                            : displayValue || "值"
                         }
                         {...field}
                         disabled={disabled}
@@ -274,7 +272,7 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
                 size="icon"
                 onClick={() => toggleHeaderSecret(originalIndex)}
                 disabled={disabled}
-                title={isSecret ? "Make header public" : "Make header secret"}
+                title={isSecret ? "将标头设为公开" : "将标头设为私密"}
               >
                 {isSecret ? (
                   <Lock className="h-4 w-4 text-orange-500" />
@@ -303,16 +301,16 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
           className="mt-2"
         >
           <Plus className="mr-1 h-4 w-4" />
-          Add Custom Header
+          添加自定义标头
         </Button>
       </div>
 
       {/* Webhook Secret Section */}
       <div>
-        <FormLabel>Webhook Secret</FormLabel>
+        <FormLabel>Webhook 密钥</FormLabel>
         <FormDescription className="mb-2">
-          Use this secret to verify webhook signatures for security. The secret
-          is automatically included in the x-langfuse-signature header.
+          使用此密钥验证 webhook 签名以确保安全。该密钥会自动包含在
+          x-langfuse-signature 标头中。
         </FormDescription>
 
         {action?.id ? (
@@ -335,13 +333,12 @@ export const WebhookActionForm: React.FC<WebhookActionFormProps> = ({
               </div>
             </div>
             <div className="text-muted-foreground mt-1 text-xs">
-              Secret is encrypted and can only be viewed when generated or
-              regenerated
+              密钥已加密，仅在生成或重新生成时可查看
             </div>
           </div>
         ) : (
           <div className="bg-muted/50 text-muted-foreground rounded-md border p-3 text-sm">
-            Webhook secret will be generated when the automation is created.
+            创建自动化时将生成 Webhook 密钥。
           </div>
         )}
       </div>
@@ -367,8 +364,8 @@ export const RegenerateWebhookSecretButton = ({
     api.automations.regenerateWebhookSecret.useMutation({
       onSuccess: (data) => {
         showSuccessToast({
-          title: "Webhook Secret Regenerated",
-          description: "Your webhook secret has been successfully regenerated.",
+          title: "Webhook 密钥已重新生成",
+          description: "你的 Webhook 密钥已成功重新生成。",
         });
         setRegeneratedSecret(data.webhookSecret);
         setShowRegenerateDialog(true);
@@ -403,15 +400,13 @@ export const RegenerateWebhookSecretButton = ({
             <RefreshCw
               className={`mr-2 h-4 w-4 ${regenerateSecretMutation.isPending ? "animate-spin" : ""}`}
             />
-            Regenerate
+            重新生成
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <h2 className="mb-3 font-bold">Please confirm</h2>
+          <h2 className="mb-3 font-bold">请确认</h2>
           <p className="mb-3 max-w-sm text-sm">
-            This action will invalidate the current webhook secret and generate
-            a new one. Any existing integrations using the old secret will stop
-            working until updated.
+            此操作将使当前 Webhook 密钥失效并生成新密钥。任何使用旧密钥的现有集成将停止工作，直到更新。
           </p>
           <div className="flex justify-end space-x-4">
             <Button
@@ -420,7 +415,7 @@ export const RegenerateWebhookSecretButton = ({
               onClick={() => setShowConfirmPopover(false)}
               disabled={regenerateSecretMutation.isPending}
             >
-              Cancel
+              取消
             </Button>
             <Button
               type="button"
@@ -428,7 +423,7 @@ export const RegenerateWebhookSecretButton = ({
               loading={regenerateSecretMutation.isPending}
               onClick={handleRegenerateSecret}
             >
-              Regenerate Secret
+              重新生成密钥
             </Button>
           </div>
         </PopoverContent>
@@ -441,10 +436,9 @@ export const RegenerateWebhookSecretButton = ({
       >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Webhook Secret Regenerated</DialogTitle>
+            <DialogTitle>Webhook 密钥已重新生成</DialogTitle>
             <DialogDescription>
-              Your webhook secret has been regenerated. Please copy the new
-              secret below - it will only be shown once.
+              你的 Webhook 密钥已重新生成。请复制下方的新密钥——它只会显示一次。
             </DialogDescription>
           </DialogHeader>
           <DialogBody>
@@ -459,7 +453,7 @@ export const RegenerateWebhookSecretButton = ({
                 setRegeneratedSecret(null);
               }}
             >
-              {"I've saved the secret"}
+              {"我已保存密钥"}
             </Button>
           </DialogFooter>
         </DialogContent>

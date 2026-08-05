@@ -70,22 +70,22 @@ type KeyValueFilterBuilderProps =
 
 // Map operators to human-readable labels
 const NUMERIC_OPERATOR_LABELS = {
-  "=": "equals",
-  ">": "greater than",
-  "<": "less than",
-  ">=": "greater than or equals",
-  "<=": "less than or equals",
+  "=": "等于",
+  ">": "大于",
+  "<": "小于",
+  ">=": "大于或等于",
+  "<=": "小于或等于",
 } as const;
 
 const STRING_OPERATOR_LABELS = {
-  "=": "equals",
-  contains: "contains",
-  "does not contain": "does not contain",
+  "=": "等于",
+  contains: "包含",
+  "does not contain": "不包含",
 } as const;
 
 const BOOLEAN_OPERATOR_LABELS = {
-  "=": "equals",
-  "<>": "does not equal",
+  "=": "等于",
+  "<>": "不等于",
 } as const;
 
 export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
@@ -95,7 +95,7 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
     keyLevels,
     activeFilters,
     onChange,
-    keyPlaceholder = "Key",
+    keyPlaceholder = "键",
   } = props;
   const availableValues = mode === "categorical" ? props.availableValues : {};
 
@@ -280,11 +280,11 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
                   <PopoverContent className="w-[200px] p-0" align="start">
                     <InputCommand>
                       <InputCommandInput
-                        placeholder="Search keys..."
+                        placeholder="搜索键..."
                         variant="bottom"
                       />
                       <InputCommandList>
-                        <InputCommandEmpty>No keys found.</InputCommandEmpty>
+                        <InputCommandEmpty>未找到键。</InputCommandEmpty>
                         <InputCommandGroup>
                           {mergedKeyOptions.map((option) => (
                             <InputCommandItem
@@ -367,14 +367,14 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="any of">any of</SelectItem>
-                    <SelectItem value="none of">none of</SelectItem>
+                    <SelectItem value="any of">任一</SelectItem>
+                    <SelectItem value="none of">均不</SelectItem>
                   </SelectContent>
                 </Select>
 
                 {/* Values multi-select */}
                 <MultiSelect
-                  title="Values"
+                  title="值"
                   options={availableValuesForKey.map((v) => ({ value: v }))}
                   values={filter.value as string[]}
                   onValueChange={(values) =>
@@ -411,7 +411,7 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
                 {/* Numeric value input */}
                 <Input
                   type="number"
-                  placeholder="Value"
+                  placeholder="值"
                   value={(filter as NumericKeyValueFilterEntry).value}
                   onChange={(e) =>
                     handleFilterChange(index, {
@@ -460,7 +460,7 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
                   disabled={!filter.key}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Value" />
+                    <SelectValue placeholder="值" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="true">true</SelectItem>
@@ -496,7 +496,7 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
                 {/* String value input */}
                 <Input
                   type="text"
-                  placeholder="Value"
+                  placeholder="值"
                   value={filter.value as string}
                   onChange={(e) =>
                     handleFilterChange(index, {
@@ -519,7 +519,7 @@ export function KeyValueFilterBuilder(props: KeyValueFilterBuilderProps) {
         className="w-full"
       >
         <Plus className="mr-2 h-4 w-4" />
-        Add filter
+        添加筛选
       </Button>
     </div>
   );

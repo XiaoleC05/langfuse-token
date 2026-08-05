@@ -126,7 +126,7 @@ export function SessionUsers({
   return (
     <div className="flex flex-wrap items-center gap-2">
       {initialUsers.map((userId: string) => {
-        const userBadgeText = `User ID: ${userId}`;
+        const userBadgeText = `用户 ID：${userId}`;
 
         return (
           <Link
@@ -149,11 +149,11 @@ export function SessionUsers({
         <Popover modal>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="mt-0.5">
-              +{remainingUsers.length} more users
+              +{remainingUsers.length} 位用户
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[300px]">
-            <Label className="text-base capitalize">Session Users</Label>
+            <Label className="text-base capitalize">会话用户</Label>
             <ScrollArea className="h-[300px]">
               <div className="flex flex-col gap-2 p-2">
                 {remainingUsers
@@ -162,7 +162,7 @@ export function SessionUsers({
                     (page + 1) * USERS_PER_PAGE_IN_POPOVER,
                   )
                   .map((userId: string) => {
-                    const userBadgeText = `User ID: ${userId}`;
+                    const userBadgeText = `用户 ID：${userId}`;
 
                     return (
                       <Link
@@ -191,11 +191,12 @@ export function SessionUsers({
                   onClick={() => setPage((p) => Math.max(0, p - 1))}
                   disabled={page === 0}
                 >
-                  Previous
+                  上一页
                 </Button>
                 <span className="text-muted-foreground text-sm">
-                  Page {page + 1} of{" "}
+                  第 {page + 1} 页，共{" "}
                   {Math.ceil(remainingUsers.length / USERS_PER_PAGE_IN_POPOVER)}
+                  页
                 </span>
                 <Button
                   variant="outline"
@@ -206,7 +207,7 @@ export function SessionUsers({
                     remainingUsers.length
                   }
                 >
-                  Next
+                  下一页
                 </Button>
               </div>
             )}
@@ -310,7 +311,7 @@ const CopySessionIdButton: React.FC<{
       <Button
         variant="ghost"
         size="sm"
-        aria-label="Copy session ID"
+        aria-label="复制会话 ID"
         className="w-full justify-start gap-2 font-normal"
         onClick={onCopy}
       >
@@ -319,7 +320,7 @@ const CopySessionIdButton: React.FC<{
         ) : (
           <CopyIcon className="h-4 w-4" />
         )}
-        <span className="text-sm">Copy session ID</span>
+        <span className="text-sm">复制会话 ID</span>
       </Button>
     );
   }
@@ -328,8 +329,8 @@ const CopySessionIdButton: React.FC<{
     <Button
       variant="ghost"
       size="icon-xs"
-      title="Copy session ID"
-      aria-label="Copy session ID"
+      title="复制会话 ID"
+      aria-label="复制会话 ID"
       onClick={onCopy}
     >
       {isCopied ? (
@@ -473,15 +474,15 @@ export const SessionPage: React.FC<{
   const virtualItems = virtualizer.getVirtualItems();
 
   if (session.error?.data?.code === "UNAUTHORIZED")
-    return <ErrorPage message="You do not have access to this session." />;
+    return <ErrorPage message="您无权访问此会话。" />;
 
   if (session.error?.data?.code === "NOT_FOUND")
     return (
       <ErrorPage
-        title="Session not found"
-        message="The session is either still being processed or has been deleted."
+        title="会话未找到"
+        message="该会话可能仍在处理中，或已被删除。"
         additionalButton={{
-          label: "Retry",
+          label: "重试",
           onClick: () => window.location.reload(),
         }}
       />
@@ -495,7 +496,7 @@ export const SessionPage: React.FC<{
           itemType: "SESSION",
           breadcrumb: [
             {
-              name: "Sessions",
+              name: "会话",
               href: `/project/${projectId}/sessions`,
             },
           ],
@@ -530,7 +531,7 @@ export const SessionPage: React.FC<{
                 variant="outline"
                 size="icon"
                 onClick={onDownloadSessionAsJson}
-                title="Download session as JSON"
+                title="将会话下载为 JSON"
               >
                 <Download className="h-4 w-4" />
               </Button>
@@ -581,9 +582,7 @@ export const SessionPage: React.FC<{
                     size="sm"
                   />
                 </div>
-                <span className="text-muted-foreground text-xs">
-                  Show corrections
-                </span>
+                <span className="text-muted-foreground text-xs">显示修正</span>
               </div>
             </>
           ),
@@ -602,7 +601,7 @@ export const SessionPage: React.FC<{
                 projectId={projectId}
                 sessionId={sessionId}
                 isPublic={session.data?.public ?? false}
-                label="Share"
+                label="共享"
               />
               <CopySessionIdButton sessionId={sessionId} layout="menu" />
               <CommentDrawerButton
@@ -648,10 +647,10 @@ export const SessionPage: React.FC<{
                 className="w-full justify-start gap-2 font-normal"
               >
                 <Download className="h-4 w-4" />
-                <span className="text-sm">Download JSON</span>
+                <span className="text-sm">下载 JSON</span>
               </Button>
               <label className="hover:bg-accent flex w-full items-center justify-between gap-4 rounded-md px-2 py-1.5">
-                <span className="text-sm">Show corrections</span>
+                <span className="text-sm">显示修正</span>
                 <Switch
                   checked={showCorrections}
                   onCheckedChange={setShowCorrectionsForSession}
@@ -668,15 +667,15 @@ export const SessionPage: React.FC<{
             desktopClassName="bg-background sticky top-0 z-40 flex flex-wrap gap-2 border-b p-4"
             summary={
               <>
-                <span className="text-sm font-bold">Session controls</span>
+                <span className="text-sm font-bold">会话控制</span>
                 <span
                   className="text-muted-foreground min-w-0 truncate text-xs"
-                  title={`${session.data?.traces.length ?? 0} traces · ${usdFormatter(
+                  title={`${session.data?.traces.length ?? 0} 个追踪 · ${usdFormatter(
                     session.data?.totalCost ?? 0,
                     2,
                   )}`}
                 >
-                  {session.data?.traces.length ?? 0} traces ·{" "}
+                  {session.data?.traces.length ?? 0} 个追踪 ·{" "}
                   {usdFormatter(session.data?.totalCost ?? 0, 2)}
                 </span>
               </>
@@ -686,11 +685,11 @@ export const SessionPage: React.FC<{
               <SessionUsers projectId={projectId} users={session.data.users} />
             ) : null}
             <Badge variant="outline">
-              Total traces: {session.data?.traces.length}
+              追踪总数：{session.data?.traces.length}
             </Badge>
             {session.data && (
               <Badge variant="outline">
-                Total cost: {usdFormatter(session.data.totalCost, 2)}
+                总成本：{usdFormatter(session.data.totalCost, 2)}
               </Badge>
             )}
             <SessionScores scores={session.data?.scores ?? []} />
@@ -782,15 +781,15 @@ export const SessionEventsPage: React.FC<{
   );
 
   if (session.error?.data?.code === "UNAUTHORIZED")
-    return <ErrorPage message="You do not have access to this session." />;
+    return <ErrorPage message="您无权访问此会话。" />;
 
   if (session.error?.data?.code === "NOT_FOUND")
     return (
       <ErrorPage
-        title="Session not found"
-        message="The session is either still being processed or has been deleted."
+        title="会话未找到"
+        message="该会话可能仍在处理中，或已被删除。"
         additionalButton={{
-          label: "Retry",
+          label: "重试",
           onClick: () => window.location.reload(),
         }}
       />
@@ -804,7 +803,7 @@ export const SessionEventsPage: React.FC<{
           itemType: "SESSION",
           breadcrumb: [
             {
-              name: "Sessions",
+              name: "会话",
               href: `/project/${projectId}/sessions`,
             },
           ],
@@ -903,17 +902,17 @@ const LoadedSessionEventsPage: React.FC<{
 
   const displayOptions = [
     {
-      label: "corrections",
+      label: "修正",
       checked: showCorrections,
       onCheckedChange: setShowCorrectionsForSession,
     },
     {
-      label: "tool calls",
+      label: "工具调用",
       checked: showInlineToolCalls,
       onCheckedChange: setInlineToolCallsForSession,
     },
     {
-      label: "system prompt",
+      label: "系统提示",
       checked: showSystemPrompt,
       onCheckedChange: setShowSystemPromptForSession,
     },
@@ -1366,7 +1365,7 @@ const LoadedSessionEventsPage: React.FC<{
           itemType: "SESSION",
           breadcrumb: [
             {
-              name: "Sessions",
+              name: "会话",
               href: `/project/${projectId}/sessions`,
             },
           ],
@@ -1400,7 +1399,9 @@ const LoadedSessionEventsPage: React.FC<{
               {isModernSessionEnabled ? (
                 <>
                   <div className="hidden items-center gap-3 pr-2 min-[1900px]:flex">
-                    <span className="text-muted-foreground text-xs">Show:</span>
+                    <span className="text-muted-foreground text-xs">
+                      显示：
+                    </span>
                     {displayOptions.map(
                       ({ label, checked, onCheckedChange }) => (
                         <label
@@ -1420,7 +1421,9 @@ const LoadedSessionEventsPage: React.FC<{
                     )}
                   </div>
                   <div className="flex items-center gap-1.5 pr-2 min-[1900px]:hidden">
-                    <span className="text-muted-foreground text-xs">Show:</span>
+                    <span className="text-muted-foreground text-xs">
+                      显示：
+                    </span>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -1428,7 +1431,7 @@ const LoadedSessionEventsPage: React.FC<{
                           size="sm"
                           className="h-8 gap-1 px-2"
                         >
-                          Options
+                          选项
                           <ChevronDown className="h-3.5 w-3.5" />
                         </Button>
                       </PopoverTrigger>
@@ -1504,7 +1507,7 @@ const LoadedSessionEventsPage: React.FC<{
                     size="sm"
                   />
                   <span className="text-muted-foreground text-xs">
-                    Show corrections
+                    显示修正
                   </span>
                 </label>
               ) : null}
@@ -1525,7 +1528,7 @@ const LoadedSessionEventsPage: React.FC<{
                 projectId={projectId}
                 sessionId={sessionId}
                 isPublic={session.public}
-                label="Share"
+                label="共享"
               />
               <CopySessionIdButton sessionId={sessionId} layout="menu" />
               <CommentDrawerButton
@@ -1580,7 +1583,7 @@ const LoadedSessionEventsPage: React.FC<{
                 ))
               ) : (
                 <label className="hover:bg-accent flex w-full items-center justify-between gap-4 rounded-md px-2 py-1.5">
-                  <span className="text-sm">Show corrections</span>
+                  <span className="text-sm">显示修正</span>
                   <Switch
                     checked={showCorrections}
                     onCheckedChange={setShowCorrectionsForSession}
@@ -1604,15 +1607,15 @@ const LoadedSessionEventsPage: React.FC<{
             desktopClassName="bg-background sticky top-0 z-40 flex flex-wrap items-center gap-2 border-b p-4"
             summary={
               <>
-                <span className="text-sm font-bold">Session controls</span>
+                <span className="text-sm font-bold">会话控制</span>
                 <span
                   className="text-muted-foreground min-w-0 truncate text-xs"
-                  title={`${session.countTraces} traces · ${usdFormatter(
+                  title={`${session.countTraces} 个追踪 · ${usdFormatter(
                     session.totalCost ?? 0,
                     2,
                   )}`}
                 >
-                  {session.countTraces} traces ·{" "}
+                  {session.countTraces} 个追踪 ·{" "}
                   {usdFormatter(session.totalCost ?? 0, 2)}
                 </span>
               </>
@@ -1629,13 +1632,13 @@ const LoadedSessionEventsPage: React.FC<{
                       isLlmCallPresetActive ? "bg-primary/5" : undefined
                     }
                   >
-                    LLM Calls per Trace
+                    每条追踪的 LLM 调用
                     <ChevronDown className="ml-1 h-4 w-4" aria-hidden />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-72 p-1">
                   <div className="text-muted-foreground px-2 py-1.5 text-xs font-bold">
-                    LLM Calls per Trace
+                    每条追踪的 LLM 调用
                   </div>
                   {SESSION_DETAIL_LLM_CALL_PRESETS.map((preset) => {
                     const isActive = matchedView?.id === preset.id;
@@ -1695,7 +1698,7 @@ const LoadedSessionEventsPage: React.FC<{
               filterState={visibleFilterState}
               onChange={queryFilter.setFilterState}
               columnsWithCustomSelect={filterColumnsWithCustomSelect}
-              label="Filter observations"
+              label="过滤观测"
               // Analytics (LFE-10781): session-detail observation refinement is a
               // v3/legacy surface (the v4 events table filters via the grammar bar).
               tableName="session-detail"
@@ -1709,11 +1712,9 @@ const LoadedSessionEventsPage: React.FC<{
                 Session shows trace count and cost in its minimap header. */}
             {!isModernSessionEnabled ? (
               <>
+                <Badge variant="outline">追踪总数：{session.countTraces}</Badge>
                 <Badge variant="outline">
-                  Total traces: {session.countTraces}
-                </Badge>
-                <Badge variant="outline">
-                  Total cost: {usdFormatter(session.totalCost ?? 0, 2)}
+                  总成本：{usdFormatter(session.totalCost ?? 0, 2)}
                 </Badge>
               </>
             ) : null}
@@ -1853,7 +1854,7 @@ export const SessionIO = ({
         />
       ) : (
         <div className="text-muted-foreground p-2 text-xs">
-          This trace has no input or output.
+          此追踪没有输入或输出。
         </div>
       )}
     </div>

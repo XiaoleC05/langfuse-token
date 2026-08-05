@@ -168,7 +168,7 @@ export function UpsertScoreConfigDialog({
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>名称</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -187,7 +187,7 @@ export function UpsertScoreConfigDialog({
                   name="dataType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Data type</FormLabel>
+                      <FormLabel>数据类型</FormLabel>
                       <Select
                         disabled={!!id}
                         defaultValue={field.value}
@@ -217,7 +217,7 @@ export function UpsertScoreConfigDialog({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a data type" />
+                            <SelectValue placeholder="请选择数据类型" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -241,7 +241,7 @@ export function UpsertScoreConfigDialog({
                       name="minValue"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Minimum (optional) </FormLabel>
+                          <FormLabel>最小值（可选） </FormLabel>
                           <FormControl>
                             <Input
                               {...field}
@@ -265,7 +265,7 @@ export function UpsertScoreConfigDialog({
                       name="maxValue"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Maximum (optional)</FormLabel>
+                          <FormLabel>最大值（可选）</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
@@ -295,18 +295,18 @@ export function UpsertScoreConfigDialog({
                           {fields.length > 0 && (
                             <div className="mb-2 grid grid-cols-[1fr_3fr] items-center gap-2 text-left sm:grid-cols-[1fr_7fr]">
                               <FormLabel className="grid grid-flow-col">
-                                Value
+                                值
                                 <DocPopup
-                                  description={`This is how the ${
+                                  description={`这是“${
                                     isCategoricalDataType(
                                       form.getValues("dataType"),
                                     )
-                                      ? "category"
-                                      : "boolean"
-                                  } label is mapped to an integer value internally.`}
+                                      ? "类别"
+                                      : "布尔"
+                                  }”标签在内部映射到整数值的方式。`}
                                 />
                               </FormLabel>
-                              <FormLabel>Label</FormLabel>
+                              <FormLabel>标签</FormLabel>
                             </div>
                           )}
                           {fields.map((category, index) => (
@@ -398,7 +398,7 @@ export function UpsertScoreConfigDialog({
                                   })
                                 }
                               >
-                                Add category
+                                添加类别
                               </Button>
                             </div>
                           )}
@@ -413,11 +413,11 @@ export function UpsertScoreConfigDialog({
                   render={({ field }) => (
                     <>
                       <FormItem>
-                        <FormLabel>Description (optional)</FormLabel>
+                        <FormLabel>描述（可选）</FormLabel>
                         <FormControl>
                           <Textarea
                             {...field}
-                            placeholder="Provide an optional description of the score config..."
+                            placeholder="提供评分配置的可选描述..."
                             value={field.value ?? undefined}
                           />
                         </FormControl>
@@ -431,7 +431,7 @@ export function UpsertScoreConfigDialog({
                 <div className="flex w-full flex-col items-end gap-4">
                   {formError ? (
                     <p className="w-full text-center">
-                      <span className="font-bold">Error:</span> {formError}
+                      <span className="font-bold">错误：</span> {formError}
                     </p>
                   ) : null}
                   <Button
@@ -440,7 +440,7 @@ export function UpsertScoreConfigDialog({
                       createScoreConfig.isPending || updateScoreConfig.isPending
                     }
                   >
-                    Submit
+                    提交
                   </Button>
                 </div>
               </DialogFooter>

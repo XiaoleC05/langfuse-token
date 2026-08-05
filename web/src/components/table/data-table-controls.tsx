@@ -1827,7 +1827,7 @@ export function NumericFacet({
     >
       <div className="px-4 py-2">
         {loading ? (
-          <div className="text-muted-foreground text-sm">Loading...</div>
+          <div className="text-muted-foreground text-sm">加载中...</div>
         ) : (
           <div className="grid gap-4">
             <div className="flex items-center gap-4">
@@ -1836,7 +1836,7 @@ export function NumericFacet({
                   htmlFor={`min-${filterKey}`}
                   className="text-muted-foreground text-xs"
                 >
-                  Min.
+                  最小
                 </Label>
                 <div className="flex items-center gap-1">
                   <Input
@@ -1861,7 +1861,7 @@ export function NumericFacet({
                   htmlFor={`max-${filterKey}`}
                   className="text-muted-foreground text-xs"
                 >
-                  Max.
+                  最大
                 </Label>
                 <div className="flex items-center gap-1">
                   <Input
@@ -1961,13 +1961,13 @@ export function StringFacet({
     >
       <div className="px-4">
         {loading ? (
-          <div className="text-muted-foreground text-sm">Loading...</div>
+          <div className="text-muted-foreground text-sm">加载中...</div>
         ) : (
           <Input
             type="text"
             id={`string-${filterKey}`}
             value={localValue}
-            placeholder="Search"
+            placeholder="搜索"
             onChange={handleInputChange}
             className="h-8"
           />
@@ -2010,7 +2010,7 @@ export function KeyValueFacet({
     >
       {loading ? (
         <div className="text-muted-foreground px-4 py-2 text-sm">
-          Loading...
+          加载中...
         </div>
       ) : (
         <KeyValueFilterBuilder
@@ -2059,7 +2059,7 @@ export function NumericKeyValueFacet({
     >
       {loading ? (
         <div className="text-muted-foreground px-4 py-2 text-sm">
-          Loading...
+          加载中...
         </div>
       ) : (
         <KeyValueFilterBuilder
@@ -2107,7 +2107,7 @@ export function BooleanKeyValueFacet({
     >
       {loading ? (
         <div className="text-muted-foreground px-4 py-2 text-sm">
-          Loading...
+          加载中...
         </div>
       ) : (
         <KeyValueFilterBuilder
@@ -2154,7 +2154,7 @@ export function StringKeyValueFacet({
     >
       {loading ? (
         <div className="text-muted-foreground px-4 py-2 text-sm">
-          Loading...
+          加载中...
         </div>
       ) : (
         <KeyValueFilterBuilder
@@ -2186,10 +2186,10 @@ function FilterModeTabs({ mode, onModeChange }: FilterModeTabsProps) {
       >
         <TabsList className="grid h-6 w-full grid-cols-2 p-0.5">
           <TabsTrigger value="select" className="h-5 px-2 text-xs">
-            Select
+            选择
           </TabsTrigger>
           <TabsTrigger value="text" className="h-5 px-2 text-xs">
-            Text
+            文本
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -2236,10 +2236,10 @@ function TextFilterSection({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="contains" className="text-xs">
-              contains
+              包含
             </SelectItem>
             <SelectItem value="does not contain" className="text-xs">
-              does not contain
+              不包含
             </SelectItem>
           </SelectContent>
         </Select>
@@ -2256,7 +2256,7 @@ function TextFilterSection({
               handleAdd();
             }
           }}
-          placeholder="Enter value..."
+          placeholder="输入值..."
           className="h-7 flex-1 text-xs"
         />
         <Button
@@ -2266,7 +2266,7 @@ function TextFilterSection({
           disabled={inputValue.length === 0}
           className="h-7 shrink-0 px-2 text-xs"
         >
-          Add
+          添加
         </Button>
       </div>
 
@@ -2279,7 +2279,7 @@ function TextFilterSection({
               className="group/textfilter border-border/40 bg-muted/30 flex items-center gap-2 rounded border px-2 py-1 text-xs"
             >
               <span className="text-muted-foreground shrink-0 text-[11px] font-bold">
-                {f.operator === "contains" ? "contains" : "does not contain"}
+                {f.operator === "contains" ? "包含" : "不包含"}
               </span>
               <span
                 className="min-w-0 flex-1 truncate font-bold"
@@ -2327,11 +2327,11 @@ export function FilterValueCheckbox({
   disabled = false,
 }: FilterValueCheckboxProps) {
   // Show "All" when clicking would reverse selection (only one item selected)
-  const labelText = checked && totalSelected === 1 ? "All" : "Only";
+  const labelText = checked && totalSelected === 1 ? "全部" : "仅此";
 
   // Display placeholder for empty strings to ensure clickable area
-  const displayLabel = label === "" ? "(empty)" : label;
-  const displayTitle = label === "" ? "(empty)" : label;
+  const displayLabel = label === "" ? "（空）" : label;
+  const displayTitle = label === "" ? "（空）" : label;
 
   return (
     <div

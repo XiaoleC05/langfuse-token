@@ -121,7 +121,7 @@ export function CodeEvalTestRunCard({
       <Card className="flex min-w-0 flex-col gap-4 p-4">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">
-            <span className="text-sm font-bold">Test run</span>
+            <span className="text-sm font-bold">测试运行</span>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             {evalTemplate.projectId ? (
@@ -131,7 +131,7 @@ export function CodeEvalTestRunCard({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Source code
+                  源代码
                   <ExternalLink className="ml-1 h-3.5 w-3.5" />
                 </Link>
               </Button>
@@ -139,9 +139,9 @@ export function CodeEvalTestRunCard({
               <Button
                 variant="outline"
                 disabled
-                title="Only user-managed templates can be edited"
+                title="只有用户管理的模板才能编辑"
               >
-                Source code
+                源代码
                 <ExternalLink className="ml-1 h-3.5 w-3.5" />
               </Button>
             )}
@@ -171,7 +171,7 @@ export function CodeEvalTestRunCard({
               ) : (
                 <Play className="mr-1.5 h-3.5 w-3.5" />
               )}
-              Test
+              测试
             </Button>
           </div>
         </div>
@@ -196,8 +196,7 @@ export function CodeEvalTestRunCard({
         ) : null}
 
         <p className="text-muted-foreground text-xs">
-          Read-only preview. Inputs are sampled from the first matching
-          observation.
+          只读预览。输入来自第一条匹配的观测。
         </p>
       </Card>
       {enableExecutionTracePeek ? (
@@ -230,7 +229,7 @@ function CodeEvalTestRunInputPreview({
   if (!previewData) {
     return (
       <div className="text-muted-foreground flex min-h-32 items-center justify-center rounded-md border border-dashed p-4 text-center text-sm">
-        No matching observation
+        未找到匹配的观测
       </div>
     );
   }
@@ -282,7 +281,7 @@ function CodeEvalTestRunInputCards({
     <div className="bg-muted/20 min-w-0 rounded-md border">
       <div className="flex items-center justify-between gap-3 border-b px-3 py-2">
         <span className="text-muted-foreground text-xs font-bold">
-          Evaluator input
+          评估器输入
         </span>
       </div>
       <PrettyJsonView
@@ -314,7 +313,7 @@ function CodeEvalTestRunResultView({
     <div className="flex min-w-0 flex-col gap-3">
       <div className="flex items-center justify-between gap-3">
         <Badge variant={result.success ? "success" : "error"} className="w-fit">
-          {result.success ? "Success" : "Failed"}
+          {result.success ? "成功" : "失败"}
         </Badge>
         {onShowExecutionTrace ? (
           <Button
@@ -324,7 +323,7 @@ function CodeEvalTestRunResultView({
             onClick={() => onShowExecutionTrace(result.executionTraceId)}
           >
             <ListTree className="mr-1.5 h-3.5 w-3.5" />
-            Show execution trace
+            查看执行追踪
           </Button>
         ) : null}
       </div>

@@ -118,7 +118,7 @@ const ScoreGroupBadge = <
                           target="_blank"
                         >
                           <ExternalLinkIcon className="h-3 w-3" />
-                          View execution trace
+                          查看执行追踪
                         </Link>
                       )}
                   </HoverCardContent>
@@ -211,7 +211,7 @@ export const GroupedScoreBadges = <
               type="button"
               // aria-label, not title: a native tooltip would stack on top of
               // the hover-card preview.
-              aria-label={`Show ${hiddenScores.length} more score${hiddenScores.length === 1 ? "" : "s"}`}
+              aria-label={`显示另外 ${hiddenScores.length} 个评分`}
               // Chips render inside clickable rows (tree nodes, table rows) —
               // expanding must not also select/navigate the row.
               onClick={(event) => {
@@ -244,8 +244,8 @@ export const GroupedScoreBadges = <
       {expanded && overflows && (
         <button
           type="button"
-          title="Show fewer scores"
-          aria-label="Show fewer scores"
+          title="显示更少分数"
+          aria-label="显示更少分数"
           onClick={(event) => {
             event.stopPropagation();
             setExpanded(false);

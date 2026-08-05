@@ -56,7 +56,7 @@ export const BillingSwitchPlanDialog = ({
       onError: () => {
         setProcessingPlanId(null);
         setOpId(null);
-        toast.error("Failed to start checkout session");
+        toast.error("启动结账会话失败");
       },
     });
 
@@ -69,17 +69,17 @@ export const BillingSwitchPlanDialog = ({
       }}
     >
       <DialogTrigger asChild>
-        <Button disabled={disabled}>Change plan</Button>
+        <Button disabled={disabled}>更换套餐</Button>
       </DialogTrigger>
       <DialogContent className="max-w-5xl">
         <DialogHeader>
           <div className="flex flex-row items-center justify-between">
-            <DialogTitle>Plans</DialogTitle>
+            <DialogTitle>套餐</DialogTitle>
             <ActionButton
               variant="secondary"
               href="https://langfuse.com/pricing"
             >
-              Comparison of plans ↗
+              套餐对比 ↗
             </ActionButton>
           </div>
         </DialogHeader>
@@ -104,22 +104,22 @@ export const BillingSwitchPlanDialog = ({
                     <div className="mb-4">
                       {/* Labels above plan title */}
                       <div className="mb-1 h-5 text-xs font-bold text-blue-700">
-                        {isCurrentPlan && <span>Current Plan</span>}
+                        {isCurrentPlan && <span>当前套餐</span>}
                         {scheduledPlanSwitch &&
                           scheduledPlanSwitch.newPlanId ===
                             product.stripeProductId && (
-                            <span className="ml-1">Starts next period</span>
+                            <span className="ml-1">下个周期生效</span>
                           )}
                         {scheduledPlanSwitch &&
                           organization?.cloudConfig?.stripe?.activeProductId ===
                             product.stripeProductId && (
-                            <span className="ml-1">(Until next period)</span>
+                            <span className="ml-1">(持续到下一个周期)</span>
                           )}
                         {!scheduledPlanSwitch &&
                           cancellation?.isCancelled &&
                           organization?.cloudConfig?.stripe?.activeProductId ===
                             product.stripeProductId && (
-                            <span className="ml-1">(Until next period)</span>
+                            <span className="ml-1">(持续到下一个周期)</span>
                           )}
                       </div>
                       <h3 className="text-2xl font-bold">
@@ -137,7 +137,7 @@ export const BillingSwitchPlanDialog = ({
                             rel="noreferrer"
                             className="underline"
                           >
-                            usage calculator ↗
+                            用量计算器 ↗
                           </a>
                         </div>
                       </div>
@@ -146,7 +146,7 @@ export const BillingSwitchPlanDialog = ({
                       {product.checkout?.description}
                     </div>
                     <div className="space-y-2">
-                      <div className="text-sm font-bold">Main features:</div>
+                      <div className="text-sm font-bold">主要功能：</div>
                       <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
                         {product.checkout?.mainFeatures.map(
                           (feature, index) => (
@@ -160,7 +160,7 @@ export const BillingSwitchPlanDialog = ({
                       target="_blank"
                       className="text-muted-foreground hover:text-foreground mt-auto block py-4 text-sm"
                     >
-                      Learn more about plan →
+                      了解套餐详情 →
                     </Link>
                     {/* The default behavior the user is on a paid plan.*/}
                     {organization?.cloudConfig?.stripe?.activeProductId ? (
@@ -191,8 +191,8 @@ export const BillingSwitchPlanDialog = ({
                               !scheduledPlanSwitch && (
                                 <Button className="w-full" disabled>
                                   {!hasValidPaymentMethod
-                                    ? "Payment method required"
-                                    : "Current plan"}
+                                    ? "需要支付方式"
+                                    : "当前套餐"}
                                 </Button>
                               )}
                           </>
@@ -203,7 +203,7 @@ export const BillingSwitchPlanDialog = ({
                           scheduledPlanSwitch.newPlanId ===
                             product.stripeProductId && (
                             <Button className="w-full" disabled>
-                              Scheduled
+                              已计划切换
                             </Button>
                           )}
 
@@ -227,7 +227,7 @@ export const BillingSwitchPlanDialog = ({
                             />
                           ) : (
                             <Button className="w-full" disabled>
-                              Payment method required
+                              需要支付方式
                             </Button>
                           ))}
 
@@ -249,7 +249,7 @@ export const BillingSwitchPlanDialog = ({
                             />
                           ) : (
                             <Button className="w-full" disabled>
-                              Payment method required
+                              需要支付方式
                             </Button>
                           ))}
                       </div>
@@ -284,7 +284,7 @@ export const BillingSwitchPlanDialog = ({
                               processingPlanId === product.stripeProductId
                             }
                           >
-                            {product.checkout?.cta ? "Select" : "Select plan"}
+                            {product.checkout?.cta ? "选择" : "选择套餐"}
                           </ActionButton>
                         </div>
                         {/* Optional checkout CTA button for non-paid plan users */}

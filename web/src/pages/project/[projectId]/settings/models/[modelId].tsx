@@ -99,10 +99,10 @@ export default function ModelDetailPage() {
   if (!isLoading && !model) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center">
-        <div className="mb-4 text-xl font-bold">Model not found</div>
+        <div className="mb-4 text-xl font-bold">未找到模型</div>
         <Button variant="outline" asChild>
           <Link href={`/project/${projectId}/settings/models`}>
-            Return to Models page
+            返回模型页面
           </Link>
         </Button>
       </div>
@@ -112,7 +112,7 @@ export default function ModelDetailPage() {
   const isLangfuseModel = !Boolean(model?.projectId);
 
   if (isLoading || !model) {
-    return <div className="p-3">Loading...</div>;
+    return <div className="p-3">加载中...</div>;
   }
 
   return (
@@ -121,16 +121,16 @@ export default function ModelDetailPage() {
       headerProps={{
         title: model.modelName,
         help: {
-          description: "Model configuration and pricing details",
+          description: "模型配置与定价详情",
           href: "https://langfuse.com/docs/model-usage-and-cost",
         },
         breadcrumb: [
           {
-            name: "Settings",
+            name: "设置",
             href: `/project/${router.query.projectId as string}/settings`,
           },
           {
-            name: "Models",
+            name: "模型",
             href: `/project/${router.query.projectId as string}/settings/models`,
           },
           { name: model.modelName },
@@ -163,36 +163,36 @@ export default function ModelDetailPage() {
       <div className="grid grid-cols-2 gap-6 p-2">
         <Card>
           <CardHeader>
-            <CardTitle>Model configuration</CardTitle>
+            <CardTitle>模型配置</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div>
               <div className="text-muted-foreground text-sm font-bold">
-                Match Pattern
+                匹配模式
               </div>
               <div className="mt-1 font-mono text-sm">{model.matchPattern}</div>
             </div>
 
             <div>
               <div className="text-muted-foreground text-sm font-bold">
-                Maintained by
+                维护方
               </div>
               <div className="mt-1 text-sm">
-                {isLangfuseModel ? "Langfuse" : "User"}
+                {isLangfuseModel ? "Langfuse" : "用户"}
               </div>
             </div>
 
             <div>
               <div className="text-muted-foreground text-sm font-bold">
-                Tokenizer
+                分词器
               </div>
-              <div className="mt-1 text-sm">{model.tokenizerId || "None"}</div>
+              <div className="mt-1 text-sm">{model.tokenizerId || "无"}</div>
             </div>
 
             {model.tokenizerId && (
               <div>
                 <div className="text-muted-foreground text-sm font-bold">
-                  Tokenizer Config
+                  分词器配置
                 </div>
                 <pre className="bg-muted mt-1 rounded p-2 text-sm">
                   <JSONView json={model.tokenizerConfig} />
@@ -205,18 +205,18 @@ export default function ModelDetailPage() {
         <Card id="pricing-section">
           <CardHeader>
             <div className="flex flex-col gap-2">
-              <CardTitle>Pricing</CardTitle>
+              <CardTitle>定价</CardTitle>
               {model.pricingTiers.length > 1 && (
                 <div className="flex items-center gap-4">
                   <label className="text-muted-foreground text-sm font-bold">
-                    Pricing Tier
+                    定价层级
                   </label>
                   <Select
                     value={activeTier?.id ?? ""}
                     onValueChange={setSelectedTierId}
                   >
                     <SelectTrigger className="w-[200px]">
-                      <SelectValue placeholder="Select tier" />
+                      <SelectValue placeholder="选择层级" />
                     </SelectTrigger>
                     <SelectContent>
                       {model.pricingTiers.map((tier) => (
@@ -235,19 +235,16 @@ export default function ModelDetailPage() {
                           size="sm"
                         >
                           <InfoIcon className="h-3 w-3" />
-                          <span>Conditions</span>
+                          <span>条件</span>
                         </Button>
                       </HoverCardTrigger>
                       <HoverCardContent
                         className="max-h-[80vh] w-[400px] overflow-auto"
                         collisionPadding={20}
                       >
-                        <p className="text-sm font-bold">
-                          Pricing Tier Conditions
-                        </p>
+                        <p className="text-sm font-bold">定价层级条件</p>
                         <p className="text-muted-foreground pt-2 text-sm">
-                          This tier is applied when the following conditions are
-                          met:
+                          当满足以下条件时应用此层级：
                         </p>
                         <div className="mt-2">
                           <CodeMirrorEditor
@@ -272,9 +269,9 @@ export default function ModelDetailPage() {
           <CardContent>
             <div className="flex flex-col gap-2">
               <div className="border-border text-muted-foreground grid grid-cols-2 gap-2 border-b text-sm font-bold">
-                <span>Usage Type</span>
+                <span>用量类型</span>
                 <span className="flex items-center gap-2">
-                  <span>Price {priceUnit}</span>
+                  <span>价格 {priceUnit}</span>
                   <PriceUnitSelector />
                 </span>
               </div>
@@ -303,13 +300,13 @@ export default function ModelDetailPage() {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              <span>Model observations</span>
+              <span>模型观测</span>
               <Button variant="ghost" asChild>
                 <Link
                   href={`/project/${projectId}/observations`}
                   className="flex items-center gap-1"
                 >
-                  <span className="text-sm">View all</span>
+                  <span className="text-sm">查看全部</span>
                   <SquareArrowOutUpRight className="h-4 w-4" />
                 </Link>
               </Button>

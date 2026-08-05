@@ -40,7 +40,7 @@ export const StripeSwitchPlanButton = ({
   const mutChangePlan =
     api.cloudBilling.changeStripeSubscriptionProduct.useMutation({
       onSuccess: () => {
-        toast.success("Plan changed successfully");
+        toast.success("套餐变更成功");
         onProcessing(null);
         setOpId(null);
         setTimeout(() => window.location.reload(), 500);
@@ -48,7 +48,7 @@ export const StripeSwitchPlanButton = ({
       onError: () => {
         onProcessing(null);
         setOpId(null);
-        toast.error("Failed to change plan");
+        toast.error("套餐变更失败");
       },
     });
 
@@ -57,69 +57,52 @@ export const StripeSwitchPlanButton = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full">Change plan</Button>
+        <Button className="w-full">更换套餐</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-lg">
-            Confirm Your Change: {planLabels[currentPlan ?? "cloud:hobby"]} →{" "}
+            确认您的变更：{planLabels[currentPlan ?? "cloud:hobby"]} →{" "}
             {newPlanTitle}
           </DialogTitle>
         </DialogHeader>
         <DialogBody className="text-sm">
           {isLegacySubscription ? (
             <>
+              <p>我们将立即结束您当前的订阅并开始新的订阅。</p>
               <p>
-                We will end your current subscription now and start a new one
-                immediately.
+                您今天将收到一张发票，包含 (1)
+                新套餐从今天开始的全新计费周期的基本费用，以及 (2)
+                上一订阅中截至目前的费用和用量。
               </p>
-              <p>
-                You will receive an invoice today that includes (1) the base fee
-                for the new plan for a fresh billing period starting today and
-                (2) your base-fee and usage to date on the previous
-                subscription.
-              </p>
-              <p>
-                By confirming, you accept the immediate invoice and plan
-                activation starting now.
-              </p>
+              <p>确认即表示您接受立即出账以及从此刻开始激活新套餐。</p>
             </>
           ) : isUpgrade ? (
             <>
               <p>
-                You will be charged a prorated base fee today for the remainder
-                of this billing period. Features update immediately; usage-based
-                charges continue for the rest of the billing period.
+                今天将按比例收取本计费周期剩余部分的基本费用。功能将立即更新；基于用量的费用将在本计费周期剩余时间内继续计费。
               </p>
               <p>
-                Example: if your plan is $199/month and you upgrade halfway
-                through the month to a $499/month plan, the prorated charge is
-                roughly $99.5 + $249.5 (plus taxes). Exact amounts depend on
-                timing and tax.
+                示例：如果您的套餐为每月 $199，并在月中升级为每月 $499
+                的套餐，则按比例收取的费用约为 $99.5 +
+                $249.5（另加税费）。确切金额取决于时间和税费。
               </p>
-              <p>
-                By confirming, you accept the prorated charge and immediate plan
-                change.
-              </p>
+              <p>确认即表示您接受按比例收取的费用和立即生效的套餐变更。</p>
             </>
           ) : (
             <>
               <p>
-                No charge is made today. You stay on your current plan until the
-                end of this billing period, then we switch you to the new plan.
-                You can switch back anytime.
+                今天不会产生任何费用。您将继续使用当前套餐直到本计费周期结束，之后我们会为您切换到新套餐。您可以随时切回。
               </p>
               <p>
-                Usage continues to be billed under your current plan until the
-                switch. By confirming, you schedule the change at period end and
-                understand features will adjust at that time.
+                在切换之前，用量将继续按当前套餐计费。确认即表示您计划在周期结束时进行变更，并了解届时功能将相应调整。
               </p>
             </>
           )}
         </DialogBody>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary">取消</Button>
           </DialogClose>
           <ActionButton
             onClick={() => {
@@ -134,7 +117,7 @@ export const StripeSwitchPlanButton = ({
             }}
             loading={processing}
           >
-            Confirm
+            确认
           </ActionButton>
         </DialogFooter>
       </DialogContent>

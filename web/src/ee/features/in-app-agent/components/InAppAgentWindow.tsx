@@ -101,10 +101,10 @@ function InAppAgentQuickActionPicker({
   return (
     <>
       <p className="text-foreground mt-3 text-sm font-bold">
-        Welcome to the Langfuse Assistant
+        欢迎使用 Langfuse 助手
       </p>
       <p className="text-muted-foreground mt-1 max-w-xs text-center text-xs leading-relaxed">
-        What do you want to do?
+        你想做什么？
       </p>
       <Tabs
         value={selectedContext}
@@ -116,7 +116,7 @@ function InAppAgentQuickActionPicker({
         }}
       >
         <TabsList
-          aria-label="Quick action category"
+          aria-label="快捷操作类别"
           className="flex h-auto w-full rounded-none border-b bg-transparent p-0"
         >
           {IN_APP_AGENT_QUICK_ACTION_CONTEXTS.map((context) => (
@@ -176,35 +176,35 @@ function formatScreenContextNotice(
   description: InAppAgentScreenContextDescription,
 ) {
   if (description.type === "page") {
-    return "The assistant is aware of your current page.";
+    return "助手知道你当前所在的页面。";
   }
 
   if (description.type === "observation") {
-    return "The assistant is aware that you're viewing this observation.";
+    return "助手知道你在查看此观测。";
   }
 
   if (description.type === "trace") {
-    return "The assistant is aware that you're viewing this trace.";
+    return "助手知道你在查看此追踪。";
   }
 
   if (description.type === "prompt") {
-    return "The assistant is aware that you're viewing this prompt.";
+    return "助手知道你在查看此提示词。";
   }
 
   if (description.type === "session") {
-    return "The assistant is aware that you're viewing this session.";
+    return "助手知道你在查看此会话。";
   }
 
   if (description.type === "dataset") {
-    return "The assistant is aware that you're viewing this dataset.";
+    return "助手知道你在查看此数据集。";
   }
 
   if (description.type === "datasetItem") {
-    return "The assistant is aware that you're viewing this dataset item.";
+    return "助手知道你在查看此数据集条目。";
   }
 
   if (description.type === "experimentRun") {
-    return "The assistant is aware that you're viewing this experiment run.";
+    return "助手知道你在查看此实验运行。";
   }
 
   if (
@@ -215,16 +215,16 @@ function formatScreenContextNotice(
     description.type === "datasets-list"
   ) {
     const listLabel = {
-      "trace-list": "trace",
-      "observations-list": "observation",
-      "sessions-list": "session",
-      "prompts-list": "prompt",
-      "datasets-list": "dataset",
+      "trace-list": "追踪",
+      "observations-list": "观测",
+      "sessions-list": "会话",
+      "prompts-list": "提示词",
+      "datasets-list": "数据集",
     }[description.type];
 
     return description.hasAppliedFilters
-      ? `The assistant is aware of this ${listLabel} view and its filters.`
-      : `The assistant is aware of this ${listLabel} view.`;
+      ? `助手知道此${listLabel}视图及其筛选条件。`
+      : `助手知道此${listLabel}视图。`;
   }
 
   return assertUnreachable(description);
@@ -326,9 +326,9 @@ function InAppAgentRateLimitError({
     >
       <div className="space-y-0.5">
         <p className="font-bold">
-          You&apos;ve reached the assistant request limit
+          你已达到助手请求上限
         </p>
-        <p>Try again in about {formatApproximateDuration(secondsRemaining)}.</p>
+        <p>约 {formatApproximateDuration(secondsRemaining)} 后重试。</p>
       </div>
     </div>
   );
@@ -497,7 +497,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
 
   return (
     <section
-      aria-label="Assistant"
+      aria-label="助手"
       className="bg-background flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-xl border shadow/5"
     >
       <header
@@ -510,8 +510,8 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
         )}
       >
         <div className="flex min-w-0 flex-1 items-center gap-2">
-          <p className="shrink-0 truncate text-sm font-bold" title="Assistant">
-            Assistant
+          <p className="shrink-0 truncate text-sm font-bold" title="助手">
+            助手
           </p>
           <span className="text-muted-foreground rounded border px-1.5 py-1 text-xs leading-none font-bold">
             Beta
@@ -530,12 +530,12 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                 className="size-6 shrink-0"
                 onClick={onNewConversation}
                 disabled={baseIsInputDisabled}
-                aria-label="Start new conversation"
+                aria-label="开始新对话"
               >
                 <Plus className="size-3" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Start new conversation</TooltipContent>
+            <TooltipContent>开始新对话</TooltipContent>
           </Tooltip>
           <DropdownMenu
             open={isConversationHistoryOpen}
@@ -556,28 +556,28 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                     size="icon"
                     className="size-6 shrink-0"
                     disabled={baseIsInputDisabled}
-                    aria-label="Conversation history"
+                    aria-label="对话历史"
                   >
                     <History className="size-3" />
                   </Button>
                 </DropdownMenuTrigger>
               </TooltipTrigger>
-              <TooltipContent>Conversation history</TooltipContent>
+              <TooltipContent>对话历史</TooltipContent>
             </Tooltip>
             <DropdownMenuContent
               align="end"
               className="max-h-80 w-64 overflow-y-auto"
             >
-              <DropdownMenuLabel>Recent conversations</DropdownMenuLabel>
+              <DropdownMenuLabel>最近对话</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {conversations.length === 0 ? (
                 <DropdownMenuItem disabled>
-                  No conversations yet
+                  暂无对话
                 </DropdownMenuItem>
               ) : (
                 conversations.map((conversation) => {
                   const conversationTitle =
-                    conversation.title?.trim() || "Untitled conversation";
+                    conversation.title?.trim() || "无标题对话";
 
                   return (
                     <DropdownMenuItem
@@ -603,7 +603,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                         size="icon-xs"
                         className="text-muted-foreground hover:text-destructive -mr-1.5 shrink-0"
                         disabled={baseIsInputDisabled}
-                        aria-label="Delete conversation"
+                        aria-label="删除对话"
                         onClick={(event) => {
                           event.preventDefault();
                           event.stopPropagation();
@@ -624,7 +624,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                     disabled={isLoadingMoreConversations}
                     onSelect={onLoadMoreConversations}
                   >
-                    {isLoadingMoreConversations ? "Loading..." : "Load more"}
+                    {isLoadingMoreConversations ? "加载中..." : "加载更多"}
                   </DropdownMenuItem>
                 </>
               ) : null}
@@ -637,7 +637,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                 variant="ghost"
                 size="icon"
                 className="size-6"
-                aria-label={isExpanded ? "Collapse window" : "Expand window"}
+                aria-label={isExpanded ? "收起窗口" : "展开窗口"}
                 onClick={() => {
                   onExpandedChange(!isExpanded);
                 }}
@@ -650,7 +650,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              {isExpanded ? "Collapse window" : "Expand window"}
+              {isExpanded ? "收起窗口" : "展开窗口"}
             </TooltipContent>
           </Tooltip>
           {props.showCloseButton !== false ? (
@@ -661,13 +661,13 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                   variant="ghost"
                   size="icon"
                   className="size-6"
-                  aria-label="Minimize assistant"
+                  aria-label="最小化助手"
                   onClick={props.onClose}
                 >
                   <Minus className="size-3" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Minimize assistant</TooltipContent>
+              <TooltipContent>最小化助手</TooltipContent>
             </Tooltip>
           ) : null}
         </div>
@@ -931,8 +931,8 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                 }
               }}
               disabled={isInputDisabled}
-              aria-label="Message the assistant"
-              placeholder="Let me know what I can do for you..."
+              aria-label="给助手发送消息"
+              placeholder="告诉我有什么我可以为你做的..."
               rows={1}
               className={cn(
                 "bg-background placeholder:text-foreground-tertiary w-full flex-1 resize-none overflow-y-auto rounded-md text-sm leading-5 disabled:cursor-not-allowed disabled:opacity-60",
@@ -946,7 +946,7 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                 type="submit"
                 size="icon"
                 className="h-8 w-8 rounded-md border"
-                aria-label="Send message"
+                aria-label="发送消息"
                 variant="outline"
                 disabled={isInputDisabled || !input.trim()}
               >
@@ -959,13 +959,13 @@ export function InAppAgentWindow(props: InAppAgentWindowProps) {
                 <Button
                   type="submit"
                   className="h-8 w-fit rounded-md px-3"
-                  aria-label="Send message"
+                  aria-label="发送消息"
                   disabled={isInputDisabled || !input.trim()}
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                 >
-                  Send <SendHorizontal className="ml-2 h-4 w-4" />
+                  发送 <SendHorizontal className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             )}

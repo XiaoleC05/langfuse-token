@@ -62,7 +62,7 @@ const getCodeTemplateLanguageTitle = (
     ? "Python"
     : sourceCodeLanguage === EvalTemplateSourceCodeLanguage.TYPESCRIPT
       ? "TypeScript"
-      : "Code";
+      : "代码";
 
 const TemplatePreviewTooltipContent = ({
   template,
@@ -73,7 +73,7 @@ const TemplatePreviewTooltipContent = ({
     return (
       <>
         <p className="mb-1 font-bold">
-          {getCodeTemplateLanguageTitle(template.sourceCodeLanguage)} source
+          {getCodeTemplateLanguageTitle(template.sourceCodeLanguage)} 源代码
         </p>
         <pre className="text-muted-foreground text-xs wrap-break-word whitespace-pre-wrap">
           {template.sourceCode}
@@ -84,7 +84,7 @@ const TemplatePreviewTooltipContent = ({
 
   return (
     <>
-      <p className="mb-1 font-bold">Evaluation prompt</p>
+      <p className="mb-1 font-bold">评估提示词</p>
       <pre className="text-muted-foreground text-xs wrap-break-word whitespace-pre-wrap">
         {template.prompt}
       </pre>
@@ -147,7 +147,7 @@ export function EvaluatorSelector({
   return (
     <InputCommand className="flex h-full flex-col border-none">
       <InputCommandInput
-        placeholder="Search evaluators..."
+        placeholder="搜索评估器..."
         className="h-9 px-0"
         value={search}
         onValueChange={setSearch}
@@ -155,12 +155,12 @@ export function EvaluatorSelector({
       />
       <InputCommandList className="max-h-full flex-1 overflow-y-auto">
         {!hasResults && (
-          <InputCommandEmpty>No evaluator found.</InputCommandEmpty>
+          <InputCommandEmpty>未找到评估器。</InputCommandEmpty>
         )}
 
         {filteredTemplates.custom.length > 0 && (
           <>
-            <InputCommandGroup heading="Custom evaluators">
+            <InputCommandGroup heading="自定义评估器">
               {filteredTemplates.custom.map((template) => {
                 const isInvalid = isTemplateInvalid(template);
 
@@ -205,14 +205,14 @@ export function EvaluatorSelector({
                           <AlertCircle className="ml-1 h-4 w-4 text-yellow-500" />
                         </TooltipTrigger>
                         <TooltipContent className="max-h-[50dvh] overflow-y-auto text-sm break-normal whitespace-normal">
-                          <p>Requires project-level evaluation model</p>
+                          <p>需要项目级评估模型</p>
                           <Link
                             href={`/project/${projectId}/evals/default-model`}
                             className="mt-2 block text-blue-600 hover:underline"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Configure default model
+                            配置默认模型
                           </Link>
                         </TooltipContent>
                       </Tooltip>
@@ -230,7 +230,7 @@ export function EvaluatorSelector({
 
         {filteredTemplates.langfuse.length > 0 && (
           <>
-            <InputCommandGroup heading="Langfuse managed evaluators">
+            <InputCommandGroup heading="Langfuse 托管的评估器">
               {filteredTemplates.langfuse.map((template) => {
                 const isInvalid = isTemplateInvalid(template);
 
@@ -276,14 +276,14 @@ export function EvaluatorSelector({
                           <AlertCircle className="ml-1 h-4 w-4 text-yellow-500" />
                         </TooltipTrigger>
                         <TooltipContent className="max-h-[50dvh] overflow-y-auto text-sm break-normal whitespace-normal">
-                          <p>Requires project-level evaluation model</p>
+                          <p>需要项目级评估模型</p>
                           <Link
                             href={`/project/${projectId}/evals/default-model`}
                             className="mt-2 block text-blue-600 hover:underline"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Configure default model
+                            配置默认模型
                           </Link>
                         </TooltipContent>
                       </Tooltip>

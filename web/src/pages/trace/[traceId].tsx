@@ -53,16 +53,16 @@ const TraceRedirectPage = ({
 }) => {
   const router = useRouter();
   if (router.isFallback) {
-    return <div className="p-3">Loading...</div>;
+    return <div className="p-3">加载中...</div>;
   }
 
   if (notFound) {
     return (
       <ErrorPage
-        title="Trace not found"
-        message="The trace is either still being processed or has been deleted."
+        title="未找到追踪"
+        message="该追踪可能仍在处理中，或已被删除。"
         additionalButton={{
-          label: "Retry",
+          label: "重试",
           onClick: () => window.location.reload(),
         }}
       />
@@ -72,8 +72,8 @@ const TraceRedirectPage = ({
   if (duplicatesFound) {
     return (
       <ErrorPage
-        title="Trace not found"
-        message="Please upgrade the SDK as the URL schema has changed."
+        title="未找到追踪"
+        message="请升级 SDK，因为 URL 结构已更改。"
       />
     );
   }

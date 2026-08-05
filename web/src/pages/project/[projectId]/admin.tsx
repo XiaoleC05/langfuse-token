@@ -319,9 +319,20 @@ export default function AdminPage() {
                     <Button
                       variant="outline"
                       title={`将当前出口 IP ${whitelist.clientIP} 加入白名单`}
-                      disabled={createMut.isPending || (whitelist.items ?? []).some((i) => i.ip === whitelist.clientIP)}
+                      disabled={createMut.isPending}
                       onClick={() => {
                         setOpError("");
+                        // IP 已在白名单：给出明确提示而非禁用按钮（禁用会显示禁止指针）
+                        if (
+                          (whitelist.items ?? []).some(
+                            (i) => i.ip === whitelist.clientIP,
+                          )
+                        ) {
+                          setOpError(
+                            `当前出口 IP ${whitelist.clientIP} 已在白名单中`,
+                          );
+                          return;
+                        }
                         createMut.mutate({
                           ip: whitelist.clientIP!,
                           label: "本机（一键添加）",

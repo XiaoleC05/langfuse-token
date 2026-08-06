@@ -1,11 +1,11 @@
 import { env } from "@/src/env.mjs";
 
 type FilingInfoProps = {
-  /** compact：备案单行（侧栏）；full：品牌 + 链接 + 备案三行（登录页/落地页/布局底部） */
+  /** compact：备案单行（侧栏）；full：品牌与链接 + 备案两行（登录页/落地页/布局底部） */
   variant?: "compact" | "full";
 };
 
-/** Oxelia51 备案信息 + 开源声明（全局页面底部，全站统一）。 */
+/** Oxelia51 备案信息（全局页面底部，全站统一）。 */
 export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
   const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
   const githubUrl = "https://github.com/XiaoleC05/Oxelia51";
@@ -19,73 +19,54 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
       }
     >
       {variant === "full" && (
-        <>
-          {/* 行 1：品牌 */}
-          <div className="flex items-center gap-1.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`${basePath}/icon-glyph-64.png`}
-              alt="Oxelia51"
-              width={16}
-              height={16}
-              className="dark:hidden"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`${basePath}/icon-glyph-64-dark.png`}
-              alt="Oxelia51"
-              width={16}
-              height={16}
-              className="hidden dark:block"
-            />
-            <span className="font-medium text-foreground">Oxelia51</span>
-            <span>·</span>
-            <span>改一行环境变量，Token 消耗一目了然</span>
-          </div>
-
-          {/* 行 2：链接 */}
-          <div className="flex flex-wrap items-center justify-center gap-x-1.5">
-            <a
-              href="https://oxelia51.com"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-foreground"
-            >
-              官网
-            </a>
-            <span>·</span>
-            <a
-              href="mailto:receive@oxelia51.com"
-              className="hover:text-foreground"
-            >
-              反馈邮箱 receive@oxelia51.com
-            </a>
-            <span>·</span>
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-foreground underline underline-offset-2"
-            >
-              GitHub
-            </a>
-            <span>·</span>
-            <span className="text-muted-foreground/70">
-              Powered by{" "}
-              <a
-                href="https://github.com/langfuse/langfuse"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-foreground underline underline-offset-2"
-              >
-                Langfuse
-              </a>
-            </span>
-          </div>
-        </>
+        /* 行 1：品牌 + 链接 */
+        <div className="flex flex-wrap items-center justify-center gap-x-1.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`${basePath}/icon-glyph-64.png`}
+            alt="Oxelia51"
+            width={16}
+            height={16}
+            className="dark:hidden"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`${basePath}/icon-glyph-64-dark.png`}
+            alt="Oxelia51"
+            width={16}
+            height={16}
+            className="hidden dark:block"
+          />
+          <span className="font-medium text-foreground">Oxelia51</span>
+          <span>·</span>
+          <a
+            href="https://oxelia51.com"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-foreground"
+          >
+            官网
+          </a>
+          <span>·</span>
+          <a
+            href="mailto:receive@oxelia51.com"
+            className="hover:text-foreground"
+          >
+            反馈邮箱 receive@oxelia51.com
+          </a>
+          <span>·</span>
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-foreground underline underline-offset-2"
+          >
+            GitHub
+          </a>
+        </div>
       )}
 
-      {/* 备案（full 为行 3） */}
+      {/* 备案（full 为行 2） */}
       <div className="flex flex-wrap items-center justify-center gap-x-1.5">
         <a
           href="https://beian.miit.gov.cn/"

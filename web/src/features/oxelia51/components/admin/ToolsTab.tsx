@@ -8,11 +8,13 @@ import {
   AdminCard,
   PowerCell,
   errMsg,
+  useIsSuperAdmin,
   type PowerRecord,
 } from "@/src/features/oxelia51/components/admin/shared";
 
-/** 工具：DormGuard 宿舍电费 + 手动拉取 */
+/** 工具：DormGuard 宿舍电费 + 手动拉取（拉取仅超级管理员可见） */
 export function ToolsTab() {
+  const isSuperAdmin = useIsSuperAdmin();
   const powerQ = api.oxelia51Admin.dormPower.useQuery();
   const power = powerQ.data as PowerRecord | undefined;
 
@@ -45,20 +47,22 @@ export function ToolsTab() {
       <AdminCard
         title="宿舍电费（DormGuard）"
         action={
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={refreshPowerMut.isPending}
-            onClick={() => {
-              setPowerMsg("");
-              refreshPowerMut.mutate();
-            }}
-          >
-            <RefreshCw
-              className={`h-3.5 w-3.5 ${refreshPowerMut.isPending ? "animate-spin" : ""}`}
-            />
-            {refreshPowerMut.isPending ? "拉取中…" : "拉取"}
-          </Button>
+          isSuperAdmin ? (
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={refreshPowerMut.isPending}
+              onClick={() => {
+                setPowerMsg("");
+                refreshPowerMut.mutate();
+              }}
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${refreshPowerMut.isPending ? "animate-spin" : ""}`}
+              />
+              {refreshPowerMut.isPending ? "拉取中…" : "拉取"}
+            </Button>
+          ) : undefined
         }
       >
         {powerMsg && (

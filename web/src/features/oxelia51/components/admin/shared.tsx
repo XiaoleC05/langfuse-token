@@ -2,6 +2,7 @@
 
 import { type ReactNode } from "react";
 import { Card } from "@/src/components/ui/card";
+import { api } from "@/src/utils/api";
 
 /**
  * Oxelia51 管理台共享类型与展示组件。
@@ -82,8 +83,16 @@ export type AlertLogItem = {
 /** 轮询间隔（系统状态类卡片） */
 export const POLL_MS = 5000;
 
-/** 平台管理员账户（用户列表中据此打「管理员」徽标） */
+/** 平台超级管理员账户：唯一可执行写操作的管理员（与服务端 adminRouter 的 PLATFORM_SUPER_ADMIN_EMAIL 同值） */
 export const PLATFORM_ADMIN_EMAIL = "postmaster@oxelia51.com";
+
+/** 当前登录用户是否为超级管理员（非超级管理员的管理员只读，操作按钮应隐藏） */
+export function useIsSuperAdmin(): boolean {
+  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
+    staleTime: Infinity,
+  });
+  return Boolean(whoami.data?.isSuperAdmin);
+}
 
 export const FEEDBACK_CATEGORY_LABEL: Record<string, string> = {
   feature: "功能建议",
@@ -192,7 +201,7 @@ export function StatCell({
     <div className="flex flex-col gap-0.5">
       <span className="text-muted-foreground text-xs">{label}</span>
       <span
-        className="text-lg font-semibold tabular-nums"
+        className="text-xl font-semibold tabular-nums"
         style={{ color: warn ? "var(--ox-danger)" : undefined }}
       >
         {value}

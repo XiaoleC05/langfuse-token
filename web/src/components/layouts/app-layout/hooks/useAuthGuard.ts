@@ -110,7 +110,13 @@ export function useAuthGuard(
     }
 
     // Authenticated user on authentication page - redirect to target or home
-    if (session.status === "authenticated" && isUnauthPath) {
+    // Oxelia51：/auth/admin 例外——已登录非管理员需停留在管理员登录页切换账户，
+    // 是否已是管理员、是否跳转 /admin 由页面自身判定。
+    if (
+      session.status === "authenticated" &&
+      isUnauthPath &&
+      !pathname.startsWith("/auth/admin")
+    ) {
       const queryTargetPath = query.targetPath as string | undefined;
       const redirectUrl = getSafeRedirectPath(queryTargetPath);
       const routerRedirectUrl = stripBasePath(redirectUrl);

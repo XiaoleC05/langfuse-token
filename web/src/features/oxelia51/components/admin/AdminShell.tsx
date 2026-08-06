@@ -34,7 +34,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="bg-background sticky top-0 z-10 border-b">
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-2">
+        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4">
           <Link href="/admin" className="flex items-center gap-2.5">
             {/* 品牌 glyph：随主题切换深浅版 */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -64,7 +64,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       {/* pb-16：为 MinimalLayout 吸底页脚留出空间 */}
-      <div className="mx-auto w-full max-w-6xl flex-1 px-2 pt-4 pb-16">
+      <div className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-16">
         {children}
       </div>
     </div>

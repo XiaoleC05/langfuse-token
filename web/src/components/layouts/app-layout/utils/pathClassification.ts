@@ -14,6 +14,8 @@ export const PATH_CONSTANTS = {
   unauthenticated: [
     "/auth/sign-in",
     "/auth/sign-up",
+    // Oxelia51 管理员专有登录页（无侧边栏；已登录非管理员允许停留以切换账户）
+    "/auth/admin",
     "/auth/sso-initiate",
     "/auth/enterprise-sso-required",
     "/auth/error",

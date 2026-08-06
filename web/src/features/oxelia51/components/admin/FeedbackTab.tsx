@@ -21,6 +21,7 @@ import {
   FEEDBACK_STATUS_LABEL,
   FEEDBACK_STATUS_VARIANT,
   errMsg,
+  useIsSuperAdmin,
   type FeedbackItem,
 } from "@/src/features/oxelia51/components/admin/shared";
 
@@ -39,8 +40,9 @@ const NEXT_STATUS: Record<string, { to: "processing" | "done"; label: string }> 
   processing: { to: "done", label: "标记完成" },
 };
 
-/** 用户反馈：列表 + 状态筛选 + 状态流转 */
+/** 用户反馈：列表 + 状态筛选 + 状态流转（流转仅超级管理员可见） */
 export function FeedbackTab() {
+  const isSuperAdmin = useIsSuperAdmin();
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("");
   const [opError, setOpError] = useState("");
 
@@ -135,19 +137,27 @@ export function FeedbackTab() {
                       : "—"}
                   </TableCell>
                   <TableCell>
-                    {next && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={updateMut.isPending}
-                        onClick={() => {
-                          setOpError("");
-                          updateMut.mutate({ id: f.id, status: next.to });
-                        }}
-                      >
-                        {next.label}
-                      </Button>
-                    )}
+                    {next &&
+                      (isSuperAdmin ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={updateMut.isPending}
+                          onClick={() => {
+                            setOpError("");
+                            updateMut.mutate({ id: f.id, status: next.to });
+                          }}
+                        >
+                          {next.label}
+                        </Button>
+                      ) : (
+                        <span
+                          className="text-muted-foreground text-xs"
+                          title="仅超级管理员可操作"
+                        >
+                          —
+                        </span>
+                      ))}
                   </TableCell>
                 </TableRow>
               );

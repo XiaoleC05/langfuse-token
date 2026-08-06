@@ -17,12 +17,24 @@ import {
 /**
  * Oxelia51 后台管理 tRPC router。
  * Langfuse 登录态即管理员身份：服务端持有 Go 后端运维凭证换 JWT 转发，
- * 凭证不下发到浏览器。管理员由 OXELIA51_ADMIN_EMAILS 邮箱名单判定。
- * 安全默认：空名单 = 无人是管理员（管理台完全关闭），必须通过
- * OXELIA51_ADMIN_EMAILS 显式指定管理员邮箱。
+ * 凭证不下发到浏览器。
+ * 权限两级：
+ * - 管理员（adminProcedure）：PLATFORM_SUPER_ADMIN_EMAIL 恒为管理员，
+ *   外加 OXELIA51_ADMIN_EMAILS 邮箱名单（空名单 = 除超级管理员外无人是管理员）。
+ * - 超级管理员（superAdminProcedure）：仅 PLATFORM_SUPER_ADMIN_EMAIL，
+ *   所有写操作（白名单增删、电费抓取、反馈流转）仅其可执行。
  */
 
+/** 平台超级管理员：唯一可执行写操作的管理员（前端 shared.tsx 的 PLATFORM_ADMIN_EMAIL 与本常量保持同值） */
+export const PLATFORM_SUPER_ADMIN_EMAIL = "postmaster@oxelia51.com";
+
+function isSuperAdminEmail(email: string | null | undefined): boolean {
+  return Boolean(email) && email === PLATFORM_SUPER_ADMIN_EMAIL;
+}
+
 function isAdminEmail(email: string | null | undefined): boolean {
+  // 超级管理员永远拥有管理员权限（即使 env 名单漏配）
+  if (isSuperAdminEmail(email)) return true;
   const allowlist = (env.OXELIA51_ADMIN_EMAILS ?? "")
     .split(",")
     .map((e) => e.trim())
@@ -43,14 +55,26 @@ const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
   return next();
 });
 
+/** 仅超级管理员的 procedure：所有写操作走此入口 */
+const superAdminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
+  if (!isSuperAdminEmail(ctx.session.user.email)) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "仅超级管理员可执行此操作",
+    });
+  }
+  return next();
+});
+
 const whitelistIdSchema = z.object({ id: z.string().regex(/^\d+$/, "无效的 id") });
 
 export const oxelia51AdminRouter = createTRPCRouter({
-  /** 前端据此决定后台管理入口可见性（任何登录用户可调） */
+  /** 前端据此决定后台管理入口可见性、操作按钮显隐（任何登录用户可调） */
   whoami: authenticatedProcedure.query(({ ctx }) => {
     return {
       email: ctx.session.user.email,
       isAdmin: isAdminEmail(ctx.session.user.email),
+      isSuperAdmin: isSuperAdminEmail(ctx.session.user.email),
     };
   }),
 
@@ -95,20 +119,20 @@ export const oxelia51AdminRouter = createTRPCRouter({
     ),
   ),
 
-  /** 手动触发一次电费抓取（DormGuard /api/system/crawl） */
-  dormPowerRefresh: adminProcedure.mutation(() =>
+  /** 手动触发一次电费抓取（DormGuard /api/system/crawl）——写操作，仅超级管理员 */
+  dormPowerRefresh: superAdminProcedure.mutation(() =>
     goFetch("/api/tools/dormguard/proxy/api/system/crawl", "POST"),
   ),
 
   whitelistList: adminProcedure.query(({ ctx }) =>
     goFetch("/api/admin/ip-whitelist", "GET", undefined, true, clientIpFromHeaders(ctx.headers)),
   ),
-  whitelistCreate: adminProcedure
+  whitelistCreate: superAdminProcedure
     .input(z.object({ ip: z.string().min(3), label: z.string().default("") }))
     .mutation(({ ctx, input }) =>
       goFetch("/api/admin/ip-whitelist", "POST", input, true, clientIpFromHeaders(ctx.headers)),
     ),
-  whitelistDelete: adminProcedure
+  whitelistDelete: superAdminProcedure
     .input(whitelistIdSchema)
     .mutation(({ ctx, input }) =>
       goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE", undefined, true, clientIpFromHeaders(ctx.headers)),
@@ -184,8 +208,8 @@ export const oxelia51AdminRouter = createTRPCRouter({
       };
     }),
 
-  /** 反馈状态流转：new → processing → done */
-  updateFeedbackStatus: adminProcedure
+  /** 反馈状态流转：new → processing → done ——写操作，仅超级管理员 */
+  updateFeedbackStatus: superAdminProcedure
     .input(
       z.object({
         id: z.number().int().positive(),

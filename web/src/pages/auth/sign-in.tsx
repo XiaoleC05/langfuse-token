@@ -25,10 +25,7 @@ import {
   SiWordpress,
 } from "react-icons/si";
 import { TbBrandAzure, TbBrandOauth } from "react-icons/tb";
-import { signIn, signOut } from "next-auth/react";
-import { toast } from "sonner";
-import { api } from "@/src/utils/api";
-import { SegmentedControl } from "@/src/features/oxelia51/components/SegmentedControl";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect, type ReactNode } from "react";
@@ -39,7 +36,7 @@ import { CloudRegionSwitch } from "@/src/features/auth/components/AuthCloudRegio
 import { PasswordInput } from "@/src/components/ui/password-input";
 import { isAnySsoConfigured } from "@/src/ee/features/multi-tenant-sso/utils";
 import { isEmailVerificationRequired } from "@/src/features/auth-credentials/lib/credentialsUtils";
-import { Code, Key, BarChart3, BellRing } from "lucide-react";
+import { Code, Key, BarChart3, BellRing, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/router";
 import { captureException } from "@sentry/nextjs";
 import { captureUnknownError } from "@/src/utils/captureUnknownError";
@@ -601,9 +598,6 @@ export default function SignIn({
     !authProviders.sso,
   );
   const [continueLoading, setContinueLoading] = useState<boolean>(false);
-  // Oxelia51：登录方式切换。管理员模式仅改变提交后去向与文案，表单字段不变。
-  const [loginMode, setLoginMode] = useState<"user" | "admin">("user");
-  const utils = api.useUtils();
   const [lastUsedAuthMethod, setLastUsedAuthMethod] =
     useLocalStorage<NextAuthProvider | null>(
       "langfuse_last_used_auth_method",
@@ -653,26 +647,6 @@ export default function SignIn({
         redirect: false,
       });
       if (result?.ok) {
-        if (loginMode === "admin") {
-          // 管理员模式：登录成功后先校验管理员身份；非管理员登出并停留登录页。
-          // whoami 走 tRPC（cookie 会话），staleTime:0 强制实时查询，避免命中旧缓存。
-          try {
-            const whoami = await utils.oxelia51Admin.whoami.fetch(undefined, {
-              staleTime: 0,
-            });
-            if (whoami.isAdmin) {
-              void router.push("/admin");
-            } else {
-              toast.error("该账户没有管理员权限");
-              await signOut({ redirect: false });
-            }
-          } catch (error) {
-            captureUnknownError("auth.signIn.adminWhoami", error);
-            setCredentialsFormError("无法验证管理员权限，请重试。");
-            await signOut({ redirect: false });
-          }
-          return;
-        }
         // Oxelia51：登录成功后立即显式跳转。若依赖会话刷新→守卫重定向的
         // 异步时序，会慢一拍导致「要点两下才能登录」的观感。
         void router.push(targetPath ?? "/");
@@ -725,13 +699,6 @@ export default function SignIn({
 
     // Extract domain and check whether SSO is configured for it
     const domain = email.data.split("@")[1]?.toLowerCase();
-
-    // 管理员模式跳过 SSO 探测，直接展示密码框（管理员仅支持邮箱密码登录）
-    if (loginMode === "admin") {
-      setShowPasswordStep(true);
-      setContinueLoading(false);
-      return;
-    }
 
     try {
       const res = await fetch(
@@ -790,13 +757,8 @@ export default function SignIn({
             <AuthBrandLogo />
           </div>
           <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
-            {loginMode === "admin" ? "管理员登录" : "登录您的账户"}
+            登录您的账户
           </h2>
-          {loginMode === "admin" && (
-            <p className="text-muted-foreground mt-2 text-center text-sm">
-              仅限授权账户
-            </p>
-          )}
         </div>
 
         {isLangfuseCloud && (
@@ -815,21 +777,6 @@ export default function SignIn({
 
         <div className="bg-background mt-14 px-6 py-10 shadow-sm sm:mx-auto sm:w-full sm:max-w-[480px] sm:rounded-lg sm:px-10">
           <div className="space-y-6">
-            <div className="flex justify-center">
-              <SegmentedControl
-                options={[
-                  { value: "user", label: "普通用户" },
-                  { value: "admin", label: "管理员" },
-                ]}
-                value={loginMode}
-                onChange={(mode) => {
-                  setLoginMode(mode);
-                  setCredentialsFormError(null);
-                  // 管理员登录无 SSO，直接展示密码框
-                  if (mode === "admin") setShowPasswordStep(true);
-                }}
-              />
-            </div>
             {/* Email / (optional) password form – only when credentials auth is enabled */}
             {authProviders.credentials && (
               <div>
@@ -937,17 +884,11 @@ export default function SignIn({
                   "请确保您使用的是正确的云端数据区域。"}
               </div>
             ) : null}
-            {loginMode === "admin" ? (
-              <p className="text-muted-foreground text-center text-xs">
-                管理员请使用邮箱密码登录
-              </p>
-            ) : (
-              <SSOButtons
-                authProviders={authProviders}
-                lastUsedMethod={lastUsedAuthMethod}
-                onProviderSelect={setLastUsedAuthMethod}
-              />
-            )}
+            <SSOButtons
+              authProviders={authProviders}
+              lastUsedMethod={lastUsedAuthMethod}
+              onProviderSelect={setLastUsedAuthMethod}
+            />
           </div>
 
           {!signUpDisabled &&
@@ -964,6 +905,18 @@ export default function SignIn({
             </p>
           ) : null}
         </div>
+
+        {/* Oxelia51：管理员登录入口，独立页面 /auth/admin，普通用户可忽略 */}
+        <p className="mt-4 text-center">
+          <Link
+            href="/auth/admin"
+            className="text-muted-foreground hover:text-primary inline-flex items-center gap-1 text-xs"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            我是管理员
+          </Link>
+        </p>
+
         <CloudPrivacyNotice action="登录" />
 
         {/* Oxelia51 平台亮点：登录页底部简介，帮助新用户了解用途 */}

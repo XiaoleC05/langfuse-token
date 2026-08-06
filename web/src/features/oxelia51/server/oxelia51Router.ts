@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { randomInt } from "crypto";
 import {
   createTRPCRouter,
   protectedProjectProcedure,
@@ -8,6 +9,7 @@ import {
   queryClickhouse,
   sendFeedbackNotificationEmail,
   sendFeedbackAutoReplyEmail,
+  sendAlertChannelVerificationEmail,
 } from "@langfuse/shared/src/server";
 import { Prisma } from "@langfuse/shared/src/db";
 import { env } from "@/src/env.mjs";
@@ -19,6 +21,12 @@ const FEEDBACK_CATEGORY_LABEL: Record<"feature" | "bug" | "other", string> = {
   bug: "Bug 反馈",
   other: "其他",
 };
+
+/** 告警邮箱验证码有效期：10 分钟。 */
+const VERIFICATION_CODE_TTL_MS = 10 * 60 * 1000;
+
+/** 生成 6 位数字验证码（与 web/src/server/auth.ts 的邮箱验证码同一生成方式）。 */
+const generateVerificationCode = () => randomInt(100000, 1000000).toString();
 
 /**
  * Oxelia51 Token 监控平台自定义 router。
@@ -347,8 +355,10 @@ export const oxelia51Router = createTRPCRouter({
 
   /**
    * 告警设置：保存通知通道。
-   * 地址未变化的通道保留原 verified 状态；新增/变更的通道 verified=false，
-   * 由分析引擎/管理后台完成验证后再启用投递。
+   * 地址未变化的通道保留原 verified 状态，不做任何重置；
+   * 新增/变更的邮件通道 verified=false + 6 位验证码（10 分钟有效），
+   * 经 verifyAlertChannel 验证后才启用投递（alerter 只外发 verified 邮件通道）；
+   * webhook 无验证流程，verified 直接置 true（alerter 对 webhook 不检查 verified）。
    */
   saveAlertChannels: protectedProjectProcedure
     .input(
@@ -386,19 +396,126 @@ export const oxelia51Router = createTRPCRouter({
           `;
         }
       }
-      // 插入新通道。Oxelia51 单用户自托管：自己配置的通道即信任，
-      // verified 直接置 true（alerter 只外发 verified 通道，否则收不到告警）。
-      // 未来若有多用户/公开注册，再补邮件验证流程。
+      // 插入新通道
+      const mailEnv = {
+        EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
+        SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
+      };
+      let emailVerificationSent = false;
       for (const channel of desired) {
         const exists = existing.some(
           (row) => row.type === channel.type && row.address === channel.address,
         );
-        if (!exists) {
+        if (exists) continue;
+        if (channel.type === "email") {
+          const code = generateVerificationCode();
+          const expires = new Date(Date.now() + VERIFICATION_CODE_TTL_MS);
+          await ctx.prisma.$executeRaw`
+            INSERT INTO oxelia51.alert_channels
+              (project_id, type, address, verified, verification_code, verification_expires)
+            VALUES (${input.projectId}, 'email', ${channel.address}, false, ${code}, ${expires})
+          `;
+          // 发送失败只记日志不抛错，通道已落库，用户可点「重发验证码」
+          await sendAlertChannelVerificationEmail({
+            env: mailEnv,
+            to: channel.address,
+            code,
+          });
+          emailVerificationSent = true;
+        } else {
           await ctx.prisma.$executeRaw`
             INSERT INTO oxelia51.alert_channels (project_id, type, address, verified)
             VALUES (${input.projectId}, ${channel.type}, ${channel.address}, true)
           `;
         }
+      }
+      return { success: true, emailVerificationSent };
+    }),
+
+  /** 告警设置：校验邮件通道验证码，通过后 verified=true 并清除验证码。 */
+  verifyAlertChannel: protectedProjectProcedure
+    .input(
+      projectIdInput.extend({
+        code: z.string().trim().regex(/^\d{6}$/, "验证码为 6 位数字"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const rows = await ctx.prisma.$queryRaw<
+        Array<{ id: unknown; verification_expires: Date | null }>
+      >`
+        SELECT id, verification_expires
+        FROM oxelia51.alert_channels
+        WHERE project_id = ${input.projectId}
+          AND type = 'email'
+          AND verified = false
+          AND verification_code = ${input.code}
+        ORDER BY id DESC
+        LIMIT 1
+      `;
+      const channel = rows[0];
+      if (!channel) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "验证码错误，请核对后重试。",
+        });
+      }
+      if (
+        !channel.verification_expires ||
+        channel.verification_expires < new Date()
+      ) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "验证码已过期，请点击「重发验证码」获取新验证码。",
+        });
+      }
+      await ctx.prisma.$executeRaw`
+        UPDATE oxelia51.alert_channels
+        SET verified = true,
+            verification_code = NULL,
+            verification_expires = NULL
+        WHERE id = ${toNumber(channel.id)}
+      `;
+      return { success: true };
+    }),
+
+  /** 告警设置：为未验证的邮件通道重新生成验证码并重发验证邮件。 */
+  resendAlertChannelVerification: protectedProjectProcedure
+    .input(projectIdInput)
+    .mutation(async ({ ctx, input }) => {
+      const rows = await ctx.prisma.$queryRaw<
+        Array<{ id: unknown; address: string }>
+      >`
+        SELECT id, address
+        FROM oxelia51.alert_channels
+        WHERE project_id = ${input.projectId}
+          AND type = 'email'
+          AND verified = false
+        ORDER BY id ASC
+      `;
+      if (rows.length === 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "当前没有待验证的邮件通道。",
+        });
+      }
+      const mailEnv = {
+        EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
+        SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
+      };
+      for (const channel of rows) {
+        const code = generateVerificationCode();
+        const expires = new Date(Date.now() + VERIFICATION_CODE_TTL_MS);
+        await ctx.prisma.$executeRaw`
+          UPDATE oxelia51.alert_channels
+          SET verification_code = ${code},
+              verification_expires = ${expires}
+          WHERE id = ${toNumber(channel.id)}
+        `;
+        await sendAlertChannelVerificationEmail({
+          env: mailEnv,
+          to: channel.address,
+          code,
+        });
       }
       return { success: true };
     }),

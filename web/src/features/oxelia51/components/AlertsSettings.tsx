@@ -68,6 +68,7 @@ export function AlertsSettings({ projectId }: { projectId: string }) {
   const webhookChannel = channels.data?.find((c) => c.type === "webhook");
   const [email, setEmail] = useState("");
   const [webhook, setWebhook] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
 
   useEffect(() => {
     if (!channels.data) return;
@@ -76,12 +77,40 @@ export function AlertsSettings({ projectId }: { projectId: string }) {
   }, [channels.data]);
 
   const saveChannels = api.oxelia51.saveAlertChannels.useMutation({
-    onSuccess: () => {
-      showSuccessToast({ title: "已保存", description: "通知通道已更新。" });
+    onSuccess: (data) => {
+      showSuccessToast({
+        title: "已保存",
+        description: data.emailVerificationSent
+          ? "通知通道已更新，验证邮件已发送，请输入邮件中的 6 位验证码完成验证。"
+          : "通知通道已更新。",
+      });
       void utils.oxelia51.getAlertChannels.invalidate({ projectId });
     },
     onError: (error) => showErrorToast("保存失败", error.message),
   });
+
+  const verifyChannel = api.oxelia51.verifyAlertChannel.useMutation({
+    onSuccess: () => {
+      showSuccessToast({
+        title: "验证成功",
+        description: "邮件通道已启用，告警将投递到该邮箱。",
+      });
+      setVerificationCode("");
+      void utils.oxelia51.getAlertChannels.invalidate({ projectId });
+    },
+    onError: (error) => showErrorToast("验证失败", error.message),
+  });
+
+  const resendVerification =
+    api.oxelia51.resendAlertChannelVerification.useMutation({
+      onSuccess: () => {
+        showSuccessToast({
+          title: "已重发",
+          description: "验证码已重新发送，请查收邮件（10 分钟内有效）。",
+        });
+      },
+      onError: (error) => showErrorToast("重发失败", error.message),
+    });
 
   const onSaveConfig = () => {
     const budget = Number(budgetUsd);
@@ -223,6 +252,44 @@ export function AlertsSettings({ projectId }: { projectId: string }) {
               </span>
             )}
           </div>
+          {emailChannel && !emailChannel.verified && (
+            <div className="ml-6 flex flex-wrap items-center gap-2 text-sm">
+              <Input
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="6 位验证码"
+                className="w-32"
+                maxLength={6}
+                inputMode="numeric"
+              />
+              <Button
+                size="sm"
+                onClick={() =>
+                  verifyChannel.mutate({
+                    projectId,
+                    code: verificationCode.trim(),
+                  })
+                }
+                disabled={
+                  verifyChannel.isPending ||
+                  verificationCode.trim().length !== 6
+                }
+              >
+                {verifyChannel.isPending ? "验证中…" : "验证"}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => resendVerification.mutate({ projectId })}
+                disabled={resendVerification.isPending}
+              >
+                {resendVerification.isPending ? "发送中…" : "重发验证码"}
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                验证邮件已发送至 {emailChannel.address}，10 分钟内有效
+              </span>
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <input
               type="checkbox"

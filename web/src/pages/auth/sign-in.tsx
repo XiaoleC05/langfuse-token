@@ -28,7 +28,7 @@ import { TbBrandAzure, TbBrandOauth } from "react-icons/tb";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { CloudPrivacyNotice } from "@/src/features/auth/components/AuthCloudPrivacyNotice";
@@ -36,7 +36,7 @@ import { CloudRegionSwitch } from "@/src/features/auth/components/AuthCloudRegio
 import { PasswordInput } from "@/src/components/ui/password-input";
 import { isAnySsoConfigured } from "@/src/ee/features/multi-tenant-sso/utils";
 import { isEmailVerificationRequired } from "@/src/features/auth-credentials/lib/credentialsUtils";
-import { Code, Key, BarChart3, BellRing, ShieldCheck } from "lucide-react";
+import { Code, Key, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/router";
 import { captureException } from "@sentry/nextjs";
 import { captureUnknownError } from "@/src/utils/captureUnknownError";
@@ -919,48 +919,10 @@ export default function SignIn({
 
         <CloudPrivacyNotice action="登录" />
 
-        {/* Oxelia51 平台亮点：登录页底部简介，帮助新用户了解用途 */}
-        <div className="mx-auto mt-6 grid w-full max-w-[480px] grid-cols-3 gap-2 px-6 sm:px-0">
-          <FeaturePoint
-            icon={<Code className="h-4 w-4" />}
-            title="零侵入接入"
-            desc="改一行环境变量即可"
-          />
-          <FeaturePoint
-            icon={<BarChart3 className="h-4 w-4" />}
-            title="Token 统计"
-            desc="多维消耗分析"
-          />
-          <FeaturePoint
-            icon={<BellRing className="h-4 w-4" />}
-            title="预算与告警"
-            desc="异常消耗及时提醒"
-          />
-        </div>
-
         <div className="mt-6 flex justify-center pb-4">
           <FilingInfo variant="full" />
         </div>
       </div>
     </>
-  );
-}
-
-/** 登录页底部特性点。 */
-function FeaturePoint({
-  icon,
-  title,
-  desc,
-}: {
-  icon: ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-1 rounded-lg border p-3 text-center">
-      <span className="text-(--ox-accent)">{icon}</span>
-      <span className="text-xs font-medium">{title}</span>
-      <span className="text-muted-foreground text-[11px] leading-4">{desc}</span>
-    </div>
   );
 }

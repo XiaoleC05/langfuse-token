@@ -48,9 +48,11 @@ export default function AdminConsolePage() {
   const { data: session, status } = useSession();
   const authed = status === "authenticated" && Boolean(session?.user);
 
+  // staleTime: 0 —— 每次进入都实时校验身份，避免同 SPA 会话内换账号后
+  // 命中旧缓存把非管理员渲染成管理员（服务端仍有 adminProcedure 兜底，不泄露数据）。
   const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
     enabled: authed,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 
   return (
@@ -62,6 +64,8 @@ export default function AdminConsolePage() {
         {status === "loading" || (authed && whoami.isLoading) ? (
           <p className="text-muted-foreground text-sm">加载中…</p>
         ) : !authed ? (
+          // 防御性兜底：布局层 useAuthGuard 已把未登录访问重定向到 /auth/sign-in，
+          // 正常情况下本分支不会渲染。
           <Card className="flex max-w-lg flex-col gap-3 p-6">
             <h2 className="font-heading text-lg font-semibold">需要登录</h2>
             <p className="text-muted-foreground text-sm">
@@ -70,6 +74,25 @@ export default function AdminConsolePage() {
             <Button asChild className="self-start">
               <Link href="/auth/sign-in">前往登录</Link>
             </Button>
+          </Card>
+        ) : whoami.isError ? (
+          <Card className="flex max-w-lg flex-col gap-3 p-6">
+            <h2 className="font-heading text-lg font-semibold">身份校验失败</h2>
+            <p className="text-muted-foreground text-sm">
+              无法确认您的管理员身份，请检查网络后重试。
+            </p>
+            <div className="flex gap-2">
+              <Button
+                className="self-start"
+                onClick={() => void whoami.refetch()}
+                loading={whoami.isFetching}
+              >
+                重试
+              </Button>
+              <Button asChild variant="ghost" className="self-start">
+                <Link href="/">返回首页</Link>
+              </Button>
+            </div>
           </Card>
         ) : !whoami.data?.isAdmin ? (
           <Card className="flex max-w-lg flex-col gap-3 p-6">
@@ -88,7 +111,7 @@ export default function AdminConsolePage() {
             className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6"
           >
             {/* 导航：移动端顶部横向滚动，桌面端左侧纵向 sticky */}
-            <TabsList className="flex h-auto w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-none bg-transparent p-0 md:sticky md:top-20 md:w-52 md:flex-col">
+            <TabsList className="flex h-auto w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-none bg-transparent p-0 md:sticky md:top-14 md:w-52 md:flex-col">
               {NAV_ITEMS.map(({ value, label, icon: Icon }) => (
                 <TabsTrigger
                   key={value}

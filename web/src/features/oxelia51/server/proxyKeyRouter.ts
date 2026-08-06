@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+import { Role } from "@langfuse/shared/src/db";
 import {
   createTRPCRouter,
   protectedProjectProcedure,
@@ -8,6 +10,16 @@ import { goFetch } from "@/src/features/oxelia51/server/goClient";
 /** 代理网关项目密钥（Go 后端 proxy_keys 表，服务端 admin JWT 代理）。 */
 
 const projectIdInput = z.object({ projectId: z.string() });
+
+/** 密钥管理（生成明文网关密钥/删除）仅限项目 OWNER/ADMIN，viewer/member 无权变更。 */
+function requireKeyManagerRole(role?: string) {
+  if (role !== Role.OWNER && role !== Role.ADMIN) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "仅项目管理员（Owner/Admin）可管理代理网关密钥",
+    });
+  }
+}
 
 export type ProxyKeyItem = {
   id: number;
@@ -29,10 +41,11 @@ export const proxyKeyRouter = createTRPCRouter({
       return res as { items: ProxyKeyItem[] };
     }),
 
-  /** 生成密钥：返回含明文 key（仅此一次）。 */
+  /** 生成密钥：返回含明文 key（仅此一次）。仅 Owner/Admin 可调。 */
   create: protectedProjectProcedure
     .input(projectIdInput)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      requireKeyManagerRole(ctx.session.projectRole);
       const res = await goFetch("/api/admin/proxy-keys", "POST", {
         project_id: input.projectId,
       });
@@ -47,7 +60,8 @@ export const proxyKeyRouter = createTRPCRouter({
 
   remove: protectedProjectProcedure
     .input(z.object({ projectId: z.string(), id: z.number() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      requireKeyManagerRole(ctx.session.projectRole);
       await goFetch(`/api/admin/proxy-keys/${input.id}`, "DELETE");
       return { success: true };
     }),

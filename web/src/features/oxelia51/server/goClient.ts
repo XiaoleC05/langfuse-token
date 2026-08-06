@@ -37,14 +37,24 @@ export async function getGoToken(): Promise<string> {
   return cachedToken.token;
 }
 
-/** 提取浏览器真实出口 IP（nginx 设置的 X-Forwarded-For 第一段） */
+/**
+ * 提取浏览器真实出口 IP。
+ * 优先取 nginx 设置的 X-Real-IP（$remote_addr，客户端不可伪造）；
+ * 回退 X-Forwarded-For 首段仅供无 nginx 的开发环境，生产不依赖。
+ * 注意：X-Forwarded-For 首段是客户端可写的，绝不能作为可信来源。
+ */
 export function clientIpFromHeaders(
   headers: Record<string, string | string[] | undefined>,
 ): string {
-  const raw = headers["x-forwarded-for"];
-  const first = Array.isArray(raw) ? raw[0] : raw;
-  if (!first) return "";
-  return first.split(",")[0].trim();
+  const pick = (key: string): string => {
+    const v = headers[key];
+    const first = Array.isArray(v) ? v[0] : v;
+    return first ? first.trim() : "";
+  };
+  const real = pick("x-real-ip");
+  if (real) return real;
+  const xff = pick("x-forwarded-for");
+  return xff ? xff.split(",")[0].trim() : "";
 }
 
 export async function goFetch(

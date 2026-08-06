@@ -128,7 +128,16 @@ export const oxelia51AdminRouter = createTRPCRouter({
     goFetch("/api/admin/ip-whitelist", "GET", undefined, true, clientIpFromHeaders(ctx.headers)),
   ),
   whitelistCreate: superAdminProcedure
-    .input(z.object({ ip: z.string().min(3), label: z.string().default("") }))
+    .input(
+      z.object({
+        // 只允许 IPv4/IPv6 或 CIDR，避免把任意字符串写入白名单
+        ip: z.string().regex(
+          /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?|[0-9a-fA-F:]+(\/\d{1,3})?)$/,
+          "请输入合法 IP 或 CIDR（如 1.2.3.4 或 1.2.3.0/24）",
+        ),
+        label: z.string().max(50).default(""),
+      }),
+    )
     .mutation(({ ctx, input }) =>
       goFetch("/api/admin/ip-whitelist", "POST", input, true, clientIpFromHeaders(ctx.headers)),
     ),

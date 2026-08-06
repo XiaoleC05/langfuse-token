@@ -52,8 +52,6 @@ export const oxelia51AdminRouter = createTRPCRouter({
     };
   }),
 
-  health: adminProcedure.query(() => goFetch("/api/health", "GET", undefined, false)),
-  uptime: adminProcedure.query(() => goFetch("/api/uptime", "GET", undefined, false)),
   serverStats: adminProcedure.query(() =>
     goFetch("/api/admin/server-stats", "GET"),
   ),
@@ -107,14 +105,6 @@ export const oxelia51AdminRouter = createTRPCRouter({
     .input(z.object({ ip: z.string().min(3), label: z.string().default("") }))
     .mutation(({ ctx, input }) =>
       goFetch("/api/admin/ip-whitelist", "POST", input, true, clientIpFromHeaders(ctx.headers)),
-    ),
-  whitelistUpdate: adminProcedure
-    .input(whitelistIdSchema.extend({ ip: z.string().min(3), label: z.string().default("") }))
-    .mutation(({ ctx, input }) =>
-      goFetch(`/api/admin/ip-whitelist/${input.id}`, "PATCH", {
-        ip: input.ip,
-        label: input.label,
-      }, true, clientIpFromHeaders(ctx.headers)),
     ),
   whitelistDelete: adminProcedure
     .input(whitelistIdSchema)

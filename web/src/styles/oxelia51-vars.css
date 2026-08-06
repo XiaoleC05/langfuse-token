@@ -9,24 +9,24 @@
 /* Cozy 暖色（默认） */
 :root,
 [data-theme="cozy"] {
-  --background: 32 79% 96%; /* --ox-bg #fdf6ee */
-  --foreground: 23 25% 19%; /* --ox-text #3d2e25 */
+  --background: 30 38% 97%; /* --ox-bg #faf7f4 */
+  --foreground: 28 9% 20%; /* --ox-text #3a332d */
   --card: 40 100% 98%;
-  --card-foreground: 23 25% 19%;
+  --card-foreground: 28 9% 20%;
   --popover: 40 100% 98%;
-  --popover-foreground: 23 25% 19%;
+  --popover-foreground: 28 9% 20%;
   --primary: 358 75% 59%; /* --ox-accent #e5484d */
   --primary-foreground: 0 0% 100%;
-  --secondary: 31 52% 92%; /* --ox-bg-alt #f5ebe0 */
-  --secondary-foreground: 26 50% 11%; /* --ox-text-h #2a1a0e */
-  --muted: 31 52% 92%;
-  --muted-foreground: 33 24% 44%; /* --ox-text-muted #8b7355 */
-  --accent: 31 52% 92%;
-  --accent-foreground: 26 50% 11%;
+  --secondary: 36 29% 93%; /* --ox-bg-alt #f3efe9 */
+  --secondary-foreground: 27 14% 12%; /* --ox-text-h #241f1b */
+  --muted: 36 29% 93%;
+  --muted-foreground: 31 9% 48%; /* --ox-text-muted #857a6e */
+  --accent: 36 29% 93%;
+  --accent-foreground: 27 14% 12%;
   --destructive: 10 56% 51%; /* --ox-danger #c8553d */
   --destructive-foreground: 0 0% 100%;
-  --border: 36 34% 82%; /* --ox-border #e0d3c0 */
-  --input: 38 41% 88%; /* --ox-border-light #ede4d4 */
+  --border: 35 25% 86%; /* --ox-border #e5ded4 */
+  --input: 37 29% 91%; /* --ox-border-light #efeae2 */
   --ring: 358 75% 59%;
   --radius: 10px; /* --ox-radius */
 }
@@ -70,10 +70,10 @@ body {
 :root,
 [data-theme="cozy"] {
   --sidebar-background: 40 100% 98%;
-  --sidebar-foreground: 23 25% 19%;
-  --sidebar-accent: 31 52% 90%;
+  --sidebar-foreground: 28 9% 20%;
+  --sidebar-accent: 36 29% 90%;
   --sidebar-accent-foreground: 358 75% 41%;
-  --sidebar-border: 36 34% 85%;
+  --sidebar-border: 35 25% 88%;
   --sidebar-ring: 358 75% 59%;
 }
 
@@ -94,7 +94,7 @@ body {
 /* 卡片：细边框 + 主题阴影 + hover 微浮起 */
 [data-theme="cozy"] [data-slot="card"],
 [data-theme="cozy"] .card {
-  box-shadow: 0 1px 3px rgba(61, 46, 37, 0.06);
+  box-shadow: 0 1px 3px rgba(58, 51, 45, 0.06);
 }
 
 [data-theme="cosmos"] [data-slot="card"],

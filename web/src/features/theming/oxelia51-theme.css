@@ -19,18 +19,18 @@
 
 :root,
 [data-theme="cozy"] {
-  --ox-bg: #fdf6ee;
-  --ox-bg-alt: #f5ebe0;
-  --ox-bg-glass: rgba(253, 246, 238, 0.75);
-  --ox-text: #3d2e25;
-  --ox-text-h: #2a1a0e;
-  --ox-text-muted: #8b7355;
+  --ox-bg: #faf7f4;
+  --ox-bg-alt: #f3efe9;
+  --ox-bg-glass: rgba(250, 247, 244, 0.75);
+  --ox-text: #3a332d;
+  --ox-text-h: #241f1b;
+  --ox-text-muted: #857a6e;
   --ox-accent: #e5484d;
   --ox-accent-hover: #dc3e42;
   --ox-accent-2: #6b8e5a;
   --ox-accent-border: rgba(229, 72, 77, 0.35);
-  --ox-border: #e0d3c0;
-  --ox-border-light: #ede4d4;
+  --ox-border: #e5ded4;
+  --ox-border-light: #efeae2;
   --ox-radius: 10px;
   --ox-speed: 0.3s;
   --ox-ok: #4a7c59;
@@ -120,18 +120,18 @@
   --ox-border-light: #1f1f1f;
 }
 [data-theme="cosmos"][data-bg-preset="navy"] {
-  --ox-bg: #0b1322;
-  --ox-bg-alt: #101a2e;
-  --ox-bg-glass: rgba(11, 19, 34, 0.84);
-  --ox-border: #16233c;
-  --ox-border-light: #1d2c49;
+  --ox-bg: #10151f;
+  --ox-bg-alt: #161c28;
+  --ox-bg-glass: rgba(16, 21, 31, 0.84);
+  --ox-border: #1f2733;
+  --ox-border-light: #26313f;
 }
 
 /* —— 字体色预设（仅浅色背景生效；深色背景自动保持浅色文字）—— */
 [data-theme="cozy"][data-text-preset="brown"] {
-  --ox-text: #3d2e25;
-  --ox-text-h: #2a1a0e;
-  --ox-text-muted: #8b7355;
+  --ox-text: #3a332d;
+  --ox-text-h: #241f1b;
+  --ox-text-muted: #857a6e;
 }
 [data-theme="cozy"][data-text-preset="ink"] {
   --ox-text: #374151;

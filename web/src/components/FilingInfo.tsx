@@ -1,7 +1,7 @@
 import { env } from "@/src/env.mjs";
 
 type FilingInfoProps = {
-  /** compact：备案 + GitHub 单行（侧栏）；full：备案 + Powered by + GitHub（登录页/管理页） */
+  /** compact：备案单行（侧栏）；full：品牌 + 链接 + 备案三行（登录页/落地页/布局底部） */
   variant?: "compact" | "full";
 };
 
@@ -15,10 +15,77 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
       className={
         variant === "compact"
           ? "flex flex-wrap items-center justify-center gap-x-1.5 text-[11px] leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden"
-          : "flex flex-col items-center gap-1 text-center text-xs leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden"
+          : "flex flex-col items-center gap-1.5 text-center text-xs leading-4 text-muted-foreground group-data-[collapsible=icon]:hidden"
       }
     >
-      {/* 备案 */}
+      {variant === "full" && (
+        <>
+          {/* 行 1：品牌 */}
+          <div className="flex items-center gap-1.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${basePath}/icon-glyph-64.png`}
+              alt="Oxelia51"
+              width={16}
+              height={16}
+              className="dark:hidden"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${basePath}/icon-glyph-64-dark.png`}
+              alt="Oxelia51"
+              width={16}
+              height={16}
+              className="hidden dark:block"
+            />
+            <span className="font-medium text-foreground">Oxelia51</span>
+            <span>·</span>
+            <span>改一行环境变量，Token 消耗一目了然</span>
+          </div>
+
+          {/* 行 2：链接 */}
+          <div className="flex flex-wrap items-center justify-center gap-x-1.5">
+            <a
+              href="https://oxelia51.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-foreground"
+            >
+              官网
+            </a>
+            <span>·</span>
+            <a
+              href="mailto:receive@oxelia51.com"
+              className="hover:text-foreground"
+            >
+              反馈邮箱 receive@oxelia51.com
+            </a>
+            <span>·</span>
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-foreground underline underline-offset-2"
+            >
+              GitHub
+            </a>
+            <span>·</span>
+            <span className="text-muted-foreground/70">
+              Powered by{" "}
+              <a
+                href="https://github.com/langfuse/langfuse"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-foreground underline underline-offset-2"
+              >
+                Langfuse
+              </a>
+            </span>
+          </div>
+        </>
+      )}
+
+      {/* 备案（full 为行 3） */}
       <div className="flex flex-wrap items-center justify-center gap-x-1.5">
         <a
           href="https://beian.miit.gov.cn/"
@@ -45,32 +112,6 @@ export function FilingInfo({ variant = "compact" }: FilingInfoProps) {
           鲁公网安备37028202001309号
         </a>
       </div>
-
-      {/* Powered by + GitHub（full 才显示） */}
-      {variant === "full" && (
-        <div className="flex flex-wrap items-center justify-center gap-x-1.5">
-          <span>
-            Powered by{" "}
-            <a
-              href="https://github.com/langfuse/langfuse"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-foreground underline underline-offset-2"
-            >
-              Langfuse
-            </a>
-          </span>
-          <span>·</span>
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-foreground underline underline-offset-2"
-          >
-            GitHub
-          </a>
-        </div>
-      )}
     </div>
   );
 }

@@ -8,7 +8,7 @@ function OrbitLoader({ size = 42 }: { size?: number }) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 512 512"
+      viewBox="-70 -70 596 596"
       fill="none"
       aria-hidden="true"
     >

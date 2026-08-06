@@ -6,6 +6,8 @@
 export const PATH_CONSTANTS = {
   withoutNavigation: [
     "/onboarding",
+    // Oxelia51 独立管理台（无业务侧边栏，页面自带顶部条与门控）
+    "/admin",
     "/auth/reset-password",
     "/auth/setup-password",
   ] as const,

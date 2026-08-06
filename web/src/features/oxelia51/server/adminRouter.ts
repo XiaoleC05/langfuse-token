@@ -17,8 +17,9 @@ import {
 /**
  * Oxelia51 后台管理 tRPC router。
  * Langfuse 登录态即管理员身份：服务端持有 Go 后端运维凭证换 JWT 转发，
- * 凭证不下发到浏览器。管理员由 OXELIA51_ADMIN_EMAILS 邮箱名单判定
- * （空名单 = 任何登录用户，仅建议内网使用）。
+ * 凭证不下发到浏览器。管理员由 OXELIA51_ADMIN_EMAILS 邮箱名单判定。
+ * 安全默认：空名单 = 无人是管理员（管理台完全关闭），必须通过
+ * OXELIA51_ADMIN_EMAILS 显式指定管理员邮箱。
  */
 
 function isAdminEmail(email: string | null | undefined): boolean {
@@ -26,7 +27,8 @@ function isAdminEmail(email: string | null | undefined): boolean {
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
-  if (allowlist.length === 0) return true;
+  // 空名单视为未配置：拒绝所有人，而非放行所有人
+  if (allowlist.length === 0) return false;
   return Boolean(email) && allowlist.includes(email as string);
 }
 
@@ -139,14 +141,19 @@ export const oxelia51AdminRouter = createTRPCRouter({
     return { items: users };
   }),
 
-  /** 用户反馈列表（oxelia51.feedback，按时间倒序，只读） */
+  /** 用户反馈列表（oxelia51.feedback，按时间倒序；status 可选筛选） */
   listFeedback: adminProcedure
     .input(
       z
-        .object({ limit: z.number().int().min(1).max(200).default(50) })
+        .object({
+          limit: z.number().int().min(1).max(200).default(50),
+          status: z.enum(["new", "processing", "done"]).optional(),
+        })
         .optional(),
     )
     .query(async ({ input }) => {
+      // 空字符串表示不过滤（Prisma 标签模板不便传 undefined）
+      const status = input?.status ?? "";
       const rows = await prisma.$queryRaw<
         Array<{
           id: unknown;
@@ -160,6 +167,7 @@ export const oxelia51AdminRouter = createTRPCRouter({
       >`
         SELECT id, email, category, message, project_id, status, created_at
         FROM oxelia51.feedback
+        WHERE (${status} = '' OR status = ${status})
         ORDER BY created_at DESC
         LIMIT ${input?.limit ?? 50}
       `;
@@ -175,4 +183,71 @@ export const oxelia51AdminRouter = createTRPCRouter({
         })),
       };
     }),
+
+  /** 反馈状态流转：new → processing → done */
+  updateFeedbackStatus: adminProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        status: z.enum(["new", "processing", "done"]),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      await prisma.$executeRaw`
+        UPDATE oxelia51.feedback SET status = ${input.status} WHERE id = ${input.id}
+      `;
+      return { success: true };
+    }),
+
+  /** 平台总览指标：注册用户/项目/待处理反馈/近 24h 告警（直查 PG，只读聚合） */
+  platformOverview: adminProcedure.query(async () => {
+    const [users, projects, pendingFeedback, alerts24h] = await Promise.all([
+      prisma.$queryRaw<[{ count: bigint }]>`SELECT COUNT(*) AS count FROM users`,
+      prisma.$queryRaw<[{ count: bigint }]>`SELECT COUNT(*) AS count FROM projects`,
+      prisma.$queryRaw<[{ count: bigint }]>`
+        SELECT COUNT(*) AS count FROM oxelia51.feedback WHERE status = 'new'
+      `,
+      prisma.$queryRaw<[{ count: bigint }]>`
+        SELECT COUNT(*) AS count FROM oxelia51.alert_logs
+        WHERE created_at > now() - interval '24 hours'
+      `,
+    ]);
+    return {
+      userCount: Number(users[0]?.count ?? 0),
+      projectCount: Number(projects[0]?.count ?? 0),
+      pendingFeedbackCount: Number(pendingFeedback[0]?.count ?? 0),
+      alertsLast24hCount: Number(alerts24h[0]?.count ?? 0),
+    };
+  }),
+
+  /** 跨项目最近告警记录（oxelia51.alert_logs，由外部分析引擎写入，只读） */
+  listAlertLogs: adminProcedure.query(async () => {
+    const rows = await prisma.$queryRaw<
+      Array<{
+        id: unknown;
+        project_id: string;
+        alert_type: string;
+        severity: string;
+        message: string | null;
+        status: string;
+        created_at: Date;
+      }>
+    >`
+      SELECT id, project_id, alert_type, severity, message, status, created_at
+      FROM oxelia51.alert_logs
+      ORDER BY created_at DESC
+      LIMIT 100
+    `;
+    return {
+      items: rows.map((r) => ({
+        id: Number(r.id),
+        projectId: r.project_id,
+        alertType: r.alert_type,
+        severity: r.severity,
+        message: r.message ?? "",
+        status: r.status,
+        createdAt: r.created_at,
+      })),
+    };
+  }),
 });

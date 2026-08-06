@@ -23,7 +23,6 @@ import {
   BarChart3,
   Coins,
   Siren,
-  Wrench,
 } from "lucide-react";
 import { type ReactNode } from "react";
 import { type Entitlement } from "@/src/features/entitlements/constants/entitlements";
@@ -49,7 +48,7 @@ export enum RouteGroup {
   PromptManagement = "提示词管理",
   Evaluation = "评估",
   TokenStats = "Token 统计",
-  Admin = "管理",
+  // Oxelia51：管理台已迁出业务侧栏（独立 /admin 区域），不再设导航分组
 }
 
 export type Route = {
@@ -233,13 +232,6 @@ export const ROUTES: Route[] = [
     group: RouteGroup.Observability,
     section: RouteSection.Main,
     advanced: true,
-  },
-  {
-    title: "后台管理",
-    pathname: "/project/[projectId]/admin",
-    icon: Wrench,
-    group: RouteGroup.Admin,
-    section: RouteSection.Main,
   },
   {
     title: "升级套餐",

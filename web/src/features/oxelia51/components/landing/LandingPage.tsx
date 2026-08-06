@@ -171,24 +171,7 @@ function FeaturesSection() {
 
 function LandingFooter() {
   return (
-    <footer className="flex flex-col items-center gap-4 border-t border-(--ox-border) py-10">
-      <div className="flex items-center gap-4 text-xs text-(--ox-text-muted)">
-        <a
-          href="https://oxelia51.com"
-          target="_blank"
-          rel="noreferrer"
-          className="hover:text-(--ox-text-h)"
-        >
-          官网
-        </a>
-        <span>·</span>
-        <a
-          href="mailto:receive@oxelia51.com"
-          className="hover:text-(--ox-text-h)"
-        >
-          反馈邮箱 receive@oxelia51.com
-        </a>
-      </div>
+    <footer className="flex flex-col items-center border-t border-(--ox-border) py-10">
       <FilingInfo variant="full" />
     </footer>
   );

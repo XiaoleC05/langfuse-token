@@ -6,7 +6,6 @@
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import type { Session } from "next-auth";
-import { api } from "@/src/utils/api";
 import { useEntitlements } from "@/src/features/entitlements/hooks";
 import { useUiCustomization } from "@/src/ee/features/ui-customization/useUiCustomization";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
@@ -119,14 +118,6 @@ export function useFilteredNavigation(
     return applyNavigationFilters(ROUTES, filterContext, organization);
   }, [filterContext, organization]);
 
-  // Oxelia51：后台管理入口仅管理员可见（whoami 由 tRPC 判定）
-  const sessionEmail = session?.user?.email;
-  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
-    enabled: Boolean(sessionEmail),
-    staleTime: Infinity,
-  });
-  const isOxeliaAdmin = Boolean(sessionEmail) && (whoami.data?.isAdmin ?? false);
-
   // Map filtered routes to NavigationItems with url and isActive
   // This is O(n) - we map directly over filteredRoutes instead of re-iterating ROUTES
   return useMemo(() => {
@@ -149,13 +140,7 @@ export function useFilteredNavigation(
     };
 
     // Map filtered routes to navigation items
-    const allItems = filteredRoutes
-      // 非管理员隐藏后台管理入口
-      .filter(
-        (route) =>
-          route.pathname !== "/project/[projectId]/admin" || isOxeliaAdmin,
-      )
-      .map(mapRouteToNavigationItem);
+    const allItems = filteredRoutes.map(mapRouteToNavigationItem);
 
     // Split by section and group
     const mainItems = allItems.filter(
@@ -181,6 +166,5 @@ export function useFilteredNavigation(
     routerProjectId,
     routerOrganizationId,
     router.pathname,
-    isOxeliaAdmin,
   ]);
 }

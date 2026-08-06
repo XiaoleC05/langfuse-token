@@ -31,7 +31,6 @@ const groupProcessedNavigation = (items: NavigationItem[]) => {
         ...(grouped[RouteGroup.PromptManagement] || []),
         ...(grouped[RouteGroup.Evaluation] || []),
         ...(grouped[RouteGroup.TokenStats] || []),
-        ...(grouped[RouteGroup.Admin] || []),
       ]
     : [];
 

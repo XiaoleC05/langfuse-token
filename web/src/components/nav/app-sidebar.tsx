@@ -33,6 +33,7 @@ import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeU
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { Oxelia51ColorSettings } from "@/src/features/theming/Oxelia51ColorSettings";
 import { FeedbackDialog } from "@/src/features/oxelia51/components/FeedbackDialog";
+import { AdminSidebarEntry } from "@/src/features/oxelia51/components/admin/AdminSidebarEntry";
 import { FilingInfo } from "@/src/components/FilingInfo";
 
 type AppSidebarProps = {
@@ -98,6 +99,8 @@ export function AppSidebar({
           <Oxelia51ThemeToggle />
           <Oxelia51ColorSettings />
           <FeedbackDialog />
+          {/* 管理台入口：仅管理员可见 */}
+          <AdminSidebarEntry />
         </div>
         <NavUser {...userNavProps} />
       </SidebarFooter>

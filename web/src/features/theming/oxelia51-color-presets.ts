@@ -25,7 +25,7 @@ export const BG_PRESETS: Array<{
   { name: "mist", label: "雾蓝", swatch: "#eef2f7", themes: ["cozy"] },
   { name: "cream", label: "米黄", swatch: "#f6f0e3", themes: ["cozy"] },
   { name: "black", label: "墨黑", swatch: "#050505", themes: ["cosmos"] },
-  { name: "navy", label: "深蓝", swatch: "#0b1322", themes: ["cosmos"] },
+  { name: "navy", label: "深蓝", swatch: "#10151f", themes: ["cosmos"] },
 ];
 
 export const TEXT_PRESETS: Array<{
@@ -34,7 +34,7 @@ export const TEXT_PRESETS: Array<{
   swatch: string;
 }> = [
   { name: "default", label: "默认", swatch: "var(--ox-text)" },
-  { name: "brown", label: "暖棕", swatch: "#3d2e25" },
+  { name: "brown", label: "暖棕", swatch: "#3a332d" },
   { name: "ink", label: "墨灰", swatch: "#1f2937" },
   { name: "forest", label: "墨绿", swatch: "#243b2a" },
   { name: "navy", label: "深蓝", swatch: "#1e3a5f" },

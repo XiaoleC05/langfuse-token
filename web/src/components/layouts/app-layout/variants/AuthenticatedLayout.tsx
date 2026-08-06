@@ -214,7 +214,7 @@ export function AuthenticatedLayout({
                         {children}
                       </AppContentWithRightDrawer>
                     </div>
-                    {/* Oxelia51 页脚：与登录页统一（备案 + Powered by Langfuse + GitHub） */}
+                    {/* Oxelia51 页脚：与登录页统一（品牌 + 链接 + 备案） */}
                     <footer className="shrink-0 border-t bg-background py-1">
                       <FilingInfo variant="full" />
                     </footer>

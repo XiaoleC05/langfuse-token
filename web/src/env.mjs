@@ -548,6 +548,11 @@ export const env = createEnv({
     NEXT_PUBLIC_PLAIN_APP_ID: z.string().optional(),
     NEXT_PUBLIC_BUILD_ID: z.string().optional(),
     NEXT_PUBLIC_BASE_PATH: z.string().optional(),
+    // Oxelia51：代理网关公开地址（无尾斜杠），用于接入引导页
+    NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL: z
+      .string()
+      .optional()
+      .default("https://oxelia51.com/api/proxy"),
     NEXT_PUBLIC_LANGFUSE_PLAYGROUND_STREAMING_ENABLED_DEFAULT: z
       .enum(["true", "false"])
       .optional()
@@ -566,6 +571,9 @@ export const env = createEnv({
     OXELIA51_DORM_NUMBER: process.env.OXELIA51_DORM_NUMBER,
     NEXT_PUBLIC_DEMO_PROJECT_ID: process.env.NEXT_PUBLIC_DEMO_PROJECT_ID,
     NEXT_PUBLIC_DEMO_ORG_ID: process.env.NEXT_PUBLIC_DEMO_ORG_ID,
+    NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL:
+      process.env.NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL ??
+      "https://oxelia51.com/api/proxy",
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     BUILD_ID: process.env.BUILD_ID,

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Page from "@/src/components/layouts/page";
 import { api } from "@/src/utils/api";
+import { ProxyAccessEmptyState } from "@/src/features/oxelia51/components/ProxyAccessEmptyState";
 import { Card } from "@/src/components/ui/card";
 import {
   Table,
@@ -37,6 +38,14 @@ export default function CostPage() {
 
 function CostPageContent({ projectId }: { projectId: string }) {
   const { currency, setCurrency } = useCurrency();
+  const overview = api.oxelia51.overview.useQuery({ projectId });
+  const isEmpty =
+    overview.data != null &&
+    !overview.data.todayTokens &&
+    !overview.data.weekTokens &&
+    !overview.data.monthTokens &&
+    !overview.data.todayCostUsd &&
+    !overview.data.monthCostUsd;
 
   return (
     <Page
@@ -59,6 +68,7 @@ function CostPageContent({ projectId }: { projectId: string }) {
       }}
     >
       <div className="flex flex-col gap-4 p-4 pb-8">
+        {isEmpty && <ProxyAccessEmptyState projectId={projectId} />}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <MonthCostCard projectId={projectId} />
           <div className="lg:col-span-2">

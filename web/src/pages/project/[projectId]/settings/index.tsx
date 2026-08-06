@@ -24,6 +24,7 @@ import { BatchExportsSettingsPage } from "@/src/features/batch-exports/component
 import { BatchActionsSettingsPage } from "@/src/features/batch-actions/components/BatchActionsSettingsPage";
 import { AuditLogsSettingsPage } from "@/src/ee/features/audit-log-viewer/AuditLogsSettingsPage";
 import { ModelsSettings } from "@/src/features/models/components/ModelSettings";
+import { ProxyAccessSettings } from "@/src/features/oxelia51/components/ProxyAccessSettings";
 import ConfigureRetention from "@/src/features/projects/components/ConfigureRetention";
 import ContainerPage from "@/src/components/layouts/container-page";
 import ProtectedLabelsSettings from "@/src/features/prompts/components/ProtectedLabelsSettings";
@@ -176,9 +177,15 @@ export const getProjectSettingsPages = ({
     show: showLLMConnectionsSettings,
   },
   {
+    title: "代理接入",
+    slug: "proxy",
+    cmdKKeywords: ["proxy", "代理", "api key", "接入"],
+    content: <ProxyAccessSettings projectId={project.id} />,
+  },
+  {
     title: "模型定义",
     slug: "models",
-    cmdKKeywords: ["cost", "token"],
+    cmdKKeywords: ["cost", "token", "model", "价格"],
     content: <ModelsSettings projectId={project.id} />,
   },
   {

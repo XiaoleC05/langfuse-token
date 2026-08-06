@@ -87,8 +87,12 @@ const STEPS: { title: string; desc: ReactNode }[] = [
           在你的 AI 工具里把 API 地址指向代理，其余配置不变。
         </span>
         <span className="flex flex-col gap-2">
-          <CopyCodeBlock code='export ANTHROPIC_BASE_URL="https://oxelia51.com/api/proxy/anthropic"' />
-          <CopyCodeBlock code='export OPENAI_BASE_URL="https://oxelia51.com/api/proxy/openai"' />
+          <CopyCodeBlock
+            code={`export ANTHROPIC_BASE_URL="${env.NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL}/anthropic"`}
+          />
+          <CopyCodeBlock
+            code={`export OPENAI_BASE_URL="${env.NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL}/openai"`}
+          />
         </span>
       </>
     ),

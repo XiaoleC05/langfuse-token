@@ -63,6 +63,7 @@ import { inAppAgentRouter } from "@/src/ee/features/in-app-agent/server/router";
 import { v4TransitionRouter } from "@/src/features/v4/server/v4TransitionRouter";
 import { oxelia51Router } from "@/src/features/oxelia51/server/oxelia51Router";
 import { oxelia51AdminRouter } from "@/src/features/oxelia51/server/adminRouter";
+import { proxyKeyRouter } from "@/src/features/oxelia51/server/proxyKeyRouter";
 
 /**
  * This is the primary router for your server.
@@ -134,6 +135,7 @@ export const appRouter = createTRPCRouter({
   v4Transition: v4TransitionRouter,
   oxelia51: oxelia51Router,
   oxelia51Admin: oxelia51AdminRouter,
+  proxyKey: proxyKeyRouter,
 });
 
 // export type definition of API

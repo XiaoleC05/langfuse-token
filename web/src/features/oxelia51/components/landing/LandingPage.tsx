@@ -84,7 +84,7 @@ const STEPS: { title: string; desc: ReactNode }[] = [
     desc: (
       <>
         <span className="mb-2 block">
-          在你的 AI 工具里把 API 地址指向代理，其余配置不变。
+          在你的模型工具里把 API 地址指向代理，其余配置不变。
         </span>
         <span className="flex flex-col gap-2">
           <CopyCodeBlock

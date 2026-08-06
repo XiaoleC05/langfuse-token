@@ -14,7 +14,7 @@ export function ProxyAccessEmptyState({ projectId }: { projectId: string }) {
       </span>
       <span className="font-heading text-sm font-semibold">还没有 Token 数据</span>
       <p className="text-muted-foreground max-w-md text-xs leading-5">
-        把你的 AI 工具（Claude Code、Cursor 等）指向 Oxelia51 代理地址，
+        把你的模型工具（Claude Code、Cursor 等）指向 Oxelia51 代理地址，
         Token 消耗与成本就会自动统计到这里。配置只需一行环境变量。
       </p>
       <Button asChild>

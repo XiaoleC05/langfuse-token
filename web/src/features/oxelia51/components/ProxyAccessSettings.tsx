@@ -81,7 +81,7 @@ export function ProxyAccessSettings({ projectId }: { projectId: string }) {
       <Card className="flex flex-col gap-3 p-4">
         <span className="font-heading text-sm font-semibold">代理地址</span>
         <p className="text-muted-foreground text-xs">
-          把你的 AI 工具指向下面的地址，Token 消耗将自动统计到本项目。
+          把你的模型工具指向下面的地址，Token 消耗将自动统计到本项目。
         </p>
         <div className="flex items-center gap-2">
           <select
@@ -181,7 +181,7 @@ export OPENAI_API_KEY="${newKey ?? "<你的项目密钥 ox_...>"}"
   -d '{"model":"deepseek-chat","messages":[{"role":"user","content":"你好"}]}'`}
         />
         <p className="text-muted-foreground text-xs">
-          真实上游 LLM 密钥通过 <code className="text-[11px]">X-Oxelia51-Upstream-Key</code>{" "}
+          真实上游模型密钥通过 <code className="text-[11px]">X-Oxelia51-Upstream-Key</code>{" "}
           头传递（Claude Code 用 <code className="text-[11px]">ANTHROPIC_AUTH_TOKEN</code>
           、OpenAI 兼容工具用自定义头）。未设置时上游按你工具原有的密钥配置。
         </p>

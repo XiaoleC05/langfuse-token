@@ -156,7 +156,7 @@ export const getProjectSettingsPages = ({
     content: <DeveloperToolsSettings projectId={project.id} />,
   },
   {
-    title: "LLM 连接",
+    title: "模型连接",
     slug: "llm-connections",
     cmdKKeywords: [
       "llm",

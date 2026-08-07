@@ -1,178 +1,565 @@
+"use client";
+
 import Head from "next/head";
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { BarChart3, BellRing, Code } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import {
+  ArrowRight,
+  BarChart3,
+  BellRing,
+  BookOpen,
+  Check,
+  ChevronDown,
+  Code,
+  Download,
+  FolderKanban,
+  Github,
+  MessageSquare,
+  Monitor,
+  ShieldCheck,
+  Terminal,
+  Apple,
+  Users,
+} from "lucide-react";
 import { Button } from "@/src/components/ui/button";
-import { FilingInfo } from "@/src/components/FilingInfo";
-import { env } from "@/src/env.mjs";
 import { CopyCodeBlock } from "@/src/features/oxelia51/components/landing/CopyCodeBlock";
+import { DashboardMock } from "@/src/features/oxelia51/components/landing/DashboardMock";
+import { CommunityStats } from "@/src/features/oxelia51/components/landing/CommunityStats";
+import { SiteHeader } from "@/src/features/oxelia51/components/site/SiteHeader";
+import { SiteFooter } from "@/src/features/oxelia51/components/site/SiteFooter";
 
 /**
- * Oxelia51 品牌落地页：未登录访问 `/` 时展示（useAuthGuard 对根路径放行）。
- * 单屏滚动：Hero → 三步上手 → 特性 → Footer。取色一律走 --ox-* 变量。
+ * Oxelia51 落地页 v2（2026-08-08 设计定稿）。
+ * 结构仿 reasonix / CC Switch：Hero + 三步上手 + 特性 + 下载 + 社区 + FAQ + 页脚。
+ * 主 CTA = 免费下载；登录/注册不再是前台；配色黑/白/心跳红。
+ * 未实现功能（桌面应用/本地代理等）一律标注「即将推出」，不虚构。
  */
+const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
+
+const LOCAL_PROXY_CMD = `export ANTHROPIC_BASE_URL="http://localhost:17800/anthropic"`;
+const CLOUD_PROXY_CMD = `export ANTHROPIC_BASE_URL="https://oxelia51.com/api/proxy/anthropic"`;
+
 export function LandingPage() {
   return (
     <>
       <Head>
-        <title>Oxelia51 | Token 消耗统计平台</title>
+        <title>Oxelia51 | 只需要改一行环境变量，所有 Token 消耗一目了然</title>
         <meta
           name="description"
-          content="Oxelia51 是模型 API 的代理与统计平台：改一行环境变量，Token 消耗、成本与异常一目了然。"
+          content="Oxelia51 是本地优先的个人 Token 记账本：本地部署、安全简洁、多维统计。改一行环境变量，所有模型调用的 Token 消耗一目了然。"
         />
       </Head>
-      <div className="mx-auto flex max-w-4xl flex-col">
-        <HeroSection />
-        <StepsSection />
-        <FeaturesSection />
-        <LandingFooter />
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader />
+        <main className="flex-1">
+          <HeroSection />
+          <HowItWorksSection />
+          <FeaturesSection />
+          <DownloadSection />
+          <CommunitySection />
+          <FaqSection />
+        </main>
+        <SiteFooter />
       </div>
     </>
   );
 }
 
-/** 竖版品牌 logo：浅底用深色版，深底（dark）用浅色版。透明背景，适配各主题底色预设。 */
-function StackedBrandLogo() {
-  const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
-  return (
-    <>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`${basePath}/logo-stacked-light.svg`}
-        alt="Oxelia51"
-        className="h-36 w-auto dark:hidden sm:h-44"
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`${basePath}/logo-stacked-dark.svg`}
-        alt="Oxelia51"
-        className="hidden h-36 w-auto dark:block sm:h-44"
-      />
-    </>
-  );
-}
+/* ---------------- Hero ---------------- */
 
 function HeroSection() {
   return (
-    <section className="flex flex-col items-center pt-14 pb-12 text-center sm:pt-20">
-      <StackedBrandLogo />
-      <h1 className="mt-8 max-w-2xl text-2xl leading-snug font-bold tracking-tight text-(--ox-text-h) sm:text-3xl">
-        改一行环境变量，Token 消耗一目了然
-      </h1>
-      <p className="mt-4 max-w-xl text-sm leading-6 text-(--ox-text-muted) sm:text-base">
-        Oxelia51 是模型 API 的代理与统计平台。请求照常发出，用量、成本与异常自动落账。
-      </p>
-      <div className="mt-8 flex items-center gap-3">
-        <Button asChild size="lg">
-          <Link href="/auth/sign-up">开始使用</Link>
-        </Button>
-        <Button asChild size="lg" variant="outline">
-          <Link href="/auth/sign-in">登录</Link>
-        </Button>
+    <section className="relative overflow-hidden">
+      {/* 背景辉光 */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-96"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in srgb, var(--ox-accent) 12%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-6xl px-4 pt-16 pb-14 text-center sm:px-6 sm:pt-20">
+        <span
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs text-(--ox-text-muted)"
+          style={{ borderColor: "var(--ox-border)" }}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-(--ox-accent)" />
+          本地优先 · 开源 MIT
+        </span>
+
+        <h1 className="mx-auto mt-6 max-w-3xl text-3xl leading-tight font-bold tracking-tight text-(--ox-text-h) sm:text-5xl">
+          只需要改一行环境变量，所有 Token 消耗一目了然
+        </h1>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg">
+          本地部署 · 安全简洁 · 多维统计。Claude Code、Cursor，以及 DeepSeek、Moonshot、智谱等
+          国内模型，用量、成本、异常自动落账。
+        </p>
+
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Button asChild size="lg">
+            <a href="/#download">
+              免费下载
+              <Download className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/docs">
+              <BookOpen className="mr-2 h-4 w-4" />
+              查看文档
+            </Link>
+          </Button>
+        </div>
+
+        {/* 平台徽章 */}
+        <div className="mt-5 flex items-center justify-center gap-4 text-xs text-(--ox-text-muted)">
+          <span className="flex items-center gap-1">
+            <Monitor className="h-3.5 w-3.5" /> Windows
+          </span>
+          <span className="flex items-center gap-1">
+            <Apple className="h-3.5 w-3.5" /> macOS
+          </span>
+          <span className="flex items-center gap-1">
+            <Terminal className="h-3.5 w-3.5" /> Linux
+          </span>
+        </div>
+
+        {/* 产品截图 mock */}
+        <div className="mx-auto mt-12 max-w-4xl">
+          <DashboardMock />
+        </div>
       </div>
     </section>
   );
 }
 
-const STEPS: { title: string; desc: ReactNode }[] = [
-  {
-    title: "复制代理地址",
-    desc: "注册并创建项目后，复制与你的模型服务商对应的代理地址。",
-  },
-  {
-    title: "改一行环境变量",
-    desc: (
-      <>
-        <span className="mb-2 block">
-          在你的模型工具里把 API 地址指向代理，其余配置不变。
-        </span>
-        <span className="flex flex-col gap-2">
-          <CopyCodeBlock
-            code={`export ANTHROPIC_BASE_URL="${env.NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL}/anthropic"`}
-          />
-          <CopyCodeBlock
-            code={`export OPENAI_BASE_URL="${env.NEXT_PUBLIC_OXELIA51_PROXY_BASE_URL}/openai"`}
-          />
-        </span>
-      </>
-    ),
-  },
-  {
-    title: "打开仪表盘看统计",
-    desc: "Token 用量、模型成本与告警状态，在仪表盘即时可见。",
-  },
-];
+/* ---------------- 三步上手 ---------------- */
 
-function StepsSection() {
+function HowItWorksSection() {
   return (
-    <section className="border-t border-(--ox-border) py-12">
-      <h2 className="text-center text-lg font-semibold text-(--ox-text-h)">
-        三步上手
-      </h2>
-      <div className="mt-8 grid gap-6 sm:grid-cols-3">
-        {STEPS.map((step, index) => (
-          <div key={step.title} className="flex flex-col">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-(--ox-accent-border) text-xs font-semibold text-(--ox-accent)">
-              {index + 1}
-            </span>
-            <h3 className="mt-3 text-sm font-medium text-(--ox-text-h)">
-              {step.title}
-            </h3>
-            <div className="mt-2 text-xs leading-5 text-(--ox-text-muted)">
-              {step.desc}
-            </div>
-          </div>
-        ))}
+    <section className="border-t py-16 sm:py-20" style={{ borderColor: "var(--ox-border)" }}>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeading
+          eyebrow="三步上手"
+          title="从一行环境变量，到一目了然"
+          desc="不装 SDK，不改代码，不碰 API Key。"
+        />
+
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <StepCard
+            index={1}
+            title="指向本地代理"
+            desc="把模型工具的 API 地址指向应用内置代理，一行环境变量即可。"
+          >
+            <CopyCodeBlock code={LOCAL_PROXY_CMD} />
+            <p className="mt-2 text-xs text-(--ox-text-muted)">
+              端口可在应用设置中修改。本地代理即将推出；云代理现可用：
+            </p>
+            <CopyCodeBlock code={CLOUD_PROXY_CMD} />
+          </StepCard>
+          <StepCard
+            index={2}
+            title="自动落账"
+            desc="之后的每一次模型调用，Token 与成本自动记录，无需任何操作。"
+          />
+          <StepCard
+            index={3}
+            title="打开仪表盘"
+            desc="按时间、模型、项目、会话多维度查看，成本、异常一目了然。"
+          />
+        </div>
+
+        {/* 数据流 */}
+        <div
+          className="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-2 rounded-xl border px-5 py-4 text-sm"
+          style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
+        >
+          <span className="text-(--ox-text-h)">你的模型工具</span>
+          <ArrowRight className="h-4 w-4 text-(--ox-accent)" />
+          <span className="text-(--ox-text-h)">本地代理</span>
+          <ArrowRight className="h-4 w-4 text-(--ox-accent)" />
+          <span className="text-(--ox-text-h)">自动落账</span>
+          <ArrowRight className="h-4 w-4 text-(--ox-accent)" />
+          <span className="text-(--ox-text-h)">仪表盘</span>
+        </div>
       </div>
     </section>
   );
 }
 
-const FEATURES = [
+function StepCard({
+  index,
+  title,
+  desc,
+  children,
+}: {
+  index: number;
+  title: string;
+  desc: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div
+      className="flex flex-col rounded-xl border p-6"
+      style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
+    >
+      <span
+        className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white"
+        style={{ backgroundColor: "var(--ox-accent)" }}
+      >
+        {index}
+      </span>
+      <h3 className="mt-4 text-base font-semibold text-(--ox-text-h)">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-(--ox-text-muted)">{desc}</p>
+      {children && <div className="mt-4">{children}</div>}
+    </div>
+  );
+}
+
+/* ---------------- 特性 ---------------- */
+
+const FEATURES: { icon: ReactNode; title: string; desc: string }[] = [
   {
     icon: <Code className="h-4 w-4" />,
-    title: "代理接入零侵入",
-    desc: "只改环境变量，不改业务代码；请求经代理转发，密钥仍由你保管。",
+    title: "零代码代理",
+    desc: "不装 SDK、不改代码，改一行环境变量即接入；API Key 只转发不落库。",
   },
   {
     icon: <BarChart3 className="h-4 w-4" />,
-    title: "多维 Token 统计",
-    desc: "按模型、用户、会话拆解用量与成本，支持 CNY/USD 查看。",
+    title: "多维统计",
+    desc: "按时间、模型、项目、会话拆解用量与成本，从多角度看清 Token 花在哪。",
+  },
+  {
+    icon: <FolderKanban className="h-4 w-4" />,
+    title: "会话与项目",
+    desc: "以项目和会话为轴心记录每笔调用，项目可引用本地文件夹（Cursor 式）。",
   },
   {
     icon: <BellRing className="h-4 w-4" />,
-    title: "预算与异常告警",
-    desc: "设定预算阈值，异常消耗通过邮件及时提醒。",
+    title: "预算与告警",
+    desc: "设定预算阈值，超限或异常消耗及时提醒，支持站内与邮件。",
+  },
+  {
+    icon: <ShieldCheck className="h-4 w-4" />,
+    title: "本地部署 · 安全简洁",
+    desc: "桌面应用数据全部存本地；自托管一条命令，数据不离开你的设备。",
+  },
+  {
+    icon: <Terminal className="h-4 w-4" />,
+    title: "国内模型适配",
+    desc: "DeepSeek、Moonshot、智谱等开箱即用，内置 20+ 模型定价自动核算。",
   },
 ];
 
 function FeaturesSection() {
   return (
-    <section className="border-t border-(--ox-border) py-12">
-      <div className="grid gap-4 sm:grid-cols-3">
-        {FEATURES.map((feature) => (
-          <div
-            key={feature.title}
-            className="flex flex-col gap-2 rounded-lg border border-(--ox-border) bg-(--ox-bg-alt) p-5"
-          >
-            <span className="text-(--ox-accent)">{feature.icon}</span>
-            <h3 className="text-sm font-medium text-(--ox-text-h)">
-              {feature.title}
-            </h3>
-            <p className="text-xs leading-5 text-(--ox-text-muted)">
-              {feature.desc}
-            </p>
-          </div>
-        ))}
+    <section className="border-t py-16 sm:py-20" style={{ borderColor: "var(--ox-border)" }}>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeading eyebrow="特性" title="为个人打造的 Token 记账本" />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f) => (
+            <div
+              key={f.title}
+              className="group flex flex-col gap-3 rounded-xl border p-5 transition-colors hover:border-(--ox-accent)/50"
+              style={{ borderColor: "var(--ox-border)" }}
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg text-(--ox-accent)" style={{ backgroundColor: "color-mix(in srgb, var(--ox-accent) 10%, transparent)" }}>
+                {f.icon}
+              </span>
+              <h3 className="text-sm font-semibold text-(--ox-text-h)">{f.title}</h3>
+              <p className="text-xs leading-5 text-(--ox-text-muted)">{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-function LandingFooter() {
+/* ---------------- 下载 ---------------- */
+
+const PLATFORMS = [
+  {
+    name: "Windows",
+    icon: <Monitor className="h-5 w-5" />,
+    methods: [
+      { label: "安装包 (.exe)", hint: "日常使用，开始菜单/桌面快捷方式" },
+      { label: "便携版 (.zip)", hint: "免安装，U 盘 / 绿色使用" },
+    ],
+  },
+  {
+    name: "macOS",
+    icon: <Apple className="h-5 w-5" />,
+    methods: [
+      { label: ".dmg（Apple Silicon）", hint: "新款 M 系列 Mac" },
+      { label: ".dmg（Intel）", hint: "老款 Intel Mac" },
+    ],
+  },
+  {
+    name: "Linux",
+    icon: <Terminal className="h-5 w-5" />,
+    methods: [
+      { label: ".AppImage", hint: "通用发行版，免安装" },
+      { label: ".deb", hint: "Debian / Ubuntu 包管理" },
+      { label: ".rpm", hint: "Fedora / RHEL 包管理" },
+    ],
+  },
+];
+
+function DownloadSection() {
   return (
-    <footer className="flex flex-col items-center border-t border-(--ox-border) py-10">
-      <FilingInfo variant="full" />
-    </footer>
+    <section
+      id="download"
+      className="border-t py-16 sm:py-20"
+      style={{ borderColor: "var(--ox-border)" }}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeading
+          eyebrow="下载"
+          title="免费下载"
+          desc="桌面应用正在开发中，发布后本站与 GitHub 提供下载；云平台现可用。"
+        />
+
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {PLATFORMS.map((p) => (
+            <div
+              key={p.name}
+              className="rounded-xl border p-6"
+              style={{ borderColor: "var(--ox-border)" }}
+            >
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-sm font-semibold text-(--ox-text-h)">
+                  <span className="text-(--ox-accent)">{p.icon}</span>
+                  {p.name}
+                </span>
+                <span className="rounded-full border px-2 py-0.5 text-[10px] text-(--ox-text-muted)" style={{ borderColor: "var(--ox-border)" }}>
+                  即将推出
+                </span>
+              </div>
+              <ul className="mt-4 flex flex-col gap-2.5">
+                {p.methods.map((m) => (
+                  <li
+                    key={m.label}
+                    className="flex items-start gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
+                  >
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-(--ox-accent)" />
+                    <span className="text-xs">
+                      <span className="block font-medium text-(--ox-text-h)">{m.label}</span>
+                      <span className="text-(--ox-text-muted)">{m.hint}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div
+          className="mt-8 flex flex-col items-center justify-between gap-4 rounded-xl border p-6 sm:flex-row"
+          style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
+        >
+          <div>
+            <h3 className="text-sm font-semibold text-(--ox-text-h)">等不及？先用云平台</h3>
+            <p className="mt-1 text-xs text-(--ox-text-muted)">
+              在线体验全部功能：注册 → 创建项目 → 复制代理地址 → 改一行环境变量。
+            </p>
+          </div>
+          <Button asChild>
+            <Link href="/auth/sign-up">
+              云平台在线使用
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- 社区 ---------------- */
+
+const PARTICIPATE = [
+  {
+    icon: <Code className="h-4 w-4" />,
+    title: "贡献代码",
+    desc: "Fork 仓库、提 Pull Request，一起把它打磨得更好。",
+    href: `${GITHUB_URL}`,
+  },
+  {
+    icon: <MessageSquare className="h-4 w-4" />,
+    title: "提需求 / 报问题",
+    desc: "遇到的问题、想要的功能，通过 Issues 或站内反馈告诉我们。",
+    href: `${GITHUB_URL}/issues`,
+  },
+  {
+    icon: <Users className="h-4 w-4" />,
+    title: "讨论交流",
+    desc: "加入 GitHub Discussions，分享用法与心得。",
+    href: `${GITHUB_URL}/discussions`,
+  },
+];
+
+function CommunitySection() {
+  return (
+    <section
+      id="community"
+      className="border-t py-16 sm:py-20"
+      style={{ borderColor: "var(--ox-border)" }}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeading
+          eyebrow="社区"
+          title="开源 · 共建"
+          desc="MIT 开源，欢迎每个人参与。"
+        />
+
+        <div className="mt-10">
+          <CommunityStats />
+        </div>
+
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {PARTICIPATE.map((p) => (
+            <a
+              key={p.title}
+              href={p.href}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex flex-col gap-3 rounded-xl border p-5 transition-colors hover:border-(--ox-accent)/50"
+              style={{ borderColor: "var(--ox-border)" }}
+            >
+              <span
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-(--ox-accent)"
+                style={{ backgroundColor: "color-mix(in srgb, var(--ox-accent) 10%, transparent)" }}
+              >
+                {p.icon}
+              </span>
+              <h3 className="text-sm font-semibold text-(--ox-text-h)">{p.title}</h3>
+              <p className="text-xs leading-5 text-(--ox-text-muted)">{p.desc}</p>
+              <span className="mt-auto inline-flex items-center gap-1 text-xs text-(--ox-accent) opacity-0 transition-opacity group-hover:opacity-100">
+                前往 <ArrowRight className="h-3 w-3" />
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Button asChild variant="outline">
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              <Github className="mr-2 h-4 w-4" />
+              前往 GitHub
+            </a>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- FAQ ---------------- */
+
+const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
+  {
+    q: "需要注册才能用吗？",
+    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步、云托管与管理员管理（同步正在开发中）。",
+  },
+  {
+    q: "数据存在哪里？",
+    a: "桌面应用的数据全部存在本地；使用云平台时数据存储在云端服务器。本地优先，数据由你掌控。",
+  },
+  {
+    q: "需要 API Key 吗？",
+    a: "不需要。只改代理地址即可，API Key 仍由你保管，请求只转发、不落库。",
+  },
+  {
+    q: "支持哪些模型？",
+    a: "Anthropic、OpenAI 以及 DeepSeek、Moonshot、智谱等国内模型，内置 20+ 模型定价表，成本自动换算。",
+  },
+  {
+    q: "桌面应用什么时候发布？",
+    a: "正在开发中，将支持 Windows / macOS / Linux 三平台。发布后在本站与 GitHub 提供下载。",
+  },
+  {
+    q: "怎么自托管？",
+    a: "一条 docker compose up -d 命令即可部署云平台，数据不离开你的服务器。",
+  },
+  {
+    q: "和云平台是什么关系？",
+    a: "本地为主，云平台是可选托管。用桌面应用或自托管，都可以；云平台为不想自己部署的用户提供在线体验。",
+  },
+  {
+    q: "怎么反馈问题？",
+    a: "通过站内反馈、邮箱 receive@oxelia51.com 或 GitHub Issues。",
+  },
+  {
+    q: "跨设备同步什么时候有？",
+    a: "正在规划中。登录账户后即可在多设备间同步数据（开发中）。",
+  },
+  {
+    q: "看文档 / 下载需要登录吗？",
+    a: "都不需要。文档、下载、社区全部匿名开放。",
+  },
+];
+
+function FaqSection() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section className="border-t py-16 sm:py-20" style={{ borderColor: "var(--ox-border)" }}>
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <SectionHeading eyebrow="FAQ" title="常见问题" />
+        <div className="mt-10 flex flex-col gap-2">
+          {FAQ_ITEMS.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={item.q}
+                className="overflow-hidden rounded-xl border"
+                style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium text-(--ox-text-h)"
+                >
+                  {item.q}
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-(--ox-text-muted) transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="border-t px-5 py-4 text-sm leading-6 text-(--ox-text-muted)" style={{ borderColor: "var(--ox-border)" }}>
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- 通用 ---------------- */
+
+function SectionHeading({
+  eyebrow,
+  title,
+  desc,
+}: {
+  eyebrow: string;
+  title: string;
+  desc?: string;
+}) {
+  return (
+    <div className="text-center">
+      <span className="text-xs font-semibold tracking-widest text-(--ox-accent) uppercase">
+        {eyebrow}
+      </span>
+      <h2 className="mt-2 text-2xl font-bold tracking-tight text-(--ox-text-h) sm:text-3xl">
+        {title}
+      </h2>
+      {desc && <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-(--ox-text-muted)">{desc}</p>}
+    </div>
   );
 }

@@ -22,12 +22,14 @@ export default function Home() {
     }
   }, [status, firstProject, router]);
 
-  // 未登录：品牌落地页
-  if (status === "unauthenticated") {
+  // loading 或未登录：展示品牌落地页。
+  // loading 也渲染落地页，使落地页首屏直接 SSR、匿名访客不闪 spinner；
+  // 已登录用户会在短暂看到落地页后由 useEffect 重定向到项目。
+  if (status === "loading" || status === "unauthenticated") {
     return <LandingPage />;
   }
 
-  if (status === "loading" || firstProject) {
+  if (firstProject) {
     return (
       <div className="flex h-64 items-center justify-center">
         <Spinner message="正在进入项目" />
@@ -38,3 +40,7 @@ export default function Home() {
   // 无项目时回退到组织列表（引导创建项目）
   return <OrganizationProjectOverview />;
 }
+
+// Oxelia51 v4：落地页为全宽品牌页，绕开 AppLayout 的应用外壳（主题/Session 仍由 _app 提供）。
+// 未登录 → LandingPage；已登录 → 重定向首个项目，此处仅短暂停留。
+Home.skipAppLayout = true;

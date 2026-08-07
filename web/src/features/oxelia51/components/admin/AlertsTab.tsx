@@ -4,6 +4,7 @@ import { RefreshCw } from "lucide-react";
 import { api } from "@/src/utils/api";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -38,6 +39,7 @@ export function AlertsTab() {
   return (
     <AdminCard
       title={`告警记录（最近 100 条）`}
+      description="由分析引擎跨项目写入，只读"
       action={
         <Button
           variant="ghost"
@@ -52,16 +54,32 @@ export function AlertsTab() {
         <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
           {errMsg(alertsQ.error)}
         </p>
+      ) : alertsQ.isLoading ? (
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton key={i} className="h-8 w-full" />
+          ))}
+        </div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-24">级别</TableHead>
-              <TableHead className="w-32">类型</TableHead>
-              <TableHead className="w-40">项目</TableHead>
-              <TableHead>内容</TableHead>
-              <TableHead className="w-24">发送</TableHead>
-              <TableHead className="w-36">时间</TableHead>
+              <TableHead className="h-8 w-24 text-xs font-medium">
+                级别
+              </TableHead>
+              <TableHead className="h-8 w-32 text-xs font-medium">
+                类型
+              </TableHead>
+              <TableHead className="h-8 w-40 text-xs font-medium">
+                项目
+              </TableHead>
+              <TableHead className="h-8 text-xs font-medium">内容</TableHead>
+              <TableHead className="h-8 w-24 text-xs font-medium">
+                发送
+              </TableHead>
+              <TableHead className="h-8 w-36 text-xs font-medium">
+                时间
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

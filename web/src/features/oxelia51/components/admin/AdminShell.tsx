@@ -33,7 +33,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="bg-background sticky top-0 z-10 border-b">
+      <header className="bg-background/85 sticky top-0 z-10 border-b backdrop-blur-sm">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4">
           <Link href="/admin" className="flex items-center gap-2.5">
             {/* 品牌 glyph：随主题切换深浅版 */}
@@ -53,14 +53,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               Oxelia51 管理台
             </span>
           </Link>
-          <div className="flex-1" />
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/">
-              <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-              返回网站
-            </Link>
-          </Button>
-          {user && <AdminUserMenu />}
+          {/* 右侧操作区：返回网站 + 账户菜单，统一间距 */}
+          <div className="ml-auto flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/">
+                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+                返回网站
+              </Link>
+            </Button>
+            {user && <AdminUserMenu />}
+          </div>
         </div>
       </header>
       {/* pb-16：为 MinimalLayout 吸底页脚留出空间 */}
@@ -123,7 +125,7 @@ function AdminUserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/admin/settings">
+            <Link href="/admin?tab=settings">
               <Settings className="mr-2 h-4 w-4" />
               账户设置
             </Link>

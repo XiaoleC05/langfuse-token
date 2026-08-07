@@ -22,6 +22,7 @@ export * from "./services/email/commentMention/sendCommentMentionEmail";
 export * from "./services/email/blobStorageExportFailed/sendBlobStorageExportFailedEmail";
 export * from "./services/email/feedback/sendFeedbackNotificationEmail";
 export * from "./services/email/feedback/sendFeedbackAutoReplyEmail";
+export * from "./services/email/feedbackReply/sendFeedbackReplyEmail";
 export * from "./services/email/alertChannelVerification/sendAlertChannelVerificationEmail";
 export * from "./services/PromptService";
 export * from "./services/PromptService/types";

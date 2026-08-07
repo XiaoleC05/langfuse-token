@@ -5,6 +5,7 @@ import { RefreshCw, Trash2 } from "lucide-react";
 import { api } from "@/src/utils/api";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -52,6 +53,7 @@ export function SecurityTab() {
   return (
     <AdminCard
       title="IP 白名单"
+      description={`白名单控制高危运维接口（命令执行）的访问来源${whitelist?.clientIP ? `，当前出口 IP：${whitelist.clientIP}` : ""}`}
       action={
         <Button
           variant="ghost"
@@ -62,10 +64,6 @@ export function SecurityTab() {
         </Button>
       }
     >
-      <p className="text-muted-foreground text-xs">
-        白名单控制高危运维接口（命令执行）的访问来源
-        {whitelist?.clientIP ? `，当前出口 IP：${whitelist.clientIP}` : ""}
-      </p>
       {isSuperAdmin ? (
         <div className="flex gap-2">
           <Input
@@ -129,13 +127,21 @@ export function SecurityTab() {
         <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
           {errMsg(whitelistQ.error)}
         </p>
+      ) : whitelistQ.isLoading ? (
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="h-8 w-full" />
+          ))}
+        </div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>IP</TableHead>
-              <TableHead>备注</TableHead>
-              <TableHead>添加时间</TableHead>
+              <TableHead className="h-8 text-xs font-medium">IP</TableHead>
+              <TableHead className="h-8 text-xs font-medium">备注</TableHead>
+              <TableHead className="h-8 text-xs font-medium">
+                添加时间
+              </TableHead>
               <TableHead className="w-16" />
             </TableRow>
           </TableHeader>

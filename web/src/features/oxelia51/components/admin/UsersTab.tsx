@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Copy, RefreshCw } from "lucide-react";
+import { Fragment, useState } from "react";
+import { ChevronDown, ChevronRight, Copy, RefreshCw, Search } from "lucide-react";
 import { api } from "@/src/utils/api";
+import { useDebounce } from "@/src/hooks/useDebounce";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -42,18 +43,46 @@ import {
 } from "@/src/features/oxelia51/components/admin/shared";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 
+const PAGE_SIZE = 20;
+
 /**
- * 用户管理：管理员名单说明 + 平台用户列表。
+ * 用户管理：管理员名单说明 + 平台用户列表（搜索 / 分页 / 行展开详情）。
  * 管理员由服务端环境变量驱动，此处不做任何增删管理员的 UI。
  * 重置密码 / 删除用户为写操作，仅超级管理员可见（服务端 superAdminProcedure 兜底）。
  */
 export function UsersTab() {
   const isSuperAdmin = useIsSuperAdmin();
-  const usersQ = api.oxelia51Admin.usersList.useQuery();
-  const users = usersQ.data?.items as UserItem[] | undefined;
-
   const utils = api.useUtils();
+
+  // 搜索：输入即时受控，防抖后才触发查询并回到第一页
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const applySearch = useDebounce(
+    (v: string) => {
+      setSearch(v);
+      setPage(0);
+    },
+    300,
+    false,
+  );
+
+  const usersQ = api.oxelia51Admin.usersList.useQuery(
+    {
+      search: search || undefined,
+      limit: PAGE_SIZE,
+      offset: page * PAGE_SIZE,
+    },
+    // 翻页/搜索时保留上一页数据，避免表格闪烁
+    { placeholderData: (prev) => prev },
+  );
+  const users = usersQ.data?.items as UserItem[] | undefined;
+  const total = usersQ.data?.total ?? 0;
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
   const [opError, setOpError] = useState("");
+  // 行展开详情：同时只展开一行
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   // 重置密码：确认对话框目标 + 成功后的临时密码（仅本次展示）
   const [resetTarget, setResetTarget] = useState<UserItem | null>(null);
@@ -98,6 +127,8 @@ export function UsersTab() {
     setDeleteError("");
   };
 
+  const colSpan = isSuperAdmin ? 6 : 5;
+
   return (
     <div className="flex flex-col gap-4">
       {/* 管理员名单（env 驱动，只读展示） */}
@@ -115,15 +146,29 @@ export function UsersTab() {
       </AdminCard>
 
       <AdminCard
-        title={`平台用户（${users?.length ?? "…"}）`}
+        title={`平台用户（${usersQ.data ? total : "…"}）`}
         action={
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => void usersQ.refetch()}
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Search className="text-muted-foreground absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+              <Input
+                value={searchInput}
+                onChange={(e) => {
+                  setSearchInput(e.target.value);
+                  applySearch(e.target.value);
+                }}
+                placeholder="搜索邮箱 / 姓名"
+                className="h-8 w-44 pl-7 text-xs sm:w-56"
+              />
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void usersQ.refetch()}
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+            </Button>
+          </div>
         }
       >
         {opError && (
@@ -136,86 +181,190 @@ export function UsersTab() {
             {errMsg(usersQ.error)}
           </p>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>邮箱</TableHead>
-                <TableHead>姓名</TableHead>
-                <TableHead>组织 / 角色</TableHead>
-                <TableHead>注册时间</TableHead>
-                {isSuperAdmin && <TableHead className="w-40">操作</TableHead>}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {(users ?? []).map((u) => (
-                <TableRow key={u.id}>
-                  <TableCell>
-                    <span className="flex items-center gap-2">
-                      {u.email ?? "—"}
-                      {u.email === PLATFORM_ADMIN_EMAIL && (
-                        <Badge variant="secondary">管理员</Badge>
-                      )}
-                    </span>
-                  </TableCell>
-                  <TableCell>{u.name || "—"}</TableCell>
-                  <TableCell className="text-xs">
-                    {(u.memberships ?? []).length === 0
-                      ? "—"
-                      : (u.memberships ?? [])
-                          .map((m) => `${m.org}（${m.role}）`)
-                          .join("、")}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground text-xs">
-                    {u.created_at
-                      ? new Date(u.created_at).toLocaleDateString("zh-CN")
-                      : "—"}
-                  </TableCell>
-                  {isSuperAdmin && (
-                    <TableCell>
-                      <div className="flex items-center gap-1">
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-8" />
+                  <TableHead>邮箱</TableHead>
+                  <TableHead>姓名</TableHead>
+                  <TableHead>组织 / 角色</TableHead>
+                  <TableHead>注册时间</TableHead>
+                  {isSuperAdmin && <TableHead className="w-40">操作</TableHead>}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {(users ?? []).map((u) => (
+                  <Fragment key={u.id}>
+                    <TableRow>
+                      <TableCell>
                         <Button
                           variant="ghost"
-                          size="sm"
-                          title="重置为该用户的登录密码（仅超级管理员可操作）"
-                          onClick={() => {
-                            setOpError("");
-                            setResetTarget(u);
-                          }}
+                          size="icon-xs"
+                          title={expandedId === u.id ? "收起详情" : "展开详情"}
+                          onClick={() =>
+                            setExpandedId(expandedId === u.id ? null : u.id)
+                          }
                         >
-                          重置密码
+                          {expandedId === u.id ? (
+                            <ChevronDown className="h-3.5 w-3.5" />
+                          ) : (
+                            <ChevronRight className="h-3.5 w-3.5" />
+                          )}
                         </Button>
-                        {/* 超级管理员账户不提供删除入口（服务端另有保护） */}
-                        {u.email !== PLATFORM_ADMIN_EMAIL && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            title="永久删除该用户（仅超级管理员可操作）"
-                            style={{ color: "var(--ox-danger)" }}
-                            onClick={() => {
-                              setOpError("");
-                              openDeleteDialog(u);
-                            }}
-                          >
-                            删除
-                          </Button>
-                        )}
-                      </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="flex items-center gap-2">
+                          {u.email ?? "—"}
+                          {u.email === PLATFORM_ADMIN_EMAIL && (
+                            <Badge variant="secondary">管理员</Badge>
+                          )}
+                        </span>
+                      </TableCell>
+                      <TableCell>{u.name || "—"}</TableCell>
+                      <TableCell className="text-xs">
+                        {(u.memberships ?? []).length === 0
+                          ? "—"
+                          : (u.memberships ?? [])
+                              .map((m) => `${m.org}（${m.role}）`)
+                              .join("、")}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-xs">
+                        {u.created_at
+                          ? new Date(u.created_at).toLocaleDateString("zh-CN")
+                          : "—"}
+                      </TableCell>
+                      {isSuperAdmin && (
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              title="重置为该用户的登录密码（仅超级管理员可操作）"
+                              onClick={() => {
+                                setOpError("");
+                                setResetTarget(u);
+                              }}
+                            >
+                              重置密码
+                            </Button>
+                            {/* 超级管理员账户不提供删除入口（服务端另有保护） */}
+                            {u.email !== PLATFORM_ADMIN_EMAIL && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                title="永久删除该用户（仅超级管理员可操作）"
+                                style={{ color: "var(--ox-danger)" }}
+                                onClick={() => {
+                                  setOpError("");
+                                  openDeleteDialog(u);
+                                }}
+                              >
+                                删除
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      )}
+                    </TableRow>
+                    {expandedId === u.id && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={colSpan}
+                          className="bg-muted/30 px-4 py-3"
+                        >
+                          <div className="flex flex-col gap-2 text-xs">
+                            <div className="text-muted-foreground flex flex-wrap gap-x-6 gap-y-1">
+                              <span>
+                                用户 ID：
+                                <code className="font-mono select-all">
+                                  {u.id}
+                                </code>
+                              </span>
+                              <span>
+                                注册：
+                                {u.created_at
+                                  ? new Date(u.created_at).toLocaleString(
+                                      "zh-CN",
+                                    )
+                                  : "—"}
+                              </span>
+                              <span>
+                                最近更新：
+                                {u.updated_at
+                                  ? new Date(u.updated_at).toLocaleString(
+                                      "zh-CN",
+                                    )
+                                  : "—"}
+                              </span>
+                            </div>
+                            {(u.memberships ?? []).length === 0 ? (
+                              <span className="text-muted-foreground">
+                                未加入任何组织
+                              </span>
+                            ) : (
+                              <ul className="flex flex-col gap-1">
+                                {(u.memberships ?? []).map((m, i) => (
+                                  <li key={i}>
+                                    <span>
+                                      {m.org}（{m.role}）
+                                    </span>
+                                    {(m.projects ?? []).length > 0 && (
+                                      <span className="text-muted-foreground">
+                                        {"　项目："}
+                                        {m.projects
+                                          .map(
+                                            (p) => `${p.project}（${p.role}）`,
+                                          )
+                                          .join("、")}
+                                      </span>
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
+                ))}
+                {(users ?? []).length === 0 && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={colSpan}
+                      className="text-muted-foreground text-center text-sm"
+                    >
+                      {search ? "没有匹配的用户" : "暂无用户数据"}
                     </TableCell>
-                  )}
-                </TableRow>
-              ))}
-              {(users ?? []).length === 0 && (
-                <TableRow>
-                  <TableCell
-                    colSpan={isSuperAdmin ? 5 : 4}
-                    className="text-muted-foreground text-center text-sm"
-                  >
-                    暂无用户数据
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground text-xs">
+                共 {total} 个用户 · 第 {page + 1} / {pageCount} 页
+              </span>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page === 0 || usersQ.isFetching}
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                >
+                  上一页
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page + 1 >= pageCount || usersQ.isFetching}
+                  onClick={() => setPage((p) => p + 1)}
+                >
+                  下一页
+                </Button>
+              </div>
+            </div>
+          </>
         )}
       </AdminCard>
 
@@ -293,37 +442,36 @@ export function UsersTab() {
       </Dialog>
 
       {/* 删除用户：输入邮箱二次确认 */}
-      <Dialog
+      <AlertDialog
         open={deleteTarget !== null}
         onOpenChange={(open) => {
-          if (!open) setDeleteTarget(null);
+          if (!open && !deleteMut.isPending) setDeleteTarget(null);
         }}
       >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>删除用户</DialogTitle>
-            <DialogDescription>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>删除用户</AlertDialogTitle>
+            <AlertDialogDescription>
               此操作将永久删除用户 <b>{deleteTarget?.email}</b>{" "}
               及其会员关系等关联数据，不可恢复。请输入该用户的邮箱地址以确认。
-            </DialogDescription>
-          </DialogHeader>
-          <DialogBody>
-            <Input
-              placeholder={deleteTarget?.email ?? ""}
-              value={deleteConfirmEmail}
-              onChange={(e) => setDeleteConfirmEmail(e.target.value)}
-              autoComplete="off"
-            />
-            {deleteError && (
-              <p
-                className="mt-2 text-sm"
-                style={{ color: "var(--ox-danger)" }}
-              >
-                {deleteError}
-              </p>
-            )}
-          </DialogBody>
-          <DialogFooter>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <Input
+            placeholder={deleteTarget?.email ?? ""}
+            value={deleteConfirmEmail}
+            onChange={(e) => setDeleteConfirmEmail(e.target.value)}
+            autoComplete="off"
+          />
+          {deleteError && (
+            <p className="text-sm" style={{ color: "var(--ox-danger)" }}>
+              {deleteError}
+            </p>
+          )}
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteMut.isPending}>
+              取消
+            </AlertDialogCancel>
+            {/* 不用 AlertDialogAction：失败时需停留在对话框内展示错误 */}
             <Button
               variant="destructive"
               loading={deleteMut.isPending}
@@ -336,9 +484,9 @@ export function UsersTab() {
             >
               确认删除
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

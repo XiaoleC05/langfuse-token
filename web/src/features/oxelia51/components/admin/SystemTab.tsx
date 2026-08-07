@@ -1,6 +1,7 @@
 "use client";
 
 import { api } from "@/src/utils/api";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -21,6 +22,23 @@ import {
   type ServerStats,
 } from "@/src/features/oxelia51/components/admin/shared";
 
+/** 状态卡首次加载骨架：4 格指标 + 一行说明 */
+function StatGridSkeleton() {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="flex flex-col gap-1.5">
+            <Skeleton className="h-3 w-12" />
+            <Skeleton className="h-6 w-20" />
+          </div>
+        ))}
+      </div>
+      <Skeleton className="h-3 w-40" />
+    </div>
+  );
+}
+
 /** 系统状态：阿里云 + 腾讯云服务器状态、代理网关状态（含供应商表） */
 export function SystemTab() {
   const statsQ = api.oxelia51Admin.serverStats.useQuery(undefined, {
@@ -40,11 +58,17 @@ export function SystemTab() {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {/* 服务器状态（阿里云） */}
-      <AdminCard title="服务器状态（阿里云）" action={<LiveDot />}>
+      <AdminCard
+        title="服务器状态（阿里云）"
+        description="每 5 秒自动刷新"
+        action={<LiveDot />}
+      >
         {statsQ.error ? (
           <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
             {errMsg(statsQ.error)}
           </p>
+        ) : !stats ? (
+          <StatGridSkeleton />
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -86,11 +110,17 @@ export function SystemTab() {
       </AdminCard>
 
       {/* 服务器状态（腾讯云，langfuse-web 所在主机） */}
-      <AdminCard title="服务器状态（腾讯云）" action={<LiveDot />}>
+      <AdminCard
+        title="服务器状态（腾讯云）"
+        description="每 5 秒自动刷新"
+        action={<LiveDot />}
+      >
         {localStatsQ.error ? (
           <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
             {errMsg(localStatsQ.error)}
           </p>
+        ) : !localStatsQ.data ? (
+          <StatGridSkeleton />
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -134,6 +164,7 @@ export function SystemTab() {
       {/* 代理网关状态 */}
       <AdminCard
         title={`代理网关状态（近 ${gw?.windowSeconds ?? 5} 分钟）`}
+        description="每 5 秒自动刷新"
         className="lg:col-span-2"
         action={
           <span
@@ -152,7 +183,7 @@ export function SystemTab() {
             {errMsg(gatewayStatsQ.error)}
           </p>
         ) : !gw ? (
-          <p className="text-muted-foreground text-sm">加载中…</p>
+          <StatGridSkeleton />
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -181,10 +212,18 @@ export function SystemTab() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>供应商</TableHead>
-                    <TableHead className="text-right">请求数</TableHead>
-                    <TableHead className="text-right">失败</TableHead>
-                    <TableHead className="text-right">平均延迟</TableHead>
+                    <TableHead className="h-8 text-xs font-medium">
+                      供应商
+                    </TableHead>
+                    <TableHead className="h-8 text-right text-xs font-medium">
+                      请求数
+                    </TableHead>
+                    <TableHead className="h-8 text-right text-xs font-medium">
+                      失败
+                    </TableHead>
+                    <TableHead className="h-8 text-right text-xs font-medium">
+                      平均延迟
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

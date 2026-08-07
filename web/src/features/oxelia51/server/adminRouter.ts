@@ -8,6 +8,7 @@ import {
 } from "@/src/server/api/trpc";
 import { env } from "@/src/env.mjs";
 import { Prisma, prisma } from "@langfuse/shared/src/db";
+import { sendFeedbackReplyEmail } from "@langfuse/shared/src/server";
 import { TRPCError } from "@trpc/server";
 import { updateUserPassword } from "@/src/features/auth-credentials/lib/credentialsServerUtils";
 import { checkUserCanBeDeleted } from "@/src/server/api/routers/userAccount";
@@ -152,32 +153,67 @@ export const oxelia51AdminRouter = createTRPCRouter({
       goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE", undefined, true, clientIpFromHeaders(ctx.headers)),
     ),
 
-  /** 平台用户列表：直查 Langfuse 用户表（不走 Go 后端） */
-  usersList: adminProcedure.query(async () => {
-    const users = await prisma.$queryRaw<
-      Array<{
-        id: string;
-        name: string | null;
-        email: string | null;
-        created_at: Date;
-        memberships: unknown;
-      }>
-    >`
-      SELECT u.id, u.name, u.email, u.created_at,
-             COALESCE(
-               json_agg(json_build_object('org', o.name, 'role', om.role))
-                 FILTER (WHERE om.user_id IS NOT NULL),
-               '[]'
-             ) AS memberships
-      FROM users u
-      LEFT JOIN organization_memberships om ON om.user_id = u.id
-      LEFT JOIN organizations o ON o.id = om.org_id
-      GROUP BY u.id
-      ORDER BY u.created_at DESC
-      LIMIT 200
-    `;
-    return { items: users };
-  }),
+  /** 平台用户列表：直查 Langfuse 用户表（不走 Go 后端），支持邮箱/姓名模糊搜索 + OFFSET 分页 */
+  usersList: adminProcedure
+    .input(
+      z
+        .object({
+          search: z.string().trim().max(100).optional(),
+          limit: z.number().int().min(1).max(100).default(20),
+          offset: z.number().int().min(0).default(0),
+        })
+        .optional(),
+    )
+    .query(async ({ input }) => {
+      // 转义 LIKE 通配符，防止搜索词里的 %/_/\ 被当作模式字符
+      const search = input?.search ?? "";
+      const like = `%${search.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
+      const limit = input?.limit ?? 20;
+      const offset = input?.offset ?? 0;
+      const [users, totalRows] = await Promise.all([
+        prisma.$queryRaw<
+          Array<{
+            id: string;
+            name: string | null;
+            email: string | null;
+            created_at: Date;
+            updated_at: Date;
+            memberships: unknown;
+          }>
+        >`
+          SELECT u.id, u.name, u.email, u.created_at, u.updated_at,
+                 COALESCE(
+                   json_agg(
+                     json_build_object(
+                       'org', o.name,
+                       'role', om.role,
+                       'projects', COALESCE(pm.projects, '[]'::json)
+                     )
+                   )
+                     FILTER (WHERE om.user_id IS NOT NULL),
+                   '[]'
+                 ) AS memberships
+          FROM users u
+          LEFT JOIN organization_memberships om ON om.user_id = u.id
+          LEFT JOIN organizations o ON o.id = om.org_id
+          LEFT JOIN LATERAL (
+            SELECT json_agg(json_build_object('project', p.name, 'role', pm2.role)) AS projects
+            FROM project_memberships pm2
+            JOIN projects p ON p.id = pm2.project_id
+            WHERE pm2.org_membership_id = om.id
+          ) pm ON true
+          WHERE (${search} = '' OR u.email ILIKE ${like} OR u.name ILIKE ${like})
+          GROUP BY u.id
+          ORDER BY u.created_at DESC
+          LIMIT ${limit} OFFSET ${offset}
+        `,
+        prisma.$queryRaw<[{ count: bigint }]>`
+          SELECT COUNT(*) AS count FROM users u
+          WHERE (${search} = '' OR u.email ILIKE ${like} OR u.name ILIKE ${like})
+        `,
+      ]);
+      return { items: users, total: Number(totalRows[0]?.count ?? 0) };
+    }),
 
   /**
    * 重置用户密码：生成 12 位随机临时密码并写库（复用 credentials 的 bcrypt 哈希）。
@@ -301,6 +337,47 @@ export const oxelia51AdminRouter = createTRPCRouter({
       return { success: true };
     }),
 
+  /**
+   * 回复用户反馈：向反馈者邮箱发送回复邮件（Oxelia51 品牌模板，引用原反馈摘要），
+   * 并将该反馈状态置为 done。——写操作，仅超级管理员
+   */
+  replyFeedback: superAdminProcedure
+    .input(
+      z.object({
+        feedbackId: z.number().int().positive(),
+        message: z
+          .string()
+          .trim()
+          .min(1, "回复内容不能为空")
+          .max(2000, "回复内容不能超过 2000 字"),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const rows = await prisma.$queryRaw<
+        Array<{ id: unknown; email: string; message: string }>
+      >`
+        SELECT id, email, message FROM oxelia51.feedback WHERE id = ${input.feedbackId} LIMIT 1
+      `;
+      const feedback = rows[0];
+      if (!feedback) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "反馈不存在" });
+      }
+      // 发送失败仅在服务端记日志（sender 内部兜底），此处不阻断状态流转
+      await sendFeedbackReplyEmail({
+        env: {
+          EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
+          SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
+        },
+        to: feedback.email,
+        replyMessage: input.message,
+        feedbackMessage: feedback.message,
+      });
+      await prisma.$executeRaw`
+        UPDATE oxelia51.feedback SET status = 'done' WHERE id = ${input.feedbackId}
+      `;
+      return { success: true };
+    }),
+
   /** 平台总览指标：注册用户/项目/待处理反馈/近 24h 告警（直查 PG，只读聚合） */
   platformOverview: adminProcedure.query(async () => {
     const [users, projects, pendingFeedback, alerts24h] = await Promise.all([
@@ -351,5 +428,30 @@ export const oxelia51AdminRouter = createTRPCRouter({
         createdAt: r.created_at,
       })),
     };
+  }),
+
+  /**
+   * 平台级近 14 天用量趋势：直查 oxelia51.daily_stats 汇总全部项目（只读）。
+   * generate_series 补齐无数据日期（0 值），保证图表 X 轴连续；
+   * 日期服务端格式化为 YYYY-MM-DD 字符串，避免 timestamp 跨时区偏移；
+   * bigint / numeric 聚合值统一转 Number。
+   */
+  platformDailyTrend: adminProcedure.query(async () => {
+    const rows = await prisma.$queryRaw<
+      Array<{ day: string; tokens: unknown; cost_usd: unknown }>
+    >`
+      SELECT to_char(d.date, 'YYYY-MM-DD') AS day,
+             COALESCE(sum(s.total_tokens), 0) AS tokens,
+             COALESCE(sum(s.cost_usd), 0) AS cost_usd
+      FROM generate_series(CURRENT_DATE - 13, CURRENT_DATE, interval '1 day') AS d(date)
+      LEFT JOIN oxelia51.daily_stats s ON s.date = d.date
+      GROUP BY d.date
+      ORDER BY d.date ASC
+    `;
+    return rows.map((r) => ({
+      day: r.day,
+      tokens: Number(r.tokens ?? 0),
+      costUsd: Number(r.cost_usd ?? 0),
+    }));
   }),
 });

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import {
   Bell,
   LayoutDashboard,
@@ -25,6 +25,7 @@ import { SystemTab } from "@/src/features/oxelia51/components/admin/SystemTab";
 import { SecurityTab } from "@/src/features/oxelia51/components/admin/SecurityTab";
 import { ToolsTab } from "@/src/features/oxelia51/components/admin/ToolsTab";
 import { AlertsTab } from "@/src/features/oxelia51/components/admin/AlertsTab";
+import { SettingsTab } from "@/src/features/oxelia51/components/admin/SettingsTab";
 
 const NAV_ITEMS = [
   { value: "overview", label: "总览", icon: LayoutDashboard },
@@ -34,15 +35,37 @@ const NAV_ITEMS = [
   { value: "security", label: "安全", icon: Shield },
   { value: "tools", label: "工具", icon: Wrench },
   { value: "alerts", label: "告警", icon: Bell },
+  { value: "settings", label: "设置", icon: Settings },
 ] as const;
+
+type TabValue = (typeof NAV_ITEMS)[number]["value"];
+
+const TAB_VALUES = new Set<string>(NAV_ITEMS.map((item) => item.value));
+
+const DEFAULT_TAB: TabValue = "overview";
 
 /**
  * Oxelia51 独立管理台（/admin）。
- * 三态门控见 AdminGate（与 /admin/settings 共用）。
- * 布局：桌面端左侧纵向导航（sticky），移动端回落为顶部横向滚动 tabs。
- * 「设置」为独立页面（/admin/settings），在导航末尾以链接形式入口。
+ * 三态门控见 AdminGate；布局：桌面端左侧纵向导航（sticky），移动端回落为顶部横向滚动 tabs。
+ * Tab 与 URL 深链同步：?tab=xxx 决定初始 Tab（非法值回落总览），
+ * 切换时 router.replace 浅路由写回，刷新 / 分享链接保持当前 Tab。
  */
 export default function AdminConsolePage() {
+  const router = useRouter();
+  const rawTab = router.query.tab;
+  const tab: TabValue =
+    typeof rawTab === "string" && TAB_VALUES.has(rawTab)
+      ? (rawTab as TabValue)
+      : DEFAULT_TAB;
+
+  const handleTabChange = (value: string) => {
+    void router.replace(
+      { pathname: "/admin", query: { tab: value } },
+      undefined,
+      { shallow: true },
+    );
+  };
+
   return (
     <>
       <Head>
@@ -51,30 +74,27 @@ export default function AdminConsolePage() {
       <AdminShell>
         <AdminGate>
           <Tabs
-            defaultValue="overview"
+            value={tab}
+            onValueChange={handleTabChange}
             className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6"
           >
-            {/* 导航：移动端顶部横向滚动，桌面端左侧纵向 sticky */}
-            <TabsList className="flex h-auto w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-none bg-transparent p-0 md:sticky md:top-14 md:w-52 md:flex-col">
-              {NAV_ITEMS.map(({ value, label, icon: Icon }) => (
-                <TabsTrigger
-                  key={value}
-                  value={value}
-                  className="text-muted-foreground h-9 shrink-0 justify-start gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap data-[state=active]:bg-[var(--ox-bg-alt)] data-[state=active]:font-semibold data-[state=active]:text-[var(--ox-accent)] data-[state=active]:shadow-none md:data-[state=active]:shadow-[inset_3px_0_0_0_var(--ox-accent)]"
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </TabsTrigger>
-              ))}
-              {/* 独立设置页入口：样式与上方 tab 触发器一致，点击跳转 /admin/settings */}
-              <Link
-                href="/admin/settings"
-                className="text-muted-foreground inline-flex h-9 shrink-0 items-center justify-start gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap transition-colors hover:bg-[var(--ox-bg-alt)] hover:text-[var(--ox-accent)]"
-              >
-                <Settings className="h-4 w-4" />
-                设置
-              </Link>
-            </TabsList>
+            {/* 导航：移动端顶部横向滚动（右侧渐变遮罩提示可滚），桌面端左侧纵向 sticky */}
+            <div className="relative shrink-0 md:contents">
+              <TabsList className="flex h-auto w-full flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-none bg-transparent p-0 pr-6 md:sticky md:top-14 md:w-52 md:flex-col md:pr-0">
+                {NAV_ITEMS.map(({ value, label, icon: Icon }) => (
+                  <TabsTrigger
+                    key={value}
+                    value={value}
+                    className="text-muted-foreground h-9 shrink-0 justify-start gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap transition-colors hover:bg-[var(--ox-bg-alt)] hover:text-[var(--ox-text-h)] data-[state=active]:bg-[var(--ox-bg-alt)] data-[state=active]:font-semibold data-[state=active]:text-[var(--ox-accent)] data-[state=active]:shadow-none md:data-[state=active]:shadow-[inset_3px_0_0_0_var(--ox-accent)]"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              {/* 移动端横滚渐变遮罩（提示右侧还有内容） */}
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[var(--ox-bg)] to-transparent md:hidden" />
+            </div>
             <div className="min-w-0 flex-1">
               <TabsContent value="overview" className="mt-0">
                 <OverviewTab />
@@ -96,6 +116,9 @@ export default function AdminConsolePage() {
               </TabsContent>
               <TabsContent value="alerts" className="mt-0">
                 <AlertsTab />
+              </TabsContent>
+              <TabsContent value="settings" className="mt-0">
+                <SettingsTab />
               </TabsContent>
             </div>
           </Tabs>

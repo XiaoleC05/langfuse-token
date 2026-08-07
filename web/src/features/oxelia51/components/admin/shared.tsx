@@ -60,7 +60,12 @@ export type UserItem = {
   name: string | null;
   email: string | null;
   created_at: string;
-  memberships: Array<{ org: string; role: string }>;
+  updated_at: string;
+  memberships: Array<{
+    org: string;
+    role: string;
+    projects: Array<{ project: string; role: string }>;
+  }>;
 };
 
 export type FeedbackItem = {
@@ -167,24 +172,32 @@ export function gatewayQStatus(g: GatewayStats | undefined): string {
   return "异常";
 }
 
-/** 管理台卡片：标题行（可选右侧操作区）+ 内容 */
+/** 管理台卡片：标题行（可选副标题说明 + 右侧操作区）+ 内容 */
 export function AdminCard({
   title,
+  description,
   action,
   children,
   className,
 }: {
   title: ReactNode;
+  /** 标题下方的一行 muted 功能说明（xs） */
+  description?: ReactNode;
   action?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <Card className={`flex flex-col gap-3 p-4 ${className ?? ""}`}>
-      <div className="flex items-center justify-between">
-        <span className="font-heading text-sm font-semibold">{title}</span>
+    <Card className={`flex flex-col gap-3 p-4 sm:p-5 ${className ?? ""}`}>
+      <div className="flex min-h-7 items-center justify-between gap-2">
+        <span className="font-heading text-sm leading-7 font-semibold">
+          {title}
+        </span>
         {action}
       </div>
+      {description && (
+        <p className="text-muted-foreground -mt-2 text-xs">{description}</p>
+      )}
       {children}
     </Card>
   );

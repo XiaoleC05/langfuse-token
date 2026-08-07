@@ -9,7 +9,7 @@ import { Card } from "@/src/components/ui/card";
 
 /**
  * 管理台三态门控：加载中 → 需要登录 / 校验失败 / 无权限 → 管理台内容。
- * /admin 与 /admin/settings 共用；数据 procedure 服务端另有 adminProcedure 拦截，双保险。
+ * 由 /admin 页面统一包裹（设置等子功能均为其 Tab）；数据 procedure 服务端另有 adminProcedure 拦截，双保险。
  */
 export function AdminGate({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();

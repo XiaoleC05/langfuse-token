@@ -1,7 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
 import { api } from "@/src/utils/api";
 import { Card } from "@/src/components/ui/card";
+import { Skeleton } from "@/src/components/ui/skeleton";
+import { EChart } from "@/src/features/dashboard/components/EChart";
+import { useOxeliaChartTheme } from "@/src/features/dashboard/components/useOxeliaChartTheme";
+import type { EChartsOption } from "echarts";
 import {
   AdminCard,
   LiveDot,
@@ -13,33 +18,154 @@ import {
   type GatewayStats,
 } from "@/src/features/oxelia51/components/admin/shared";
 
-/** 单张指标卡：标签 / 数值 / 次要说明 三级层级 */
+/** 大数字紧凑格式：1.2k / 3.4M / 5.6B（图表轴与 tooltip 用） */
+function compactNumber(v: number): string {
+  if (v >= 1e9) return `${(v / 1e9).toFixed(1)}B`;
+  if (v >= 1e6) return `${(v / 1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `${(v / 1e3).toFixed(1)}k`;
+  return String(v);
+}
+
+/** 单张指标卡：标签 / 数值 / 次要说明 三级层级；加载中显示骨架 */
 function MetricCard({
   label,
   value,
   sub,
   warn = false,
+  loading = false,
 }: {
   label: string;
   value: string;
   sub?: string;
   warn?: boolean;
+  loading?: boolean;
 }) {
   return (
     <Card className="flex flex-col gap-1 p-4">
       <span className="text-muted-foreground text-xs">{label}</span>
-      <span
-        className="text-2xl font-semibold tabular-nums"
-        style={{ color: warn ? "var(--ox-danger)" : "var(--ox-text-h)" }}
-      >
-        {value}
-      </span>
+      {loading ? (
+        <Skeleton className="my-0.5 h-7 w-20" />
+      ) : (
+        <span
+          className="text-2xl font-semibold tabular-nums"
+          style={{ color: warn ? "var(--ox-danger)" : "var(--ox-text-h)" }}
+        >
+          {value}
+        </span>
+      )}
       {sub && <span className="text-muted-foreground text-xs">{sub}</span>}
     </Card>
   );
 }
 
-/** 总览：平台核心指标（4 卡一排）+ 代理网关实时摘要 */
+/** 近 14 天平台用量：token 柱状 + 费用副轴折线（oxelia51.daily_stats 平台级汇总） */
+function PlatformDailyTrendCard() {
+  const trendQ = api.oxelia51Admin.platformDailyTrend.useQuery();
+  const theme = useOxeliaChartTheme();
+
+  const rows = useMemo(() => trendQ.data ?? [], [trendQ.data]);
+  const hasData = rows.some((r) => r.tokens > 0 || r.costUsd > 0);
+
+  const option = useMemo<EChartsOption>(
+    () => ({
+      color: [theme.palette[0] ?? theme.accentColor, theme.accentColor],
+      tooltip: {
+        trigger: "axis",
+        textStyle: { fontSize: 12 },
+        formatter: (params) => {
+          const items = Array.isArray(params) ? params : [params];
+          const day =
+            (items[0] as { axisValue?: string } | undefined)?.axisValue ?? "";
+          const lines = items.map((p) => {
+            const value = typeof p.value === "number" ? p.value : 0;
+            const text =
+              p.seriesName === "费用"
+                  ? `$${value.toFixed(2)}`
+                  : `${compactNumber(value)} tokens`;
+            return `${p.marker} ${p.seriesName}：${text}`;
+          });
+          return [day, ...lines].join("<br/>");
+        },
+      },
+      legend: {
+        bottom: 0,
+        textStyle: { color: theme.mutedColor, fontSize: 11 },
+      },
+      grid: { left: 8, right: 8, top: 24, bottom: 36, containLabel: true },
+      xAxis: {
+        type: "category",
+        data: rows.map((r) => r.day.slice(5)), // YYYY-MM-DD → MM-DD
+        axisLabel: { color: theme.mutedColor, fontSize: 11 },
+        axisLine: { lineStyle: { color: theme.borderColor } },
+        axisTick: { show: false },
+      },
+      yAxis: [
+        {
+          type: "value",
+          axisLabel: {
+            color: theme.mutedColor,
+            fontSize: 11,
+            formatter: (v: number) => compactNumber(v),
+          },
+          splitLine: {
+            lineStyle: { color: theme.borderColor, opacity: 0.5 },
+          },
+        },
+        {
+          type: "value",
+          axisLabel: {
+            color: theme.mutedColor,
+            fontSize: 11,
+            formatter: (v: number) => `$${v}`,
+          },
+          splitLine: { show: false },
+        },
+      ],
+      series: [
+        {
+          name: "Tokens",
+          type: "bar",
+          barMaxWidth: 18,
+          itemStyle: { borderRadius: [3, 3, 0, 0], opacity: 0.85 },
+          data: rows.map((r) => r.tokens),
+        },
+        {
+          name: "费用",
+          type: "line",
+          yAxisIndex: 1,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: { width: 2 },
+          data: rows.map((r) => r.costUsd),
+        },
+      ],
+    }),
+    [rows, theme],
+  );
+
+  return (
+    <AdminCard
+      title="近 14 天平台用量"
+      description="全部项目的 Token 用量与费用（USD）按日汇总"
+    >
+      {trendQ.error ? (
+        <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
+          {errMsg(trendQ.error)}
+        </p>
+      ) : trendQ.isLoading ? (
+        <Skeleton className="h-60 w-full" />
+      ) : !hasData ? (
+        <div className="text-muted-foreground flex h-60 items-center justify-center text-sm">
+          暂无数据
+        </div>
+      ) : (
+        <EChart option={option} height={240} />
+      )}
+    </AdminCard>
+  );
+}
+
+/** 总览：平台核心指标（4 卡一排）+ 近 14 天平台用量 + 代理网关实时摘要 */
 export function OverviewTab() {
   const overviewQ = api.oxelia51Admin.platformOverview.useQuery();
   const gatewayStatsQ = api.oxelia51Admin.gatewayStats.useQuery(undefined, {
@@ -64,11 +190,13 @@ export function OverviewTab() {
             label="注册用户数"
             value={overview ? overview.userCount.toLocaleString() : "…"}
             sub="平台累计"
+            loading={overviewQ.isLoading}
           />
           <MetricCard
             label="项目数"
             value={overview ? overview.projectCount.toLocaleString() : "…"}
             sub="全部组织"
+            loading={overviewQ.isLoading}
           />
           <MetricCard
             label="待处理反馈"
@@ -77,6 +205,7 @@ export function OverviewTab() {
             }
             sub="状态为「新反馈」"
             warn={(overview?.pendingFeedbackCount ?? 0) > 0}
+            loading={overviewQ.isLoading}
           />
           <MetricCard
             label="近 24h 告警"
@@ -85,12 +214,16 @@ export function OverviewTab() {
             }
             sub="跨项目告警记录"
             warn={(overview?.alertsLast24hCount ?? 0) > 0}
+            loading={overviewQ.isLoading}
           />
         </div>
       )}
 
+      <PlatformDailyTrendCard />
+
       <AdminCard
         title={`代理网关摘要（近 ${gw?.windowSeconds ?? 5} 分钟）`}
+        description="每 5 秒自动刷新"
         action={<LiveDot />}
       >
         {gatewayStatsQ.error ? (
@@ -98,7 +231,17 @@ export function OverviewTab() {
             {errMsg(gatewayStatsQ.error)}
           </p>
         ) : !gw ? (
-          <p className="text-muted-foreground text-sm">加载中…</p>
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex flex-col gap-1.5">
+                  <Skeleton className="h-3 w-12" />
+                  <Skeleton className="h-6 w-20" />
+                </div>
+              ))}
+            </div>
+            <Skeleton className="h-3 w-48" />
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

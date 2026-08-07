@@ -4,6 +4,7 @@ import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { api } from "@/src/utils/api";
 import { Button } from "@/src/components/ui/button";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import {
   AdminCard,
   PowerCell,
@@ -46,6 +47,7 @@ export function ToolsTab() {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <AdminCard
         title="宿舍电费（DormGuard）"
+        description="由 DormGuard 定时抓取，余量低于 10 度时高亮提醒"
         action={
           isSuperAdmin ? (
             <Button
@@ -77,6 +79,11 @@ export function ToolsTab() {
           <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
             {errMsg(powerQ.error)}
           </p>
+        ) : powerQ.isLoading ? (
+          <div className="grid grid-cols-2 gap-3">
+            <Skeleton className="h-20 w-full" />
+            <Skeleton className="h-20 w-full" />
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
             <PowerCell label="空调余量" value={power?.kbalance} />

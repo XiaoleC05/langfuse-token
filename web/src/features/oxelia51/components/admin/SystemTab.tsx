@@ -26,7 +26,7 @@ import {
 function StatGridSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="flex flex-col gap-1.5">
             <Skeleton className="h-3 w-12" />
@@ -71,7 +71,7 @@ export function SystemTab() {
           <StatGridSkeleton />
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
               <StatCell
                 label="CPU"
                 value={
@@ -92,8 +92,13 @@ export function SystemTab() {
                 label="磁盘"
                 value={
                   stats?.disk_used_percent != null
-                    ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）`
+                    ? `${stats.disk_used_percent.toFixed(1)}%`
                     : "—"
+                }
+                sub={
+                  stats?.disk_total_gb != null
+                    ? `共 ${stats.disk_total_gb} GB`
+                    : undefined
                 }
                 warn={(stats?.disk_used_percent ?? 0) > 85}
               />
@@ -123,7 +128,7 @@ export function SystemTab() {
           <StatGridSkeleton />
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
               <StatCell
                 label="CPU 负载"
                 value={
@@ -144,8 +149,13 @@ export function SystemTab() {
                 label="磁盘"
                 value={
                   localStatsQ.data?.diskUsedPercent != null
-                    ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%（${localStatsQ.data.diskTotalGB} GB）`
+                    ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%`
                     : "—"
+                }
+                sub={
+                  localStatsQ.data?.diskTotalGB != null
+                    ? `共 ${localStatsQ.data.diskTotalGB} GB`
+                    : undefined
                 }
                 warn={(localStatsQ.data?.diskUsedPercent ?? 0) > 85}
               />

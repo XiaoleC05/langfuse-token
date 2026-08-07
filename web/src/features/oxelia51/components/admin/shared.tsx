@@ -206,22 +206,31 @@ export function AdminCard({
 export function StatCell({
   label,
   value,
+  sub,
   warn = false,
 }: {
   label: string;
+  /** 主数值，单行 nowrap 展示，不允许中间断行 */
   value: string;
+  /** 主数值下方一行 xs muted 辅助信息（如磁盘总量），替代括号拼接 */
+  sub?: string;
   /** 达到阈值时高亮（如磁盘 >85%） */
   warn?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex min-w-0 flex-col gap-0.5">
       <span className="text-muted-foreground text-xs">{label}</span>
       <span
-        className="text-xl font-semibold tabular-nums"
+        className="text-xl font-semibold whitespace-nowrap tabular-nums"
         style={{ color: warn ? "var(--ox-danger)" : undefined }}
       >
         {value}
       </span>
+      {sub && (
+        <span className="text-muted-foreground text-xs whitespace-nowrap">
+          {sub}
+        </span>
+      )}
     </div>
   );
 }

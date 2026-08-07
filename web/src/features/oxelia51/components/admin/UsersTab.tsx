@@ -45,6 +45,50 @@ import { showSuccessToast } from "@/src/features/notifications/showSuccessToast"
 
 const PAGE_SIZE = 20;
 
+/** 角色优先级：取用户所有 memberships（组织级 + 项目级）中的最高角色 */
+const ROLE_RANK: Record<string, number> = {
+  OWNER: 4,
+  ADMIN: 3,
+  MEMBER: 2,
+  VIEWER: 1,
+};
+
+const ROLE_LABEL: Record<string, string> = {
+  OWNER: "所有者",
+  ADMIN: "管理员",
+  MEMBER: "成员",
+  VIEWER: "查看者",
+};
+
+const ROLE_VARIANT: Record<
+  string,
+  "default" | "secondary" | "outline" | "tertiary"
+> = {
+  OWNER: "default",
+  ADMIN: "secondary",
+  MEMBER: "outline",
+  VIEWER: "tertiary",
+};
+
+function highestRole(u: UserItem): string | null {
+  let best: string | null = null;
+  let bestRank = 0;
+  const consider = (role: string | undefined) => {
+    if (!role) return;
+    const key = role.toUpperCase();
+    const rank = ROLE_RANK[key] ?? 0;
+    if (best === null || rank > bestRank) {
+      best = key;
+      bestRank = rank;
+    }
+  };
+  for (const m of u.memberships ?? []) {
+    consider(m.role);
+    for (const p of m.projects ?? []) consider(p.role);
+  }
+  return best;
+}
+
 /**
  * 用户管理：管理员名单说明 + 平台用户列表（搜索 / 分页 / 行展开详情）。
  * 管理员由服务端环境变量驱动，此处不做任何增删管理员的 UI。
@@ -127,7 +171,7 @@ export function UsersTab() {
     setDeleteError("");
   };
 
-  const colSpan = isSuperAdmin ? 6 : 5;
+  const colSpan = isSuperAdmin ? 7 : 6;
 
   return (
     <div className="flex flex-col gap-4">
@@ -182,15 +226,18 @@ export function UsersTab() {
           </p>
         ) : (
           <>
-            <Table>
+            <Table className="table-fixed">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-8" />
                   <TableHead>邮箱</TableHead>
-                  <TableHead>姓名</TableHead>
+                  <TableHead className="w-28">姓名</TableHead>
+                  <TableHead className="w-20">权限</TableHead>
                   <TableHead>组织 / 角色</TableHead>
-                  <TableHead>注册时间</TableHead>
-                  {isSuperAdmin && <TableHead className="w-40">操作</TableHead>}
+                  <TableHead className="w-24">注册时间</TableHead>
+                  {isSuperAdmin && (
+                    <TableHead className="w-40 text-right">操作</TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -215,14 +262,52 @@ export function UsersTab() {
                       </TableCell>
                       <TableCell>
                         <span className="flex items-center gap-2">
-                          {u.email ?? "—"}
+                          <span
+                            className="truncate"
+                            title={u.email ?? undefined}
+                          >
+                            {u.email ?? "—"}
+                          </span>
                           {u.email === PLATFORM_ADMIN_EMAIL && (
-                            <Badge variant="secondary">管理员</Badge>
+                            <Badge variant="secondary" className="shrink-0">
+                              管理员
+                            </Badge>
                           )}
                         </span>
                       </TableCell>
-                      <TableCell>{u.name || "—"}</TableCell>
-                      <TableCell className="text-xs">
+                      <TableCell
+                        className="truncate"
+                        title={u.name ?? undefined}
+                      >
+                        {u.name || "—"}
+                      </TableCell>
+                      <TableCell>
+                        {(() => {
+                          const role = highestRole(u);
+                          if (!role)
+                            return (
+                              <span className="text-muted-foreground">—</span>
+                            );
+                          return (
+                            <Badge
+                              variant={ROLE_VARIANT[role] ?? "outline"}
+                              size="sm"
+                            >
+                              {ROLE_LABEL[role] ?? role}
+                            </Badge>
+                          );
+                        })()}
+                      </TableCell>
+                      <TableCell
+                        className="truncate text-xs"
+                        title={
+                          (u.memberships ?? []).length === 0
+                            ? undefined
+                            : (u.memberships ?? [])
+                                .map((m) => `${m.org}（${m.role}）`)
+                                .join("、")
+                        }
+                      >
                         {(u.memberships ?? []).length === 0
                           ? "—"
                           : (u.memberships ?? [])
@@ -236,7 +321,7 @@ export function UsersTab() {
                       </TableCell>
                       {isSuperAdmin && (
                         <TableCell>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-end gap-1">
                             <Button
                               variant="ghost"
                               size="sm"

@@ -86,17 +86,16 @@ export function RetryBackgroundMigration({
             name="admin-api-key"
           />
           <p className="text-muted-foreground mt-1 text-xs">
-            Required for security. This key must match your ADMIN_API_KEY
-            environment variable{" ("}
+            出于安全校验必填。此密钥必须与 ADMIN_API_KEY 环境变量一致（
             <a
               href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary underline"
             >
-              Docs
+              文档
             </a>
-            ).
+            ）。
           </p>
         </div>
 
@@ -110,7 +109,7 @@ export function RetryBackgroundMigration({
             }}
             disabled={isLoading}
           >
-            Cancel
+            取消
           </Button>
           <Button
             type="button"
@@ -119,7 +118,7 @@ export function RetryBackgroundMigration({
             onClick={handleRetry}
             disabled={isLoading}
           >
-            Retry Migration
+            重试迁移
           </Button>
         </div>
       </PopoverContent>

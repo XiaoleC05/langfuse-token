@@ -22,11 +22,11 @@ import {
   type ServerStats,
 } from "@/src/features/oxelia51/components/admin/shared";
 
-/** 状态卡首次加载骨架：4 格指标 + 一行说明 */
+/** 状态卡首次加载骨架：2 列 4 格指标 + 一行说明 */
 function StatGridSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="flex flex-col gap-1.5">
             <Skeleton className="h-3 w-12" />
@@ -71,7 +71,7 @@ export function SystemTab() {
           <StatGridSkeleton />
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3">
               <StatCell
                 label="CPU"
                 value={
@@ -103,13 +103,11 @@ export function SystemTab() {
                 warn={(stats?.disk_used_percent ?? 0) > 85}
               />
               <StatCell
-                label="服务运行时长"
-                value={formatUptime(stats?.process_uptime_seconds)}
+                label="主机运行时长"
+                value={formatUptime(stats?.uptime_seconds)}
+                sub={`服务运行 ${formatUptime(stats?.process_uptime_seconds)}`}
               />
             </div>
-            <p className="text-muted-foreground text-xs">
-              主机运行时长：{formatUptime(stats?.uptime_seconds)}
-            </p>
           </>
         )}
       </AdminCard>
@@ -128,9 +126,9 @@ export function SystemTab() {
           <StatGridSkeleton />
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3">
               <StatCell
-                label="CPU 负载"
+                label="CPU"
                 value={
                   localStatsQ.data?.cpuPercent != null
                     ? `${localStatsQ.data.cpuPercent.toFixed(1)}%`
@@ -160,13 +158,11 @@ export function SystemTab() {
                 warn={(localStatsQ.data?.diskUsedPercent ?? 0) > 85}
               />
               <StatCell
-                label="服务运行时长"
-                value={formatUptime(localStatsQ.data?.processUptimeSeconds)}
+                label="主机运行时长"
+                value={formatUptime(localStatsQ.data?.uptimeSeconds)}
+                sub={`服务运行 ${formatUptime(localStatsQ.data?.processUptimeSeconds)}`}
               />
             </div>
-            <p className="text-muted-foreground text-xs">
-              主机运行时长：{formatUptime(localStatsQ.data?.uptimeSeconds)}
-            </p>
           </>
         )}
       </AdminCard>

@@ -1,4 +1,4 @@
-import { ArrowUp10, BadgeCheck } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import { VERSION } from "@/src/constants";
 import Link from "next/link";
@@ -137,23 +137,10 @@ export const VersionLabel = ({ className }: { className?: string }) => {
             发布记录
           </Link>
         </DropdownMenuItem>
-        {!isLangfuseCloud && (
-          <DropdownMenuItem asChild>
-            <Link href="/background-migrations">
-              <ArrowUp10 size={16} className="mr-2" />
-              后台迁移
-              {showBackgroundMigrationStatus && (
-                <StatusBadge
-                  type={backgroundMigrationStatus.data?.status.toLowerCase()}
-                  showText={false}
-                  className="bg-transparent"
-                />
-              )}
-            </Link>
-          </DropdownMenuItem>
-        )}
         {/* oxelia51 fork: upstream links to langfuse.com/changelog, /roadmap,
-            /pricing-self-host and the self-host update docs were removed. */}
+            /pricing-self-host and the self-host update docs were removed.
+            「后台迁移」菜单项已按需求隐藏（页面 /background-migrations 保留，
+            迁移进行中时版本按钮上的状态点仍会提示） */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

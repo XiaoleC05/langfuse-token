@@ -28,8 +28,8 @@ import { type ReactNode } from "react";
 import { type Entitlement } from "@/src/features/entitlements/constants/entitlements";
 import { type Session } from "next-auth";
 import { type OrganizationScope } from "@/src/features/rbac/constants/organizationAccessRights";
-import { V4MigrationNavItem } from "@/src/features/v4-migration/V4MigrationNavItem";
-import { V4SidebarToggle } from "@/src/features/events/components/V4SidebarToggle";
+// Oxelia51：「快速预览」(V4SidebarToggle) 与「更新」(V4MigrationNavItem) 入口已隐藏，
+// 上游组件文件保留以减少合并冲突
 import { SidebarMenuButton } from "@/src/components/ui/sidebar";
 import { KeyboardShortcut } from "@/src/components/ui/keyboard-shortcut";
 import { useCommandMenu } from "@/src/features/command-k-menu/CommandMenuProvider";
@@ -249,21 +249,6 @@ export const ROUTES: Route[] = [
     entitlements: ["cloud-billing"],
     organizationRbacScope: "langfuseCloudBilling:CRUD",
     show: ({ organization }) => organization?.plan === "cloud:hobby",
-  },
-  {
-    title: "快速预览",
-    pathname: "",
-    section: RouteSection.Secondary,
-    featureFlag: "v4BetaToggleVisible",
-    menuNode: <V4SidebarToggle />,
-  },
-  {
-    title: "更新",
-    pathname: "",
-    section: RouteSection.Secondary,
-    featureFlag: "v4UpgradeUi",
-    show: ({ projectId }) => projectId !== undefined,
-    menuNode: <V4MigrationNavItem />,
   },
   {
     title: "设置",

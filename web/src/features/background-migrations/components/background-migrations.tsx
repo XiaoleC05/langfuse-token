@@ -15,59 +15,75 @@ export default function BackgroundMigrationsTable() {
       accessorKey: "name",
       id: "name",
       enableColumnFilter: false,
-      header: "Name",
+      header: "名称",
     },
     {
       accessorKey: "script",
       id: "script",
       enableColumnFilter: false,
-      header: "Script",
+      header: "脚本",
     },
     {
       accessorKey: "args",
       id: "args",
       enableColumnFilter: false,
-      header: "Args",
+      header: "参数",
       size: 80,
       cell: (row) => JSON.stringify(row.getValue()),
     },
     {
       id: "status",
-      header: "Status",
+      header: "状态",
       size: 80,
       cell: (row) => {
         const failedAt = row.row.original.failedAt;
         if (failedAt) {
-          return <StatusBadge type="failed" className="capitalize" />;
+          return (
+            <StatusBadge type="failed" showText={false}>
+              失败
+            </StatusBadge>
+          );
         }
         const finishedAt = row.row.original.finishedAt;
         if (finishedAt) {
-          return <StatusBadge type="finished" className="capitalize" />;
+          return (
+            <StatusBadge type="finished" showText={false}>
+              已完成
+            </StatusBadge>
+          );
         }
         const workerId = row.row.original.workerId;
         if (workerId) {
-          return <StatusBadge type="active" className="capitalize" />;
+          return (
+            <StatusBadge type="active" showText={false}>
+              进行中
+            </StatusBadge>
+          );
         }
 
-        return <StatusBadge type="queued" className="capitalize" />;
+        return (
+          <StatusBadge type="queued" showText={false}>
+            排队中
+          </StatusBadge>
+        );
       },
     },
     {
       accessorKey: "failedReason",
       id: "failedReason",
       enableColumnFilter: false,
-      header: "Failed Reason",
+      header: "失败原因",
     },
     {
       accessorKey: "state",
       id: "state",
       enableColumnFilter: false,
-      header: "State",
+      header: "状态数据",
       cell: (row) => JSON.stringify(row.getValue()),
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "操作",
       size: 65,
       cell: (row) => {
         const name = row.row.original.name;
@@ -85,7 +101,7 @@ export default function BackgroundMigrationsTable() {
   return (
     <Page
       headerProps={{
-        title: "Background Migrations",
+        title: "后台迁移",
       }}
     >
       <DataTableToolbar columns={columns} />

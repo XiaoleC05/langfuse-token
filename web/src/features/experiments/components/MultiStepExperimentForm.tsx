@@ -55,6 +55,7 @@ import {
   PROMPT_TOOL_STRUCTURED_OUTPUT_CONFLICT_MESSAGE,
   PromptType,
 } from "@langfuse/shared";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const LegacyExperimentNameValidation = ({
   projectId,
@@ -474,7 +475,7 @@ export const MultiStepExperimentForm = ({
         <DialogDescription>
           运行实验以在数据集上评估提示词和模型配置。查看{" "}
           <Link
-            href="https://langfuse.com/docs/evaluation/dataset-runs/native-run"
+            href={OXELIA_DOCS_URL}
             target="_blank"
             className="underline"
           >

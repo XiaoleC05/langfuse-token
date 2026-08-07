@@ -14,6 +14,7 @@ import { NewDatasetItemForm } from "@/src/features/datasets/components/NewDatase
 import { useHasProjectAccess } from "@/src/features/rbac/utils/checkProjectAccess";
 import { usePostHogClientCapture } from "@/src/features/posthog-analytics/usePostHogClientCapture";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface DatasetItemEntryPointRowProps {
   icon: React.ReactNode;
@@ -142,7 +143,7 @@ export const DatasetItemsOnboarding = ({
         </Dialog>
 
         <Link
-          href="https://langfuse.com/docs/evaluation/experiments/datasets#create-items-from-production-data"
+          href={OXELIA_DOCS_URL}
           target="_blank"
         >
           <DatasetItemEntryPointRow

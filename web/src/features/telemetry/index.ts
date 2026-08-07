@@ -23,12 +23,11 @@ export async function telemetry() {
     if (process.env.NODE_ENV !== "production") return;
     // Do not run in Langfuse cloud, separate telemetry is used
     if (env.NEXT_PUBLIC_LANGFUSE_CLOUD_REGION !== undefined) return;
-    // Check if telemetry is not disabled, except for EE
-    if (
-      env.TELEMETRY_ENABLED === "false" &&
-      env.LANGFUSE_EE_LICENSE_KEY === undefined
-    )
-      return;
+    // oxelia51 fork: telemetry is strictly opt-in. Upstream ran this job by
+    // default (reporting to Langfuse's own PostHog via a hardcoded fallback
+    // key, now removed in ServerPosthog). Unless TELEMETRY_ENABLED is
+    // explicitly set to "true", no telemetry request is ever sent.
+    if (env.TELEMETRY_ENABLED !== "true") return;
     // Do not run in CI
     if (process.env.CI) return;
 

@@ -6,6 +6,7 @@ import {
 import type { ColumnToBackendKeyMap } from "@/src/features/filters/lib/filter-transform";
 import { renderFilterIcon } from "@/src/components/ItemBadge";
 import { renderLevelIcon } from "@/src/components/level-colors";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Helper function to get column name from eventsTableCols by ID
 export const getEventsColumnName = (id: string): string => {
@@ -103,7 +104,7 @@ export const observationEventsFilterConfig: FilterConfig = {
       help: {
         description:
           "观测类型对追踪中捕获的工作进行分类，例如生成、Span、工具、链和代理。",
-        href: "https://langfuse.com/docs/observability/features/observation-types",
+        href: OXELIA_DOCS_URL,
       },
       renderIcon: renderFilterIcon,
     },

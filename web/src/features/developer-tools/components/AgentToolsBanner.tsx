@@ -2,9 +2,10 @@ import { Callout } from "@/src/components/ui/callout";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 import { Bot } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const DOCS_HREF =
-  "https://langfuse.com/docs/api-and-data-platform/features/agent-skill";
+  OXELIA_DOCS_URL;
 
 /**
  * Informational, dismissible banner that highlights Langfuse's support for AI

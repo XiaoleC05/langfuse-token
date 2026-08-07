@@ -1,21 +1,17 @@
 import { env } from "@/src/env.mjs";
 import { PostHog } from "posthog-node";
 
-const FALLBACK_POSTHOG_KEY = "phc_zkMwFajk8ehObUlMth0D7DtPItFnxETi3lmSvyQDrwB";
-const FALLBACK_POSTHOG_HOST = "https://eu.posthog.com";
-
+// oxelia51 fork: the upstream fallback to Langfuse's own PostHog project
+// (hardcoded key + eu.posthog.com host) was removed. Server-side
+// analytics/telemetry is only active when the operator configures their own
+// NEXT_PUBLIC_POSTHOG_KEY and NEXT_PUBLIC_POSTHOG_HOST; otherwise this client
+// stays disabled (null) and no data leaves the deployment.
 export class ServerPosthog {
   private posthog: PostHog | null;
 
   constructor() {
-    const telemetryEnabled = env.TELEMETRY_ENABLED !== "false";
-
-    const apiKey =
-      env.NEXT_PUBLIC_POSTHOG_KEY ??
-      (telemetryEnabled ? FALLBACK_POSTHOG_KEY : null);
-    const host =
-      env.NEXT_PUBLIC_POSTHOG_HOST ??
-      (telemetryEnabled ? FALLBACK_POSTHOG_HOST : null);
+    const apiKey = env.NEXT_PUBLIC_POSTHOG_KEY ?? null;
+    const host = env.NEXT_PUBLIC_POSTHOG_HOST ?? null;
 
     if (apiKey && host) {
       this.posthog = new PostHog(apiKey, { host });

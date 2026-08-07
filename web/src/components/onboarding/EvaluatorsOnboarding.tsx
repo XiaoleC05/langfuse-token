@@ -6,6 +6,7 @@ import {
 import { Bot, Gauge, Zap, BarChart4 } from "lucide-react";
 import { useIsCodeEvalEnabled } from "@/src/features/evals/hooks/useIsCodeEvalEnabled";
 import { EvalTemplateSourceCodeLanguage } from "@langfuse/shared";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface EvaluatorsOnboardingProps {
   projectId: string;
@@ -75,7 +76,7 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
         }}
         secondaryAction={{
           label: "了解更多",
-          href: "https://langfuse.com/docs/evaluation",
+          href: OXELIA_DOCS_URL,
         }}
       />
     );
@@ -92,9 +93,8 @@ export function EvaluatorsOnboarding({ projectId }: EvaluatorsOnboardingProps) {
       }}
       secondaryAction={{
         label: "了解更多",
-        href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
+        href: OXELIA_DOCS_URL,
       }}
-      videoSrc="https://static.langfuse.com/prod-assets/onboarding/scores-llm-as-a-judge-overview-v1.mp4"
     />
   );
 }

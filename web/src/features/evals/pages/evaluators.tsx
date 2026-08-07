@@ -14,6 +14,7 @@ import { SupportOrUpgradePage } from "@/src/ee/features/billing/components/Suppo
 import { EvaluatorsOnboarding } from "@/src/components/onboarding/EvaluatorsOnboarding";
 import { ManageDefaultEvalModel } from "@/src/features/evals/components/manage-default-eval-model";
 import { V4MigrationModal } from "@/src/features/v4-migration/V4MigrationModal";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function EvaluatorsPage() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function EvaluatorsPage() {
           help: {
             description:
               "配置一个 langfuse 管理的或自定义的评估器，用于评估传入的追踪数据。",
-            href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
+            href: OXELIA_DOCS_URL,
           },
         }}
         scrollable
@@ -82,7 +83,7 @@ export default function EvaluatorsPage() {
           help: {
             description:
               "配置一个 langfuse 管理的或自定义的评估器，用于评估传入的追踪数据。",
-            href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
+            href: OXELIA_DOCS_URL,
           },
           tabsProps: {
             tabs: getEvalsTabs(projectId),

@@ -15,6 +15,7 @@ import { type QueryType, type ViewVersion } from "@langfuse/shared/query";
 import { mapLegacyUiTableFilterToView } from "@/src/features/dashboard/lib/dashboardUiTableToViewMapping";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const ModelCostTable = ({
   className,
@@ -135,7 +136,7 @@ export const ModelCostTable = ({
         >
           <DocPopup
             description="通过将每个模型的 Token 数量乘以每个 Token 的成本计算得出。"
-            href="https://langfuse.com/docs/model-usage-and-cost"
+            href={OXELIA_DOCS_URL}
           />
         </TotalMetric>
       </DashboardTable>

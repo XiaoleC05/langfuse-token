@@ -11,6 +11,7 @@ import { deriveSyncStatus } from "@/src/features/blobstorage-integration/deriveS
 import { type BlobStorageSyncStatus } from "@/src/features/blobstorage-integration/types";
 import { BlobStorageIntegrationContainer } from "@/src/features/blobstorage-integration/components/BlobStorageIntegrationContainer";
 import { BlobStorageStatusSection } from "@/src/features/blobstorage-integration/components/BlobStorageStatusSection";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const syncStatusToBadge: Record<BlobStorageSyncStatus, string> = {
   up_to_date: "active",
@@ -76,7 +77,7 @@ export default function BlobStorageIntegrationSettings() {
         actionButtonsRight: (
           <Button asChild variant="secondary">
             <Link
-              href="https://langfuse.com/docs/api-and-data-platform/features/export-to-blob-storage"
+              href={OXELIA_DOCS_URL}
               target="_blank"
             >
               集成文档 ↗

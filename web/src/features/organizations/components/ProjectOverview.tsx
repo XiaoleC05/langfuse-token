@@ -1,10 +1,4 @@
-import {
-  BookOpen,
-  LockIcon,
-  MessageSquareText,
-  Settings,
-  Users,
-} from "lucide-react";
+import { BookOpen, LockIcon, Settings, Users } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -39,6 +33,7 @@ import { api } from "@/src/utils/api";
 import { formatCompactRelativeTime } from "@/src/utils/dates";
 import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
 import { useAccountV4MigrationData } from "@/src/features/v4-migration/hooks/useV4MigrationData";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const OrganizationProjectTiles = ({
   org,
@@ -356,7 +351,7 @@ export const OrganizationProjectOverview = () => {
         help: {
           description:
             "组织帮助您管理对项目的访问权限。每个组织可以拥有多个项目以及承担不同角色的团队成员。",
-          href: "https://langfuse.com/docs/rbac",
+          href: OXELIA_DOCS_URL,
         },
         breadcrumb: [
           {
@@ -439,15 +434,12 @@ const Onboarding = () => {
           </Button>
         )}
         <Button variant="secondary" asChild>
-          <Link href="https://langfuse.com/docs" target="_blank">
+          {/* oxelia51 fork: points to the in-product landing page (上手教程)
+              instead of the upstream docs site; the "问助手" (ask-ai)
+              button was removed as this fork has no ask-ai backend. */}
+          <Link href="/">
             <BookOpen className="mr-2 h-4 w-4" aria-hidden="true" />
             文档
-          </Link>
-        </Button>
-        <Button variant="secondary" asChild>
-          <Link href="https://langfuse.com/docs/ask-ai" target="_blank">
-            <MessageSquareText className="mr-2 h-4 w-4" aria-hidden="true" />
-            问助手
           </Link>
         </Button>
       </CardFooter>

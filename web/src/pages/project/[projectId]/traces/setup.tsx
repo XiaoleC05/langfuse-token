@@ -11,6 +11,7 @@ import { useLangfuseBaseUrl } from "@/src/features/public-api/hooks/useLangfuseE
 import { type RouterOutput } from "@/src/utils/types";
 import { useState } from "react";
 import { useQueryProject } from "@/src/features/projects/hooks";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const TracingSetup = ({
   projectId,
@@ -86,7 +87,7 @@ export const TracingSetup = ({
           Langfuse。您可以使用我们的任一 SDK 或 50 多个框架集成。请按照文档中的快速入门将
           Langfuse 接入您的应用。
         </p>
-        <ActionButton href="https://langfuse.com/docs/observability/get-started">
+        <ActionButton href={OXELIA_DOCS_URL}>
           快速入门指南
         </ActionButton>
       </div>
@@ -133,7 +134,7 @@ export default function TracesSetupPage() {
         help: {
           description:
             "设置追踪以跟踪和分析您的 LLM 调用。您可以创建 API 密钥并将 Langfuse 集成到您的应用中。",
-          href: "https://langfuse.com/docs/observability/overview",
+          href: OXELIA_DOCS_URL,
         },
       }}
     >

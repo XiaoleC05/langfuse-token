@@ -43,6 +43,7 @@ import { useRouter } from "next/router";
 
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 import { PricingSection } from "./pricing-tiers/PricingSection";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type UpsertModelDialogProps =
   | {
@@ -389,7 +390,7 @@ export const UpsertModelFormDialog = (({
                       这对于例如流式 OpenAI 补全非常有用。有关支持的分词器的详细信息，请参阅
                       {" "}
                       <Link
-                        href="https://langfuse.com/docs/model-usage-and-cost"
+                        href={OXELIA_DOCS_URL}
                         className="underline"
                         target="_blank"
                       >
@@ -417,7 +418,7 @@ export const UpsertModelFormDialog = (({
                         分词器的配置。openai 必需。有关详细信息，请参阅
                         {" "}
                         <Link
-                          href="https://langfuse.com/docs/model-usage-and-cost"
+                          href={OXELIA_DOCS_URL}
                           className="underline"
                           target="_blank"
                         >

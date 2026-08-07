@@ -11,6 +11,7 @@ import { useV4Beta } from "@/src/features/events/hooks/useV4Beta";
 import ObservationsEventsTable from "@/src/features/events/components/EventsTable";
 import { useQueryProject } from "@/src/features/projects/hooks";
 import { V4MigrationDelayBadge } from "@/src/features/v4-migration/V4MigrationDelayBadge";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Generations() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function Generations() {
         help: {
           description:
             "观测捕获应用中的单次函数调用。详见文档了解更多。",
-          href: "https://langfuse.com/docs/observability/data-model",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps:
           isBetaEnabled || isInitializing

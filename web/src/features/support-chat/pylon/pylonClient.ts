@@ -52,7 +52,7 @@ export async function createPylonIssue(
     requester_email: requesterEmail,
     destination_metadata: {
       destination: "email",
-      email: "support@langfuse.com",
+      email: "receive@oxelia51.com",
     },
   };
 

@@ -7,6 +7,7 @@ import {
   getScoresTabs,
   SCORES_TABS,
 } from "@/src/features/navigation/utils/scores-tabs";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function ScoresPage() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function ScoresPage() {
         help: {
           description:
             "评分是对追踪或观测的评估,可来自用户反馈、基于模型的评估或人工评审。查看文档了解更多。",
-          href: "https://langfuse.com/docs/evaluation/overview",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps: {
           tabs: getScoresTabs(projectId),

@@ -37,6 +37,7 @@ import { Checkbox } from "@/src/components/design-system/Checkbox/Checkbox";
 import { useHasProjectAccess } from "@/src/features/rbac/utils/checkProjectAccess";
 import { StatusBadge } from "@/src/components/layouts/status-badge";
 import TableIdOrName from "@/src/components/table/table-id";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const QueueItemTableMultiSelectAction = ({
   selectedItemIds,
@@ -469,7 +470,7 @@ export function AnnotationQueueItemsTable({
         help={{
           description:
             "将追踪和/或观测添加到标注队列中，让团队成员按照预定义的维度进行标注。",
-          href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation-queues",
+          href: OXELIA_DOCS_URL,
         }}
         pagination={{
           totalCount: items.data?.totalItems ?? null,

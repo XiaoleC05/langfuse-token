@@ -62,6 +62,7 @@ import {
   TableIconButtonLoadingCell,
   TableTextLoadingCell,
 } from "@/src/components/table/loading-cells";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 function LegacyBadgeCell({ status }: { status: string }) {
   return (
@@ -79,7 +80,7 @@ function LegacyBadgeCell({ status }: { status: string }) {
                 <p className="text-muted-foreground">
                   此评估器需要进行更改才能享受新功能和性能改进。请按照{" "}
                   <Link
-                    href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
+                    href={OXELIA_DOCS_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-dark-blue font-bold hover:opacity-80"
@@ -436,7 +437,7 @@ export default function EvaluatorTable({ projectId }: { projectId: string }) {
               </span>
               <span>才能享受新功能和改进。</span>
               <Link
-                href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-dark-blue font-bold hover:opacity-80"

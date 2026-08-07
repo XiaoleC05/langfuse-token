@@ -22,6 +22,7 @@ import {
 } from "@/src/components/ui/popover";
 import { Label } from "@/src/components/ui/label";
 import { Input } from "@/src/components/ui/input";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type DefaultEvalModelSuccessMessage = {
   title: string;
@@ -171,7 +172,7 @@ export function DefaultEvalModelSetup({
                 自动评估器需要模型连接来进行评分。
                 你也可以为每个评估器指定自定义模型。{" "}
                 <a
-                  href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
+                  href={OXELIA_DOCS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline"

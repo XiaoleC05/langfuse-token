@@ -8,14 +8,30 @@ import {
 import { logger, compareVersions } from "@langfuse/shared/src/server";
 import { z } from "zod";
 
-const ReleaseApiRes = z.array(
-  z.object({
-    repo: z.string(),
-    latestRelease: z.string(),
-    publishedAt: z.iso.datetime(),
-    url: z.url(),
-  }),
-);
+// oxelia51 fork: the update check queries the fork's own GitHub releases
+// instead of the upstream langfuse.com latest-releases API.
+const LATEST_RELEASE_URL =
+  "https://api.github.com/repos/XiaoleC05/langfuse-token/releases/latest";
+
+const GithubLatestReleaseRes = z.object({
+  tag_name: z.string(),
+  html_url: z.url(),
+});
+
+type CheckUpdateResult = {
+  updateType: "major" | "minor" | "patch" | null;
+  currentVersion: string;
+  latestRelease: string;
+  url: string;
+} | null;
+
+// GitHub's anonymous API is rate-limited to 60 requests/hour per source IP, so
+// cache the lookup result (including failures) for an hour in memory.
+const CHECK_UPDATE_CACHE_TTL_MS = 60 * 60 * 1000;
+let checkUpdateCache: {
+  expiresAt: number;
+  result: CheckUpdateResult;
+} | null = null;
 
 export const publicRouter = createTRPCRouter({
   tracingSearchConfig: protectedProjectProcedure
@@ -24,53 +40,79 @@ export const publicRouter = createTRPCRouter({
       legacyTracingIoSearchEnabled:
         env.LANGFUSE_DISABLE_LEGACY_TRACING_IO_SEARCH !== "true",
     })),
-  checkUpdate: publicProcedure.query(async () => {
+  checkUpdate: publicProcedure.query(async (): Promise<CheckUpdateResult> => {
     // Skip update check on Langfuse Cloud
     if (env.NEXT_PUBLIC_LANGFUSE_CLOUD_REGION) return null;
 
-    let body;
-    try {
-      const response = await fetch(
-        `https://langfuse.com/api/latest-releases?repo=langfuse/langfuse&version=${VERSION}`,
-      );
-      body = await response.json();
-    } catch (error) {
-      logger.error(
-        "[trpc.public.checkUpdate] failed to fetch latest-release api",
-        {
-          error,
-        },
-      );
-      return null;
+    if (checkUpdateCache && checkUpdateCache.expiresAt > Date.now()) {
+      return checkUpdateCache.result;
     }
 
-    const releases = ReleaseApiRes.safeParse(body);
-    if (!releases.success) {
-      logger.error(
-        "[trpc.public.checkUpdate] Release API response is invalid, does not match schema",
-        {
-          error: releases.error,
-        },
-      );
-      return null;
-    }
-    const langfuseRelease = releases.data.find(
-      (release) => release.repo === "langfuse/langfuse",
-    );
-    if (!langfuseRelease) {
-      logger.error(
-        "[trpc.public.checkUpdate] Release API response is invalid, does not contain langfuse/langfuse",
-      );
-      return null;
-    }
+    const result = await fetchLatestRelease();
 
-    const updateType = compareVersions(VERSION, langfuseRelease.latestRelease);
-
-    return {
-      updateType,
-      currentVersion: VERSION,
-      latestRelease: langfuseRelease.latestRelease,
-      url: langfuseRelease.url,
+    checkUpdateCache = {
+      expiresAt: Date.now() + CHECK_UPDATE_CACHE_TTL_MS,
+      result,
     };
+    return result;
   }),
 });
+
+async function fetchLatestRelease(): Promise<CheckUpdateResult> {
+  let body;
+  try {
+    const response = await fetch(LATEST_RELEASE_URL, {
+      headers: {
+        Accept: "application/vnd.github+json",
+        "User-Agent": "oxelia51-langfuse-fork",
+      },
+      signal: AbortSignal.timeout(5000),
+    });
+    // 404: the fork has no published release yet — treat as "no update"
+    // without logging an error. Other non-OK statuses (e.g. rate limiting)
+    // also fail silently downstream.
+    if (!response.ok) {
+      if (response.status !== 404) {
+        logger.warn("[trpc.public.checkUpdate] GitHub releases API failed", {
+          status: response.status,
+        });
+      }
+      return null;
+    }
+    body = await response.json();
+  } catch (error) {
+    logger.warn("[trpc.public.checkUpdate] failed to fetch latest release", {
+      error,
+    });
+    return null;
+  }
+
+  const release = GithubLatestReleaseRes.safeParse(body);
+  if (!release.success) {
+    logger.warn(
+      "[trpc.public.checkUpdate] GitHub release response is invalid",
+      {
+        error: release.error,
+      },
+    );
+    return null;
+  }
+
+  let updateType: "major" | "minor" | "patch" | null;
+  try {
+    updateType = compareVersions(VERSION, release.data.tag_name);
+  } catch (error) {
+    logger.warn(
+      "[trpc.public.checkUpdate] failed to compare versions, treating as no update",
+      { error, latestRelease: release.data.tag_name },
+    );
+    return null;
+  }
+
+  return {
+    updateType,
+    currentVersion: VERSION,
+    latestRelease: release.data.tag_name,
+    url: release.data.html_url,
+  };
+}

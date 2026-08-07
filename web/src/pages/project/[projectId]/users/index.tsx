@@ -34,6 +34,7 @@ import {
   convertSelectedEnvironmentsToFilter,
 } from "@/src/hooks/useEnvironmentFilter";
 import { Badge } from "@/src/components/ui/badge";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type RowData = {
   userId: string;
@@ -91,7 +92,7 @@ export default function UsersPage() {
             <>
               通过在追踪中添加 userId，将 Langfuse 中的数据归属到用户。详见{" "}
               <a
-                href="https://langfuse.com/docs/observability/features/users"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="decoration-primary/30 hover:decoration-primary underline"
@@ -102,7 +103,7 @@ export default function UsersPage() {
               了解更多。
             </>
           ),
-          href: "https://langfuse.com/docs/observability/features/users",
+          href: OXELIA_DOCS_URL,
         },
       }}
       scrollable={showOnboarding}
@@ -299,7 +300,7 @@ const UsersTable = ({
       headerTooltip: {
         description:
           "在 Langfuse 中记录的用户唯一标识。参见文档了解如何设置。",
-        href: "https://langfuse.com/docs/observability/features/users",
+        href: OXELIA_DOCS_URL,
       },
       size: 150,
       cell: ({ row }) => {
@@ -372,7 +373,7 @@ const UsersTable = ({
       headerTooltip: {
         description:
           "用户事件总数，包含追踪和观测。详见数据模型了解更多。",
-        href: "https://langfuse.com/docs/observability/data-model",
+        href: OXELIA_DOCS_URL,
       },
       size: 120,
       loadingCell: <TableTextLoadingCell />,
@@ -390,7 +391,7 @@ const UsersTable = ({
       headerTooltip: {
         description:
           "用户在所有生成中使用的 Token 总数。",
-        href: "https://langfuse.com/docs/model-usage-and-cost",
+        href: OXELIA_DOCS_URL,
       },
       size: 120,
       loadingCell: <TableTextLoadingCell />,
@@ -407,7 +408,7 @@ const UsersTable = ({
       header: "总费用",
       headerTooltip: {
         description: "用户在所有生成中的总费用。",
-        href: "https://langfuse.com/docs/model-usage-and-cost",
+        href: OXELIA_DOCS_URL,
       },
       size: 120,
       loadingCell: <TableTextLoadingCell />,

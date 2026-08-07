@@ -4,6 +4,7 @@ import { Card } from "@/src/components/ui/card";
 import { CodeBlock } from "@/src/components/design-system/Codeblock/Codeblock";
 import Link from "next/link";
 import { Bot, SquareTerminal, Sparkles } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const DocsButton = ({ href }: { href: string }) => (
   <Button asChild variant="ghost">
@@ -46,7 +47,7 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
             value={`npx skills add langfuse/skills --skill "langfuse"`}
           />
           <div className="mt-4 flex items-center gap-2">
-            <DocsButton href="https://langfuse.com/docs/api-and-data-platform/features/agent-skill" />
+            <DocsButton href={OXELIA_DOCS_URL} />
           </div>
         </Card>
 
@@ -64,12 +65,12 @@ export function DeveloperToolsSettings({ projectId }: { projectId: string }) {
           <CodeBlock
             language="shell"
             value={`claude mcp add --transport http langfuse \\
-  https://cloud.langfuse.com/api/public/mcp \\
+  https://<your-host>/api/public/mcp \\
   --header "Authorization: Basic {your-base64-token}"`}
           />
           <div className="mt-4 flex items-center gap-2">
             <ManageApiKeysButton projectId={projectId} />
-            <DocsButton href="https://langfuse.com/docs/api-and-data-platform/features/mcp-server" />
+            <DocsButton href={OXELIA_DOCS_URL} />
           </div>
         </Card>
 
@@ -92,7 +93,7 @@ npx langfuse-cli api <resource> <action>`}
           />
           <div className="mt-4 flex items-center gap-2">
             <ManageApiKeysButton projectId={projectId} />
-            <DocsButton href="https://langfuse.com/docs/api-and-data-platform/features/cli" />
+            <DocsButton href={OXELIA_DOCS_URL} />
           </div>
         </Card>
       </div>

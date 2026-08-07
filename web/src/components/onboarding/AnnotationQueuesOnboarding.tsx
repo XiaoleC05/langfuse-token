@@ -5,6 +5,7 @@ import {
 } from "@/src/components/ui/splash-screen";
 import { ClipboardCheck, Users, BarChart4, GitMerge } from "lucide-react";
 import { CreateOrEditAnnotationQueueButton } from "@/src/features/annotation-queues/components/CreateOrEditAnnotationQueueButton";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function AnnotationQueuesOnboarding({
   projectId,
@@ -55,9 +56,8 @@ export function AnnotationQueuesOnboarding({
       }}
       secondaryAction={{
         label: "了解更多",
-        href: "https://langfuse.com/docs/scores/annotation",
+        href: OXELIA_DOCS_URL,
       }}
-      videoSrc="https://static.langfuse.com/prod-assets/onboarding/annotation-queue-overview-v1.mp4"
     />
   );
 }

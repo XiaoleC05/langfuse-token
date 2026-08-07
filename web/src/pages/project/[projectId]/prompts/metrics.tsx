@@ -31,6 +31,7 @@ import { useTableDateRange } from "@/src/hooks/useTableDateRange";
 import { toAbsoluteTimeRange } from "@/src/utils/date-range-utils";
 import { useMemo } from "react";
 import { TableHeaderControls } from "@/src/components/table/table-header-controls";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type PromptVersionTableRow = {
   version: number;
@@ -404,7 +405,7 @@ export default function PromptVersionTable({
         help: {
           description:
             "您可以通过 Langfuse SDK 和集成在应用程序中使用此提示词。请参阅文档了解更多信息。",
-          href: "https://langfuse.com/docs/prompt-management/get-started",
+          href: OXELIA_DOCS_URL,
         },
         breadcrumb: [
           {

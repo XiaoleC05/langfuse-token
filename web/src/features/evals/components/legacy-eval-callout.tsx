@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Info } from "lucide-react";
 import { isLegacyEvalTarget } from "@/src/features/evals/utils/typeHelpers";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface LegacyEvalCalloutProps {
   projectId: string;
@@ -51,7 +52,7 @@ export function LegacyEvalCallout({
       <span>此评估器</span>
       <span className="text-dark-blue hover:opacity-80">
         <Link
-          href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
+          href={OXELIA_DOCS_URL}
           target="_blank"
           rel="noopener noreferrer"
         >

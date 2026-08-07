@@ -1,4 +1,5 @@
 import { Button } from "@/src/components/ui/button";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 import {
   Dialog,
   DialogContent,
@@ -52,7 +53,7 @@ export function V4IntroDialog({
               将表格筛选保存为组织范围的视图，让整个团队从同一个起点
               开始。{" "}
               <a
-                href="https://langfuse.com/faq/all/explore-observations-in-v4"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary font-bold hover:underline"
@@ -67,7 +68,7 @@ export function V4IntroDialog({
               请将 SDK 升级到最新版本。旧版 SDK 仍可使用，但追踪
               可能需要约 10 分钟才能显示。{" "}
               <a
-                href="https://langfuse.com/docs/observability/sdk/upgrade-path"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold underline hover:no-underline"
@@ -79,7 +80,7 @@ export function V4IntroDialog({
         </DialogBody>
         <DialogFooter className="items-center sm:justify-between">
           <a
-            href="https://langfuse.com/docs/v4"
+            href={OXELIA_DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary text-sm font-bold hover:underline"

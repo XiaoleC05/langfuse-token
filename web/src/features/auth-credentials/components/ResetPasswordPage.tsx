@@ -27,6 +27,7 @@ import { ErrorPage } from "@/src/components/error-page";
 import { usePostHogClientCapture } from "@/src/features/posthog-analytics/usePostHogClientCapture";
 import { passwordSchema } from "@/src/features/auth/lib/signupSchema";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const resetPasswordSchema = z
   .object({
@@ -114,7 +115,7 @@ export function ResetPasswordPage({
         message="此实例未配置密码重置功能"
         additionalButton={{
           label: "配置说明",
-          href: "https://langfuse.com/self-hosting/security/authentication-and-sso#auth-email-password",
+          href: OXELIA_DOCS_URL,
         }}
       />
     );

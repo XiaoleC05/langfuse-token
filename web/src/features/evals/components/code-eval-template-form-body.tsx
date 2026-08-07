@@ -35,6 +35,7 @@ import {
   type CodeEvalSourceCodeLanguage,
   type CodeEvalValidationResult,
 } from "@/src/features/evals/utils/code-eval-template-validation";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type CodeEvalTemplateFormBodyProps = {
   sourceCode: string;
@@ -47,7 +48,7 @@ type CodeEvalTemplateFormBodyProps = {
 
 const FORMAT_SHORTCUT_ARIA = "Alt+Shift+F";
 const FUNCTION_CONTRACT_DOCS_URL =
-  "https://langfuse.com/docs/evaluation/evaluation-methods/code-evaluators#function-contract";
+  OXELIA_DOCS_URL;
 const CODE_MIRROR_BASIC_SETUP = {
   autocompletion: false,
   completionKeymap: false,

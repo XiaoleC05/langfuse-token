@@ -44,7 +44,6 @@ import { backgroundMigrationsRouter } from "@/src/features/background-migrations
 import { auditLogsRouter } from "./routers/auditLogs";
 import { tableRouter } from "@/src/features/table/server/tableRouter";
 import { batchActionRouter } from "@/src/features/batch-actions/server/batchActionRouter";
-import { cloudStatusRouter } from "@/src/features/cloud-status-notification/server/cloud-status-router";
 import { dashboardWidgetRouter } from "./routers/dashboardWidgets";
 import { TableViewPresetsRouter } from "@/src/server/api/routers/tableViewPresets";
 import { automationsRouter } from "@/src/features/automations/server/router";
@@ -118,7 +117,6 @@ export const appRouter = createTRPCRouter({
   auditLogs: auditLogsRouter,
   table: tableRouter,
   batchAction: batchActionRouter,
-  cloudStatus: cloudStatusRouter,
   dashboardWidgets: dashboardWidgetRouter,
   TableViewPresets: TableViewPresetsRouter,
   automations: automationsRouter,

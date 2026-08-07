@@ -192,10 +192,10 @@ export default function EnterpriseSsoRequiredPage() {
               <br />
               联系{" "}
               <a
-                href="mailto:support@langfuse.com"
+                href="mailto:receive@oxelia51.com"
                 className="text-link hover:text-link-hover"
               >
-                support@langfuse.com
+                receive@oxelia51.com
               </a>{" "}
               如果问题持续出现。
             </div>
@@ -213,10 +213,10 @@ export default function EnterpriseSsoRequiredPage() {
         <div className="text-muted-foreground mt-4 text-center text-xs">
           需要帮助？请联系{" "}
           <a
-            href="mailto:support@langfuse.com"
+            href="mailto:receive@oxelia51.com"
             className="text-link hover:text-link-hover"
           >
-            support@langfuse.com
+            receive@oxelia51.com
           </a>
           .
         </div>

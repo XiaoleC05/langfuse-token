@@ -26,6 +26,7 @@ import {
 } from "date-fns";
 import { cn } from "@/src/utils/tailwind";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type DatasetVersionHistoryPanelProps = {
   projectId: string;
@@ -90,7 +91,7 @@ export function DatasetVersionHistoryPanel({
 
   const openDocumentation = () => {
     window.open(
-      "https://langfuse.com/docs/datasets/dataset-versioning",
+      OXELIA_DOCS_URL,
       "_blank",
     );
   };

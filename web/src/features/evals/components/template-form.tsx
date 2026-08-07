@@ -77,6 +77,7 @@ import {
   useEvalCapabilities,
   type EvalCapabilities,
 } from "@/src/features/evals/hooks/useEvalCapabilities";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type PartialEvalTemplate = Partial<EvalTemplate> &
   Pick<EvalTemplate, "name" | "prompt" | "vars" | "outputDefinition">;
@@ -661,7 +662,7 @@ export const InnerEvalTemplateForm = (props: {
                               未设置默认模型。自动评估需要模型连接来进行评分。
                               此默认模型将用于所有未指定自身模型的模板。{" "}
                               <a
-                                href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
+                                href={OXELIA_DOCS_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="underline"
@@ -1030,7 +1031,7 @@ function CodeEvalSdkVersionCallout({
             代码评估器需要 JS SDK v4+ 或 Python SDK v3+。您现在可以创建此评估器，
             但它只会在您的项目使用兼容 SDK 摄取数据后才会运行。{" "}
             <a
-              href="https://langfuse.com/docs/observability/sdk/upgrade-path"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"

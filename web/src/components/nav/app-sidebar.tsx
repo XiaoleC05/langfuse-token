@@ -25,16 +25,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { LangfuseLogo } from "@/src/components/LangfuseLogo";
 import { MobileNavSwitcher } from "@/src/components/nav/mobile-nav-switcher";
-import { SidebarNotifications } from "@/src/components/nav/sidebar-notifications";
 import { type RouteGroup } from "@/src/components/layouts/routes";
 import { ExternalLink, Grid2X2 } from "lucide-react";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
-import { useV4UpgradeUiEnabled } from "@/src/features/v4-migration/useV4UpgradeUiEnabled";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { Oxelia51ColorSettings } from "@/src/features/theming/Oxelia51ColorSettings";
 import { FeedbackDialog } from "@/src/features/oxelia51/components/FeedbackDialog";
 import { AdminSidebarEntry } from "@/src/features/oxelia51/components/admin/AdminSidebarEntry";
 import { FilingInfo } from "@/src/components/FilingInfo";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type AppSidebarProps = {
   navItems: {
@@ -60,7 +59,6 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const { isMobile } = useSidebar();
-  const v4UpgradeUiEnabled = useV4UpgradeUiEnabled();
 
   return (
     <Sidebar collapsible="icon" variant="sidebar" {...props}>
@@ -78,13 +76,8 @@ export function AppSidebar({
         {isMobile && <MobileNavSwitcher />}
         <NavMain items={navItems} />
         <div className="flex-1" />
-        {/* Hidden for v4-upgrade users only: the "Update" nav entry is trialled
-            in this slot. Everyone else keeps the notifications stack. */}
-        {!v4UpgradeUiEnabled && (
-          <div className="flex flex-col gap-2 p-2">
-            <SidebarNotifications />
-          </div>
-        )}
+        {/* oxelia51 fork: the upstream sidebar notification stack (Langfuse
+            launch-week promo cards + GitHub star card) was removed. */}
         {/* 辅助功能：与主导航分隔，折叠态隐藏分隔线 */}
         {(secondaryNavItems.ungrouped.length > 0 ||
           Object.keys(secondaryNavItems.grouped ?? {}).length > 0) && (
@@ -138,7 +131,7 @@ const DemoBadge = () => {
               variant="cta"
             >
               <Link
-                href="https://langfuse.com/docs/demo"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

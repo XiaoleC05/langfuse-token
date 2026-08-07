@@ -46,8 +46,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /**
  * Oxelia51 意见反馈：写入 oxelia51.feedback，
  * 提交后通知运营（receive@oxelia51.com）+ 自动回复用户邮箱。
+ *
+ * 默认渲染侧栏圆形图标触发按钮；通过 `trigger` 可自定义触发元素
+ * （例如支持抽屉里的「提交反馈」按钮）。
  */
-export function FeedbackDialog() {
+export function FeedbackDialog({ trigger }: { trigger?: React.ReactNode }) {
   const { data: session } = useSession();
   const router = useRouter();
   const projectId =
@@ -83,33 +86,37 @@ export function FeedbackDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              aria-label="意见反馈"
-              className="flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:rotate-[20deg]"
-              style={{
-                borderColor: "var(--ox-border)",
-                color: "var(--ox-text-muted)",
-                background: "var(--ox-bg)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--ox-accent)";
-                e.currentTarget.style.color = "var(--ox-accent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--ox-border)";
-                e.currentTarget.style.color = "var(--ox-text-muted)";
-              }}
-            >
-              <MessageSquare className="h-4 w-4" />
-            </button>
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent side="right">意见反馈</TooltipContent>
-      </Tooltip>
+      {trigger ? (
+        <DialogTrigger asChild>{trigger}</DialogTrigger>
+      ) : (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <button
+                type="button"
+                aria-label="意见反馈"
+                className="flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:rotate-[20deg]"
+                style={{
+                  borderColor: "var(--ox-border)",
+                  color: "var(--ox-text-muted)",
+                  background: "var(--ox-bg)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--ox-accent)";
+                  e.currentTarget.style.color = "var(--ox-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "var(--ox-border)";
+                  e.currentTarget.style.color = "var(--ox-text-muted)";
+                }}
+              >
+                <MessageSquare className="h-4 w-4" />
+              </button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="right">意见反馈</TooltipContent>
+        </Tooltip>
+      )}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>意见反馈</DialogTitle>

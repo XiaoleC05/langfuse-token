@@ -3,6 +3,7 @@ import { CodeView } from "@/src/components/ui/CodeJsonViewer";
 import { Label } from "@/src/components/ui/label";
 import { getLangfuseEnvCode } from "@/src/features/public-api/hooks/useLangfuseEnvCode";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type ApiKeyScope = "project" | "organization";
 
@@ -56,7 +57,7 @@ export function ApiKeyDetailContent(props: ApiKeyDetailContentProps) {
             <p className="text-muted-foreground text-sm">
               关于如何使用此 API 密钥连接 Langfuse MCP 服务器的详细指南，请参阅{" "}
               <a
-                href="https://langfuse.com/docs/api-and-data-platform/features/mcp-server"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="text-foreground underline"

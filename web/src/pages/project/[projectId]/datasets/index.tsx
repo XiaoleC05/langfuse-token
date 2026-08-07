@@ -5,6 +5,7 @@ import { DatasetActionButton } from "@/src/features/datasets/components/DatasetA
 import { api } from "@/src/utils/api";
 import { DatasetsOnboarding } from "@/src/components/onboarding/DatasetsOnboarding";
 import { useQueryParam, StringParam } from "use-query-params";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Datasets() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function Datasets() {
           help: {
             description:
               "数据集是 Langfuse 中 LLM 应用程序的输入（及预期输出）集合，用于在生产部署前对新版本进行基准测试。详见文档。",
-            href: "https://langfuse.com/docs/evaluation/dataset-runs/datasets",
+            href: OXELIA_DOCS_URL,
           },
         }}
         scrollable
@@ -51,7 +52,7 @@ export default function Datasets() {
         help: {
           description:
             "数据集是 Langfuse 中 LLM 应用程序的输入（及预期输出）集合，用于在生产部署前对新版本进行基准测试。详见文档。",
-          href: "https://langfuse.com/docs/evaluation/dataset-runs/datasets",
+          href: OXELIA_DOCS_URL,
         },
         actionButtonsRight: (
           <DatasetActionButton

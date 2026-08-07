@@ -32,6 +32,7 @@ import {
   shouldHideExportSourceSelector,
 } from "@/src/features/analytics-integrations/exportSource";
 import { type BlobStorageFormControl } from "@/src/features/blobstorage-integration/components/formValues";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Export source selector plus the blocked-save alert for a persisted source
 // that is no longer selectable on this deployment.
@@ -87,7 +88,7 @@ export const ExportSourceField = ({
                     ))}
                     <div className="border-t pt-2">
                       <a
-                        href="https://langfuse.com/docs/integrations/export-sources"
+                        href={OXELIA_DOCS_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-primary inline-flex items-center gap-1 text-xs hover:underline"

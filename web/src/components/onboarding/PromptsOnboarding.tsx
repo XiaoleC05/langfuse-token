@@ -4,6 +4,7 @@ import {
   type ValueProposition,
 } from "@/src/components/ui/splash-screen";
 import { FileText, GitBranch, Zap, BarChart4 } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function PromptsOnboarding({ projectId }: { projectId: string }) {
   const valuePropositions: ValueProposition[] = [
@@ -44,7 +45,7 @@ export function PromptsOnboarding({ projectId }: { projectId: string }) {
       }}
       secondaryAction={{
         label: "了解更多",
-        href: "https://langfuse.com/docs/prompt-management/get-started",
+        href: OXELIA_DOCS_URL,
       }}
     />
   );

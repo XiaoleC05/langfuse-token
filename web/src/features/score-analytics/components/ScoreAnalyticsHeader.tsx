@@ -93,12 +93,12 @@ export function ScoreAnalyticsHeader({
                 欢迎提供反馈意见。
               </p>
               <a
-                href="https://langfuse.com/discussions"
+                href="https://github.com/XiaoleC05/Oxelia51/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 text-sm font-bold hover:underline"
               >
-                在 GitHub Discussions 上分享反馈
+                在 GitHub Issues 上分享反馈
                 <ExternalLink className="h-3 w-3" />
               </a>
             </div>

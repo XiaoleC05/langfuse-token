@@ -3,6 +3,7 @@ import { NewPromptForm } from "@/src/features/prompts/components/NewPromptForm";
 import useProjectIdFromURL from "@/src/hooks/useProjectIdFromURL";
 import { api } from "@/src/utils/api";
 import Page from "@/src/components/layouts/page";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const NewPrompt = () => {
   const projectId = useProjectIdFromURL();
@@ -56,7 +57,7 @@ export const NewPrompt = () => {
         help: {
           description:
             "\u5728 Langfuse \u4e2d\u7ba1\u7406\u548c\u7248\u672c\u5316\u60a8\u7684\u63d0\u793a\u8bcd\u3002\u901a\u8fc7 UI \u548c SDK \u7f16\u8f91\u548c\u66f4\u65b0\u5b83\u4eec\u3002\u901a\u8fc7 SDK \u83b7\u53d6\u751f\u4ea7\u7248\u672c\u3002\u5728\u6587\u6863\u4e2d\u4e86\u89e3\u66f4\u591a\u3002",
-          href: "https://langfuse.com/docs/prompts",
+          href: OXELIA_DOCS_URL,
         },
         breadcrumb: breadcrumb,
       }}

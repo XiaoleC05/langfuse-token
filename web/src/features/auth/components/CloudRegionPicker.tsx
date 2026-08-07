@@ -14,6 +14,7 @@ import {
   SelectTrigger,
 } from "@/src/components/ui/select";
 import type { CloudRegion } from "@/src/features/organizations/cloudRegions";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function CloudRegionPicker({
   regions,
@@ -145,7 +146,7 @@ const DataRegionInfo = () => (
             </a>{" "}
             以及{" "}
             <a
-              href="https://langfuse.com/docs/data-security-privacy"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-link hover:text-link-hover underline"

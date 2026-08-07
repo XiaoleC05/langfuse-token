@@ -113,6 +113,7 @@ import {
 import { CodeEvalTestRunCard } from "@/src/features/evals/components/code-eval-test-run-card";
 import { getExperimentEvalPreviewFilters } from "@/src/features/evals/utils/experiment-eval-preview-utils";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Lazy load tables
 const TracesTable = lazy(
@@ -219,7 +220,7 @@ const ObservationsPreview = memo(
                     观测级评估器需要 JS SDK v4+ 或 Python SDK v3+。
                     您现在仍可以配置此评估器——升级后它将开始运行。{" "}
                     <a
-                      href="https://langfuse.com/docs/observability/sdk/upgrade-path"
+                      href={OXELIA_DOCS_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-dark-blue font-bold hover:opacity-80"
@@ -1086,7 +1087,7 @@ export const InnerEvaluatorForm = (props: {
                           <p className="text-muted-foreground text-xs">
                             此评估器仍可用于对历史观测进行批量评估。{" "}
                             <a
-                              href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                              href={OXELIA_DOCS_URL}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-dark-blue hover:opacity-80"

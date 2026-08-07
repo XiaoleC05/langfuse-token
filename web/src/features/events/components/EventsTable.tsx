@@ -141,6 +141,7 @@ import {
   useObservedMetadataPaths,
   useObservedMetadataRecorder,
 } from "@/src/features/search-bar/hooks/useObservedMetadata";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type EventsTableRow = {
   // Identity fields
@@ -1205,7 +1206,7 @@ export default function ObservationsEventsTable({
       ),
       headerTooltip: {
         description: "为追踪添加元数据以记录附加信息。",
-        href: "https://langfuse.com/docs/observability/features/metadata",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const value: string | undefined = row.getValue("metadata");
@@ -1236,7 +1237,7 @@ export default function ObservationsEventsTable({
       headerTooltip: {
         description:
           "你可以通过 level 属性区分观测的重要程度,以控制追踪的详细程度并突出错误和警告。",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       cell: ({ row }) => {
@@ -1263,7 +1264,7 @@ export default function ObservationsEventsTable({
       headerTooltip: {
         description:
           "可使用 statusMessage 为状态(如 level=ERROR)提供附加信息。",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       defaultHidden: true,
@@ -1538,7 +1539,7 @@ export default function ObservationsEventsTable({
       header: getEventsColumnName("promptName"),
       headerTooltip: {
         description: "链接到 Langfuse 提示词管理中的提示词版本。",
-        href: "https://langfuse.com/docs/prompt-management/get-started",
+        href: OXELIA_DOCS_URL,
       },
       size: 200,
       enableHiding: true,
@@ -1649,7 +1650,7 @@ export default function ObservationsEventsTable({
       size: 100,
       headerTooltip: {
         description: "通过版本标签追踪变更。",
-        href: "https://langfuse.com/docs/experimentation",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       enableSorting,

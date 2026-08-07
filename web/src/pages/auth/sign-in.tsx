@@ -765,7 +765,7 @@ export default function SignIn({
           <div className="bg-card mt-4 -mb-4 rounded-lg p-3 text-center text-sm sm:mx-auto sm:w-full sm:max-w-[480px] sm:rounded-lg sm:px-6">
             如果您在登录时遇到问题，请强制刷新此页面（CMD + SHIFT + R）或清除浏览器缓存。{" "}
             <a
-              href="mailto:support@langfuse.com"
+              href="mailto:receive@oxelia51.com"
               className="text-link hover:text-link-hover cursor-pointer text-xs font-bold whitespace-nowrap"
             >
               （联系我们）

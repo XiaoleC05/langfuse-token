@@ -38,6 +38,7 @@ import { SettingsTableCard } from "@/src/components/layouts/settings-table-card"
 import useSessionStorage from "@/src/components/useSessionStorage";
 import { useQueryParam, withDefault, StringParam } from "use-query-params";
 import { useEffect } from "react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type MembersTableRow = {
   user: {
@@ -199,7 +200,7 @@ export function MembersTable({
       headerTooltip: {
         description:
           "组织角色是该用户在此组织中的默认角色，适用于该组织及其所有项目。",
-        href: "https://langfuse.com/docs/administration/rbac",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const orgRole = row.getValue("orgRole") as MembersTableRow["orgRole"];
@@ -261,7 +262,7 @@ export function MembersTable({
             headerTooltip: {
               description:
                 "该用户在此项目中的角色。此角色会覆盖默认项目角色。",
-              href: "https://langfuse.com/docs/administration/rbac",
+              href: OXELIA_DOCS_URL,
             },
             cell: ({ row }) => {
               const projectRole = row.getValue(

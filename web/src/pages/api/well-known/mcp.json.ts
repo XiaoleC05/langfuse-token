@@ -13,9 +13,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
     title: "Langfuse",
     description: "Use Langfuse over MCP.",
-    websiteUrl: "https://langfuse.com",
+    websiteUrl: baseUrl,
     repository: {
-      url: "https://github.com/langfuse/langfuse",
+      url: "https://github.com/XiaoleC05/langfuse-token",
       source: "github",
     },
     remotes: [

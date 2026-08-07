@@ -39,6 +39,7 @@ import { RemoteExperimentTriggerModal } from "@/src/features/experiments/compone
 import { useExperimentAccess } from "@/src/features/experiments/hooks/useExperimentAccess";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const CreateExperimentsForm = ({
   projectId,
@@ -156,7 +157,7 @@ export const CreateExperimentsForm = ({
           <DialogDescription>
             实验允许您在数据集上测试应用或提示词的迭代版本。了解更多关于实验的信息{" "}
             <Link
-              href="https://langfuse.com/docs/evaluation/dataset-runs/datasets"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               className="underline"
             >
@@ -203,7 +204,7 @@ export const CreateExperimentsForm = ({
                     capture("dataset_run:view_prompt_experiment_docs")
                   }
                 >
-                  <Link href="https://langfuse.com/docs/evaluation/dataset-runs/native-run">
+                  <Link href={OXELIA_DOCS_URL}>
                     查看文档
                   </Link>
                 </Button>
@@ -345,7 +346,7 @@ export const CreateExperimentsForm = ({
                   }
                 >
                   <Link
-                    href="https://langfuse.com/docs/evaluation/dataset-runs/remote-run"
+                    href={OXELIA_DOCS_URL}
                     target="_blank"
                   >
                     查看文档

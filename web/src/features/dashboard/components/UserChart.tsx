@@ -14,6 +14,7 @@ import { traceViewQuery } from "@/src/features/dashboard/lib/dashboard-utils";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
 import { useFitRowCount } from "@/src/features/dashboard/hooks/useFitRowCount";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Target height of one bar row (bar + spacing) and the x-axis strip; matches
 // TracesBarListChart so bars are the same thickness across the two cards.
@@ -241,7 +242,7 @@ export const UserChart = ({
                   <NoDataOrLoading
                     isLoading={isLoading || user.isPending}
                     description="每个用户的用量通过在追踪中传递其 ID 来跟踪。"
-                    href="https://langfuse.com/docs/observability/features/users"
+                    href={OXELIA_DOCS_URL}
                     className="h-auto grow"
                   />
                 )}

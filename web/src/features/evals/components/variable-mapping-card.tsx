@@ -60,6 +60,7 @@ import {
   getEvalPreviewDetailPageListKey,
   getEvalPreviewPointerFromDetailPageEntry,
 } from "@/src/features/evals/hooks/useEvalPreviewNavigation";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const VariableMappingCard = ({
   projectId,
@@ -332,7 +333,7 @@ export const VariableMappingCard = ({
                             {"}}"}
                             <DocPopup
                               description="模板中的变量，将被映射数据替换。"
-                              href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                              href={OXELIA_DOCS_URL}
                             />
                           </div>
                           <FormField
@@ -344,7 +345,7 @@ export const VariableMappingCard = ({
                                 <VariableMappingDescription
                                   title="对象"
                                   description="用于获取数据的 Langfuse 对象。"
-                                  href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                  href={OXELIA_DOCS_URL}
                                 />
                                 <FormItem className="w-2/3">
                                   <FormControl>
@@ -405,7 +406,7 @@ export const VariableMappingCard = ({
                                     <VariableMappingDescription
                                       title="对象名称"
                                       description="用于获取数据的 Langfuse 对象的名称。"
-                                      href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                      href={OXELIA_DOCS_URL}
                                     />
                                     <FormItem className="w-2/3">
                                       <FormControl>
@@ -501,7 +502,7 @@ export const VariableMappingCard = ({
                                 <VariableMappingDescription
                                   title="对象字段"
                                   description="要插入模板的 Langfuse 对象字段。"
-                                  href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                  href={OXELIA_DOCS_URL}
                                 />
                                 <FormItem className="w-2/3">
                                   <FormControl>
@@ -565,7 +566,7 @@ export const VariableMappingCard = ({
                                   <VariableMappingDescription
                                     title="JsonPath"
                                     description="可选：使用 JsonPath 语法从存储在追踪上的 JSON 对象中选择。如果未选择，我们将把整个对象传入提示词。"
-                                    href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                    href={OXELIA_DOCS_URL}
                                   />
                                   <FormItem className="w-2/3">
                                     <FormControl>
@@ -598,7 +599,7 @@ export const VariableMappingCard = ({
                             {"}}"}
                             <DocPopup
                               description="模板中的变量，将被映射数据替换。"
-                              href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                              href={OXELIA_DOCS_URL}
                             />
                           </div>
                           {hideAdvancedSettings && (
@@ -606,7 +607,7 @@ export const VariableMappingCard = ({
                               <VariableMappingDescription
                                 title="对象"
                                 description="用于获取数据的对象类型。"
-                                href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                href={OXELIA_DOCS_URL}
                               />
                               <div className="w-2/3">
                                 <Input
@@ -637,7 +638,7 @@ export const VariableMappingCard = ({
                                   <VariableMappingDescription
                                     title="对象字段"
                                     description="要插入模板的观测字段。"
-                                    href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                    href={OXELIA_DOCS_URL}
                                   />
                                   <FormItem className="w-2/3">
                                     <FormControl>
@@ -679,7 +680,7 @@ export const VariableMappingCard = ({
                                   <VariableMappingDescription
                                     title="JsonPath"
                                     description="可选：使用 JsonPath 语法从 JSON 对象中选择。如果未选择，我们将把整个对象传入提示词。"
-                                    href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge"
+                                    href={OXELIA_DOCS_URL}
                                   />
                                   <FormItem className="w-2/3">
                                     <FormControl>

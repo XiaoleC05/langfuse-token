@@ -9,6 +9,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { useSupportDrawer } from "@/src/features/support-chat/SupportDrawerProvider";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 import { Button } from "@/src/components/ui/button";
 import { RainbowButton } from "@/src/components/magicui/rainbow-button";
 import { Separator } from "@/src/components/ui/separator";
@@ -37,20 +38,14 @@ import { useProject } from "@/src/features/projects/hooks";
 // Single source of truth for the v4-migration copy and content. Both surfaces
 // (side panel and modal) render these components — edit copy here only.
 
-const V4_DOCS_URL = "https://langfuse.com/docs/v4";
-const SDK_UPGRADE_URL =
-  "https://langfuse.com/docs/observability/sdk/upgrade-path";
-const OTEL_V4_MIGRATION_URL =
-  "https://langfuse.com/integrations/native/opentelemetry/migration-to-v4";
-const DEPRECATED_API_MIGRATION_URL =
-  "https://langfuse.com/faq/all/deprecated-api-migration";
+const V4_DOCS_URL = OXELIA_DOCS_URL;
+const SDK_UPGRADE_URL = OXELIA_DOCS_URL;
+const OTEL_V4_MIGRATION_URL = OXELIA_DOCS_URL;
+const DEPRECATED_API_MIGRATION_URL = OXELIA_DOCS_URL;
 const DEPRECATED_INTEGRATION_MIGRATION_URLS: Record<string, string> = {
-  PostHog:
-    "https://langfuse.com/integrations/analytics/posthog#migrate-export-source",
-  Mixpanel:
-    "https://langfuse.com/integrations/analytics/mixpanel#migrate-export-source",
-  "Blob Storage":
-    "https://langfuse.com/docs/api-and-data-platform/features/export-to-blob-storage#upgrade-path",
+  PostHog: OXELIA_DOCS_URL,
+  Mixpanel: OXELIA_DOCS_URL,
+  "Blob Storage": OXELIA_DOCS_URL,
 };
 
 const CODING_AGENT_PROMPT = `Migrate this project's Langfuse setup to v4:
@@ -555,9 +550,7 @@ export function V4MigrationDetailsContent({
         <div className="flex items-center gap-2">
           <Button variant="outline" asChild className="min-w-0 flex-1">
             <a
-              href="https://cal.com/team/langfuse/welcome-to-langfuse"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:receive@oxelia51.com"
               onClick={() => capture("v4_migration:contact_book_call_clicked")}
             >
               <span className="min-w-0 truncate" title="预约通话">

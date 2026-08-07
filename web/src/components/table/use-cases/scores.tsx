@@ -68,6 +68,7 @@ import {
   scoreLevelFromScore,
   type ScoreLevel,
 } from "@/src/components/score-tag";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type ScoresTableRow = {
   id: string;
@@ -598,7 +599,7 @@ export default function ScoresTable({
       id: "userId",
       headerTooltip: {
         description: "The user ID associated with the trace.",
-        href: "https://langfuse.com/docs/observability/features/users",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       enableSorting: true,
@@ -693,7 +694,7 @@ export default function ScoresTable({
       headerTooltip: {
         description: "Add metadata to scores to track additional information.",
         // TODO: docs for metadata on scores
-        href: "https://langfuse.com/docs/observability/features/metadata",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const scoreId: ScoresTableRow["id"] = row.getValue("id");
@@ -756,7 +757,7 @@ export default function ScoresTable({
       id: "jobConfigurationId",
       headerTooltip: {
         description: "The Job Configuration ID associated with the trace.",
-        href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       enableSorting: false,
@@ -1028,7 +1029,7 @@ export default function ScoresTable({
                 <div className="flex flex-col items-center">
                   <span>No scores found.</span>
                   <a
-                    href="https://langfuse.com/faq/all/what-are-scores"
+                    href={OXELIA_DOCS_URL}
                     className="text-primary pointer-events-auto italic underline"
                     target="_blank"
                     rel="noopener noreferrer"

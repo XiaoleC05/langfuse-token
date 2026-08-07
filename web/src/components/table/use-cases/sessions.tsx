@@ -65,6 +65,7 @@ import { TableSelectionManager } from "@/src/features/table/components/TableSele
 import { useScoreColumns } from "@/src/features/scores/hooks/useScoreColumns";
 import { scoreFilters } from "@/src/features/scores/lib/scoreColumns";
 import { BatchExportTableButton } from "@/src/components/BatchExportTableButton";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type SessionTableRow = {
   id: string;
@@ -948,7 +949,7 @@ export default function SessionsTable({
               help={{
                 description:
                   "A session is a collection of related traces, such as a conversation or thread. To begin, add a sessionId to the trace.",
-                href: "https://langfuse.com/docs/observability/features/sessions",
+                href: OXELIA_DOCS_URL,
               }}
               rowHeight={rowHeight}
             />

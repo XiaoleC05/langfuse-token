@@ -12,6 +12,7 @@ import PromptMetrics from "./metrics";
 import { useQueryParams, StringParam } from "use-query-params";
 import React from "react";
 import { AutomationButton } from "@/src/features/automations/components/AutomationButton";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function PromptsWithFolder() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function PromptsWithFolder() {
         help: {
           description:
             "在 Langfuse 中管理和版本化您的提示词。通过 UI 和 SDK 编辑和更新它们。通过 SDK 获取生产版本。在文档中了解更多。",
-          href: "https://langfuse.com/docs/prompt-management/get-started",
+          href: OXELIA_DOCS_URL,
         },
         actionButtonsRight: (
           <>

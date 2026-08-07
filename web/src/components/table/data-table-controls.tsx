@@ -80,6 +80,7 @@ import {
 import { DataTableAIFilters } from "@/src/components/table/data-table-ai-filters";
 import { type FilterState } from "@langfuse/shared";
 import { useLangfuseCloudRegion } from "@/src/features/organizations/hooks";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface ControlsContextType {
   open: boolean;
@@ -1605,7 +1606,7 @@ function CategoricalSelectContent({
             <span>
               会话将{tableName}分组在一起，便于追踪多步骤工作流。{" "}
               <a
-                href="https://langfuse.com/docs/observability/features/sessions"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"
@@ -1620,7 +1621,7 @@ function CategoricalSelectContent({
             <span>
               标签让你可以按自定义类别(如功能开关)筛选{tableName}。{" "}
               <a
-                href="https://langfuse.com/docs/observability/features/tags"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"
@@ -1709,7 +1710,7 @@ function CategoricalSelectContent({
           visibleOptionValues[0]?.toLowerCase() === "default" ? (
             <div className="text-muted-foreground mt-2 px-2 text-xs">
               <a
-                href="https://langfuse.com/docs/observability/features/environments"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground underline"

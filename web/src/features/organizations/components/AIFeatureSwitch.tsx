@@ -20,6 +20,7 @@ import {
 import { Card } from "@/src/components/ui/card";
 import { LockIcon, ExternalLink } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function AIFeatureSwitch() {
   const { update: updateSession } = useSession();
@@ -131,7 +132,7 @@ export default function AIFeatureSwitch() {
               Langfuse Cloud。您的数据不会被用于训练模型。相关的 HIPAA、SOC2、
               GDPR 和 ISO 27001 合规要求不受影响。{" "}
               <a
-                href="https://langfuse.com/security/ai-features"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 hover:underline"
@@ -203,7 +204,7 @@ export default function AIFeatureSwitch() {
               <br />
               <br />{" "}
               <a
-                href="https://langfuse.com/security/ai-features"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary inline-flex items-center gap-1 hover:underline"

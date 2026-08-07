@@ -1,6 +1,7 @@
 import { CardContent } from "@/src/components/ui/card";
 import { Card } from "@/src/components/ui/card";
 import { ManageDefaultEvalModel } from "@/src/features/evals/components/manage-default-eval-model";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function SetupDefaultEvalModelCard({
   projectId,
@@ -17,7 +18,7 @@ export function SetupDefaultEvalModelCard({
               未设置默认模型。自动评估需要模型连接来进行评分。
               此默认模型将用于所有未指定自身模型的模板。{" "}
               <a
-                href="https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge#how-llm-as-a-judge-works"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline"

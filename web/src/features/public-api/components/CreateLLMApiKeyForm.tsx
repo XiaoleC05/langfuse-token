@@ -45,6 +45,7 @@ import {
   BedrockAuthMethodSchema,
   type BedrockAuthMethod,
 } from "@/src/features/llm-api-key/types";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const isLangfuseCloud = Boolean(env.NEXT_PUBLIC_LANGFUSE_CLOUD_REGION);
 
@@ -739,7 +740,7 @@ export function CreateLLMApiKeyForm({
               </p>
               <p>
                 <a
-                  href="https://langfuse.com/docs/administration/llm-connection#supported-providers"
+                  href={OXELIA_DOCS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline hover:text-blue-800"

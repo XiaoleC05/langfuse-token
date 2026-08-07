@@ -11,6 +11,7 @@ import {
   EVALS_TABS,
 } from "@/src/features/navigation/utils/evals-tabs";
 import { ManageDefaultEvalModel } from "@/src/features/evals/components/manage-default-eval-model";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function TemplatesPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function TemplatesPage() {
         title: "评估器",
         help: {
           description: "查看所有 langfuse 管理的和自定义的评估器。",
-          href: "https://langfuse.com/docs/evaluation/evaluation-methods/llm-as-a-judge",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps: {
           tabs: getEvalsTabs(projectId),

@@ -11,6 +11,7 @@ import { useV4Beta } from "@/src/features/events/hooks/useV4Beta";
 import ObservationsEventsTable from "@/src/features/events/components/EventsTable";
 import { useQueryProject } from "@/src/features/projects/hooks";
 import { V4MigrationDelayBadge } from "@/src/features/v4-migration/V4MigrationDelayBadge";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Traces() {
   const router = useRouter();
@@ -45,8 +46,8 @@ export default function Traces() {
           title: "追踪",
           help: {
             description:
-              "追踪代表一次函数/API 调用。追踪包含观测。详见 [文档](https://langfuse.com/docs/observability/data-model) 了解更多。",
-            href: "https://langfuse.com/docs/observability/data-model",
+              `追踪代表一次函数/API 调用。追踪包含观测。详见 [文档](${OXELIA_DOCS_URL}) 了解更多。`,
+            href: OXELIA_DOCS_URL,
           },
         }}
         scrollable
@@ -66,7 +67,7 @@ export default function Traces() {
             <>
               追踪代表一次函数/API 调用。追踪包含观测。详见{" "}
               <a
-                href="https://langfuse.com/docs/observability/data-model"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="decoration-primary/30 hover:decoration-primary underline"
@@ -77,7 +78,7 @@ export default function Traces() {
               了解更多。
             </>
           ),
-          href: "https://langfuse.com/docs/observability/data-model",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps:
           isBetaEnabled || isInitializing

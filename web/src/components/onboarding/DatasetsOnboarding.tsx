@@ -5,6 +5,7 @@ import {
 } from "@/src/components/ui/splash-screen";
 import { Database, Beaker, Zap, Code } from "lucide-react";
 import { DatasetActionButton } from "@/src/features/datasets/components/DatasetActionButton";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function DatasetsOnboarding({ projectId }: { projectId: string }) {
   const valuePropositions: ValueProposition[] = [
@@ -51,9 +52,8 @@ export function DatasetsOnboarding({ projectId }: { projectId: string }) {
       }}
       secondaryAction={{
         label: "了解更多",
-        href: "https://langfuse.com/docs/datasets",
+        href: OXELIA_DOCS_URL,
       }}
-      videoSrc="https://static.langfuse.com/prod-assets/onboarding/datasets-overview-v1.mp4"
     />
   );
 }

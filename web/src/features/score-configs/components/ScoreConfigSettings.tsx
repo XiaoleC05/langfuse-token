@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/src/components/layouts/header";
 import { useHasProjectAccess } from "@/src/features/rbac/utils/checkProjectAccess";
 import { ScoreConfigsTable } from "@/src/components/table/use-cases/score-configs";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function ScoreConfigSettings({ projectId }: { projectId: string }) {
   const hasReadAccess = useHasProjectAccess({
@@ -17,7 +18,7 @@ export function ScoreConfigSettings({ projectId }: { projectId: string }) {
       <p className="mb-2 text-sm">
         评分配置定义了项目中可用于{" "}
         <a
-          href="https://langfuse.com/docs/evaluation/evaluation-methods/annotation"
+          href={OXELIA_DOCS_URL}
           className="underline"
           target="_blank"
           rel="noopener noreferrer"

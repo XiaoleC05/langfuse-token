@@ -49,6 +49,7 @@ import usePlaygroundCache from "@/src/features/playground/page/hooks/usePlaygrou
 import { useQueryParam } from "use-query-params";
 import { usePromptNameValidation } from "@/src/features/prompts/hooks/usePromptNameValidation";
 import { useFormPersistence } from "@/src/hooks/useFormPersistence";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type NewPromptFormProps = {
   initialPrompt?: Prompt | null;
@@ -245,7 +246,7 @@ export const NewPromptForm: React.FC<NewPromptFormProps> = (props) => {
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href="https://langfuse.com/docs/prompt-management/get-started#prompt-folders-for-organization"
+                        href={OXELIA_DOCS_URL}
                       >
                         <i>文件夹</i>
                       </a>

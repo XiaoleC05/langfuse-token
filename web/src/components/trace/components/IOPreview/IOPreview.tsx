@@ -14,6 +14,7 @@ import { type ChatMLParserResult } from "./hooks/useChatMLParser";
 import { Button } from "@/src/components/ui/button";
 import { ActionButton } from "@/src/components/ActionButton";
 import { BookOpen, X } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type { ViewMode };
 export type IOPreviewContentMode = "all" | "conversation";
@@ -332,7 +333,7 @@ export function IOPreview({
             <ActionButton
               variant="outline"
               size="sm"
-              href="https://langfuse.com/faq/all/empty-trace-input-and-output"
+              href={OXELIA_DOCS_URL}
               trackingEventName="notification:click_link"
               trackingProps={{ notification_id: EMPTY_IO_ALERT_ID }}
             >

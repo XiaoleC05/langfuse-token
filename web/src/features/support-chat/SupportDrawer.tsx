@@ -1,18 +1,13 @@
 import { useSupportDrawer } from "@/src/features/support-chat/SupportDrawerProvider";
-import { useState } from "react";
 import { Button } from "@/src/components/ui/button";
-import { X, Slash } from "lucide-react";
+import { X } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/src/components/ui/breadcrumb";
 import { IntroSection } from "@/src/features/support-chat/IntroSection";
-import { SuccessSection } from "@/src/features/support-chat/SuccessSection";
-import { SupportFormSection } from "@/src/features/support-chat/SupportFormSection";
 import { cn } from "@/src/utils/tailwind";
 
 export const SupportDrawer = (props: {
@@ -28,6 +23,10 @@ export const SupportDrawer = (props: {
   return <SupportDrawerContent key={openEpoch} {...props} />;
 };
 
+// oxelia51 fork: the drawer only renders the intro section. The upstream
+// "form"/"success" modes (Pylon-backed support form, Langfuse Cloud only)
+// were removed; the provider API is unchanged so external open calls keep
+// working and always land on the intro section.
 const SupportDrawerContent = ({
   showCloseButton = true,
   className,
@@ -35,10 +34,7 @@ const SupportDrawerContent = ({
   showCloseButton?: boolean;
   className?: string;
 }) => {
-  const { setOpen, initialMode } = useSupportDrawer();
-  const [currentMode, setCurrentMode] = useState<"intro" | "form" | "success">(
-    initialMode,
-  );
+  const { setOpen } = useSupportDrawer();
   const close = () => setOpen(false);
 
   return (
@@ -52,31 +48,9 @@ const SupportDrawerContent = ({
         <div className="flex min-h-11 w-full items-center justify-between gap-1 px-4 py-1">
           <Breadcrumb>
             <BreadcrumbList>
-              {currentMode === "intro" ? (
-                <BreadcrumbItem>
-                  <BreadcrumbPage>支持</BreadcrumbPage>
-                </BreadcrumbItem>
-              ) : (
-                <>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink asChild>
-                      <button
-                        type="button"
-                        onClick={() => setCurrentMode("intro")}
-                        className="text-foreground"
-                      >
-                        支持
-                      </button>
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>邮件联系工程师</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </>
-              )}
+              <BreadcrumbItem>
+                <BreadcrumbPage>支持</BreadcrumbPage>
+              </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
           {showCloseButton && (
@@ -95,18 +69,7 @@ const SupportDrawerContent = ({
         <div className="px-2 py-1">
           <div className="bg-background h-full">
             <div className="p-2">
-              {currentMode === "intro" && (
-                <IntroSection onStartForm={() => setCurrentMode("form")} />
-              )}
-              {currentMode === "form" && (
-                <SupportFormSection
-                  onSuccess={() => setCurrentMode("success")}
-                  onCancel={() => setCurrentMode("intro")}
-                />
-              )}
-              {currentMode === "success" && (
-                <SuccessSection onAnother={() => setCurrentMode("form")} />
-              )}
+              <IntroSection />
             </div>
           </div>
         </div>

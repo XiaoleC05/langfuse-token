@@ -13,11 +13,12 @@ import { Check, Copy, LockIcon, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const SKILLS_INSTALL_COMMAND =
   "从 github.com/langfuse/skills 安装 Langfuse 技能，并使用它按照最佳实践为此应用添加 Langfuse 追踪。";
 const MANUAL_TRACING_DOCS_URL =
-  "https://langfuse.com/docs/observability/get-started";
+  OXELIA_DOCS_URL;
 
 function CopyableSnippet({
   value,
@@ -95,7 +96,6 @@ export function TracesSetupOnboardingCard({
       waitingFor="等待第一条追踪"
       title="是时候记录第一条追踪了，只需一分钟"
       description="先获取 API 密钥，然后让编程代理为你的应用添加 Langfuse 可观测性。"
-      videoSrc="https://static.langfuse.com/prod-assets/onboarding/traces-overview-v1.mp4"
       videoPosition="bottom"
       steps={[
         {

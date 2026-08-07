@@ -105,6 +105,7 @@ import {
   useObservationsTableStore,
 } from "@/src/features/tracing-tables/observations/ObservationsTableStoreProvider";
 import { useObservationsTableView } from "@/src/features/tracing-tables/observations/useObservationsTableView";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type ObservationsTableRow = {
   // Shown by default
@@ -782,7 +783,7 @@ export default function ObservationsTable({
       headerTooltip: {
         description:
           "You can differentiate the importance of observations with the level attribute to control the verbosity of your traces and highlight errors and warnings.",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       cell({ row }) {
@@ -809,7 +810,7 @@ export default function ObservationsTable({
       headerTooltip: {
         description:
           "Use a statusMessage to e.g. provide additional information on a status such as level=ERROR.",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       defaultHidden: true,
@@ -956,7 +957,7 @@ export default function ObservationsTable({
       header: "Prompt",
       headerTooltip: {
         description: "Link to prompt version in Langfuse prompt management.",
-        href: "https://langfuse.com/docs/prompt-management/get-started",
+        href: OXELIA_DOCS_URL,
       },
       size: 200,
       enableHiding: true,
@@ -1026,7 +1027,7 @@ export default function ObservationsTable({
       ),
       headerTooltip: {
         description: "Add metadata to traces to track additional information.",
-        href: "https://langfuse.com/docs/observability/features/metadata",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const observationId: string = row.getValue("id");
@@ -1124,7 +1125,7 @@ export default function ObservationsTable({
       size: 100,
       headerTooltip: {
         description: "Track changes via the version tag.",
-        href: "https://langfuse.com/docs/experimentation",
+        href: OXELIA_DOCS_URL,
       },
       enableHiding: true,
       enableSorting,

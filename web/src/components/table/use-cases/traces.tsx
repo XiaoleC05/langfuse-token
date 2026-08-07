@@ -103,6 +103,7 @@ import { usePeekTableState } from "@/src/components/table/peek/contexts/PeekTabl
 import { useScoreColumns } from "@/src/features/scores/hooks/useScoreColumns";
 import { scoreFilters } from "@/src/features/scores/lib/scoreColumns";
 import TagList from "@/src/features/tag/components/TagList";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export type TracesTableRow = {
   // Shown by default
@@ -881,7 +882,7 @@ export default function TracesTable({
           <>
             使用标签对追踪进行分组。详细了解如何实现标签{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/tags"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -892,7 +893,7 @@ export default function TracesTable({
             .
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/tags",
+        href: OXELIA_DOCS_URL,
       },
       loadingCell: <TableTextLoadingCell />,
       cell: ({ row }) => {
@@ -929,7 +930,7 @@ export default function TracesTable({
           <>
             向追踪添加元数据以跟踪附加信息。详细了解如何添加元数据{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/metadata"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -940,7 +941,7 @@ export default function TracesTable({
             .
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/metadata",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const traceId: TracesTableRow["id"] = row.getValue("id");
@@ -985,7 +986,7 @@ export default function TracesTable({
             将追踪分组到会话中，以跟踪更长的对话/工作流。
             详细了解会话{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/sessions"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -996,7 +997,7 @@ export default function TracesTable({
             .
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/sessions",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const value: TracesTableRow["sessionId"] = row.getValue("sessionId");
@@ -1019,7 +1020,7 @@ export default function TracesTable({
             向追踪添加<code>userId</code>以跟踪用户。详细了解
             用户跟踪{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/users"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -1030,7 +1031,7 @@ export default function TracesTable({
             。
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/users",
+        href: OXELIA_DOCS_URL,
       },
       cell: ({ row }) => {
         const value: TracesTableRow["userId"] = row.getValue("userId");
@@ -1097,7 +1098,7 @@ export default function TracesTable({
           <>
             通过版本标签跟踪变更。详细了解版本{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/releases-and-versioning"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -1108,7 +1109,7 @@ export default function TracesTable({
             。
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
+        href: OXELIA_DOCS_URL,
       },
       defaultHidden: true,
       enableHiding: true,
@@ -1125,7 +1126,7 @@ export default function TracesTable({
             通过发布标签跟踪应用的变更。详细了解
             发布标签{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/releases-and-versioning"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="decoration-primary/30 hover:decoration-primary underline"
@@ -1136,7 +1137,7 @@ export default function TracesTable({
             。
           </>
         ),
-        href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
+        href: OXELIA_DOCS_URL,
       },
       defaultHidden: true,
       enableHiding: true,

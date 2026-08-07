@@ -4,6 +4,7 @@ import {
   type ValueProposition,
 } from "@/src/components/ui/splash-screen";
 import { ThumbsUp, Star, LineChart, Code } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function ScoresOnboarding() {
   const valuePropositions: ValueProposition[] = [
@@ -40,9 +41,8 @@ export function ScoresOnboarding() {
       valuePropositions={valuePropositions}
       secondaryAction={{
         label: "了解更多",
-        href: "https://langfuse.com/docs/evaluation/evaluation-methods/custom-scores",
+        href: OXELIA_DOCS_URL,
       }}
-      videoSrc="https://static.langfuse.com/prod-assets/onboarding/scores-overview-v1.mp4"
     />
   );
 }

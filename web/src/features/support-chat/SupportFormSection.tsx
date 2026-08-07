@@ -251,7 +251,7 @@ export function SupportFormSection({
         if (data.pylonIssueFailed) {
           showErrorToast(
             "支持请求未发送",
-            "请联系 support@langfuse.com",
+            "请联系 receive@oxelia51.com",
           );
           return;
         }

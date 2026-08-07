@@ -67,6 +67,7 @@ import {
 } from "@/src/components/ui/PromptReferences";
 import { PromptVariableListPreview } from "@/src/features/prompts/components/PromptVariableListPreview";
 import { createBreadcrumbItems } from "@/src/features/folders/utils";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const getPythonCode = (
   name: string,
@@ -285,7 +286,7 @@ export const PromptDetail = ({
         help: {
           description:
             "您可以通过 Langfuse SDK 和集成在应用程序中使用此提示词。更多信息请参阅文档。",
-          href: "https://langfuse.com/docs/prompts",
+          href: OXELIA_DOCS_URL,
         },
         breadcrumb: [
           {
@@ -595,7 +596,7 @@ export const PromptDetail = ({
                 <p className="text-muted-foreground pl-1 text-xs">
                   有关如何在 Langchain 等框架中使用提示词的更多详情，请参阅{" "}
                   <a
-                    href="https://langfuse.com/docs/prompts"
+                    href={OXELIA_DOCS_URL}
                     className="underline"
                     target="_blank"
                     rel="noopener noreferrer"

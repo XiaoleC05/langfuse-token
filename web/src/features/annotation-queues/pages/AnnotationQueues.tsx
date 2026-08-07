@@ -6,6 +6,7 @@ import Page from "@/src/components/layouts/page";
 import { AnnotationQueuesOnboarding } from "@/src/components/onboarding/AnnotationQueuesOnboarding";
 import { api } from "@/src/utils/api";
 import { CreateOrEditAnnotationQueueButton } from "@/src/features/annotation-queues/components/CreateOrEditAnnotationQueueButton";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function AnnotationQueues() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export default function AnnotationQueues() {
         help: {
           description:
             "标注队列用于管理项目的评分工作流。详见文档了解更多。",
-          href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation-queues",
+          href: OXELIA_DOCS_URL,
         },
         actionButtonsRight: (
           <CreateOrEditAnnotationQueueButton

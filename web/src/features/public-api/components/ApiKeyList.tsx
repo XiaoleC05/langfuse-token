@@ -23,6 +23,7 @@ import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
 import startCase from "lodash/startCase";
 import { useLangfuseEnvCode } from "@/src/features/public-api/hooks/useLangfuseEnvCode";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type ApiKeyScope = "project" | "organization";
 type ApiKeyEntity = { id: string; note: string | null };
@@ -89,10 +90,7 @@ export function ApiKeyList(props: { entityId: string; scope: ApiKeyScope }) {
         title={scope === "project" ? "项目 API 密钥" : "组织 API 密钥"}
         help={{
           description: `了解更多关于${scope === "project" ? "项目" : "组织"} API 密钥的信息`,
-          href:
-            scope === "project"
-              ? "https://langfuse.com/docs/api#authentication"
-              : "https://langfuse.com/docs/api#org-scoped-routes",
+          href: OXELIA_DOCS_URL,
         }}
         actionButtons={<CreateApiKeyButton entityId={entityId} scope={scope} />}
       />

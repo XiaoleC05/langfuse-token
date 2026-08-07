@@ -18,6 +18,7 @@ import { type DatabaseRow } from "@/src/server/api/services/sqlInterface";
 import { Chart } from "@/src/features/widgets/chart-library/Chart";
 import { timeSeriesToDataPoints } from "@/src/features/dashboard/lib/chart-data-adapters";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Static — hoisted so its reference is stable across re-renders (keeps the
 // memoized <Chart> from reconciling on dashboard scheduler re-renders).
@@ -135,7 +136,7 @@ export function ChartScores(props: {
         <NoDataOrLoading
           isLoading={props.isLoading || scores.isPending}
           description="评分用于评估输出质量，可以手动创建或通过 SDK 创建。"
-          href="https://langfuse.com/docs/evaluation/overview"
+          href={OXELIA_DOCS_URL}
           className="h-auto grow"
         />
       )}

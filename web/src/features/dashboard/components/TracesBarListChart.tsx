@@ -12,6 +12,7 @@ import { traceViewQuery } from "@/src/features/dashboard/lib/dashboard-utils";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
 import { useFitRowCount } from "@/src/features/dashboard/hooks/useFitRowCount";
 import { cn } from "@/src/utils/tailwind";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 // Target height of one bar row (bar + spacing) and the x-axis strip below the
 // bars. Used both to decide how many bars fit and to size the expanded chart.
@@ -172,7 +173,7 @@ export const TracesBarListChart = ({
           <NoDataOrLoading
             isLoading={isLoading || traces.isPending || totalTraces.isPending}
             description="追踪包含应用程序的详细信息，可以通过 SDK 创建。"
-            href="https://langfuse.com/docs/get-started"
+            href={OXELIA_DOCS_URL}
             className="h-auto grow"
           />
         )}

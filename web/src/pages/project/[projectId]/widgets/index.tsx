@@ -8,6 +8,7 @@ import {
   getDashboardTabs,
   DASHBOARD_TABS,
 } from "@/src/features/navigation/utils/dashboard-tabs";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Widgets() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function Widgets() {
         title: "组件",
         help: {
           description: "管理并创建仪表盘组件。",
-          href: "https://langfuse.com/docs/metrics/features/custom-dashboards",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps: {
           tabs: getDashboardTabs(projectId),

@@ -14,6 +14,7 @@ import { mapLegacyUiTableFilterToView } from "@/src/features/dashboard/lib/dashb
 import { DashboardLineTimeSeriesChart } from "@/src/features/dashboard/components/DashboardLineTimeSeriesChart";
 import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQueryScheduler";
 import { useMemo } from "react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export const TracesAndObservationsTimeSeriesChart = ({
   className,
@@ -231,7 +232,7 @@ export const TracesAndObservationsTimeSeriesChart = ({
                       (!isV2 && traces.isPending)
                     }
                     description="追踪包含应用程序的详细信息，可以通过 SDK 创建。"
-                    href="https://langfuse.com/docs/observability/overview"
+                    href={OXELIA_DOCS_URL}
                     className="h-auto grow"
                   />
                 )}

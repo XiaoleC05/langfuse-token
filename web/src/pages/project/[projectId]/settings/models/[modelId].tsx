@@ -36,6 +36,7 @@ import {
 } from "@/src/components/ui/hover-card";
 import { CodeMirrorEditor } from "@/src/components/editor";
 import { useEffect } from "react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function ModelDetailPage() {
   const router = useRouter();
@@ -122,7 +123,7 @@ export default function ModelDetailPage() {
         title: model.modelName,
         help: {
           description: "模型配置与定价详情",
-          href: "https://langfuse.com/docs/model-usage-and-cost",
+          href: OXELIA_DOCS_URL,
         },
         breadcrumb: [
           {

@@ -10,6 +10,7 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export function RetryBackgroundMigration({
   backgroundMigrationName,
@@ -88,7 +89,7 @@ export function RetryBackgroundMigration({
             Required for security. This key must match your ADMIN_API_KEY
             environment variable{" ("}
             <a
-              href="https://langfuse.com/self-hosting/administration/organization-management-api#authentication"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary underline"

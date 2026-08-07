@@ -22,6 +22,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useEvalCapabilities } from "@/src/features/evals/hooks/useEvalCapabilities";
 import { DEFAULT_OBSERVATION_FILTER_WHEN_REMAPPING } from "@/src/features/evals/utils/evaluator-constants";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type LegacyEvalAction = "keep-active" | "mark-inactive" | "delete";
 
@@ -156,7 +157,7 @@ export default function RemapEvaluatorPage() {
           <p className="text-muted-foreground text-sm">
             在左侧查看旧版评估器，在右侧配置新的评估设置。{" "}
             <a
-              href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"

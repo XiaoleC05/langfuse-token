@@ -21,6 +21,7 @@ import {
 } from "@/src/features/scores/lib/helpers";
 import { type DatabaseRow } from "@/src/server/api/services/sqlInterface";
 import { NoDataOrLoading } from "@/src/components/NoDataOrLoading";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const dropValuesForCategoricalScores = (
   value: number,
@@ -248,7 +249,7 @@ export const ScoresTable = ({
         noDataProps={{
           description:
             "评分用于评估输出质量，可以手动创建或通过 SDK 创建。",
-          href: "https://langfuse.com/docs/evaluation/overview",
+          href: OXELIA_DOCS_URL,
         }}
       >
         <TotalMetric

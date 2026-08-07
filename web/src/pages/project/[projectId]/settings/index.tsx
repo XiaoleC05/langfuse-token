@@ -36,6 +36,7 @@ import { ProjectNotificationChannels } from "@/src/features/notifications/compon
 import { WebCalloutIntegrationCard } from "@/src/features/web-callouts/components/WebCalloutSettingsPage";
 import { DeveloperToolsSettings } from "@/src/features/developer-tools/components/DeveloperToolsSettings";
 import { AlertsSettings } from "@/src/features/oxelia51/components/AlertsSettings";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type ProjectSettingsPage = {
   title: string;
@@ -327,7 +328,7 @@ const Integrations = (props: { projectId: string }) => {
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
-                href="https://langfuse.com/integrations/analytics/posthog"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
               >
                 集成文档 ↗
@@ -351,7 +352,7 @@ const Integrations = (props: { projectId: string }) => {
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
-                href="https://langfuse.com/integrations/analytics/mixpanel"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
               >
                 集成文档 ↗
@@ -376,7 +377,7 @@ const Integrations = (props: { projectId: string }) => {
             </ActionButton>
             <Button asChild variant="ghost">
               <Link
-                href="https://langfuse.com/docs/query-traces#blob-storage"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
               >
                 集成文档 ↗

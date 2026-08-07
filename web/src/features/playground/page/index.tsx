@@ -16,6 +16,7 @@ import {
 } from "@/src/components/ChatMessages/MessageSearch";
 import useProjectIdFromURL from "@/src/hooks/useProjectIdFromURL";
 import Spinner from "@/src/components/design-system/Spinner/Spinner";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 /**
  * PlaygroundPage Component
@@ -111,7 +112,7 @@ export default function PlaygroundPage() {
           help: {
             description:
               "跨多个窗口测试和迭代提示词的沙盒环境",
-            href: "https://langfuse.com/docs/prompt-management/features/playground",
+            href: OXELIA_DOCS_URL,
           },
         }}
       >
@@ -147,7 +148,7 @@ export default function PlaygroundPage() {
           help: {
             description:
               "跨多个窗口测试和迭代提示词的沙盒环境",
-            href: "https://langfuse.com/docs/prompt-management/features/playground",
+            href: OXELIA_DOCS_URL,
           },
           actionButtonsRight: (
             <div className="flex flex-nowrap items-center gap-2">

@@ -52,6 +52,7 @@ import {
   WEB_CALLOUT_HEADER_NAME_PATTERN,
 } from "@/src/features/web-callouts/headerRules";
 import { api, type RouterOutputs } from "@/src/utils/api";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 type WebCalloutEndpoint = RouterOutputs["webCallouts"]["all"][number];
 
@@ -177,7 +178,7 @@ export function WebCalloutSettingsPage(props: { projectId: string }) {
         配置项目级提示。您的用户可以在追踪、观测和会话详情页面触发向端点的 POST
         请求。这可用于与您的服务集成以触发工作流。更多信息请参阅文档{" "}
         <a
-          href="https://langfuse.com/docs/observability/features/web-callouts"
+          href={OXELIA_DOCS_URL}
           target="_blank"
           rel="noreferrer"
           className="underline underline-offset-2"
@@ -404,7 +405,7 @@ function WebCalloutEndpointDialog(props: {
           <DialogDescription>
             当用户点击网页提示操作时，Langfuse 会从后端发送 JSON POST 请求。{" "}
             <a
-              href="https://langfuse.com/docs/observability/features/web-callouts"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noreferrer"
               className="underline underline-offset-2"

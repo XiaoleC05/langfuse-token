@@ -56,6 +56,7 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { Info, ExternalLink } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function PosthogIntegrationSettings() {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function PosthogIntegrationSettings() {
         actionButtonsLeft: <>{status && <StatusBadge type={status} />}</>,
         actionButtonsRight: (
           <Button asChild variant="secondary">
-            <Link href="https://langfuse.com/integrations/analytics/posthog">
+            <Link href={OXELIA_DOCS_URL}>
               集成文档 ↗
             </Link>
           </Button>
@@ -337,7 +338,7 @@ const PostHogIntegrationSettings = ({
                       ))}
                       <div className="border-t pt-2">
                         <a
-                          href="https://langfuse.com/docs/integrations/export-sources"
+                          href={OXELIA_DOCS_URL}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-muted-foreground hover:text-primary inline-flex items-center gap-1 text-xs hover:underline"

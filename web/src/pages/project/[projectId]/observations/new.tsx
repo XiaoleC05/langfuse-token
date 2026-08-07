@@ -9,6 +9,7 @@ import {
   TRACING_TABS,
 } from "@/src/features/navigation/utils/tracing-tabs";
 import { useQueryProject } from "@/src/features/projects/hooks";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Events() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function Events() {
         help: {
           description:
             "观测捕获应用中的单次函数调用。此视图使用新的 ClickHouse 事件表。",
-          href: "https://langfuse.com/docs/observability/data-model",
+          href: OXELIA_DOCS_URL,
         },
         tabsProps: {
           tabs: getTracingTabs(projectId),

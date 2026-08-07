@@ -7,6 +7,7 @@ import {
   isExperimentTarget,
   isDatasetTarget,
 } from "@/src/features/evals/utils/typeHelpers";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface EvalVersionCalloutProps {
   targetObject: string;
@@ -39,7 +40,7 @@ const getCalloutContent = (
           此评估器以观测为目标，需要 JS SDK v4+ 或 Python SDK v3+。
           您现在仍可以配置此评估器——升级后它将开始运行。{" "}
           <a
-            href="https://langfuse.com/docs/observability/sdk/upgrade-path"
+            href={OXELIA_DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"
@@ -63,7 +64,7 @@ const getCalloutContent = (
             实验运行器 SDK 需要 JS SDK v4.4+ 或 Python SDK v3.9+。
             您现在仍可以配置此评估器——升级后它将开始运行。{" "}
             <a
-              href="https://langfuse.com/docs/evaluation/experiments/experiments-via-sdk#experiment-runner-sdk"
+              href={OXELIA_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-blue font-bold hover:opacity-80"
@@ -89,7 +90,7 @@ const getCalloutContent = (
           此评估器针对的是使用旧版底层 SDK 方法的数据集运行中的追踪，
           这些运行手动将数据项关联到追踪。建议升级到实验运行器 SDK 以获得更好的性能和功能。{" "}
           <a
-            href="https://langfuse.com/docs/evaluation/experiments/experiments-via-sdk#experiment-runner-sdk"
+            href={OXELIA_DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"
@@ -112,7 +113,7 @@ const getCalloutContent = (
           观测评估器提供更细粒度的控制以及更简单的工作流程。
           我们强烈建议升级到观测评估器。{" "}
           <a
-            href="https://langfuse.com/faq/all/llm-as-a-judge-migration"
+            href={OXELIA_DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-blue font-bold hover:opacity-80"

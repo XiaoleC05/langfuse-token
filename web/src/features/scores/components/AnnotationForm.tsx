@@ -75,6 +75,7 @@ import {
 import { useAnnotationScoreConfigs } from "@/src/features/scores/hooks/useScoreConfigs";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import Spinner from "@/src/components/design-system/Spinner/Spinner";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 const CHAR_CUTOFF = 6;
 
@@ -188,7 +189,7 @@ function AnnotateHeader({
       title="标注"
       help={{
         description,
-        href: "https://langfuse.com/docs/evaluation/evaluation-methods/annotation",
+        href: OXELIA_DOCS_URL,
         className: "leading-relaxed",
       }}
       actionButtons={[

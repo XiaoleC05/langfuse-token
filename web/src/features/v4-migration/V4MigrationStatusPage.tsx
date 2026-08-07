@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { ArrowRight, Copy } from "lucide-react";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 import ContainerPage from "@/src/components/layouts/container-page";
 import { RainbowButton } from "@/src/components/magicui/rainbow-button";
 import { Card } from "@/src/components/ui/card";
@@ -32,13 +33,11 @@ import {
   type ProjectMigrationStatus,
 } from "@/src/features/v4-migration/migrationData";
 
-const V4_DOCS_URL = "https://langfuse.com/docs/v4";
-const SDK_UPGRADE_URL =
-  "https://langfuse.com/docs/observability/sdk/upgrade-path";
-const DATA_MODEL_URL = "https://langfuse.com/docs/observability/data-model";
-const OBSERVATIONS_FAQ_URL =
-  "https://langfuse.com/faq/all/explore-observations-in-v4";
-const API_REFERENCE_URL = "https://api.reference.langfuse.com";
+const V4_DOCS_URL = OXELIA_DOCS_URL;
+const SDK_UPGRADE_URL = OXELIA_DOCS_URL;
+const DATA_MODEL_URL = OXELIA_DOCS_URL;
+const OBSERVATIONS_FAQ_URL = OXELIA_DOCS_URL;
+const API_REFERENCE_URL = OXELIA_DOCS_URL;
 
 function FaqLink({ href, children }: { href: string; children: ReactNode }) {
   return (

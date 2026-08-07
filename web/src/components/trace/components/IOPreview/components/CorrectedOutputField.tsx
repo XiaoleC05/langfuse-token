@@ -18,6 +18,7 @@ import {
 } from "@/src/components/ui/hover-card";
 import Link from "next/link";
 import Spinner from "@/src/components/design-system/Spinner/Spinner";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 interface CorrectedOutputFieldProps {
   projectId: string;
@@ -187,7 +188,7 @@ export function CorrectedOutputField({
                   <p>
                     修正后的输出允许您为追踪或观测保存预期输出。更多信息请参阅{" "}
                     <Link
-                      href="https://langfuse.com/docs/observability/features/corrections"
+                      href={OXELIA_DOCS_URL}
                       target="_blank"
                       rel="noreferrer"
                       className="hover:text-foreground underline"

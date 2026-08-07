@@ -5,6 +5,7 @@ import Page from "@/src/components/layouts/page";
 import { SessionsOnboarding } from "@/src/components/onboarding/SessionsOnboarding";
 import { api } from "@/src/utils/api";
 import { useV4Beta } from "@/src/features/events/hooks/useV4Beta";
+import { OXELIA_DOCS_URL } from "@/src/features/oxelia51/constants";
 
 export default function Sessions() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function Sessions() {
               会话是一组相关追踪的集合，例如对话或线程。要开始使用，请在追踪中添加 sessionId。
               详见{" "}
               <a
-                href="https://langfuse.com/docs/observability/features/sessions"
+                href={OXELIA_DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="decoration-primary/30 hover:decoration-primary underline"
@@ -63,7 +64,7 @@ export default function Sessions() {
               了解更多。
             </>
           ),
-          href: "https://langfuse.com/docs/observability/features/sessions",
+          href: OXELIA_DOCS_URL,
         },
       }}
       scrollable={showOnboarding}

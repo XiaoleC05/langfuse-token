@@ -21,8 +21,9 @@ const updateDisplayNameSchema = z.object({
 /**
  * Helper function to check if a user can be deleted.
  * A user can only be deleted if they are not the last owner of any organization.
+ * Also reused by the oxelia51 admin console (adminDeleteUser).
  */
-async function checkUserCanBeDeleted(
+export async function checkUserCanBeDeleted(
   userId: string,
   prisma:
     | Omit<

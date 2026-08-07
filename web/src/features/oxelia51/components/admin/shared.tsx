@@ -16,7 +16,10 @@ export type ServerStats = {
   memory_total_mb?: number;
   disk_used_percent?: number;
   disk_total_gb?: number;
+  /** 主机运行时长（容器内为宿主机时长） */
   uptime_seconds?: number;
+  /** 服务进程运行时长（容器重启归零） */
+  process_uptime_seconds?: number;
   go_goroutines?: number;
 };
 

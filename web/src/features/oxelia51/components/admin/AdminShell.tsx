@@ -123,7 +123,7 @@ function AdminUserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/account/settings">
+            <Link href="/admin/settings">
               <Settings className="mr-2 h-4 w-4" />
               账户设置
             </Link>

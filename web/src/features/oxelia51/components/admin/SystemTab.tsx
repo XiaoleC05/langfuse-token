@@ -46,37 +46,42 @@ export function SystemTab() {
             {errMsg(statsQ.error)}
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatCell
-              label="CPU"
-              value={
-                stats?.cpu_percent != null
-                  ? `${stats.cpu_percent.toFixed(1)}%`
-                  : "—"
-              }
-            />
-            <StatCell
-              label="内存"
-              value={
-                stats?.memory_used_mb != null
-                  ? `${(stats.memory_used_mb / 1024).toFixed(1)} / ${((stats.memory_total_mb ?? 0) / 1024).toFixed(1)} GB`
-                  : "—"
-              }
-            />
-            <StatCell
-              label="磁盘"
-              value={
-                stats?.disk_used_percent != null
-                  ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）`
-                  : "—"
-              }
-              warn={(stats?.disk_used_percent ?? 0) > 85}
-            />
-            <StatCell
-              label="运行时长"
-              value={formatUptime(stats?.uptime_seconds)}
-            />
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <StatCell
+                label="CPU"
+                value={
+                  stats?.cpu_percent != null
+                    ? `${stats.cpu_percent.toFixed(1)}%`
+                    : "—"
+                }
+              />
+              <StatCell
+                label="内存"
+                value={
+                  stats?.memory_used_mb != null
+                    ? `${(stats.memory_used_mb / 1024).toFixed(1)} / ${((stats.memory_total_mb ?? 0) / 1024).toFixed(1)} GB`
+                    : "—"
+                }
+              />
+              <StatCell
+                label="磁盘"
+                value={
+                  stats?.disk_used_percent != null
+                    ? `${stats.disk_used_percent.toFixed(1)}%（${stats.disk_total_gb} GB）`
+                    : "—"
+                }
+                warn={(stats?.disk_used_percent ?? 0) > 85}
+              />
+              <StatCell
+                label="服务运行时长"
+                value={formatUptime(stats?.process_uptime_seconds)}
+              />
+            </div>
+            <p className="text-muted-foreground text-xs">
+              主机运行时长：{formatUptime(stats?.uptime_seconds)}
+            </p>
+          </>
         )}
       </AdminCard>
 
@@ -87,37 +92,42 @@ export function SystemTab() {
             {errMsg(localStatsQ.error)}
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatCell
-              label="CPU 负载"
-              value={
-                localStatsQ.data?.cpuPercent != null
-                  ? `${localStatsQ.data.cpuPercent.toFixed(1)}%`
-                  : "—"
-              }
-            />
-            <StatCell
-              label="内存"
-              value={
-                localStatsQ.data?.memoryUsedMB != null
-                  ? `${(localStatsQ.data.memoryUsedMB / 1024).toFixed(1)} / ${((localStatsQ.data.memoryTotalMB ?? 0) / 1024).toFixed(1)} GB`
-                  : "—"
-              }
-            />
-            <StatCell
-              label="磁盘"
-              value={
-                localStatsQ.data?.diskUsedPercent != null
-                  ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%（${localStatsQ.data.diskTotalGB} GB）`
-                  : "—"
-              }
-              warn={(localStatsQ.data?.diskUsedPercent ?? 0) > 85}
-            />
-            <StatCell
-              label="运行时长"
-              value={formatUptime(localStatsQ.data?.uptimeSeconds)}
-            />
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <StatCell
+                label="CPU 负载"
+                value={
+                  localStatsQ.data?.cpuPercent != null
+                    ? `${localStatsQ.data.cpuPercent.toFixed(1)}%`
+                    : "—"
+                }
+              />
+              <StatCell
+                label="内存"
+                value={
+                  localStatsQ.data?.memoryUsedMB != null
+                    ? `${(localStatsQ.data.memoryUsedMB / 1024).toFixed(1)} / ${((localStatsQ.data.memoryTotalMB ?? 0) / 1024).toFixed(1)} GB`
+                    : "—"
+                }
+              />
+              <StatCell
+                label="磁盘"
+                value={
+                  localStatsQ.data?.diskUsedPercent != null
+                    ? `${localStatsQ.data.diskUsedPercent.toFixed(1)}%（${localStatsQ.data.diskTotalGB} GB）`
+                    : "—"
+                }
+                warn={(localStatsQ.data?.diskUsedPercent ?? 0) > 85}
+              />
+              <StatCell
+                label="服务运行时长"
+                value={formatUptime(localStatsQ.data?.processUptimeSeconds)}
+              />
+            </div>
+            <p className="text-muted-foreground text-xs">
+              主机运行时长：{formatUptime(localStatsQ.data?.uptimeSeconds)}
+            </p>
+          </>
         )}
       </AdminCard>
 

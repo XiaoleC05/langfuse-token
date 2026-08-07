@@ -1,18 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import {
   Bell,
   LayoutDashboard,
   MessageSquare,
   Server,
+  Settings,
   Shield,
   Users,
   Wrench,
 } from "lucide-react";
-import { api } from "@/src/utils/api";
-import { Button } from "@/src/components/ui/button";
-import { Card } from "@/src/components/ui/card";
 import {
   Tabs,
   TabsContent,
@@ -20,6 +17,7 @@ import {
   TabsTrigger,
 } from "@/src/components/ui/tabs";
 import { AdminShell } from "@/src/features/oxelia51/components/admin/AdminShell";
+import { AdminGate } from "@/src/features/oxelia51/components/admin/AdminGate";
 import { OverviewTab } from "@/src/features/oxelia51/components/admin/OverviewTab";
 import { FeedbackTab } from "@/src/features/oxelia51/components/admin/FeedbackTab";
 import { UsersTab } from "@/src/features/oxelia51/components/admin/UsersTab";
@@ -40,72 +38,18 @@ const NAV_ITEMS = [
 
 /**
  * Oxelia51 独立管理台（/admin）。
- * 三态门控：加载中 → 引导登录 / 无访问权限 / 管理台内容。
- * 所有数据 procedure 服务端另有 adminProcedure 拦截，双保险。
+ * 三态门控见 AdminGate（与 /admin/settings 共用）。
  * 布局：桌面端左侧纵向导航（sticky），移动端回落为顶部横向滚动 tabs。
+ * 「设置」为独立页面（/admin/settings），在导航末尾以链接形式入口。
  */
 export default function AdminConsolePage() {
-  const { data: session, status } = useSession();
-  const authed = status === "authenticated" && Boolean(session?.user);
-
-  // staleTime: 0 —— 每次进入都实时校验身份，避免同 SPA 会话内换账号后
-  // 命中旧缓存把非管理员渲染成管理员（服务端仍有 adminProcedure 兜底，不泄露数据）。
-  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
-    enabled: authed,
-    staleTime: 0,
-  });
-
   return (
     <>
       <Head>
         <title>管理台 | Oxelia51</title>
       </Head>
       <AdminShell>
-        {status === "loading" || (authed && whoami.isLoading) ? (
-          <p className="text-muted-foreground text-sm">加载中…</p>
-        ) : !authed ? (
-          // 防御性兜底：布局层 useAuthGuard 已把未登录访问重定向到 /auth/sign-in，
-          // 正常情况下本分支不会渲染。
-          <Card className="flex max-w-lg flex-col gap-3 p-6">
-            <h2 className="font-heading text-lg font-semibold">需要登录</h2>
-            <p className="text-muted-foreground text-sm">
-              管理台与平台账户统一认证，请先登录您的 Oxelia51 账户。
-            </p>
-            <Button asChild className="self-start">
-              <Link href="/auth/sign-in">前往登录</Link>
-            </Button>
-          </Card>
-        ) : whoami.isError ? (
-          <Card className="flex max-w-lg flex-col gap-3 p-6">
-            <h2 className="font-heading text-lg font-semibold">身份校验失败</h2>
-            <p className="text-muted-foreground text-sm">
-              无法确认您的管理员身份，请检查网络后重试。
-            </p>
-            <div className="flex gap-2">
-              <Button
-                className="self-start"
-                onClick={() => void whoami.refetch()}
-                loading={whoami.isFetching}
-              >
-                重试
-              </Button>
-              <Button asChild variant="ghost" className="self-start">
-                <Link href="/">返回首页</Link>
-              </Button>
-            </div>
-          </Card>
-        ) : !whoami.data?.isAdmin ? (
-          <Card className="flex max-w-lg flex-col gap-3 p-6">
-            <h2 className="font-heading text-lg font-semibold">无访问权限</h2>
-            <p className="text-muted-foreground text-sm">
-              管理台仅对管理员开放。当前账户（{session?.user?.email}
-              ）没有管理权限，如需开通请联系平台管理员。
-            </p>
-            <Button asChild variant="ghost" className="self-start">
-              <Link href="/">返回首页</Link>
-            </Button>
-          </Card>
-        ) : (
+        <AdminGate>
           <Tabs
             defaultValue="overview"
             className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6"
@@ -122,6 +66,14 @@ export default function AdminConsolePage() {
                   {label}
                 </TabsTrigger>
               ))}
+              {/* 独立设置页入口：样式与上方 tab 触发器一致，点击跳转 /admin/settings */}
+              <Link
+                href="/admin/settings"
+                className="text-muted-foreground inline-flex h-9 shrink-0 items-center justify-start gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap transition-colors hover:bg-[var(--ox-bg-alt)] hover:text-[var(--ox-accent)]"
+              >
+                <Settings className="h-4 w-4" />
+                设置
+              </Link>
             </TabsList>
             <div className="min-w-0 flex-1">
               <TabsContent value="overview" className="mt-0">
@@ -147,7 +99,7 @@ export default function AdminConsolePage() {
               </TabsContent>
             </div>
           </Tabs>
-        )}
+        </AdminGate>
       </AdminShell>
     </>
   );

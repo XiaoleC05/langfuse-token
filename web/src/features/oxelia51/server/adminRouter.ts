@@ -1,13 +1,16 @@
 import { z } from "zod";
 import os from "node:os";
+import { randomBytes } from "node:crypto";
 import { statfs } from "node:fs/promises";
 import {
   authenticatedProcedure,
   createTRPCRouter,
 } from "@/src/server/api/trpc";
 import { env } from "@/src/env.mjs";
-import { prisma } from "@langfuse/shared/src/db";
+import { Prisma, prisma } from "@langfuse/shared/src/db";
 import { TRPCError } from "@trpc/server";
+import { updateUserPassword } from "@/src/features/auth-credentials/lib/credentialsServerUtils";
+import { checkUserCanBeDeleted } from "@/src/server/api/routers/userAccount";
 import {
   clientIpFromHeaders,
   getGoToken,
@@ -109,7 +112,9 @@ export const oxelia51AdminRouter = createTRPCRouter({
       memoryTotalMB: Math.round(totalMem / 1048576),
       diskUsedPercent,
       diskTotalGB,
+      // 容器内 os.uptime() 返回宿主机时长；另给进程时长（容器重启归零，部署后符合直觉）
       uptimeSeconds: Math.round(os.uptime()),
+      processUptimeSeconds: Math.round(process.uptime()),
     };
   }),
   dormPower: adminProcedure.query(() =>
@@ -173,6 +178,70 @@ export const oxelia51AdminRouter = createTRPCRouter({
     `;
     return { items: users };
   }),
+
+  /**
+   * 重置用户密码：生成 12 位随机临时密码并写库（复用 credentials 的 bcrypt 哈希）。
+   * 临时密码仅在本次响应返回，不落明文日志、不入库明文。——写操作，仅超级管理员
+   */
+  adminResetUserPassword: superAdminProcedure
+    .input(z.object({ userId: z.string().min(1) }))
+    .mutation(async ({ input }) => {
+      const user = await prisma.user.findUnique({
+        where: { id: input.userId },
+        select: { id: true, email: true },
+      });
+      if (!user) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "用户不存在" });
+      }
+      // 9 字节 → base64url 编码恰为 12 字符，满足 isValidPassword（≥8 位）
+      const tempPassword = randomBytes(9).toString("base64url");
+      await updateUserPassword(user.id, tempPassword);
+      return { email: user.email, tempPassword };
+    }),
+
+  /**
+   * 删除用户：复用账户自删（userAccount.delete）的「组织最后所有者」校验 +
+   * schema 外键级联删除（会员关系/会话/账户等）。——写操作，仅超级管理员
+   * 保护：不能删除自己、不能删除 PLATFORM_SUPER_ADMIN_EMAIL。
+   */
+  adminDeleteUser: superAdminProcedure
+    .input(z.object({ userId: z.string().min(1) }))
+    .mutation(async ({ input, ctx }) => {
+      if (input.userId === ctx.session.user.id) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "不能删除当前登录的管理员账户",
+        });
+      }
+      const target = await prisma.user.findUnique({
+        where: { id: input.userId },
+        select: { id: true, email: true },
+      });
+      if (!target) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "用户不存在" });
+      }
+      if (target.email === PLATFORM_SUPER_ADMIN_EMAIL) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "不能删除超级管理员账户",
+        });
+      }
+      await prisma.$transaction(
+        async (tx) => {
+          const { canDelete, blockingOrganizations } =
+            await checkUserCanBeDeleted(target.id, tx);
+          if (!canDelete) {
+            throw new TRPCError({
+              code: "PRECONDITION_FAILED",
+              message: `该用户是组织「${blockingOrganizations.map((o) => o.name).join("、")}」的唯一所有者，请先移交所有者或删除对应组织`,
+            });
+          }
+          await tx.user.delete({ where: { id: target.id } });
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      );
+      return { success: true, email: target.email };
+    }),
 
   /** 用户反馈列表（oxelia51.feedback，按时间倒序；status 可选筛选） */
   listFeedback: adminProcedure

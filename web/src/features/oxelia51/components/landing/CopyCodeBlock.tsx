@@ -21,7 +21,7 @@ export function CopyCodeBlock({ code }: { code: string }) {
 
   return (
     <div className="flex items-center justify-between gap-3 rounded-lg border border-(--ox-border) bg-(--ox-bg-alt) px-3 py-2">
-      <code className="overflow-x-auto font-mono text-xs whitespace-nowrap text-(--ox-text)">
+      <code className="min-w-0 flex-1 overflow-x-auto font-mono text-xs whitespace-nowrap text-(--ox-text)">
         {code}
       </code>
       <button

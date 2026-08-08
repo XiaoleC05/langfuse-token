@@ -20,6 +20,7 @@ import "@/src/styles/globals.css";
 import "@/src/features/theming/oxelia51-theme.css";
 import "@/src/styles/oxelia51-vars.css";
 import { AppLayout } from "@/src/components/layouts/app-layout";
+import { Toaster } from "@/src/components/ui/sonner";
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 
@@ -159,7 +160,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
                           <V4MigrationPanelProvider defaultOpen={false}>
                             <InAppAiAgentProvider defaultOpen={false}>
                               {skipAppLayout ? (
-                                page
+                                <>
+                                  {page}
+                                  {/* 公开页没有 AppLayout，单独挂 Toaster 让反馈成功提示可用 */}
+                                  <Toaster />
+                                </>
                               ) : (
                                 <AppLayout>{page}</AppLayout>
                               )}

@@ -18,14 +18,12 @@ const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
 export function SiteHeader() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const authenticated = status === "authenticated";
 
-  const firstProjectId = session?.user?.organizations?.[0]?.projects?.[0]?.id;
-  const workspaceHref = firstProjectId
-    ? `/project/${firstProjectId}`
-    : "/organization";
+  // P2：已登录用户「进入工作台」→ 个人工作台 /app（跨项目个人视图）
+  const workspaceHref = "/app";
 
   const NAV_LINKS: {
     href: string;

@@ -61,6 +61,7 @@ import { webCalloutsRouter } from "@/src/features/web-callouts/server/router";
 import { inAppAgentRouter } from "@/src/ee/features/in-app-agent/server/router";
 import { v4TransitionRouter } from "@/src/features/v4/server/v4TransitionRouter";
 import { oxelia51Router } from "@/src/features/oxelia51/server/oxelia51Router";
+import { workspaceRouter } from "@/src/features/oxelia51/server/workspaceRouter";
 import { oxelia51AdminRouter } from "@/src/features/oxelia51/server/adminRouter";
 import { proxyKeyRouter } from "@/src/features/oxelia51/server/proxyKeyRouter";
 
@@ -132,6 +133,7 @@ export const appRouter = createTRPCRouter({
   inAppAgent: inAppAgentRouter,
   v4Transition: v4TransitionRouter,
   oxelia51: oxelia51Router,
+  workspace: workspaceRouter,
   oxelia51Admin: oxelia51AdminRouter,
   proxyKey: proxyKeyRouter,
 });

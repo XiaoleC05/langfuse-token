@@ -8,8 +8,8 @@ import { env } from "@/src/env.mjs";
  * 浅色主题用黑字（wordart-black），深色主题用白字（wordart-white）。
  */
 export function SiteLogo({
-  height = 26,
-  glyphSize = 24,
+  height = 32,
+  glyphSize = 28,
 }: {
   /** 字标「oxelia51」高度（px） */
   height?: number;

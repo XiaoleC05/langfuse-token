@@ -48,9 +48,6 @@ export function SiteFooter() {
                   </Link>
                 </>
               )}
-              <Link href="/admin" className={linkClass}>
-                管理后台
-              </Link>
             </div>
             <div className="flex flex-col gap-3">
               <h4 className={headingClass}>支持</h4>
@@ -79,9 +76,14 @@ export function SiteFooter() {
               >
                 GitHub
               </a>
-              <span className="text-sm text-(--ox-text-muted)">
-                许可证：MIT
-              </span>
+              <a
+                href="https://github.com/XiaoleC05/Oxelia51/blob/master/LICENSE"
+                target="_blank"
+                rel="noreferrer"
+                className={linkClass}
+              >
+                MIT 许可证
+              </a>
             </div>
           </div>
         </div>

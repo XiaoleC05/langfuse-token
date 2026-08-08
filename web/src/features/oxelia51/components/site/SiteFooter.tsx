@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FilingInfo } from "@/src/components/FilingInfo";
+import { FeedbackDialog } from "@/src/features/oxelia51/components/FeedbackDialog";
 import { SiteLogo } from "./SiteLogo";
 
 /**
@@ -36,9 +37,15 @@ export function SiteFooter() {
           <div className="grid grid-cols-2 gap-8">
             <div className="flex flex-col gap-3">
               <h4 className={headingClass}>支持</h4>
-              <a href="mailto:receive@oxelia51.com" className={linkClass}>
-                用户反馈
-              </a>
+              {/* 意见反馈：站内表单，写入 oxelia51.feedback（管理后台可见），
+                  不再用 mailto——邮件不进反馈库，会丢在邮箱里 */}
+              <FeedbackDialog
+                trigger={
+                  <button type="button" className={linkClass}>
+                    用户反馈
+                  </button>
+                }
+              />
               <a
                 href={`${GITHUB_URL}/issues`}
                 target="_blank"

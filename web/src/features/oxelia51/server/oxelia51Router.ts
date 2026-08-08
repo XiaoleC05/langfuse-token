@@ -4,12 +4,14 @@ import {
   createTRPCRouter,
   protectedProjectProcedure,
   authenticatedProcedure,
+  publicProcedure,
 } from "@/src/server/api/trpc";
 import {
   queryClickhouse,
   sendFeedbackNotificationEmail,
   sendFeedbackAutoReplyEmail,
   sendAlertChannelVerificationEmail,
+  logger,
 } from "@langfuse/shared/src/server";
 import { Prisma } from "@langfuse/shared/src/db";
 import { env } from "@/src/env.mjs";
@@ -556,9 +558,10 @@ export const oxelia51Router = createTRPCRouter({
 
   /**
    * 用户反馈：写入 oxelia51.feedback，然后通知运营（默认 receive@oxelia51.com）
-   * + 自动回复提交者。任何登录用户可提交；邮件发送失败只记日志，不影响提交结果。
+   * + 自动回复提交者。登录/未登录均可提交（弱认证原则）；同邮箱 5 分钟限一条；
+   * 邮件发送失败只记日志，不影响提交结果（DB 落库即成功）。
    */
-  submitFeedback: authenticatedProcedure
+  submitFeedback: publicProcedure
     .input(
       z.object({
         category: z.enum(["feature", "bug", "other"]),
@@ -572,14 +575,26 @@ export const oxelia51Router = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // projectId 仅作来源标记：校验登录用户确为该项目成员，防止伪造归属
+      // projectId 仅作来源标记：仅当已登录且确为该组织成员时保留，匿名/非成员 → null
       const projectId =
         input.projectId &&
-        ctx.session.user.organizations.some((org) =>
+        ctx.session?.user?.organizations.some((org) =>
           org.projects.some((p) => p.id === input.projectId),
         )
           ? input.projectId
           : null;
+
+      // 简单限频：同邮箱 5 分钟内只允许一条，防匿名刷屏
+      const recent = await ctx.prisma.$queryRaw<{ cnt: bigint }[]>`
+        SELECT COUNT(*) AS cnt FROM oxelia51.feedback
+        WHERE email = ${input.email} AND created_at > NOW() - INTERVAL '5 minutes'
+      `;
+      if (Number(recent[0]?.cnt ?? 0) > 0) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "提交过于频繁，请稍后再试。",
+        });
+      }
 
       await ctx.prisma.$executeRaw`
         INSERT INTO oxelia51.feedback (email, category, message, project_id)
@@ -590,14 +605,18 @@ export const oxelia51Router = createTRPCRouter({
         EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
         SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
       };
-      await sendFeedbackNotificationEmail({
-        env: mailEnv,
-        category: FEEDBACK_CATEGORY_LABEL[input.category],
-        userEmail: input.email,
-        content: input.message,
-        submittedAt: new Date(),
-      });
-      await sendFeedbackAutoReplyEmail({ env: mailEnv, to: input.email });
+      try {
+        await sendFeedbackNotificationEmail({
+          env: mailEnv,
+          category: FEEDBACK_CATEGORY_LABEL[input.category],
+          userEmail: input.email,
+          content: input.message,
+          submittedAt: new Date(),
+        });
+        await sendFeedbackAutoReplyEmail({ env: mailEnv, to: input.email });
+      } catch (e) {
+        logger.warn("feedback notification email failed", e);
+      }
       return { success: true };
     }),
 });

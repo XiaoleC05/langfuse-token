@@ -29,8 +29,8 @@ export function SiteFooter() {
           {/* 品牌 + 一句话 */}
           <div className="max-w-xs">
             <SiteLogo
-              wordartClassName="h-7 sm:h-9"
-              glyphClassName="h-7 sm:h-9"
+              wordartClassName="h-5 sm:h-6"
+              glyphClassName="h-5 sm:h-6"
             />
             <p className="mt-4 text-sm leading-6 text-(--ox-text-muted)">
               只需要改一行环境变量，所有 Token 消耗一目了然。本地部署，开源 MIT。

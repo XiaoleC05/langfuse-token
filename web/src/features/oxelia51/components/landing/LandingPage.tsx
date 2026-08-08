@@ -13,17 +13,14 @@ import {
   Download,
   FolderKanban,
   Github,
-  MessageSquare,
   Monitor,
   ShieldCheck,
   Terminal,
   Apple,
-  Users,
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { CopyCodeBlock } from "@/src/features/oxelia51/components/landing/CopyCodeBlock";
 import { DashboardMock } from "@/src/features/oxelia51/components/landing/DashboardMock";
-import { CommunityStats } from "@/src/features/oxelia51/components/landing/CommunityStats";
 import { SiteHeader } from "@/src/features/oxelia51/components/site/SiteHeader";
 import { SiteFooter } from "@/src/features/oxelia51/components/site/SiteFooter";
 import { Reveal } from "@/src/features/oxelia51/components/landing/Reveal";
@@ -56,7 +53,7 @@ export function LandingPage() {
           <HeroSection />
           <HowItWorksSection />
           <FeaturesSection />
-          <CommunitySection />
+          <CommunityStrip />
           <FaqSection />
         </main>
         <SiteFooter />
@@ -293,82 +290,34 @@ function FeaturesSection() {
   );
 }
 
-/* ---------------- 社区 ---------------- */
+/* ---------------- 社区（导流至 /community 独立页） ---------------- */
 
-const PARTICIPATE = [
-  {
-    icon: <Code className="h-4 w-4" />,
-    title: "贡献代码",
-    desc: "Fork 仓库、提 Pull Request，一起把它打磨得更好。",
-    href: `${GITHUB_URL}`,
-  },
-  {
-    icon: <MessageSquare className="h-4 w-4" />,
-    title: "提需求 / 报问题",
-    desc: "遇到的问题、想要的功能，通过 Issues 或站内反馈告诉我们。",
-    href: `${GITHUB_URL}/issues`,
-  },
-  {
-    icon: <Users className="h-4 w-4" />,
-    title: "讨论交流",
-    desc: "分享用法与心得，写信给我们：receive@oxelia51.com。",
-    href: "mailto:receive@oxelia51.com",
-  },
-];
-
-function CommunitySection() {
+function CommunityStrip() {
   return (
     <section
-      id="community"
-      className="border-t py-16 sm:py-20"
+      className="border-t py-12"
       style={{ borderColor: "var(--ox-border)" }}
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="社区"
-          title="开源 · 共建"
-          desc="MIT 开源，欢迎每个人参与。"
-        />
-
-        <div className="mt-10">
-          <CommunityStats />
-        </div>
-
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {PARTICIPATE.map((p, i) => (
-            <Reveal key={p.title} delay={i * 100}>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group flex h-full flex-col gap-3 rounded-xl border p-5 transition-colors hover:border-(--ox-accent)/50"
-                style={{ borderColor: "var(--ox-border)" }}
-              >
-                <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-(--ox-accent)"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--ox-accent) 10%, transparent)" }}
-                >
-                  {p.icon}
-                </span>
-                <h3 className="text-sm font-semibold text-(--ox-text-h)">{p.title}</h3>
-                <p className="text-xs leading-5 text-(--ox-text-muted)">{p.desc}</p>
-                <span className="mt-auto inline-flex items-center gap-1 text-xs text-(--ox-accent) opacity-0 transition-opacity group-hover:opacity-100">
-                  前往 <ArrowRight className="h-3 w-3" />
-                </span>
+      <Reveal>
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 text-center">
+          <span className="text-(--ox-accent)">
+            <Github className="h-5 w-5" />
+          </span>
+          <p className="max-w-md text-sm leading-6 text-(--ox-text-muted)">
+            Oxelia51 以 MIT 许可证开源。贡献代码、提需求、参与共建，都在社区。
+          </p>
+          <div className="flex items-center gap-3">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/community">进入社区</Link>
+            </Button>
+            <Button asChild variant="ghost" size="sm">
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+                GitHub
               </a>
-            </Reveal>
-          ))}
+            </Button>
+          </div>
         </div>
-
-        <div className="mt-10 text-center">
-          <Button asChild variant="outline">
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Github className="mr-2 h-4 w-4" />
-              前往 GitHub
-            </a>
-          </Button>
-        </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

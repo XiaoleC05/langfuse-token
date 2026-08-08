@@ -759,6 +759,11 @@ export default function SignIn({
           <h2 className="text-primary mt-4 text-center text-2xl leading-9 font-bold tracking-tight">
             登录您的账户
           </h2>
+          {/* Oxelia51：弱认证——说明账户用途，明确基础使用无需登录 */}
+          <p className="text-muted-foreground mx-auto mt-2 max-w-xs text-center text-xs leading-5">
+            使用桌面应用、查看文档与下载无需登录。账户仅用于
+            <b> 跨设备同步 </b>、<b> 云平台托管 </b>与 <b> 管理员管理 </b>。
+          </p>
         </div>
 
         {isLangfuseCloud && (

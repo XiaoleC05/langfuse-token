@@ -1,20 +1,22 @@
 "use client";
 
 import { env } from "@/src/env.mjs";
+import { cn } from "@/src/utils/tailwind";
 
 /**
  * Oxelia51 站点 logo：伴星图标 + 「oxelia51」字标。
- * 字标独立使用大尺寸 wordart，保证「oxelia51」清晰可读（用户要求 logo 不能太小）。
+ * 字标使用大尺寸 wordart，保证「oxelia51」清晰可读。
+ * 尺寸通过 Tailwind 高度类控制（响应式：移动端较小，桌面端放大）。
  * 浅色主题用黑字（wordart-black），深色主题用白字（wordart-white）。
  */
 export function SiteLogo({
-  height = 32,
-  glyphSize = 28,
+  wordartClassName = "h-8 sm:h-10",
+  glyphClassName = "h-8 sm:h-10",
 }: {
-  /** 字标「oxelia51」高度（px） */
-  height?: number;
-  /** 伴星图标尺寸（px） */
-  glyphSize?: number;
+  /** 字标「oxelia51」高度类（如 "h-8 sm:h-10"） */
+  wordartClassName?: string;
+  /** 伴星图标尺寸类 */
+  glyphClassName?: string;
 }) {
   const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
   return (
@@ -23,31 +25,25 @@ export function SiteLogo({
       <img
         src={`${basePath}/icon-glyph-64.png`}
         alt=""
-        width={glyphSize}
-        height={glyphSize}
-        className="shrink-0 dark:hidden"
+        className={cn("shrink-0 dark:hidden", glyphClassName)}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`${basePath}/icon-glyph-64-dark.png`}
         alt=""
-        width={glyphSize}
-        height={glyphSize}
-        className="hidden shrink-0 dark:block"
+        className={cn("hidden shrink-0 dark:block", glyphClassName)}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`${basePath}/wordart-black.svg`}
         alt="oxelia51"
-        style={{ height }}
-        className="dark:hidden"
+        className={cn("dark:hidden", wordartClassName)}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`${basePath}/wordart-white.svg`}
         alt="oxelia51"
-        style={{ height }}
-        className="hidden dark:block"
+        className={cn("hidden dark:block", wordartClassName)}
       />
     </span>
   );

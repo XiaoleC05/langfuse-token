@@ -21,7 +21,7 @@ order: 2
 
 ## 配置本地代理
 
-应用启动后会内置一个**本地代理**（默认端口 `17800`，可在设置中修改）。把模型工具的 API 地址指向它，例如 Claude Code：
+应用启动后会内置一个**本地代理**（默认端口 `17800`，可在设置中修改）。把模型工具的 API 地址指向它，以 Claude Code 为例：
 
 ```bash
 export ANTHROPIC_BASE_URL="http://localhost:17800/anthropic"

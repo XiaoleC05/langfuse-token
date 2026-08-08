@@ -25,13 +25,13 @@ order: 3
 
 ## 配置代理（改一行环境变量）
 
-把模型工具的 API 地址改为代理地址。例如：
+把模型工具的 API 地址改为代理地址。以 Claude Code 为例（Anthropic 客户端通用）：
 
 ```bash
-# Claude Code
+# Anthropic 模型（Claude Code 等）
 export ANTHROPIC_BASE_URL="https://oxelia51.com/api/proxy/anthropic"
 
-# Cursor / ChatGPT（OpenAI 兼容）
+# OpenAI 兼容模型（Cursor、ChatGPT 等）
 export OPENAI_BASE_URL="https://oxelia51.com/api/proxy/openai"
 ```
 

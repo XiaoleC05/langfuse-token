@@ -28,7 +28,10 @@ export function SiteFooter() {
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           {/* 品牌 + 一句话 */}
           <div className="max-w-xs">
-            <SiteLogo height={20} glyphSize={20} />
+            <SiteLogo
+              wordartClassName="h-7 sm:h-9"
+              glyphClassName="h-7 sm:h-9"
+            />
             <p className="mt-4 text-sm leading-6 text-(--ox-text-muted)">
               只需要改一行环境变量，所有 Token 消耗一目了然。本地部署，开源 MIT。
             </p>

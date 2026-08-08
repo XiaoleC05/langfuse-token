@@ -9,10 +9,9 @@ import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle"
 import { SiteLogo } from "./SiteLogo";
 
 /**
- * Oxelia51 公开站点顶栏（落地页 / 文档站共用）。
- * 主 CTA = 免费下载；未登录显示弱化的「登录 / 我是管理员」，
- * 已登录显示「进入工作台」（不再自动跳转，改显式入口）。
- * 顶栏始终固定（实色背景），滑动时不隐藏。
+ * Oxelia51 公开站点顶栏（落地页 / 文档站 / 下载页共用）。
+ * 主 CTA = 免费下载（→ /download 独立下载页）；未登录显示弱化的「登录 / 我是管理员」，
+ * 已登录显示「进入工作台」；顶栏固定实色显示，滑动时不隐藏。
  */
 const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
@@ -21,8 +20,7 @@ export function SiteHeader() {
   const { data: session, status } = useSession();
   const authenticated = status === "authenticated";
 
-  const firstProjectId =
-    session?.user?.organizations?.[0]?.projects?.[0]?.id;
+  const firstProjectId = session?.user?.organizations?.[0]?.projects?.[0]?.id;
   const workspaceHref = firstProjectId
     ? `/project/${firstProjectId}`
     : "/organization";
@@ -47,10 +45,13 @@ export function SiteHeader() {
         backgroundColor: "var(--ox-bg)",
       }}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-6 md:gap-10">
           <Link href="/" aria-label="Oxelia51 首页" className="shrink-0">
-            <SiteLogo height={26} glyphSize={26} />
+            <SiteLogo
+              wordartClassName="h-8 sm:h-11"
+              glyphClassName="h-8 sm:h-11"
+            />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link href="/" className={linkClass(isActive("/", true))}>
@@ -76,14 +77,14 @@ export function SiteHeader() {
 
         <div className="flex shrink-0 items-center gap-2.5 md:gap-3">
           <Button asChild size="sm">
-            <a href="/#download">免费下载</a>
+            <Link href="/download">免费下载</Link>
           </Button>
           <a
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
-            className="text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h)"
+            className="hidden text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h) sm:block"
           >
             <Github className="h-4 w-4" />
           </a>
@@ -101,7 +102,7 @@ export function SiteHeader() {
             <>
               <Link
                 href="/auth/sign-in"
-                className="text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h)"
+                className="hidden text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h) sm:block"
               >
                 登录
               </Link>

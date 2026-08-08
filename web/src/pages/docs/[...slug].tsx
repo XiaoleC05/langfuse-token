@@ -2,6 +2,7 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { DocsLayout } from "@/src/features/oxelia51/components/docs/DocsLayout";
 import { DocsMarkdown } from "@/src/features/oxelia51/components/docs/DocsMarkdown";
+import { Reveal } from "@/src/features/oxelia51/components/landing/Reveal";
 import type { Doc } from "@/src/features/oxelia51/components/docs/docs-shared";
 
 /**
@@ -23,7 +24,9 @@ export default function DocPage({
         <meta name="description" content={`${doc.title} — Oxelia51 使用文档`} />
       </Head>
       <DocsLayout allDocs={allDocs} activeSlug={doc.slug[0]}>
-        <DocsMarkdown content={doc.content} />
+        <Reveal>
+          <DocsMarkdown content={doc.content} />
+        </Reveal>
       </DocsLayout>
     </>
   );

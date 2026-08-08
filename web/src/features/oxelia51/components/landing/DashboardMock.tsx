@@ -37,7 +37,7 @@ export function DashboardMock() {
 
   const navItems = ["总览", "项目", "会话", "统计", "设置"];
   const rows = [
-    { name: "cursor-web", session: "重构落地页", tokens: "48.2K", cost: "¥3.14" },
+    { name: "my-app", session: "重构落地页", tokens: "48.2K", cost: "¥3.14" },
     { name: "claude-code", session: "调试 proxy", tokens: "36.8K", cost: "¥2.02" },
     { name: "deepseek", session: "批量摘要", tokens: "22.1K", cost: "¥0.86" },
   ];

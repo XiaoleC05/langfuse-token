@@ -8,7 +8,6 @@ import {
   BarChart3,
   BellRing,
   BookOpen,
-  Check,
   ChevronDown,
   Code,
   Download,
@@ -57,25 +56,11 @@ export function LandingPage() {
           <HeroSection />
           <HowItWorksSection />
           <FeaturesSection />
-          <DownloadSection />
           <CommunitySection />
           <FaqSection />
         </main>
         <SiteFooter />
         <BackToTop />
-        {/* 平台下载卡片锚点高亮（顶栏徽章点击跳转后闪烁提示） */}
-        <style>{`
-          #download-windows:target,
-          #download-macos:target,
-          #download-linux:target {
-            border-color: var(--ox-accent) !important;
-            animation: oxTargetFlash 1.6s ease-out;
-          }
-          @keyframes oxTargetFlash {
-            0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ox-accent) 45%, transparent); }
-            100% { box-shadow: 0 0 0 14px transparent; }
-          }
-        `}</style>
       </div>
     </>
   );
@@ -108,16 +93,16 @@ function HeroSection() {
           只需要改一行环境变量，所有 Token 消耗一目了然
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg">
-          本地部署 · 安全简洁 · 多维统计。Claude Code、Cursor，以及 DeepSeek、Moonshot、智谱等
-          国内模型，用量、成本、异常自动落账。
+          本地部署 · 安全简洁 · 多维统计。无论你使用 Claude、ChatGPT、DeepSeek 还是任何模型工具，
+          每一次调用，用量、成本、异常自动落账。
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button asChild size="lg">
-            <a href="/#download">
+            <Link href="/download">
               免费下载
               <Download className="ml-2 h-4 w-4" />
-            </a>
+            </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link href="/docs">
@@ -127,22 +112,22 @@ function HeroSection() {
           </Button>
         </div>
 
-        {/* 平台徽章：可点击跳转到下载区对应平台卡片 */}
+        {/* 平台徽章：可点击跳转到独立下载页对应平台 */}
         <div className="mt-5 flex items-center justify-center gap-4 text-xs text-(--ox-text-muted)">
           <a
-            href="/#download-windows"
+            href="/download#windows"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Monitor className="h-3.5 w-3.5" /> Windows
           </a>
           <a
-            href="/#download-macos"
+            href="/download#macos"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Apple className="h-3.5 w-3.5" /> macOS
           </a>
           <a
-            href="/#download-linux"
+            href="/download#linux"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Terminal className="h-3.5 w-3.5" /> Linux
@@ -302,112 +287,6 @@ function FeaturesSection() {
               </div>
             </Reveal>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- 下载 ---------------- */
-
-const PLATFORMS = [
-  {
-    id: "download-windows",
-    name: "Windows",
-    icon: <Monitor className="h-5 w-5" />,
-    methods: [
-      { label: "安装包 (.exe)", hint: "日常使用，开始菜单/桌面快捷方式" },
-      { label: "便携版 (.zip)", hint: "免安装，U 盘 / 绿色使用" },
-    ],
-  },
-  {
-    id: "download-macos",
-    name: "macOS",
-    icon: <Apple className="h-5 w-5" />,
-    methods: [
-      { label: ".dmg（Apple Silicon）", hint: "新款 M 系列 Mac" },
-      { label: ".dmg（Intel）", hint: "老款 Intel Mac" },
-    ],
-  },
-  {
-    id: "download-linux",
-    name: "Linux",
-    icon: <Terminal className="h-5 w-5" />,
-    methods: [
-      { label: ".AppImage", hint: "通用发行版，免安装" },
-      { label: ".deb", hint: "Debian / Ubuntu 包管理" },
-      { label: ".rpm", hint: "Fedora / RHEL 包管理" },
-    ],
-  },
-];
-
-function DownloadSection() {
-  return (
-    <section
-      id="download"
-      className="border-t py-16 sm:py-20"
-      style={{ borderColor: "var(--ox-border)" }}
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="下载"
-          title="免费下载"
-          desc="桌面应用正在开发中，发布后本站与 GitHub 提供下载；云平台现可用。"
-        />
-
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {PLATFORMS.map((p, i) => (
-            <Reveal key={p.name} delay={i * 100}>
-              <div
-                id={p.id}
-                className="scroll-mt-28 h-full rounded-xl border p-6 transition-colors"
-                style={{ borderColor: "var(--ox-border)" }}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-2 text-sm font-semibold text-(--ox-text-h)">
-                    <span className="text-(--ox-accent)">{p.icon}</span>
-                    {p.name}
-                  </span>
-                  <span className="rounded-full border px-2 py-0.5 text-[10px] text-(--ox-text-muted)" style={{ borderColor: "var(--ox-border)" }}>
-                    即将推出
-                  </span>
-                </div>
-                <ul className="mt-4 flex flex-col gap-2.5">
-                  {p.methods.map((m) => (
-                    <li
-                      key={m.label}
-                      className="flex items-start gap-2 rounded-lg border px-3 py-2"
-                      style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
-                    >
-                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-(--ox-accent)" />
-                      <span className="text-xs">
-                        <span className="block font-medium text-(--ox-text-h)">{m.label}</span>
-                        <span className="text-(--ox-text-muted)">{m.hint}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <div
-          className="mt-8 flex flex-col items-center justify-between gap-4 rounded-xl border p-6 sm:flex-row"
-          style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
-        >
-          <div>
-            <h3 className="text-sm font-semibold text-(--ox-text-h)">等不及？先用云平台</h3>
-            <p className="mt-1 text-xs text-(--ox-text-muted)">
-              在线体验全部功能：注册 → 创建项目 → 复制代理地址 → 改一行环境变量。
-            </p>
-          </div>
-          <Button asChild>
-            <Link href="/auth/sign-up">
-              云平台在线使用
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
         </div>
       </div>
     </section>

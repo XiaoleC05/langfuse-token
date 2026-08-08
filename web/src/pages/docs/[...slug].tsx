@@ -24,7 +24,8 @@ export default function DocPage({
         <meta name="description" content={`${doc.title} — Oxelia51 使用文档`} />
       </Head>
       <DocsLayout allDocs={allDocs} activeSlug={doc.slug[0]}>
-        <Reveal>
+        {/* key 强制文章切换时重挂载，让入场动画每次切换都播放 */}
+        <Reveal key={doc.slug[0]}>
           <DocsMarkdown content={doc.content} />
         </Reveal>
       </DocsLayout>

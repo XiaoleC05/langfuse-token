@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { Github, ArrowRight, Menu, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import { Github, ArrowRight, LogOut, Menu, X } from "lucide-react";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { SiteLogo } from "./SiteLogo";
 
@@ -95,14 +95,26 @@ export function SiteHeader() {
           </a>
           <Oxelia51ThemeToggle />
           {authenticated ? (
-            <Link
-              href={workspaceHref}
-              className="inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium text-(--ox-text-h) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
-              style={{ borderColor: "var(--ox-border)" }}
-            >
-              进入工作台
-              <ArrowRight className="h-3 w-3" />
-            </Link>
+            <>
+              <Link
+                href={workspaceHref}
+                className="inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium text-(--ox-text-h) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
+                style={{ borderColor: "var(--ox-border)" }}
+              >
+                进入工作台
+                <ArrowRight className="h-3 w-3" />
+              </Link>
+              <button
+                type="button"
+                onClick={() => void signOut({ callbackUrl: "/" })}
+                aria-label="退出登录"
+                title="退出登录"
+                className="flex h-8 w-8 items-center justify-center rounded-md border text-(--ox-text-muted) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
+                style={{ borderColor: "var(--ox-border)" }}
+              >
+                <LogOut className="h-3.5 w-3.5" />
+              </button>
+            </>
           ) : (
             <>
               <Link

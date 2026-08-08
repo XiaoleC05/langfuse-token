@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, type ReactNode } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import {
   BarChart3,
   ExternalLink,
   FolderKanban,
   LayoutGrid,
+  LogOut,
   MessageSquare,
   Settings,
 } from "lucide-react";
@@ -69,6 +70,15 @@ export function WorkspaceLayout({
           <span className="hidden text-xs text-(--ox-text-muted) sm:block">
             {session?.user?.email ?? session?.user?.name}
           </span>
+          <button
+            type="button"
+            onClick={() => void signOut({ callbackUrl: "/" })}
+            className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs text-(--ox-text-muted) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
+            style={{ borderColor: "var(--ox-border)" }}
+          >
+            退出登录
+            <LogOut className="h-3 w-3" />
+          </button>
           <Link
             href="/"
             className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h)"

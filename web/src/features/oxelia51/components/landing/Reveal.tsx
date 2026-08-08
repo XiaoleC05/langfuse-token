@@ -4,8 +4,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/src/utils/tailwind";
 
 /**
- * 滚动进入动画：元素进入视口时淡入上移。
- * 尊重 prefers-reduced-motion（直接显示）；首屏 Hero 不套用，保证即时可见。
+ * 滚动动画：元素进入视口时淡入上移，离开视口时淡出。
+ * 双向触发——每次滚动经过元素都会播放动画，而非仅第一次。
+ * 尊重 prefers-reduced-motion（直接显示）；首屏 Hero 不套用（Hero 有独立入场动效）。
  */
 export function Reveal({
   children,
@@ -31,12 +32,7 @@ export function Reveal({
       return;
     }
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
+      ([entry]) => setVisible(entry.isIntersecting),
       { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
     );
     observer.observe(el);
@@ -47,11 +43,11 @@ export function Reveal({
     <div
       ref={ref}
       className={cn(
-        "min-w-0 transition-all duration-700 ease-out",
+        "min-w-0 transition-all duration-700 ease-out will-change-[opacity,transform]",
         visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
         className,
       )}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
     >
       {children}
     </div>

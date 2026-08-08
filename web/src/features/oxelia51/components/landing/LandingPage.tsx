@@ -68,6 +68,19 @@ export function LandingPage() {
 function HeroSection() {
   return (
     <section className="relative overflow-hidden">
+      {/* Hero 入场动效：每次进入页面都会播放（挂载触发，不依赖存储） */}
+      <style>{`
+        @keyframes ox-hero-in {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .ox-hero-in {
+          animation: ox-hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ox-hero-in { animation: none; }
+        }
+      `}</style>
       {/* 背景辉光 */}
       <div
         aria-hidden
@@ -78,23 +91,34 @@ function HeroSection() {
         }}
       />
       <div className="relative mx-auto max-w-6xl px-4 pt-16 pb-14 text-center sm:px-6 sm:pt-20">
-        <span
-          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs text-(--ox-text-muted)"
-          style={{ borderColor: "var(--ox-border)" }}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-(--ox-accent)" />
-          本地优先 · 开源 MIT
-        </span>
+        <div className="ox-hero-in" style={{ animationDelay: "0ms" }}>
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs text-(--ox-text-muted)"
+            style={{ borderColor: "var(--ox-border)" }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-(--ox-accent)" />
+            本地优先 · 开源 MIT
+          </span>
+        </div>
 
-        <h1 className="mx-auto mt-6 max-w-3xl text-3xl leading-[1.3] font-bold tracking-tight text-(--ox-text-h) sm:text-5xl">
+        <h1
+          className="ox-hero-in mx-auto mt-6 max-w-3xl text-3xl leading-[1.3] font-bold tracking-tight text-(--ox-text-h) sm:text-5xl"
+          style={{ animationDelay: "90ms" }}
+        >
           只需要改一行环境变量，所有 Token 消耗一目了然
         </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg">
+        <p
+          className="ox-hero-in mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg"
+          style={{ animationDelay: "180ms" }}
+        >
           本地部署 · 安全简洁 · 多维统计。无论你使用 Claude、ChatGPT、DeepSeek 还是任何模型工具，
           每一次调用，用量、成本、异常自动落账。
         </p>
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div
+          className="ox-hero-in mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          style={{ animationDelay: "270ms" }}
+        >
           <Button asChild size="lg">
             <Link href="/download">
               免费下载
@@ -110,7 +134,10 @@ function HeroSection() {
         </div>
 
         {/* 平台徽章：可点击跳转到独立下载页对应平台 */}
-        <div className="mt-5 flex items-center justify-center gap-4 text-xs text-(--ox-text-muted)">
+        <div
+          className="ox-hero-in mt-5 flex items-center justify-center gap-4 text-xs text-(--ox-text-muted)"
+          style={{ animationDelay: "340ms" }}
+        >
           <a
             href="/download#windows"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
@@ -132,7 +159,10 @@ function HeroSection() {
         </div>
 
         {/* 产品截图 mock */}
-        <div className="mx-auto mt-12 max-w-4xl">
+        <div
+          className="ox-hero-in mx-auto mt-12 max-w-4xl"
+          style={{ animationDelay: "420ms" }}
+        >
           <DashboardMock />
         </div>
       </div>

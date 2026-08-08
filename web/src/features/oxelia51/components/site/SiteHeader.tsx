@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { Github, ArrowRight } from "lucide-react";
+import { Github, ArrowRight, Menu, X } from "lucide-react";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { SiteLogo } from "./SiteLogo";
 
@@ -18,12 +19,26 @@ const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 export function SiteHeader() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
   const authenticated = status === "authenticated";
 
   const firstProjectId = session?.user?.organizations?.[0]?.projects?.[0]?.id;
   const workspaceHref = firstProjectId
     ? `/project/${firstProjectId}`
     : "/organization";
+
+  const NAV_LINKS: {
+    href: string;
+    label: string;
+    exact?: boolean;
+    accent?: boolean;
+  }[] = [
+    { href: "/", label: "首页", exact: true },
+    { href: "/download", label: "免费下载", accent: true },
+    { href: "/docs", label: "文档" },
+    { href: "/community", label: "社区" },
+    { href: "/changelog", label: "更新日志" },
+  ];
 
   const linkClass = (active: boolean, accent = false) =>
     `text-sm transition-colors ${
@@ -53,29 +68,20 @@ export function SiteHeader() {
         <div className="flex min-w-0 items-center gap-6 md:gap-8">
           <Link href="/" aria-label="Oxelia51 首页" className="shrink-0">
             <SiteLogo
-              wordartClassName="h-5 sm:h-6"
-              glyphClassName="h-5 sm:h-6"
+              wordartClassName="h-7 sm:h-8"
+              glyphClassName="h-7 sm:h-8"
             />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link href="/" className={linkClass(isActive("/", true))}>
-              首页
-            </Link>
-            <Link
-              href="/download"
-              className={linkClass(isActive("/download"), true)}
-            >
-              免费下载
-            </Link>
-            <Link href="/docs" className={linkClass(isActive("/docs"))}>
-              文档
-            </Link>
-            <Link href="/community" className={linkClass(isActive("/community"))}>
-              社区
-            </Link>
-            <Link href="/changelog" className={linkClass(isActive("/changelog"))}>
-              更新日志
-            </Link>
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={linkClass(isActive(l.href, l.exact), "accent" in l && l.accent)}
+              >
+                {l.label}
+              </Link>
+            ))}
           </nav>
         </div>
 
@@ -115,8 +121,41 @@ export function SiteHeader() {
               </Link>
             </>
           )}
+          {/* 移动端菜单按钮 */}
+          <button
+            type="button"
+            aria-label={menuOpen ? "关闭菜单" : "打开菜单"}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="flex h-8 w-8 items-center justify-center rounded-md border text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h) md:hidden"
+            style={{ borderColor: "var(--ox-border)" }}
+          >
+            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </div>
+
+      {/* 移动端菜单面板 */}
+      {menuOpen && (
+        <div className="border-t md:hidden" style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg)" }}>
+          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 sm:px-6">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                className="rounded-md px-2 py-2.5 text-sm"
+                style={
+                  isActive(l.href, l.exact)
+                    ? { color: "var(--ox-accent)" }
+                    : { color: "var(--ox-text-h)" }
+                }
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

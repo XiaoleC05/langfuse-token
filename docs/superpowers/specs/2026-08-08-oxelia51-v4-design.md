@@ -363,6 +363,39 @@ Logo | 首页 | 文档 | 社区 | 更新日志 | [免费下载]   |  GitHub · �
 - [ ] 5 屏界面可用，本地告警可用
 - [ ] 应用内版本检测与更新日志展示
 
+### 6.5 P3 实施计划（2026-08-08 定稿，已确认）
+
+**代码载体**：`desktop/` 放 **Oxelia51 仓**（Go sidecar 源码 proxy-gateway 与发布主仓均在该仓，符合 §6.3「发布渠道 = Oxelia51 仓或其子仓」）。
+
+```
+Oxelia51/desktop/
+├─ src-tauri/      Tauri 2 Rust 壳：窗口、侧车进程托管、系统通知
+├─ ui/             React + Vite 桌面 UI（抽取 oxelia51 --ox-* 设计 token，双主题）
+└─ sidecar/        本地模式 Go 网关（复用 proxy-gateway，见 §6.6）
+```
+
+**P3.0 前置**：本机安装 Rust toolchain（rustup stable，Tauri 必需）；确认桌面代码放 Oxelia51 仓。
+
+**P3.1 核心闭环**（先打通「改环境变量 → 本地记账 → 仪表盘可见」）：
+- `proxy-gateway/internal/recorder/sqlite.go`：新 `SQLiteWriter` 实现现有 `BatchWriter` 接口，批量 `INSERT` 本地 SQLite（`modernc.org/sqlite` 纯 Go 无 cgo，跨平台静态编译）。
+- `cmd/proxy/main.go` 加 `LOCAL_MODE=true` 分支：recorder=SQLiteWriter、鉴权关闭、限流放宽、**默认端口 17800**（设置页可改）。
+- sidecar 暴露**本地只读统计 HTTP 接口**（复用 `internal/stats/`：`/api/overview`、`/api/byModel` 等），UI 走 fetch——避免两进程并发写 SQLite，语义与云侧一致。Tauri 壳只负责拉起/停止 sidecar。
+- Tauri 壳 + Vite React 单屏「总览」最小版。验收：Claude Code/Cursor 指 `http://localhost:17800` → 本地落账 → UI 可见数字。
+
+**P3.2 五屏 UI**：总览全量 + 项目（Cursor 式：名称+本地文件夹引用）+ 会话（列表/详情，`session_id`）+ 告警（本地预算阈值 + 系统通知）+ 设置（端口/定价/主题）。
+
+**P3.3 打包发布**：Windows .exe/.zip 本地构建；macOS .dmg / Linux .deb/.rpm/.AppImage 走 GitHub Actions 矩阵 runner；下载区上真实下载链接 + 应用内版本检测（大版本更新自动获取接通）。未签名版本可先发布（Mac/Windows 有提示），签名成本届时评估。
+
+### 6.6 本地 SQLite 语义（与云侧共享，P4 同步天然对齐）
+
+| 表 | 用途 | 字段来源 |
+|---|---|---|
+| `token_events` | 每次代理请求一笔 token 记录 | 复用 `adapter.TokenRecord`：EventID / ProjectID / SessionID / Provider / Model / PromptTokens / CompletionTokens / TotalTokens / DurationMs / Timestamp / APIKeyHash |
+| `summaries` | 日/模型/项目汇总（查询提速） | 由 token_events 聚合 |
+| `settings` | 端口 / 模型定价 / 主题 / 同步状态 | 配置 |
+
+> 与云侧 CH `token_events` 共用同一语义模型（§5.4 维度：纵/横/时）；「空」维度（来源工具/设备）本地同样标注数据源不支持。
+
 ---
 
 ## 7. Phase 4：账户弱化收尾 + 多设备同步 🚧

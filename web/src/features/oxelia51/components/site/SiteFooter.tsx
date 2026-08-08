@@ -1,20 +1,15 @@
-"use client";
-
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
 import { FilingInfo } from "@/src/components/FilingInfo";
 import { SiteLogo } from "./SiteLogo";
 
 /**
  * Oxelia51 公开站点页脚（落地页 / 文档站共用）。
- * 与顶栏不重复：顶栏是 首页/文档/社区/更新日志/下载；页脚是 云平台登录注册/退出/反馈/许可证/备案。
+ * 与顶栏不重复：登录/注册/进入工作台均在顶栏覆盖，页脚只保留
+ * 支持（反馈/Issues）+ 资源（文档/GitHub/许可证）。
  */
 const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
 export function SiteFooter() {
-  const { status } = useSession();
-  const authenticated = status === "authenticated";
-
   const headingClass = "text-sm font-medium text-(--ox-text-h)";
   const linkClass =
     "text-sm text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h)";
@@ -38,25 +33,7 @@ export function SiteFooter() {
           </div>
 
           {/* 链接列：不与顶栏重复 */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            <div className="flex flex-col gap-3">
-              <h4 className={headingClass}>云平台</h4>
-              <Link href="/auth/sign-in" className={linkClass}>
-                登录
-              </Link>
-              <Link href="/auth/sign-up" className={linkClass}>
-                注册
-              </Link>
-              {authenticated && (
-                <button
-                  type="button"
-                  onClick={() => void signOut({ callbackUrl: "/" })}
-                  className="text-left text-sm text-(--ox-accent) transition-colors hover:text-(--ox-accent-hover)"
-                >
-                  退出登录
-                </button>
-              )}
-            </div>
+          <div className="grid grid-cols-2 gap-8">
             <div className="flex flex-col gap-3">
               <h4 className={headingClass}>支持</h4>
               <a href="mailto:receive@oxelia51.com" className={linkClass}>

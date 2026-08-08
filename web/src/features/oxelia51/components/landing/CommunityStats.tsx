@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Star, GitFork, Download } from "lucide-react";
+import { ContributorMarquee } from "./ContributorMarquee";
 
 /**
  * 社区区块的 GitHub 真实数据：Star / Fork / 贡献者。
@@ -58,29 +59,29 @@ export function CommunityStats() {
     }
 
     let cancelled = false;
-    Promise.all([
-      fetch(`https://api.github.com/repos/${REPO}`).then((r) =>
-        r.ok ? r.json() : Promise.reject(r.status),
-      ),
-      fetch(`https://api.github.com/repos/${REPO}/contributors?per_page=12`).then(
-        (r) => (r.ok ? r.json() : Promise.reject(r.status)),
-      ),
-    ])
-      .then(([repoJson, contribJson]) => {
-        if (cancelled) return;
-        setRepo(repoJson as RepoInfo);
-        setContributors(contribJson as Contributor[]);
-        saveCache(repoJson as RepoInfo, contribJson as Contributor[]);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setRepo(null);
-          setContributors([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoaded(true);
-      });
+    // 两个请求独立加载，互不拖累：仓库统计被限流/失败时，贡献者数据仍正常展示。
+    const load = async () => {
+      const [repoJson, contribJson] = await Promise.all([
+        fetch(`https://api.github.com/repos/${REPO}`)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null),
+        fetch(`https://api.github.com/repos/${REPO}/contributors?per_page=30`)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null),
+      ]);
+      if (cancelled) return;
+      const repo = repoJson as RepoInfo | null;
+      const contributors = Array.isArray(contribJson)
+        ? (contribJson as Contributor[])
+        : [];
+      setRepo(repo);
+      setContributors(contributors);
+      if (repo && contributors.length) {
+        saveCache(repo, contributors);
+      }
+      setLoaded(true);
+    };
+    void load();
 
     return () => {
       cancelled = true;
@@ -111,29 +112,13 @@ export function CommunityStats() {
         </span>
       </div>
 
-      {/* 贡献者头像墙 */}
-      {loaded && (
-        <div className="flex items-center justify-center">
-          <div className="flex -space-x-2">
-            {(contributors?.length ? contributors : []).map((c) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={c.login}
-                src={c.avatar_url}
-                alt={c.login}
-                width={32}
-                height={32}
-                title={c.login}
-                className="h-8 w-8 rounded-full border-2"
-                style={{ borderColor: "var(--ox-bg)", backgroundColor: "var(--ox-border-light)" }}
-              />
-            ))}
-            {contributors && contributors.length === 0 && (
-              <span className="text-xs text-(--ox-text-muted)">等你的第一行贡献</span>
-            )}
-          </div>
-        </div>
-      )}
+      {/* 贡献者：数量少静态堆叠，数量多双轨对向滚动 */}
+      {loaded &&
+        (contributors?.length ? (
+          <ContributorMarquee contributors={contributors} />
+        ) : (
+          <span className="text-xs text-(--ox-text-muted)">等你的第一行贡献</span>
+        ))}
     </div>
   );
 }

@@ -6,8 +6,8 @@ import { Reveal } from "@/src/features/oxelia51/components/landing/Reveal";
 
 /**
  * Oxelia51 独立更新日志页（/changelog）：版本发布记录。
- * 大版本更新将自动获取发布记录（开发中）；当前为手工维护的近期变更。
- * 每条版本以卡片 + 滚动动画呈现。skipAppLayout，全匿名可访问。
+ * 手工维护：正式版本发布后手动补充新卡片（GitHub Releases 为 CI 自动 commit
+ * 噪声，不直接采用）。每条版本以卡片 + 滚动动画呈现。skipAppLayout，全匿名可访问。
  */
 
 type Version = {
@@ -121,7 +121,7 @@ export default function ChangelogPage() {
                   更新日志
                 </h1>
                 <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-(--ox-text-muted)">
-                  大版本更新将自动获取发布记录（开发中）；当前为手工维护的近期变更。
+                  按版本手工维护的发布记录；正式版本发布后会及时更新在这里。
                 </p>
               </div>
             </Reveal>

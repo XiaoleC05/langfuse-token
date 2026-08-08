@@ -68,8 +68,8 @@ export function SiteHeader() {
         <div className="flex min-w-0 items-center gap-6 md:gap-8">
           <Link href="/" aria-label="Oxelia51 首页" className="shrink-0">
             <SiteLogo
-              wordartClassName="h-7 sm:h-8"
-              glyphClassName="h-7 sm:h-8"
+              wordartClassName="h-5 sm:h-6"
+              glyphClassName="h-8 sm:h-10"
             />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">

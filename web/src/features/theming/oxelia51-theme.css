@@ -148,3 +148,12 @@
   --ox-text-h: #1e3a5f;
   --ox-text-muted: #5a6b85;
 }
+
+/* Oxelia51 公开站点（落地页 / 文档站，skipAppLayout）：
+   覆盖 globals.css 的 `div#__next > div { height: 100% }`——
+   否则根容器被钉在 100vh，页面内容溢出且顶栏 sticky 范围被截断。
+   仅当根节点带 .ox-site-page 时生效，不影响应用侧栏布局。 */
+#__next > .ox-site-page {
+  height: auto !important;
+  min-height: 100dvh !important;
+}

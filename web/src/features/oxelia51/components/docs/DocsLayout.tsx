@@ -21,7 +21,7 @@ export function DocsLayout({
   const groups = groupDocsBySection(allDocs);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="ox-site-page flex min-h-screen flex-col">
       <SiteHeader />
       <div className="mx-auto w-full max-w-6xl grow px-4 sm:px-6">
         <div className="flex gap-10 py-10">

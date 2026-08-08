@@ -51,7 +51,7 @@ export function LandingPage() {
           content="Oxelia51 是本地优先的个人 Token 记账本：本地部署、安全简洁、多维统计。改一行环境变量，所有模型调用的 Token 消耗一目了然。"
         />
       </Head>
-      <div className="flex min-h-screen flex-col">
+      <div className="ox-site-page flex min-h-screen flex-col">
         <SiteHeader />
         <main className="grow">
           <HeroSection />

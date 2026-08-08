@@ -21,14 +21,16 @@ type Version = {
 const VERSIONS: Version[] = [
   {
     tag: "v4.0",
-    date: "2026-08-08",
-    status: "planned",
-    summary: "产品转向本地优先的个人 Token 记账本",
+    date: "2026-08-09",
+    status: "released",
+    summary: "本地优先的个人 Token 记账本（P1–P4 完成）",
     items: [
       "落地页重构：主入口改为免费下载，弱化登录注册",
       "文档站上线：/docs 使用手册",
       "配色统一为黑 / 白 / 心跳红",
-      "规划：P2 数据模型个人化 → P3 桌面应用（Tauri 2）→ P4 多设备同步",
+      "个人工作台 /app：总览 / 项目 / 会话 / 分析 / 设置",
+      "桌面应用 v0.1.0（Tauri 2，Windows/macOS/Linux）：本地代理 + 五屏界面 + 成本核算 + 预算告警",
+      "多设备同步：桌面端登录账户即可云端同步、多设备共用",
     ],
   },
   {

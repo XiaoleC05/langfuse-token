@@ -30,7 +30,7 @@ import { BackToTop } from "@/src/features/oxelia51/components/landing/BackToTop"
  * Oxelia51 落地页 v2（2026-08-08 设计定稿）。
  * 结构仿 reasonix / CC Switch：Hero + 三步上手 + 特性 + 下载 + 社区 + FAQ + 页脚。
  * 主 CTA = 免费下载；登录/注册不再是前台；配色黑/白/心跳红。
- * 未实现功能（桌面应用/本地代理等）一律标注「即将推出」，不虚构。
+ * 桌面应用/本地代理等已实现；未实现功能一律标注「即将推出」，不虚构。
  */
 const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
@@ -191,7 +191,7 @@ function HowItWorksSection() {
             >
               <CopyCodeBlock code={LOCAL_PROXY_CMD} />
               <p className="mt-2 text-xs text-(--ox-text-muted)">
-                端口可在应用设置中修改。本地代理即将推出；云代理现可用：
+                端口可在应用设置中修改。桌面端内置本地代理；也可使用云代理：
               </p>
               <CopyCodeBlock code={CLOUD_PROXY_CMD} />
             </StepCard>
@@ -357,7 +357,7 @@ function CommunityStrip() {
 const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   {
     q: "需要注册才能用吗？",
-    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步、云托管与管理员管理（同步正在开发中）。",
+    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步（已支持）、云托管与管理员管理。",
   },
   {
     q: "数据存在哪里？",
@@ -373,7 +373,7 @@ const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "正在开发中，将支持 Windows / macOS / Linux 三平台。发布后在本站与 GitHub 提供下载。",
+    a: "已发布 v0.1.0，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
   },
   {
     q: "怎么自托管？",
@@ -389,7 +389,7 @@ const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   },
   {
     q: "跨设备同步什么时候有？",
-    a: "正在规划中。登录账户后即可在多设备间同步数据（开发中）。",
+    a: "已支持：桌面端登录账户后即可把本地账本同步到云端，多设备共用（按事件去重合并）。",
   },
   {
     q: "看文档 / 下载需要登录吗？",

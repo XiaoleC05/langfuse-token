@@ -38,7 +38,7 @@ export default function DownloadPage() {
                   免费下载
                 </h1>
                 <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-(--ox-text-muted)">
-                  桌面应用正在开发中，发布后本站与 GitHub 提供下载；云平台现可用。
+                  桌面应用已发布 v0.1.0（Windows / macOS / Linux）；云平台现可用。
                 </p>
               </div>
             </Reveal>

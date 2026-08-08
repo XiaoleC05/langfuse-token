@@ -23,7 +23,7 @@ export function DocsLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
-      <div className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl grow px-4 sm:px-6">
         <div className="flex gap-10 py-10">
           {/* 左侧目录 */}
           <aside className="hidden w-52 shrink-0 md:block">

@@ -34,7 +34,8 @@ import { BackToTop } from "@/src/features/oxelia51/components/landing/BackToTop"
  */
 const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
-const LOCAL_PROXY_CMD = `export ANTHROPIC_BASE_URL="http://localhost:17800/anthropic"`;
+// BASE_URL 必须含 /api/proxy 前缀（代理路由注册在 /api/proxy/<slug>/，见 registry.go）
+const LOCAL_PROXY_CMD = `export ANTHROPIC_BASE_URL="http://localhost:17800/api/proxy/anthropic"`;
 const CLOUD_PROXY_CMD = `export ANTHROPIC_BASE_URL="https://oxelia51.com/api/proxy/anthropic"`;
 
 export function LandingPage() {

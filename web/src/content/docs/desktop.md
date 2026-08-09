@@ -21,10 +21,12 @@ order: 2
 
 ## 配置本地代理
 
-应用启动后会内置一个**本地代理**（默认端口 `17800`，可在设置中修改）。把模型工具的 API 地址指向它，以 Claude Code 为例：
+应用启动后会内置一个**本地代理**（默认端口 `17800`，监听 `127.0.0.1`）。把模型工具的 API 地址指向它，以 Claude Code 为例：
 
 ```bash
-export ANTHROPIC_BASE_URL="http://localhost:17800/anthropic"
+# 注意：BASE_URL 必须含 /api/proxy 前缀，否则请求 404、不落账
+export ANTHROPIC_BASE_URL="http://localhost:17800/api/proxy/anthropic"
+export OPENAI_BASE_URL="http://localhost:17800/api/proxy/openai"
 ```
 
 之后每一次模型调用都会自动落账，无需其他操作。

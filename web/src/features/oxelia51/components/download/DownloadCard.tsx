@@ -86,8 +86,12 @@ export function DownloadCard() {
           <div
             key={p.id}
             id={p.id}
-            className="scroll-mt-28 h-full rounded-xl border p-6 transition-colors"
-            style={{ borderColor: "var(--ox-border)" }}
+            className="scroll-mt-28 h-full rounded-xl border p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+            style={{
+              borderColor: "var(--ox-border)",
+              backgroundColor: "var(--ox-bg)",
+              boxShadow: "0 0 0 0 transparent",
+            }}
           >
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-sm font-semibold text-(--ox-text-h)">

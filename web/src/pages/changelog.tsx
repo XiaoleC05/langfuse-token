@@ -1,5 +1,4 @@
 import Head from "next/head";
-import type { ReactNode } from "react";
 import { SiteHeader } from "@/src/features/oxelia51/components/site/SiteHeader";
 import { SiteFooter } from "@/src/features/oxelia51/components/site/SiteFooter";
 import { Reveal } from "@/src/features/oxelia51/components/landing/Reveal";
@@ -28,9 +27,9 @@ const VERSIONS: Version[] = [
       "落地页重构：主入口改为免费下载，弱化登录注册",
       "文档站上线：/docs 使用手册",
       "配色统一为黑 / 白 / 心跳红",
-      "个人工作台 /app：总览 / 项目 / 会话 / 分析 / 设置",
-      "桌面应用 v0.1.0（Tauri 2，Windows/macOS/Linux）：本地代理 + 五屏界面 + 成本核算 + 预算告警",
-      "多设备同步链路（🚧 开发中）：桌面端上传/下载已实现，账户注册与云端展示收尾中",
+      "个人工作台 /app：总览 / 供应商 / Agent / 分析 / 设置",
+      "桌面应用（Tauri 2，Windows/macOS/Linux）：本地代理 + 六屏界面（总览/接入/供应商/Agent/告警/设置）+ 成本核算 + 预算告警",
+      "多设备同步：桌面端登录平台账户后上传 / 下载本地账本，多设备按事件去重合并；/app 设置页可查看同步账本与管理同步密钥",
     ],
   },
   {
@@ -115,17 +114,9 @@ export default function ChangelogPage() {
         <main className="grow">
           <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
             <Reveal>
-              <div className="text-center">
-                <span className="text-xs font-semibold tracking-widest text-(--ox-accent) uppercase">
-                  更新日志
-                </span>
-                <h1 className="mt-2 text-3xl font-bold tracking-tight text-(--ox-text-h) sm:text-4xl">
-                  更新日志
-                </h1>
-                <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-(--ox-text-muted)">
-                  按版本手工维护的发布记录；正式版本发布后会及时更新在这里。
-                </p>
-              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-(--ox-text-h) sm:text-4xl">
+                更新日志
+              </h1>
             </Reveal>
 
             <div className="mt-12 flex flex-col gap-4">

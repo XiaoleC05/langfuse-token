@@ -41,7 +41,8 @@ export function SiteFooter() {
                   不再用 mailto——邮件不进反馈库，会丢在邮箱里 */}
               <FeedbackDialog
                 trigger={
-                  <button type="button" className={linkClass}>
+                  // text-left：按钮默认居中、链接左对齐，会造成「支持栏没对齐」
+                  <button type="button" className={`${linkClass} text-left`}>
                     用户反馈
                   </button>
                 }
@@ -57,6 +58,9 @@ export function SiteFooter() {
             </div>
             <div className="flex flex-col gap-3">
               <h4 className={headingClass}>资源</h4>
+              <Link href="/download" className={linkClass}>
+                下载桌面版
+              </Link>
               <Link href="/docs" className={linkClass}>
                 使用文档
               </Link>

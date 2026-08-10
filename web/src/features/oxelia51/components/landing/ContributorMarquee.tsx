@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
  * 贡献者较少时退回静态头像堆叠，避免空旷；尊重 prefers-reduced-motion。
  */
 
-export type Contributor = { login: string; avatar_url: string };
+type Contributor = { login: string; avatar_url: string };
 
 const THRESHOLD = 8; // 达到该数量才启用双轨滚动
 const PX_PER_SEC = 40; // 基础滚动速度 px/s

@@ -34,8 +34,10 @@ import { BackToTop } from "@/src/features/oxelia51/components/landing/BackToTop"
  */
 const GITHUB_URL = "https://github.com/XiaoleC05/Oxelia51";
 
-// BASE_URL 必须含 /api/proxy 前缀（代理路由注册在 /api/proxy/<slug>/，见 registry.go）
+// BASE_URL 必须含 /api/proxy 前缀（代理路由注册在 /api/proxy/<slug>/，见 registry.go）。
+// 供应商 = LLM 平台；Agent = 用户使用的软件。展示示例命令 + 说明「换 slug 即换供应商」。
 const LOCAL_PROXY_CMD = `export ANTHROPIC_BASE_URL="http://localhost:17800/api/proxy/anthropic"`;
+const LOCAL_PROXY_CMD_OPENAI = `export OPENAI_BASE_URL="http://localhost:17800/api/proxy/deepseek"`;
 const CLOUD_PROXY_CMD = `export ANTHROPIC_BASE_URL="https://oxelia51.com/api/proxy/anthropic"`;
 
 export function LandingPage() {
@@ -45,7 +47,7 @@ export function LandingPage() {
         <title>Oxelia51 | 只需要改一行环境变量，所有 Token 消耗一目了然</title>
         <meta
           name="description"
-          content="Oxelia51 是本地优先的个人 Token 记账本：本地部署、安全简洁、多维统计。改一行环境变量，所有模型调用的 Token 消耗一目了然。"
+          content="Oxelia51 是本地优先的个人 Token 记账本：数据存本地、按供应商与 Agent 统计。改一行环境变量，所有模型调用的 Token 消耗一目了然。"
         />
       </Head>
       <div className="ox-site-page flex min-h-screen flex-col">
@@ -112,7 +114,7 @@ function HeroSection() {
           className="ox-hero-in mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg"
           style={{ animationDelay: "180ms" }}
         >
-          本地部署 · 安全简洁 · 多维统计。无论你使用 Claude、ChatGPT、DeepSeek 还是任何模型工具，
+          本地部署 · 数据本地 · 按供应商和 Agent 统计。无论你使用 Claude、ChatGPT、DeepSeek 还是任何模型工具，
           每一次调用，用量、成本、异常自动落账。
         </p>
 
@@ -188,11 +190,15 @@ function HowItWorksSection() {
             <StepCard
               index={1}
               title="指向本地代理"
-              desc="把模型工具的 API 地址指向应用内置代理，一行环境变量即可。"
+              desc="把模型工具的 Base URL 指向应用内置代理，一行环境变量即可。"
             >
               <CopyCodeBlock code={LOCAL_PROXY_CMD} />
               <p className="mt-2 text-xs text-(--ox-text-muted)">
-                端口可在应用设置中修改。桌面端内置本地代理；也可使用云代理：
+                Claude Code / Anthropic SDK 用上面这条；OpenAI 兼容工具（Cursor、CC Switch、Trae 等）用下面这条（换成你的供应商 slug）：
+              </p>
+              <CopyCodeBlock code={LOCAL_PROXY_CMD_OPENAI} />
+              <p className="mt-2 text-xs text-(--ox-text-muted)">
+                内置 38+ 供应商路由（国内：DeepSeek、智谱、通义、Kimi、豆包、混元、星火、MiniMax、硅基流动…；国际：OpenAI、Gemini、Mistral、Grok、Groq…；聚合：OpenRouter、SiliconFlow…），slug 即供应商。供应商 = 提供大模型的平台；Agent = 你使用的软件，记录会自动按工具识别。云代理亦可用：
               </p>
               <CopyCodeBlock code={CLOUD_PROXY_CMD} />
             </StepCard>
@@ -208,7 +214,7 @@ function HowItWorksSection() {
             <StepCard
               index={3}
               title="打开仪表盘"
-              desc="按时间、模型、项目、会话多维度查看，成本、异常一目了然。"
+              desc="按时间、供应商、Agent 多维度查看，成本、异常一目了然。"
             />
           </Reveal>
         </div>
@@ -271,12 +277,12 @@ const FEATURES: { icon: ReactNode; title: string; desc: string }[] = [
   {
     icon: <BarChart3 className="h-4 w-4" />,
     title: "多维统计",
-    desc: "按时间、模型、项目、会话拆解用量与成本，从多角度看清 Token 花在哪。",
+    desc: "按时间、供应商、Agent 拆解用量与成本，从多角度看清 Token 花在哪。",
   },
   {
     icon: <FolderKanban className="h-4 w-4" />,
-    title: "会话与项目",
-    desc: "以项目和会话为轴心记录每笔调用，项目可引用本地文件夹（Cursor 式）。",
+    title: "供应商与 Agent",
+    desc: "按 LLM 平台（供应商）与使用工具（Agent）双维度记录每笔调用。",
   },
   {
     icon: <BellRing className="h-4 w-4" />,
@@ -285,13 +291,13 @@ const FEATURES: { icon: ReactNode; title: string; desc: string }[] = [
   },
   {
     icon: <ShieldCheck className="h-4 w-4" />,
-    title: "本地部署 · 安全简洁",
+    title: "本地部署 · 数据本地",
     desc: "桌面应用数据全部存本地；自托管一条命令，数据不离开你的设备。",
   },
   {
     icon: <Terminal className="h-4 w-4" />,
     title: "国内模型适配",
-    desc: "DeepSeek、Moonshot、智谱等开箱即用，内置 20+ 模型定价自动核算。",
+    desc: "DeepSeek、Moonshot、智谱等开箱即用，内置 60+ 模型参考价，支持美元/人民币切换。",
   },
 ];
 
@@ -299,7 +305,7 @@ function FeaturesSection() {
   return (
     <section className="border-t py-16 sm:py-20" style={{ borderColor: "var(--ox-border)" }}>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading eyebrow="特性" title="为个人打造的 Token 记账本" />
+        <SectionHeading eyebrow="特性" title="Token 记账本，本地优先" />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <Reveal key={f.title} delay={i * 60}>
@@ -358,7 +364,7 @@ function CommunityStrip() {
 const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   {
     q: "需要注册才能用吗？",
-    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步（🚧 开发中）、云托管与管理员管理。",
+    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步、云托管与管理员管理。",
   },
   {
     q: "数据存在哪里？",
@@ -370,11 +376,11 @@ const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   },
   {
     q: "支持哪些模型？",
-    a: "Anthropic、OpenAI 以及 DeepSeek、Moonshot、智谱等国内模型，内置 20+ 模型定价表，成本自动换算。",
+    a: "内置 38+ 供应商路由，覆盖国内（DeepSeek、智谱、通义、Kimi、豆包、混元、星火、MiniMax、硅基流动…）、国际（Anthropic、OpenAI、Gemini、Mistral、Grok、Groq…）与聚合平台（OpenRouter、Together…）；内置 60+ 模型参考价，支持美元/人民币切换。改代理地址里的供应商 slug 即可切换，如 /api/proxy/deepseek、/api/proxy/zhipu。",
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.0，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+    a: "已发布 v0.1.x，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
   },
   {
     q: "怎么自托管？",
@@ -382,15 +388,15 @@ const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
   },
   {
     q: "和云平台是什么关系？",
-    a: "本地为主，云平台是可选托管。用桌面应用或自托管，都可以；云平台为不想自己部署的用户提供在线体验。",
+    a: "桌面端负责本地记账与代理接入（无需登录）；云平台提供已同步数据的查看、备份与跨设备恢复。登录是可选能力，不同步你的 API Key 与请求内容。",
   },
   {
     q: "怎么反馈问题？",
     a: "通过站内反馈、邮箱 receive@oxelia51.com 或 GitHub Issues。",
   },
   {
-    q: "跨设备同步什么时候有？",
-    a: "🚧 开发中。同步链路已实现，账户注册与云端展示收尾中，暂不开放。当前数据全部保存在本地。",
+    q: "怎么在多台设备间同步账本？",
+    a: "在桌面端「设置 → 多设备同步」用云平台注册邮箱+密码登录，即可上传 / 下载本地账本；多设备按事件去重合并，仅在你主动点同步时数据上行。已同步的账本可在云平台「/app 设置 → 同步账本」查看。",
   },
   {
     q: "看文档 / 下载需要登录吗？",

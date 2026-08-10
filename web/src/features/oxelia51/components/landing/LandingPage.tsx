@@ -429,11 +429,25 @@ function FaqSection() {
                       className={`h-4 w-4 shrink-0 text-(--ox-text-muted) transition-transform ${isOpen ? "rotate-180" : ""}`}
                     />
                   </button>
-                  {isOpen && (
-                    <div className="border-t px-5 py-4 text-sm leading-6 text-(--ox-text-muted)" style={{ borderColor: "var(--ox-border)" }}>
-                      {item.a}
+                  {/* 答案卡片：grid-rows 平滑展开/收起（替代瞬间硬切），内容延迟淡入 */}
+                  <div
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div
+                      className={`min-h-0 overflow-hidden transition-opacity duration-300 ${
+                        isOpen ? "opacity-100 delay-100" : "opacity-0"
+                      }`}
+                    >
+                      <div
+                        className="border-t px-5 py-4 text-sm leading-6 text-(--ox-text-muted)"
+                        style={{ borderColor: "var(--ox-border)" }}
+                      >
+                        {item.a}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               </Reveal>
             );

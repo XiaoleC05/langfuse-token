@@ -12,9 +12,11 @@ import {
   LogOut,
   MessageSquare,
   Settings,
+  ShieldCheck,
 } from "lucide-react";
 import { Oxelia51ThemeToggle } from "@/src/features/theming/Oxelia51ThemeToggle";
 import { SiteLogo } from "@/src/features/oxelia51/components/site/SiteLogo";
+import { api } from "@/src/utils/api";
 
 /**
  * Oxelia51 个人工作台布局（/app/*，P2）。
@@ -38,6 +40,17 @@ export function WorkspaceLayout({
 }) {
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  // 管理员专属「管理台」入口：whoami 判定，非管理员不渲染（与主侧栏 AdminSidebarEntry 一致）
+  const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {
+    staleTime: 60_000,
+  });
+  const navItems = whoami.data?.isAdmin
+    ? [
+        ...NAV,
+        { href: "/admin", label: "管理台", icon: <ShieldCheck className="h-4 w-4" /> },
+      ]
+    : NAV;
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -97,7 +110,7 @@ export function WorkspaceLayout({
           style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
         >
           <nav className="flex flex-col gap-1 p-3">
-            {NAV.map((item) => {
+            {navItems.map((item) => {
               const isActive = active === item.href || router.pathname.startsWith(item.href + "/");
               return (
                 <Link
@@ -128,7 +141,7 @@ export function WorkspaceLayout({
           className="flex shrink-0 items-center gap-1 overflow-x-auto border-b px-3 py-2 sm:hidden"
           style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
         >
-          {NAV.map((item) => {
+          {navItems.map((item) => {
             const isActive = active === item.href || router.pathname.startsWith(item.href + "/");
             return (
               <Link

@@ -6,7 +6,7 @@ import { Card } from "@/src/components/ui/card";
 import { EChart } from "@/src/features/dashboard/components/EChart";
 import { useOxeliaChartTheme } from "@/src/features/dashboard/components/useOxeliaChartTheme";
 import { SegmentedControl } from "@/src/features/oxelia51/components/SegmentedControl";
-import { useCurrency, type Currency } from "@/src/features/oxelia51/currency";
+import { useCurrency, type Currency } from "@/src/features/oxelia51/components/currency";
 import type { EChartsOption } from "echarts";
 
 /** 成本饼图：近 30 天按模型成本占比，支持 CNY/USD 切换。 */

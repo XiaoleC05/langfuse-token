@@ -3,7 +3,7 @@ import { Oxelia51WelcomeCard } from "@/src/features/oxelia51/components/Oxelia51
 import { TokenWidget } from "@/src/features/dashboard/components/TokenWidget";
 import { TokenChart } from "@/src/features/dashboard/components/TokenChart";
 import { CostChart } from "@/src/features/dashboard/components/CostChart";
-import { CurrencyProvider } from "@/src/features/oxelia51/currency";
+import { CurrencyProvider } from "@/src/features/oxelia51/components/currency";
 import { api } from "@/src/utils/api";
 import { TimeRangePicker } from "@/src/components/date-picker";
 import { PageHeaderControlsPortal } from "@/src/components/layouts/page-header-controls-slot";

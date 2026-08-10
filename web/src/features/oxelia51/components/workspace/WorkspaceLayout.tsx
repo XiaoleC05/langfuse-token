@@ -23,8 +23,8 @@ import { SiteLogo } from "@/src/features/oxelia51/components/site/SiteLogo";
  */
 const NAV = [
   { href: "/app/overview", label: "总览", icon: <LayoutGrid className="h-4 w-4" /> },
-  { href: "/app/projects", label: "项目", icon: <FolderKanban className="h-4 w-4" /> },
-  { href: "/app/conversations", label: "会话", icon: <MessageSquare className="h-4 w-4" /> },
+  { href: "/app/providers", label: "供应商", icon: <FolderKanban className="h-4 w-4" /> },
+  { href: "/app/agents", label: "Agent", icon: <MessageSquare className="h-4 w-4" /> },
   { href: "/app/analytics", label: "分析", icon: <BarChart3 className="h-4 w-4" /> },
   { href: "/app/settings", label: "设置", icon: <Settings className="h-4 w-4" /> },
 ];

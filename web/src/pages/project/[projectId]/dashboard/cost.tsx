@@ -22,7 +22,7 @@ import {
   formatTokens,
   useCurrency,
   type Currency,
-} from "@/src/features/oxelia51/currency";
+} from "@/src/features/oxelia51/components/currency";
 import type { EChartsOption } from "echarts";
 
 export default function CostPage() {

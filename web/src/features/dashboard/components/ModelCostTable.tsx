@@ -9,7 +9,7 @@ import { TotalMetric } from "./TotalMetric";
 import {
   formatCost,
   useCurrency,
-} from "@/src/features/oxelia51/currency";
+} from "@/src/features/oxelia51/components/currency";
 import { truncate } from "@/src/utils/string";
 import { type QueryType, type ViewVersion } from "@langfuse/shared/query";
 import { mapLegacyUiTableFilterToView } from "@/src/features/dashboard/lib/dashboardUiTableToViewMapping";

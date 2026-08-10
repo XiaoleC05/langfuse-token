@@ -7,7 +7,7 @@ import {
   formatCost,
   formatTokens,
   useCurrency,
-} from "@/src/features/oxelia51/currency";
+} from "@/src/features/oxelia51/components/currency";
 import { cn } from "@/src/utils/tailwind";
 
 function Delta({ current, previous }: { current: number; previous: number }) {

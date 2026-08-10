@@ -3,41 +3,18 @@
 import { useState } from "react";
 import { api } from "@/src/utils/api";
 import { WorkspaceLayout } from "@/src/features/oxelia51/components/workspace/WorkspaceLayout";
-import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/currency";
+import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/components/currency";
+import { TokenTrendChart } from "@/src/features/oxelia51/components/TokenTrendChart";
+import { OxCard } from "@/src/features/oxelia51/components/OxCard";
+import { EmptyText } from "@/src/features/oxelia51/components/EmptyText";
+import { SegmentedControl } from "@/src/features/oxelia51/components/SegmentedControl";
 
 /** 个人工作台多维分析：纵（时间趋势）/ 横（模型·项目对比）/ 时（日历热力图）。 */
 
 const GRANULARITY_LABEL = { day: "按日", week: "按周", month: "按月" } as const;
-
-function TrendChart({
-  data,
-}: {
-  data: { bucket: string; tokens: number }[];
-}) {
-  if (data.length === 0) {
-    return <div className="flex h-40 items-center justify-center text-sm text-(--ox-text-muted)">暂无数据</div>;
-  }
-  const max = Math.max(...data.map((d) => d.tokens), 1);
-  const W = 720;
-  const H = 140;
-  const pad = 3;
-  const step = W / data.length;
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none" style={{ height: 160 }}>
-      {data.map((d, i) => {
-        const h = (d.tokens / max) * (H - 12);
-        const x = i * step + pad;
-        const w = Math.max(step - pad * 2, 1);
-        return (
-          <rect key={d.bucket} x={x} y={H - h} width={w} height={h} rx={2}
-            fill={i === data.length - 1 ? "var(--ox-accent)" : "var(--ox-border-light)"}>
-            <title>{`${d.bucket}: ${formatTokens(d.tokens)}`}</title>
-          </rect>
-        );
-      })}
-    </svg>
-  );
-}
+const GRANULARITY_OPTIONS = (Object.keys(GRANULARITY_LABEL) as (keyof typeof GRANULARITY_LABEL)[]).map(
+  (value) => ({ value, label: GRANULARITY_LABEL[value] }),
+);
 
 function CalendarHeatmap({ data }: { data: { date: string; tokens: number }[] }) {
   const map = new Map(data.map((d) => [d.date, d.tokens]));
@@ -82,7 +59,7 @@ export default function AnalyticsPage() {
   const [granularity, setGranularity] = useState<"day" | "week" | "month">("day");
   const trend = api.workspace.tokenTrend.useQuery({ granularity });
   const byModel = api.workspace.byModel.useQuery({ days: 30 });
-  const byProject = api.workspace.byProject.useQuery();
+  const byProvider = api.workspace.byProvider.useQuery({ days: 30 });
   const calendar = api.workspace.calendarHeatmap.useQuery({ days: 35 });
   const rateQuery = api.workspace.exchangeRate.useQuery();
   const { currency } = useCurrency();
@@ -95,7 +72,7 @@ export default function AnalyticsPage() {
   const trendData = Array.from(trendByBucket.entries()).map(([bucket, v]) => ({ bucket, tokens: v })).sort((a, b) => a.bucket.localeCompare(b.bucket));
 
   const totalModelTokens = (byModel.data ?? []).reduce((s, m) => s + m.tokens, 0) || 1;
-  const totalProjectCost = (byProject.data ?? []).reduce((s, p) => s + p.costUsd, 0) || 1;
+  const totalProviderCost = (byProvider.data ?? []).reduce((s, p) => s + p.costUsd, 0) || 1;
 
   return (
     <WorkspaceLayout active="/app/analytics">
@@ -107,43 +84,31 @@ export default function AnalyticsPage() {
       </p>
 
       {/* 纵：时间趋势 */}
-      <div className="mt-6 rounded-xl border p-4" style={{ borderColor: "var(--ox-border)" }}>
+      <OxCard className="mt-6">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold text-(--ox-text-h)">时间趋势</h2>
-          <div className="flex items-center gap-1 rounded-lg border p-0.5" style={{ borderColor: "var(--ox-border)" }}>
-            {(["day", "week", "month"] as const).map((g) => (
-              <button
-                key={g}
-                type="button"
-                onClick={() => setGranularity(g)}
-                className="rounded-md px-2.5 py-1 text-xs transition-colors"
-                style={
-                  granularity === g
-                    ? { backgroundColor: "var(--ox-accent)", color: "#fff" }
-                    : { color: "var(--ox-text-muted)" }
-                }
-              >
-                {GRANULARITY_LABEL[g]}
-              </button>
-            ))}
-          </div>
+          <SegmentedControl
+            options={GRANULARITY_OPTIONS}
+            value={granularity}
+            onChange={setGranularity}
+          />
         </div>
         <div className="mt-3">
-          <TrendChart data={trendData} />
+          <TokenTrendChart data={trendData} />
         </div>
-      </div>
+      </OxCard>
 
       {/* 时：日历热力图 */}
-      <div className="mt-6 rounded-xl border p-4" style={{ borderColor: "var(--ox-border)" }}>
+      <OxCard className="mt-6">
         <h2 className="text-sm font-semibold text-(--ox-text-h)">近 35 天日历</h2>
         <div className="mt-3">
           <CalendarHeatmap data={calendar.data ?? []} />
         </div>
-      </div>
+      </OxCard>
 
-      {/* 横：模型 / 项目对比 */}
+      {/* 横：模型 / 供应商对比 */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border p-4" style={{ borderColor: "var(--ox-border)" }}>
+        <OxCard>
           <h2 className="text-sm font-semibold text-(--ox-text-h)">按模型占比（近 30 天）</h2>
           <div className="mt-3 flex flex-col gap-2.5">
             {(byModel.data ?? []).slice(0, 5).map((m) => (
@@ -159,33 +124,29 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             ))}
-            {(byModel.data ?? []).length === 0 && (
-              <div className="py-6 text-center text-sm text-(--ox-text-muted)">暂无数据</div>
-            )}
+            {(byModel.data ?? []).length === 0 && <EmptyText>暂无数据</EmptyText>}
           </div>
-        </div>
+        </OxCard>
 
-        <div className="rounded-xl border p-4" style={{ borderColor: "var(--ox-border)" }}>
-          <h2 className="text-sm font-semibold text-(--ox-text-h)">按项目成本占比（近 30 天）</h2>
+        <OxCard>
+          <h2 className="text-sm font-semibold text-(--ox-text-h)">按供应商成本占比（近 30 天）</h2>
           <div className="mt-3 flex flex-col gap-2.5">
-            {(byProject.data ?? []).slice(0, 5).map((p) => (
-              <div key={p.projectId}>
+            {(byProvider.data ?? []).slice(0, 5).map((p) => (
+              <div key={p.provider}>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="truncate text-(--ox-text-h)">{p.projectName}</span>
+                  <span className="truncate text-(--ox-text-h)">{p.provider}</span>
                   <span className="shrink-0 pl-2 tabular-nums text-(--ox-text-muted)">
-                    {Math.round((p.costUsd / totalProjectCost) * 100)}% · {cost(p.costUsd)}
+                    {Math.round((p.costUsd / totalProviderCost) * 100)}% · {cost(p.costUsd)}
                   </span>
                 </div>
                 <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full" style={{ backgroundColor: "var(--ox-border-light)" }}>
-                  <div className="h-full rounded-full" style={{ width: `${Math.max((p.costUsd / totalProjectCost) * 100, 2)}%`, backgroundColor: "var(--ox-accent)" }} />
+                  <div className="h-full rounded-full" style={{ width: `${Math.max((p.costUsd / totalProviderCost) * 100, 2)}%`, backgroundColor: "var(--ox-accent)" }} />
                 </div>
               </div>
             ))}
-            {(byProject.data ?? []).length === 0 && (
-              <div className="py-6 text-center text-sm text-(--ox-text-muted)">暂无数据</div>
-            )}
+            {(byProvider.data ?? []).length === 0 && <EmptyText>暂无数据</EmptyText>}
           </div>
-        </div>
+        </OxCard>
       </div>
     </WorkspaceLayout>
   );

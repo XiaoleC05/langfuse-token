@@ -16,6 +16,7 @@ import {
 import { Prisma } from "@langfuse/shared/src/db";
 import { env } from "@/src/env.mjs";
 import { TRPCError } from "@trpc/server";
+import { toNumber } from "@/src/features/oxelia51/server/common";
 
 /** 反馈分类（DB 存英文枚举）→ 中文展示名（邮件主题/后台列表用）。 */
 const FEEDBACK_CATEGORY_LABEL: Record<"feature" | "bug" | "other", string> = {
@@ -37,11 +38,6 @@ const generateVerificationCode = () => randomInt(100000, 1000000).toString();
  *    alert_channels / exchange_rates），通过 Langfuse 已有 prisma 实例只读/写入；
  *  - ClickHouse oxelia51.token_events，通过 shared 包 queryClickhouse 封装。
  */
-
-const toNumber = (value: unknown): number => {
-  if (value === null || value === undefined) return 0;
-  return Number(value);
-};
 
 const projectIdInput = z.object({ projectId: z.string() });
 

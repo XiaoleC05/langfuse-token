@@ -3,7 +3,7 @@ import Page from "@/src/components/layouts/page";
 import { TokenWidget } from "@/src/features/dashboard/components/TokenWidget";
 import { TokenChart } from "@/src/features/dashboard/components/TokenChart";
 import { CostChart } from "@/src/features/dashboard/components/CostChart";
-import { CurrencyProvider } from "@/src/features/oxelia51/currency";
+import { CurrencyProvider } from "@/src/features/oxelia51/components/currency";
 import { ProxyAccessEmptyState } from "@/src/features/oxelia51/components/ProxyAccessEmptyState";
 import { api } from "@/src/utils/api";
 

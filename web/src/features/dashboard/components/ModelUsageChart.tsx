@@ -26,7 +26,7 @@ import { useScheduledDashboardExecuteQuery } from "@/src/hooks/useDashboardQuery
 import {
   formatCost,
   useCurrency,
-} from "@/src/features/oxelia51/currency";
+} from "@/src/features/oxelia51/components/currency";
 import { type TimeSeriesChartDataPoint } from "@/src/features/dashboard/components/hooks";
 import { useMemo } from "react";
 

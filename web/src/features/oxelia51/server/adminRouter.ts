@@ -17,23 +17,21 @@ import {
   getGoToken,
   goFetch,
 } from "@/src/features/oxelia51/server/goClient";
+import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
 
 /**
  * Oxelia51 后台管理 tRPC router。
  * Langfuse 登录态即管理员身份：服务端持有 Go 后端运维凭证换 JWT 转发，
  * 凭证不下发到浏览器。
  * 权限两级：
- * - 管理员（adminProcedure）：PLATFORM_SUPER_ADMIN_EMAIL 恒为管理员，
+ * - 管理员（adminProcedure）：OXELIA_SUPER_ADMIN_EMAIL 恒为管理员，
  *   外加 OXELIA51_ADMIN_EMAILS 邮箱名单（空名单 = 除超级管理员外无人是管理员）。
- * - 超级管理员（superAdminProcedure）：仅 PLATFORM_SUPER_ADMIN_EMAIL，
+ * - 超级管理员（superAdminProcedure）：仅 OXELIA_SUPER_ADMIN_EMAIL，
  *   所有写操作（白名单增删、电费抓取、反馈流转）仅其可执行。
  */
 
-/** 平台超级管理员：唯一可执行写操作的管理员（前端 shared.tsx 的 PLATFORM_ADMIN_EMAIL 与本常量保持同值） */
-export const PLATFORM_SUPER_ADMIN_EMAIL = "postmaster@oxelia51.com";
-
 function isSuperAdminEmail(email: string | null | undefined): boolean {
-  return Boolean(email) && email === PLATFORM_SUPER_ADMIN_EMAIL;
+  return Boolean(email) && email === OXELIA_SUPER_ADMIN_EMAIL;
 }
 
 function isAdminEmail(email: string | null | undefined): boolean {
@@ -238,7 +236,7 @@ export const oxelia51AdminRouter = createTRPCRouter({
   /**
    * 删除用户：复用账户自删（userAccount.delete）的「组织最后所有者」校验 +
    * schema 外键级联删除（会员关系/会话/账户等）。——写操作，仅超级管理员
-   * 保护：不能删除自己、不能删除 PLATFORM_SUPER_ADMIN_EMAIL。
+   * 保护：不能删除自己、不能删除 OXELIA_SUPER_ADMIN_EMAIL。
    */
   adminDeleteUser: superAdminProcedure
     .input(z.object({ userId: z.string().min(1) }))
@@ -256,7 +254,7 @@ export const oxelia51AdminRouter = createTRPCRouter({
       if (!target) {
         throw new TRPCError({ code: "NOT_FOUND", message: "用户不存在" });
       }
-      if (target.email === PLATFORM_SUPER_ADMIN_EMAIL) {
+      if (target.email === OXELIA_SUPER_ADMIN_EMAIL) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "不能删除超级管理员账户",

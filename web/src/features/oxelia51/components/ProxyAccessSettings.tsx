@@ -6,6 +6,13 @@ import { env } from "@/src/env.mjs";
 import { Button } from "@/src/components/ui/button";
 import { Card } from "@/src/components/ui/card";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
+import {
   Table,
   TableBody,
   TableCell,
@@ -84,18 +91,18 @@ export function ProxyAccessSettings({ projectId }: { projectId: string }) {
           把你的模型工具指向下面的地址，Token 消耗将自动统计到本项目。
         </p>
         <div className="flex items-center gap-2">
-          <select
-            value={provider}
-            onChange={(e) => setProvider(e.target.value)}
-            className="rounded-md border px-2 py-1 text-sm"
-            aria-label="供应商"
-          >
-            {PROVIDERS.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
+          <Select value={provider} onValueChange={(v) => setProvider(v)}>
+            <SelectTrigger className="w-[150px]" aria-label="供应商">
+              <SelectValue placeholder="供应商" />
+            </SelectTrigger>
+            <SelectContent>
+              {PROVIDERS.map((p) => (
+                <SelectItem key={p} value={p}>
+                  {p}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <CopyField value={proxyUrl} label="代理 URL" />
         </div>
         <CopyField value={projectId} label="项目 ID（X-Project-ID）" />
@@ -181,8 +188,8 @@ export OPENAI_API_KEY="${newKey ?? "<你的项目密钥 ox_...>"}"
   -d '{"model":"deepseek-chat","messages":[{"role":"user","content":"你好"}]}'`}
         />
         <p className="text-muted-foreground text-xs">
-          真实上游模型密钥通过 <code className="text-[11px]">X-Oxelia51-Upstream-Key</code>{" "}
-          头传递（Claude Code 用 <code className="text-[11px]">ANTHROPIC_AUTH_TOKEN</code>
+          真实上游模型密钥通过 <code className="text-xs">X-Oxelia51-Upstream-Key</code>{" "}
+          头传递（Claude Code 用 <code className="text-xs">ANTHROPIC_AUTH_TOKEN</code>
           、OpenAI 兼容工具用自定义头）。未设置时上游按你工具原有的密钥配置。
         </p>
       </Card>

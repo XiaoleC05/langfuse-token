@@ -5,7 +5,7 @@ import {
 } from "@/src/server/api/trpc";
 import { queryClickhouse } from "@langfuse/shared/src/server";
 import { Prisma } from "@langfuse/shared/src/db";
-import { TRPCError } from "@trpc/server";
+import { toNumber } from "@/src/features/oxelia51/server/common";
 
 /**
  * Oxelia51 个人工作台（P2）——跨项目数据层。
@@ -18,11 +18,6 @@ import { TRPCError } from "@trpc/server";
  * 会话/明细级成本在此用 token × model_pricing 现算。
  */
 
-const toNumber = (value: unknown): number => {
-  if (value === null || value === undefined) return 0;
-  return Number(value);
-};
-
 type SessionUser = {
   organizations: { projects: { id: string }[] }[];
 };
@@ -33,10 +28,10 @@ function getAllProjectIds(user: SessionUser): string[] {
 }
 
 type Pricing = { prompt: number; completion: number };
-type PricingMap = Map<string, Pricing>;
+export type PricingMap = Map<string, Pricing>;
 
 /** 从 PG oxelia51.model_pricing 加载定价表（per 1M tokens USD） */
-async function loadPricingMap(
+export async function loadPricingMap(
   prisma: { $queryRaw: (q: TemplateStringsArray, ...values: unknown[]) => Promise<unknown> },
 ): Promise<PricingMap> {
   const rows = (await prisma.$queryRaw`
@@ -57,7 +52,7 @@ async function loadPricingMap(
 }
 
 /** 按 token × 定价现算成本（USD），无定价的模型计 0 */
-function costOf(
+export function costOf(
   pricing: PricingMap,
   model: string,
   promptTokens: number,
@@ -227,245 +222,112 @@ export const workspaceRouter = createTRPCRouter({
       });
     }),
 
-  /** 工作台按项目：跨所有组织项目花费/用量排行（近 30 天，daily_stats） */
-  byProject: authenticatedProcedure.query(async ({ ctx }) => {
-    const projectIds = getAllProjectIds(ctx.session.user);
-    if (projectIds.length === 0) return [];
-
-    const projects = await ctx.prisma.project.findMany({
-      where: { id: { in: projectIds } },
-      select: { id: true, name: true },
-    });
-    const nameById = new Map(projects.map((p) => [p.id, p.name]));
-
-    const rows = await ctx.prisma.$queryRaw<
-      Array<{ project_id: string; tokens: unknown; cost_usd: unknown }>
-    >`
-      SELECT project_id,
-             sum(total_tokens) AS tokens,
-             sum(cost_usd) AS cost_usd
-      FROM oxelia51.daily_stats
-      WHERE project_id IN (${Prisma.join(projectIds)})
-        AND date >= CURRENT_DATE - 30
-      GROUP BY project_id
-      ORDER BY cost_usd DESC
-      LIMIT 50
-    `;
-    return rows.map((r) => ({
-      projectId: r.project_id,
-      projectName: nameById.get(r.project_id) ?? r.project_id,
-      tokens: toNumber(r.tokens),
-      costUsd: toNumber(r.cost_usd),
-    }));
-  }),
-
-  /** 工作台会话时间线：跨项目近 N 天，按 session_id 聚合 token/成本（现算） */
-  bySession: authenticatedProcedure
-    .input(
-      z.object({
-        days: z.number().int().min(1).max(365).default(30),
-        limit: z.number().int().min(1).max(200).default(50),
-      }),
-    )
+  /** 工作台按供应商：跨所有项目，按 provider（LLM 平台）聚合 token/成本（现算） */
+  byProvider: authenticatedProcedure
+    .input(z.object({ days: z.number().int().min(1).max(365).default(30) }))
     .query(async ({ ctx, input }) => {
       const projectIds = getAllProjectIds(ctx.session.user);
       if (projectIds.length === 0) return [];
       const pricing = await loadPricingMap(ctx.prisma);
 
-      const projects = await ctx.prisma.project.findMany({
-        where: { id: { in: projectIds } },
-        select: { id: true, name: true },
-      });
-      const nameById = new Map(projects.map((p) => [p.id, p.name]));
-
       const rows = await queryClickhouse<{
-        session_id: string;
-        project_id: string;
+        provider: string;
         model: string;
         prompt: string | number;
         completion: string | number;
         tokens: string | number;
         requests: string | number;
-        last_seen: string;
-        first_seen: string;
       }>({
         query: `
-          SELECT session_id, project_id, model,
+          SELECT provider, model,
                  sum(prompt_tokens) AS prompt,
                  sum(completion_tokens) AS completion,
                  sum(total_tokens) AS tokens,
-                 count() AS requests,
-                 max(timestamp) AS last_seen,
-                 min(timestamp) AS first_seen
+                 count() AS requests
           FROM oxelia51.token_events
           WHERE project_id IN ({projectIds: Array(String)})
-            AND session_id != ''
+            AND provider != ''
             AND timestamp >= now() - INTERVAL {days: UInt32} DAY
-          GROUP BY session_id, project_id, model
-          ORDER BY last_seen DESC
+          GROUP BY provider, model
+          ORDER BY tokens DESC
         `,
         params: { projectIds, days: input.days },
-        tags: { surface: "oxelia51", route: "workspace-by-session" },
+        tags: { surface: "oxelia51", route: "workspace-by-provider" },
       });
 
-      // 按 session 聚合：成本按模型现算后求和
-      const bySession = new Map<
+      // 按 provider 聚合：成本按模型现算后求和
+      const byProvider = new Map<
         string,
-        {
-          sessionId: string;
-          projectId: string;
-          projectName: string;
-          tokens: number;
-          costUsd: number;
-          requests: number;
-          lastSeen: string;
-          firstSeen: string;
-        }
+        { provider: string; tokens: number; costUsd: number; requests: number }
       >();
       for (const r of rows) {
-        const key = r.session_id;
-        const agg = bySession.get(key) ?? {
-          sessionId: key,
-          projectId: r.project_id,
-          projectName: nameById.get(r.project_id) ?? r.project_id,
+        const agg = byProvider.get(r.provider) ?? {
+          provider: r.provider,
           tokens: 0,
           costUsd: 0,
           requests: 0,
-          lastSeen: r.last_seen,
-          firstSeen: r.first_seen,
         };
         agg.tokens += toNumber(r.tokens);
         agg.costUsd += costOf(pricing, r.model, toNumber(r.prompt), toNumber(r.completion));
         agg.requests += toNumber(r.requests);
-        if (r.last_seen > agg.lastSeen) agg.lastSeen = r.last_seen;
-        if (r.first_seen < agg.firstSeen) agg.firstSeen = r.first_seen;
-        bySession.set(key, agg);
+        byProvider.set(r.provider, agg);
       }
 
-      return Array.from(bySession.values())
-        .sort((a, b) => b.tokens - a.tokens)
-        .slice(0, input.limit);
+      return Array.from(byProvider.values()).sort((a, b) => b.tokens - a.tokens);
     }),
 
-  /** 工作台会话详情：单会话按模型/项目的 token·成本拆解 + 汇总 */
-  sessionDetail: authenticatedProcedure
-    .input(z.object({ sessionId: z.string().min(1) }))
+  /** 工作台按 Agent：跨所有项目，按 agent（用户使用的软件）聚合 token/成本（现算） */
+  byAgent: authenticatedProcedure
+    .input(z.object({ days: z.number().int().min(1).max(365).default(30) }))
     .query(async ({ ctx, input }) => {
       const projectIds = getAllProjectIds(ctx.session.user);
-      if (projectIds.length === 0) return { summary: null, byModel: [] };
+      if (projectIds.length === 0) return [];
       const pricing = await loadPricingMap(ctx.prisma);
 
-      const projects = await ctx.prisma.project.findMany({
-        where: { id: { in: projectIds } },
-        select: { id: true, name: true },
-      });
-      const nameById = new Map(projects.map((p) => [p.id, p.name]));
-
       const rows = await queryClickhouse<{
-        project_id: string;
+        agent: string;
         model: string;
         prompt: string | number;
         completion: string | number;
         tokens: string | number;
         requests: string | number;
-        first_seen: string;
-        last_seen: string;
       }>({
         query: `
-          SELECT project_id, model,
+          SELECT agent, model,
                  sum(prompt_tokens) AS prompt,
                  sum(completion_tokens) AS completion,
                  sum(total_tokens) AS tokens,
-                 count() AS requests,
-                 min(timestamp) AS first_seen,
-                 max(timestamp) AS last_seen
+                 count() AS requests
           FROM oxelia51.token_events
           WHERE project_id IN ({projectIds: Array(String)})
-            AND session_id = {sessionId: String}
-          GROUP BY project_id, model
+            AND agent != ''
+            AND timestamp >= now() - INTERVAL {days: UInt32} DAY
+          GROUP BY agent, model
           ORDER BY tokens DESC
         `,
-        params: { projectIds, sessionId: input.sessionId },
-        tags: { surface: "oxelia51", route: "workspace-session-detail" },
+        params: { projectIds, days: input.days },
+        tags: { surface: "oxelia51", route: "workspace-by-agent" },
       });
 
-      const byModel = rows.map((r) => {
-        const prompt = toNumber(r.prompt);
-        const completion = toNumber(r.completion);
-        return {
-          model: r.model,
-          projectId: r.project_id,
-          projectName: nameById.get(r.project_id) ?? r.project_id,
-          promptTokens: prompt,
-          completionTokens: completion,
-          tokens: toNumber(r.tokens),
-          requests: toNumber(r.requests),
-          costUsd: costOf(pricing, r.model, prompt, completion),
-          firstSeen: r.first_seen,
-          lastSeen: r.last_seen,
+      // 按 agent 聚合：成本按模型现算后求和
+      const byAgent = new Map<
+        string,
+        { agent: string; tokens: number; costUsd: number; requests: number }
+      >();
+      for (const r of rows) {
+        const agg = byAgent.get(r.agent) ?? {
+          agent: r.agent,
+          tokens: 0,
+          costUsd: 0,
+          requests: 0,
         };
-      });
-
-      const summary = {
-        sessionId: input.sessionId,
-        tokens: byModel.reduce((s, r) => s + r.tokens, 0),
-        costUsd: byModel.reduce((s, r) => s + r.costUsd, 0),
-        requests: byModel.reduce((s, r) => s + r.requests, 0),
-        firstSeen: byModel[0]?.firstSeen ?? null,
-        lastSeen: byModel[0]?.lastSeen ?? null,
-        projectIds: Array.from(new Set(byModel.map((r) => r.projectId))),
-      };
-
-      return { summary, byModel };
-    }),
-
-  /** P2.4 项目管理：读取各项目「本地文件夹」引用元数据（存 project.metadata.oxelia51.localFolder） */
-  getLocalFolders: authenticatedProcedure.query(async ({ ctx }) => {
-    const projectIds = getAllProjectIds(ctx.session.user);
-    if (projectIds.length === 0) return [];
-    const projects = await ctx.prisma.project.findMany({
-      where: { id: { in: projectIds } },
-      select: { id: true, metadata: true },
-    });
-    return projects.map((p) => {
-      const oxelia = (p.metadata ?? {}) as {
-        oxelia51?: { localFolder?: unknown };
-      };
-      const raw = oxelia.oxelia51?.localFolder;
-      return {
-        projectId: p.id,
-        localFolder: typeof raw === "string" ? raw : null,
-      };
-    });
-  }),
-
-  /** P2.4 项目管理：设置某项目「本地文件夹」引用（仅存元数据，不采集本地内容） */
-  setLocalFolder: authenticatedProcedure
-    .input(
-      z.object({
-        projectId: z.string(),
-        localFolder: z.string().max(512).nullable(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const projectIds = getAllProjectIds(ctx.session.user);
-      if (!projectIds.includes(input.projectId)) {
-        throw new TRPCError({ code: "FORBIDDEN" });
+        agg.tokens += toNumber(r.tokens);
+        agg.costUsd += costOf(pricing, r.model, toNumber(r.prompt), toNumber(r.completion));
+        agg.requests += toNumber(r.requests);
+        byAgent.set(r.agent, agg);
       }
-      const project = await ctx.prisma.project.findUnique({
-        where: { id: input.projectId },
-        select: { metadata: true },
-      });
-      const metadata = (project?.metadata ?? {}) as Record<string, unknown>;
-      const oxelia = (metadata.oxelia51 ?? {}) as Record<string, unknown>;
-      if (input.localFolder) oxelia.localFolder = input.localFolder;
-      else delete oxelia.localFolder;
-      metadata.oxelia51 = oxelia;
-      await ctx.prisma.project.update({
-        where: { id: input.projectId },
-        data: { metadata: metadata as Prisma.InputJsonValue },
-      });
-      return { ok: true };
+
+      return Array.from(byAgent.values()).sort((a, b) => b.tokens - a.tokens);
     }),
 
   /** 工作台日历热力图：近 N 天按日 token（着色用） */

@@ -18,36 +18,24 @@ import {
   goFetch,
 } from "@/src/features/oxelia51/server/goClient";
 import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
+import {
+  isAdminEmail,
+  isSuperAdminEmail,
+} from "@/src/features/oxelia51/server/adminAuth";
 
 /**
  * Oxelia51 后台管理 tRPC router。
  * Langfuse 登录态即管理员身份：服务端持有 Go 后端运维凭证换 JWT 转发，
  * 凭证不下发到浏览器。
- * 权限两级：
+ * 权限两级（统一邮箱制，见 adminAuth.ts）：
  * - 管理员（adminProcedure）：OXELIA_SUPER_ADMIN_EMAIL 恒为管理员，
  *   外加 OXELIA51_ADMIN_EMAILS 邮箱名单（空名单 = 除超级管理员外无人是管理员）。
  * - 超级管理员（superAdminProcedure）：仅 OXELIA_SUPER_ADMIN_EMAIL，
  *   所有写操作（白名单增删、电费抓取、反馈流转）仅其可执行。
  */
 
-function isSuperAdminEmail(email: string | null | undefined): boolean {
-  return Boolean(email) && email === OXELIA_SUPER_ADMIN_EMAIL;
-}
-
-function isAdminEmail(email: string | null | undefined): boolean {
-  // 超级管理员永远拥有管理员权限（即使 env 名单漏配）
-  if (isSuperAdminEmail(email)) return true;
-  const allowlist = (env.OXELIA51_ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((e) => e.trim())
-    .filter(Boolean);
-  // 空名单视为未配置：拒绝所有人，而非放行所有人
-  if (allowlist.length === 0) return false;
-  return Boolean(email) && allowlist.includes(email as string);
-}
-
 /** 仅管理员的 procedure（在登录态之上再校验邮箱名单） */
-const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
+export const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
   if (!isAdminEmail(ctx.session.user.email)) {
     throw new TRPCError({
       code: "FORBIDDEN",
@@ -58,7 +46,7 @@ const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
 });
 
 /** 仅超级管理员的 procedure：所有写操作走此入口 */
-const superAdminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
+export const superAdminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
   if (!isSuperAdminEmail(ctx.session.user.email)) {
     throw new TRPCError({
       code: "FORBIDDEN",
@@ -176,32 +164,11 @@ export const oxelia51AdminRouter = createTRPCRouter({
             email: string | null;
             created_at: Date;
             updated_at: Date;
-            memberships: unknown;
           }>
         >`
-          SELECT u.id, u.name, u.email, u.created_at, u.updated_at,
-                 COALESCE(
-                   json_agg(
-                     json_build_object(
-                       'org', o.name,
-                       'role', om.role,
-                       'projects', COALESCE(pm.projects, '[]'::json)
-                     )
-                   )
-                     FILTER (WHERE om.user_id IS NOT NULL),
-                   '[]'
-                 ) AS memberships
+          SELECT u.id, u.name, u.email, u.created_at, u.updated_at
           FROM users u
-          LEFT JOIN organization_memberships om ON om.user_id = u.id
-          LEFT JOIN organizations o ON o.id = om.org_id
-          LEFT JOIN LATERAL (
-            SELECT json_agg(json_build_object('project', p.name, 'role', pm2.role)) AS projects
-            FROM project_memberships pm2
-            JOIN projects p ON p.id = pm2.project_id
-            WHERE pm2.org_membership_id = om.id
-          ) pm ON true
           WHERE (${search} = '' OR u.email ILIKE ${like} OR u.name ILIKE ${like})
-          GROUP BY u.id
           ORDER BY u.created_at DESC
           LIMIT ${limit} OFFSET ${offset}
         `,
@@ -210,7 +177,13 @@ export const oxelia51AdminRouter = createTRPCRouter({
           WHERE (${search} = '' OR u.email ILIKE ${like} OR u.name ILIKE ${like})
         `,
       ]);
-      return { items: users, total: Number(totalRows[0]?.count ?? 0) };
+      // 平台管理员状态由邮箱名单判定（adminAuth.ts），不再展示 langfuse 组织/角色残留
+      const items = users.map((u) => ({
+        ...u,
+        isPlatformAdmin: isAdminEmail(u.email),
+        isPlatformSuperAdmin: isSuperAdminEmail(u.email),
+      }));
+      return { items, total: Number(totalRows[0]?.count ?? 0) };
     }),
 
   /**

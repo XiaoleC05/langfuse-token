@@ -61,11 +61,9 @@ export type UserItem = {
   email: string | null;
   created_at: string;
   updated_at: string;
-  memberships: Array<{
-    org: string;
-    role: string;
-    projects: Array<{ project: string; role: string }>;
-  }>;
+  /** 邮箱制管理员判定（adminAuth.ts）——不再展示 langfuse 组织/角色残留 */
+  isPlatformAdmin: boolean;
+  isPlatformSuperAdmin: boolean;
 };
 
 export type FeedbackItem = {

@@ -45,49 +45,7 @@ import { showSuccessToast } from "@/src/features/notifications/showSuccessToast"
 
 const PAGE_SIZE = 20;
 
-/** 角色优先级：取用户所有 memberships（组织级 + 项目级）中的最高角色 */
-const ROLE_RANK: Record<string, number> = {
-  OWNER: 4,
-  ADMIN: 3,
-  MEMBER: 2,
-  VIEWER: 1,
-};
-
-const ROLE_LABEL: Record<string, string> = {
-  OWNER: "所有者",
-  ADMIN: "管理员",
-  MEMBER: "成员",
-  VIEWER: "查看者",
-};
-
-const ROLE_VARIANT: Record<
-  string,
-  "default" | "secondary" | "outline" | "tertiary"
-> = {
-  OWNER: "default",
-  ADMIN: "secondary",
-  MEMBER: "outline",
-  VIEWER: "tertiary",
-};
-
-function highestRole(u: UserItem): string | null {
-  let best: string | null = null;
-  let bestRank = 0;
-  const consider = (role: string | undefined) => {
-    if (!role) return;
-    const key = role.toUpperCase();
-    const rank = ROLE_RANK[key] ?? 0;
-    if (best === null || rank > bestRank) {
-      best = key;
-      bestRank = rank;
-    }
-  };
-  for (const m of u.memberships ?? []) {
-    consider(m.role);
-    for (const p of m.projects ?? []) consider(p.role);
-  }
-  return best;
-}
+/** 平台管理员状态由服务端邮箱名单判定（adminAuth.ts），UI 不再依赖 langfuse 组织/角色。 */
 
 /**
  * 用户管理：管理员名单说明 + 平台用户列表（搜索 / 分页 / 行展开详情）。
@@ -171,7 +129,7 @@ export function UsersTab() {
     setDeleteError("");
   };
 
-  const colSpan = isSuperAdmin ? 7 : 6;
+  const colSpan = isSuperAdmin ? 6 : 5;
 
   return (
     <div className="flex flex-col gap-4">
@@ -233,7 +191,6 @@ export function UsersTab() {
                   <TableHead>邮箱</TableHead>
                   <TableHead className="w-28">姓名</TableHead>
                   <TableHead className="w-20">权限</TableHead>
-                  <TableHead>组织 / 角色</TableHead>
                   <TableHead className="w-24">注册时间</TableHead>
                   {isSuperAdmin && (
                     <TableHead className="w-40 text-right">操作</TableHead>
@@ -282,37 +239,19 @@ export function UsersTab() {
                         {u.name || "—"}
                       </TableCell>
                       <TableCell>
-                        {(() => {
-                          const role = highestRole(u);
-                          if (!role)
-                            return (
-                              <span className="text-muted-foreground">—</span>
-                            );
-                          return (
-                            <Badge
-                              variant={ROLE_VARIANT[role] ?? "outline"}
-                              size="sm"
-                            >
-                              {ROLE_LABEL[role] ?? role}
-                            </Badge>
-                          );
-                        })()}
-                      </TableCell>
-                      <TableCell
-                        className="truncate text-xs"
-                        title={
-                          (u.memberships ?? []).length === 0
-                            ? undefined
-                            : (u.memberships ?? [])
-                                .map((m) => `${m.org}（${m.role}）`)
-                                .join("、")
-                        }
-                      >
-                        {(u.memberships ?? []).length === 0
-                          ? "—"
-                          : (u.memberships ?? [])
-                              .map((m) => `${m.org}（${m.role}）`)
-                              .join("、")}
+                        {u.isPlatformSuperAdmin ? (
+                          <Badge variant="secondary" size="sm">
+                            超级管理员
+                          </Badge>
+                        ) : u.isPlatformAdmin ? (
+                          <Badge variant="outline" size="sm">
+                            平台管理员
+                          </Badge>
+                        ) : (
+                          <span className="text-muted-foreground">
+                            普通用户
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-xs">
                         {u.created_at
@@ -383,31 +322,14 @@ export function UsersTab() {
                                   : "—"}
                               </span>
                             </div>
-                            {(u.memberships ?? []).length === 0 ? (
-                              <span className="text-muted-foreground">
-                                未加入任何组织
-                              </span>
-                            ) : (
-                              <ul className="flex flex-col gap-1">
-                                {(u.memberships ?? []).map((m, i) => (
-                                  <li key={i}>
-                                    <span>
-                                      {m.org}（{m.role}）
-                                    </span>
-                                    {(m.projects ?? []).length > 0 && (
-                                      <span className="text-muted-foreground">
-                                        {"　项目："}
-                                        {m.projects
-                                          .map(
-                                            (p) => `${p.project}（${p.role}）`,
-                                          )
-                                          .join("、")}
-                                      </span>
-                                    )}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
+                            <span>
+                              平台权限：
+                              {u.isPlatformSuperAdmin
+                                ? "超级管理员"
+                                : u.isPlatformAdmin
+                                  ? "平台管理员"
+                                  : "普通用户"}
+                            </span>
                           </div>
                         </TableCell>
                       </TableRow>

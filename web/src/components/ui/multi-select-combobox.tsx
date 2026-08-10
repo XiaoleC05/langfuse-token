@@ -136,7 +136,7 @@ export function MultiSelectCombobox<T>({
       <div className="relative">
         <div
           ref={containerRef}
-          className="border-input bg-background flex max-h-14 min-h-9 w-full overflow-y-auto rounded-md border text-xs"
+          className="border-input bg-background rounded-input flex max-h-14 min-h-9 w-full overflow-y-auto border text-xs"
         >
           <Search className="text-muted-foreground absolute top-2.5 left-2 z-10 h-4 w-4" />
           <div className="flex max-h-full flex-1 flex-wrap items-center gap-1 pl-8">

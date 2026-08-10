@@ -14,6 +14,19 @@ export type ChangelogVersion = {
 
 export const CHANGELOG_VERSIONS: ChangelogVersion[] = [
   {
+    tag: "v0.1.4",
+    date: "2026-08-11",
+    status: "released",
+    summary: "悬浮卡片升级 + 自定义供应商体验优化 + 管理台内容编辑",
+    items: [
+      "悬浮卡片：今日模型 Top5 排名（前三名渐变）+ 可调透明度 + 主题实时切换 + 位置记忆",
+      "自定义供应商：地址自动补全 https://，只需填域名/路径部分",
+      "管理台新增「内容编辑」：更新日志 / 首页 Hero / 首页 FAQ 后台直接改，即时生效",
+      "管理台权限统一邮箱制，清理 langfuse 组织/角色残留；/app 工作台加「管理台」入口",
+      "首页 FAQ 答案卡片平滑展开动画",
+    ],
+  },
+  {
     tag: "v4.0",
     date: "2026-08-09",
     status: "released",

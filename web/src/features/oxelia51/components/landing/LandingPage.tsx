@@ -25,6 +25,13 @@ import { SiteHeader } from "@/src/features/oxelia51/components/site/SiteHeader";
 import { SiteFooter } from "@/src/features/oxelia51/components/site/SiteFooter";
 import { Reveal } from "@/src/features/oxelia51/components/landing/Reveal";
 import { BackToTop } from "@/src/features/oxelia51/components/landing/BackToTop";
+import {
+  LANDING_FAQ,
+  LANDING_HERO,
+  type FaqItem,
+  type HeroCopy,
+} from "@/src/features/oxelia51/content/defaults";
+import { api } from "@/src/utils/api";
 
 /**
  * Oxelia51 落地页 v2（2026-08-08 设计定稿）。
@@ -69,6 +76,11 @@ export function LandingPage() {
 /* ---------------- Hero ---------------- */
 
 function HeroSection() {
+  const heroQ = api.siteContent.get.useQuery(
+    { key: "landing_hero" },
+    { staleTime: 60_000 },
+  );
+  const hero: HeroCopy = (heroQ.data as HeroCopy | null) ?? LANDING_HERO;
   return (
     <section className="relative overflow-hidden">
       {/* Hero 入场动效：每次进入页面都会播放（挂载触发，不依赖存储） */}
@@ -100,7 +112,7 @@ function HeroSection() {
             style={{ borderColor: "var(--ox-border)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full bg-(--ox-accent)" />
-            本地优先 · 开源 MIT
+            {hero.badge}
           </span>
         </div>
 
@@ -108,14 +120,13 @@ function HeroSection() {
           className="ox-hero-in mx-auto mt-6 max-w-3xl text-3xl leading-[1.3] font-bold tracking-tight text-(--ox-text-h) sm:text-5xl"
           style={{ animationDelay: "90ms" }}
         >
-          只需要改一行环境变量，所有 Token 消耗一目了然
+          {hero.title}
         </h1>
         <p
           className="ox-hero-in mx-auto mt-5 max-w-2xl text-base leading-7 text-(--ox-text-muted) sm:text-lg"
           style={{ animationDelay: "180ms" }}
         >
-          本地部署 · 数据本地 · 按供应商和 Agent 统计。无论你使用 Claude、ChatGPT、DeepSeek 还是任何模型工具，
-          每一次调用，用量、成本、异常自动落账。
+          {hero.subtitle}
         </p>
 
         <div
@@ -124,7 +135,7 @@ function HeroSection() {
         >
           <Button asChild size="lg">
             <Link href="/download">
-              免费下载
+              {hero.ctaLabel}
               <Download className="ml-2 h-4 w-4" />
             </Link>
           </Button>
@@ -361,57 +372,19 @@ function CommunityStrip() {
 
 /* ---------------- FAQ ---------------- */
 
-const FAQ_ITEMS: { q: string; a: ReactNode }[] = [
-  {
-    q: "需要注册才能用吗？",
-    a: "不需要。桌面应用全功能本地使用；云平台浏览不受限。登录仅用于跨设备同步、云托管与管理员管理。",
-  },
-  {
-    q: "数据存在哪里？",
-    a: "桌面应用的数据全部存在本地；使用云平台时数据存储在云端服务器。本地优先，数据由你掌控。",
-  },
-  {
-    q: "需要 API Key 吗？",
-    a: "不需要。只改代理地址即可，API Key 仍由你保管，请求只转发、不落库。",
-  },
-  {
-    q: "支持哪些模型？",
-    a: "内置 38+ 供应商路由，覆盖国内（DeepSeek、智谱、通义、Kimi、豆包、混元、星火、MiniMax、硅基流动…）、国际（Anthropic、OpenAI、Gemini、Mistral、Grok、Groq…）与聚合平台（OpenRouter、Together…）；内置 60+ 模型参考价，支持美元/人民币切换。改代理地址里的供应商 slug 即可切换，如 /api/proxy/deepseek、/api/proxy/zhipu。",
-  },
-  {
-    q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.x，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
-  },
-  {
-    q: "怎么自托管？",
-    a: "一条 docker compose up -d 命令即可部署云平台，数据不离开你的服务器。",
-  },
-  {
-    q: "和云平台是什么关系？",
-    a: "桌面端负责本地记账与代理接入（无需登录）；云平台提供已同步数据的查看、备份与跨设备恢复。登录是可选能力，不同步你的 API Key 与请求内容。",
-  },
-  {
-    q: "怎么反馈问题？",
-    a: "通过站内反馈、邮箱 receive@oxelia51.com 或 GitHub Issues。",
-  },
-  {
-    q: "怎么在多台设备间同步账本？",
-    a: "在桌面端「设置 → 多设备同步」用云平台注册邮箱+密码登录，即可上传 / 下载本地账本；多设备按事件去重合并，仅在你主动点同步时数据上行。已同步的账本可在云平台「/app 设置 → 同步账本」查看。",
-  },
-  {
-    q: "看文档 / 下载需要登录吗？",
-    a: "都不需要。文档、下载、社区全部匿名开放。",
-  },
-];
-
 function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
+  const faqQ = api.siteContent.get.useQuery(
+    { key: "landing_faq" },
+    { staleTime: 60_000 },
+  );
+  const faq: FaqItem[] = (faqQ.data as FaqItem[] | null) ?? LANDING_FAQ;
   return (
     <section className="border-t py-16 sm:py-20" style={{ borderColor: "var(--ox-border)" }}>
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionHeading eyebrow="FAQ" title="常见问题" />
         <div className="mt-10 flex flex-col gap-2">
-          {FAQ_ITEMS.map((item, i) => {
+          {faq.map((item, i) => {
             const isOpen = open === i;
             return (
               <Reveal key={item.q} delay={i * 40}>

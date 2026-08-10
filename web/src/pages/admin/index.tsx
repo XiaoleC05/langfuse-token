@@ -4,6 +4,7 @@ import {
   Bell,
   LayoutDashboard,
   MessageSquare,
+  PenSquare,
   Server,
   Settings,
   Shield,
@@ -26,6 +27,7 @@ import { SecurityTab } from "@/src/features/oxelia51/components/admin/SecurityTa
 import { ToolsTab } from "@/src/features/oxelia51/components/admin/ToolsTab";
 import { AlertsTab } from "@/src/features/oxelia51/components/admin/AlertsTab";
 import { SettingsTab } from "@/src/features/oxelia51/components/admin/SettingsTab";
+import { ContentTab } from "@/src/features/oxelia51/components/admin/ContentTab";
 
 const NAV_ITEMS = [
   { value: "overview", label: "总览", icon: LayoutDashboard },
@@ -36,6 +38,7 @@ const NAV_ITEMS = [
   { value: "tools", label: "工具", icon: Wrench },
   { value: "alerts", label: "告警", icon: Bell },
   { value: "settings", label: "设置", icon: Settings },
+  { value: "content", label: "内容编辑", icon: PenSquare },
 ] as const;
 
 type TabValue = (typeof NAV_ITEMS)[number]["value"];
@@ -119,6 +122,9 @@ export default function AdminConsolePage() {
               </TabsContent>
               <TabsContent value="settings" className="mt-0">
                 <SettingsTab />
+              </TabsContent>
+              <TabsContent value="content" className="mt-0">
+                <ContentTab />
               </TabsContent>
             </div>
           </Tabs>

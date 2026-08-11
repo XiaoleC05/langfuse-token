@@ -10,6 +10,7 @@ import { EmptyState } from "@/src/features/oxelia51/components/EmptyState";
 import { QueryError } from "@/src/features/oxelia51/components/QueryError";
 import { SegmentedControl } from "@/src/features/oxelia51/components/SegmentedControl";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import Head from "next/head";
 
 /** 个人工作台多维分析：纵（时间趋势）/ 横（模型·项目对比）/ 时（日历热力图）。 */
 
@@ -101,7 +102,11 @@ export default function AnalyticsPage() {
   const failed = [trend, byModel, byProvider, calendar].find((q) => q.isError);
 
   return (
-    <WorkspaceLayout active="/app/analytics">
+    <>
+      <Head>
+        <title>分析 | Oxelia51</title>
+      </Head>
+      <WorkspaceLayout active="/app/analytics">
       <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         分析
       </h1>
@@ -208,6 +213,7 @@ export default function AnalyticsPage() {
         </OxCard>
       </div>
     </WorkspaceLayout>
+    </>
   );
 }
 

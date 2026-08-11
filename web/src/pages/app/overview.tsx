@@ -8,6 +8,7 @@ import { OxCard } from "@/src/features/oxelia51/components/OxCard";
 import { EmptyState } from "@/src/features/oxelia51/components/EmptyState";
 import { QueryError } from "@/src/features/oxelia51/components/QueryError";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import Head from "next/head";
 
 /** 个人工作台总览：跨项目今日/周/月 token、本月成本、时间趋势、模型/供应商排行。 */
 
@@ -66,10 +67,14 @@ export default function OverviewPage() {
   const failed = [overview, trend, byModel, byProvider].find((q) => q.isError);
 
   return (
-    <WorkspaceLayout active="/app/overview">
-      <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
-        总览
-      </h1>
+    <>
+      <Head>
+        <title>总览 | Oxelia51</title>
+      </Head>
+      <WorkspaceLayout active="/app/overview">
+        <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
+          总览
+        </h1>
       <p className="mt-1 text-sm text-(--ox-text-muted)">
         跨所有项目的 Token 消耗与成本。
       </p>
@@ -185,7 +190,8 @@ export default function OverviewPage() {
           </div>
         </OxCard>
       </div>
-    </WorkspaceLayout>
+      </WorkspaceLayout>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@
 }
 
 .content[data-state="open"] {
-  animation: dialogContentIn 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: dialogContentIn 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .content[data-state="closed"] {
@@ -74,5 +74,15 @@
 
   to {
     opacity: 0;
+  }
+}
+
+/* WCAG 2.3.3：通过 prefers-reduced-motion 关闭所有动画 */
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state="open"],
+  .content[data-state="closed"],
+  .overlay[data-state="open"],
+  .overlay[data-state="closed"] {
+    animation: none;
   }
 }

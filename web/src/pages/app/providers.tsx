@@ -6,6 +6,7 @@ import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/c
 import { providerDisplayName } from "@/src/features/oxelia51/providerDisplay";
 import { EmptyState } from "@/src/features/oxelia51/components/EmptyState";
 import { QueryError } from "@/src/features/oxelia51/components/QueryError";
+import Head from "next/head";
 
 /** 供应商消耗：按提供大模型的平台（Claude / DeepSeek / OpenAI / 智谱 …）聚合。 */
 
@@ -23,7 +24,11 @@ export default function ProvidersPage() {
   );
 
   return (
-    <WorkspaceLayout active="/app/providers">
+    <>
+      <Head>
+        <title>供应商消耗 | Oxelia51</title>
+      </Head>
+      <WorkspaceLayout active="/app/providers">
       <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         供应商消耗
       </h1>
@@ -81,6 +86,7 @@ export default function ProvidersPage() {
       </div>
       )}
     </WorkspaceLayout>
+    </>
   );
 }
 

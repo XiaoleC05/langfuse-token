@@ -5,6 +5,7 @@ import { WorkspaceLayout } from "@/src/features/oxelia51/components/workspace/Wo
 import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/components/currency";
 import { EmptyState } from "@/src/features/oxelia51/components/EmptyState";
 import { QueryError } from "@/src/features/oxelia51/components/QueryError";
+import Head from "next/head";
 
 /** Agent 消耗：按用户使用的软件（Claude Code / Codex / Cursor / CC Switch …）聚合。 */
 
@@ -22,7 +23,11 @@ export default function AgentsPage() {
   );
 
   return (
-    <WorkspaceLayout active="/app/agents">
+    <>
+      <Head>
+        <title>Agent 消耗 | Oxelia51</title>
+      </Head>
+      <WorkspaceLayout active="/app/agents">
       <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         Agent 消耗
       </h1>
@@ -80,6 +85,7 @@ export default function AgentsPage() {
       </div>
       )}
     </WorkspaceLayout>
+    </>
   );
 }
 

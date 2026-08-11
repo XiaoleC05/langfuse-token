@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
 } from "@/src/components/ui/alert-dialog";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
+import Head from "next/head";
 
 /** 个人工作台设置：账户信息、同步账本与同步密钥管理。 */
 
@@ -181,7 +182,11 @@ export default function SettingsPage() {
   ];
 
   return (
-    <WorkspaceLayout active="/app/settings">
+    <>
+      <Head>
+        <title>设置 | Oxelia51</title>
+      </Head>
+      <WorkspaceLayout active="/app/settings">
       <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         设置
       </h1>
@@ -217,6 +222,7 @@ export default function SettingsPage() {
         </p>
       </div>
     </WorkspaceLayout>
+    </>
   );
 }
 

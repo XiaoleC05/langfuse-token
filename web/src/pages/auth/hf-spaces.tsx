@@ -31,6 +31,7 @@ export default function HfSpaces({ deploymentDomain }: PageProps) {
     <>
       <Head>
         <title>Hugging Face 上的 Oxelia51</title>
+        <meta name="description" content="在 Hugging Face Spaces 上免费部署 Oxelia51" />
       </Head>
       <div className="flex flex-1 flex-col py-6 sm:min-h-full sm:justify-center sm:px-6 sm:py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">

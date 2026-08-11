@@ -32,6 +32,7 @@ import { StringNoHTML } from "@langfuse/shared";
 import Link from "next/link";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 import { showErrorToast } from "@/src/features/notifications/showErrorToast";
+import Head from "next/head";
 
 const displayNameSchema = z.object({
   name: StringNoHTML.min(1, "名称不能为空").max(
@@ -309,15 +310,20 @@ export default function AccountSettingsPage() {
   const pages = getAccountSettingsPages(userEmail);
 
   return (
-    <ContainerPage
-      headerProps={{
-        title: "账户设置",
-      }}
-    >
-      <PagedSettingsContainer
-        activeSlug={router.query.page as string | undefined}
-        pages={pages}
-      />
-    </ContainerPage>
+    <>
+      <Head>
+        <title>账户设置 | Oxelia51</title>
+      </Head>
+      <ContainerPage
+        headerProps={{
+          title: "账户设置",
+        }}
+      >
+        <PagedSettingsContainer
+          activeSlug={router.query.page as string | undefined}
+          pages={pages}
+        />
+      </ContainerPage>
+    </>
   );
 }

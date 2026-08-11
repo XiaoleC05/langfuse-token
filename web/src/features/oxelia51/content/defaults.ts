@@ -14,9 +14,18 @@ export type ChangelogVersion = {
 
 export const CHANGELOG_VERSIONS: ChangelogVersion[] = [
   {
+    tag: "v0.1.5",
+    date: "2026-08-11",
+    status: "released",
+    summary: "悬浮卡片细节调整",
+    items: [
+      "悬浮卡片移除不透明度调节（恢复固定玻璃拟态外观），保留今日模型 Top5、位置记忆与重置位置",
+    ],
+  },
+  {
     tag: "网站更新",
     date: "2026-08-11",
-    status: "planned",
+    status: "released",
     summary: "管理台数据清理与下载量展示、工作台易用性修复、安全加固",
     items: [
       "管理台：「用户」Tab 新增废弃组织 / 空项目清理（逐项确认删除）；删除用户自动级联删除其独占的空组织",
@@ -99,7 +108,7 @@ export const LANDING_FAQ: FaqItem[] = [
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.4，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+    a: "已发布 v0.1.5，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
   },
   {
     q: "怎么自托管？",

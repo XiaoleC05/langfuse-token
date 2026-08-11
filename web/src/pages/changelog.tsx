@@ -29,8 +29,8 @@ function VersionCard({ v, index }: { v: ChangelogVersion; index: number }) {
             <span
               className={
                 v.status === "planned"
-                  ? "rounded-full bg-(--ox-accent)/10 px-2 py-0.5 text-[10px] font-medium text-(--ox-accent)"
-                  : "rounded-full border px-2 py-0.5 text-[10px] text-(--ox-text-muted)"
+                  ? "rounded-full bg-(--ox-accent)/10 px-2 py-0.5 text-xs font-medium text-(--ox-accent)"
+                  : "rounded-full border px-2 py-0.5 text-xs text-(--ox-text-muted)"
               }
               style={v.status === "released" ? { borderColor: "var(--ox-border)" } : undefined}
             >

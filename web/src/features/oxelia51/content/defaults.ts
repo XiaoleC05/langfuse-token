@@ -14,6 +14,19 @@ export type ChangelogVersion = {
 
 export const CHANGELOG_VERSIONS: ChangelogVersion[] = [
   {
+    tag: "网站更新",
+    date: "2026-08-11",
+    status: "planned",
+    summary: "管理台数据清理与下载量展示、工作台易用性修复、安全加固",
+    items: [
+      "管理台：「用户」Tab 新增废弃组织 / 空项目清理（逐项确认删除）；删除用户自动级联删除其独占的空组织",
+      "管理台：「总览」Tab 新增桌面端下载量卡片；站点顶栏对已登录用户显示「进入工作台」",
+      "工作台：五页体验修复（加载骨架、错误重试、空态行动按钮等）；供应商 / Agent 页对缺定价模型显示「未配置定价」；同步账本支持币种切换；登录后默认进入 /app",
+      "站点：落地页与下载页展示 GitHub Releases 真实累计下载量；移动端菜单补登录 / 工作台入口；全站动效补齐（尊重 prefers-reduced-motion）",
+      "安全：提交反馈增加按 IP 限流",
+    ],
+  },
+  {
     tag: "v0.1.4",
     date: "2026-08-11",
     status: "released",
@@ -86,7 +99,7 @@ export const LANDING_FAQ: FaqItem[] = [
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.3，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+    a: "已发布 v0.1.4，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
   },
   {
     q: "怎么自托管？",

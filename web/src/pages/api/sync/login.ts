@@ -24,6 +24,14 @@ const bodySchema = z.object({
 
 const INVALID_CREDENTIALS = "账户或密码不正确";
 
+/**
+ * 防时序枚举的 dummy bcrypt hash（cost 12，与 hashPassword 同口径）。
+ * 账户不存在 / SSO 无密码时也对它做一次 compare，拉平「账户存在与否」的响应时差，
+ * 否则攻击者可用 50-100ms 的耗时差探测注册邮箱。比较结果必须丢弃。
+ */
+const DUMMY_PASSWORD_HASH =
+  "$2a$12$DsvJs65pseusoRKEoggCFOj5buyDyTncfxnkGofNH0OcbJWP1IJRq";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -44,12 +52,14 @@ export default async function handler(
     const email = parsed.data.account.trim().toLowerCase();
     const user = await prisma.user.findUnique({ where: { email } });
 
-    // SSO 账户 password 为 null：按校验失败处理，与「账户不存在」同文案
-    const passwordOk =
-      user?.password != null
-        ? await verifyPassword(parsed.data.password, user.password)
-        : false;
-    if (!user || !passwordOk) {
+    // SSO 账户 password 为 null：按校验失败处理，与「账户不存在」同文案。
+    // 账户不存在/无密码时也用 dummy hash 跑一次 compare 拉平时序（结果丢弃），
+    // 避免「是否执行 bcrypt」泄露账户是否存在（时序枚举）。
+    const passwordOk = await verifyPassword(
+      parsed.data.password,
+      user?.password ?? DUMMY_PASSWORD_HASH,
+    );
+    if (!user || user.password == null || !passwordOk) {
       res.status(401).json({ error: INVALID_CREDENTIALS });
       return;
     }

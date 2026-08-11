@@ -17,6 +17,8 @@ import { Prisma } from "@langfuse/shared/src/db";
 import { env } from "@/src/env.mjs";
 import { TRPCError } from "@trpc/server";
 import { toNumber } from "@/src/features/oxelia51/server/common";
+import { clientIpFromHeaders } from "@/src/features/oxelia51/server/goClient";
+import { allowFeedbackFromIp } from "@/src/features/oxelia51/server/feedbackRateLimit";
 
 /** 反馈分类（DB 存英文枚举）→ 中文展示名（邮件主题/后台列表用）。 */
 const FEEDBACK_CATEGORY_LABEL: Record<"feature" | "bug" | "other", string> = {
@@ -139,7 +141,11 @@ export const oxelia51Router = createTRPCRouter({
           ORDER BY bucket ASC
         `,
         params: { projectId: input.projectId },
-        tags: { surface: "oxelia51", route: "token-trend", projectId: input.projectId },
+        tags: {
+          surface: "oxelia51",
+          route: "token-trend",
+          projectId: input.projectId,
+        },
       });
       return rows.map((r) => ({
         bucket: r.bucket,
@@ -172,7 +178,11 @@ export const oxelia51Router = createTRPCRouter({
           ORDER BY cost_usd DESC
         `,
         params: { projectId: input.projectId, days: input.days },
-        tags: { surface: "oxelia51", route: "cost-by-model", projectId: input.projectId },
+        tags: {
+          surface: "oxelia51",
+          route: "cost-by-model",
+          projectId: input.projectId,
+        },
       });
       return rows.map((r) => ({
         model: r.model,
@@ -201,7 +211,11 @@ export const oxelia51Router = createTRPCRouter({
           ORDER BY date ASC
         `,
         params: { projectId: input.projectId },
-        tags: { surface: "oxelia51", route: "cost-trend", projectId: input.projectId },
+        tags: {
+          surface: "oxelia51",
+          route: "cost-trend",
+          projectId: input.projectId,
+        },
       });
       return rows.map((r) => ({
         date: r.date,
@@ -362,11 +376,7 @@ export const oxelia51Router = createTRPCRouter({
     .input(
       projectIdInput.extend({
         email: z.string().trim().email().or(z.literal("")),
-        webhook: z
-          .string()
-          .trim()
-          .url()
-          .or(z.literal("")),
+        webhook: z.string().trim().url().or(z.literal("")),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -434,7 +444,10 @@ export const oxelia51Router = createTRPCRouter({
   verifyAlertChannel: protectedProjectProcedure
     .input(
       projectIdInput.extend({
-        code: z.string().trim().regex(/^\d{6}$/, "验证码为 6 位数字"),
+        code: z
+          .string()
+          .trim()
+          .regex(/^\d{6}$/, "验证码为 6 位数字"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -554,7 +567,8 @@ export const oxelia51Router = createTRPCRouter({
 
   /**
    * 用户反馈：写入 oxelia51.feedback，然后通知运营（默认 receive@oxelia51.com）
-   * + 自动回复提交者。登录/未登录均可提交（弱认证原则）；同邮箱 5 分钟限一条；
+   * + 自动回复提交者。登录/未登录均可提交（弱认证原则）；同邮箱 5 分钟限一条，
+   * 叠加同 IP 每小时 ≤ 5 条（防换邮箱绕过）；限流通过后才落库并发送两封邮件（同一决策）。
    * 邮件发送失败只记日志，不影响提交结果（DB 落库即成功）。
    */
   submitFeedback: publicProcedure
@@ -586,6 +600,16 @@ export const oxelia51Router = createTRPCRouter({
         WHERE email = ${input.email} AND created_at > NOW() - INTERVAL '5 minutes'
       `;
       if (Number(recent[0]?.cnt ?? 0) > 0) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "提交过于频繁，请稍后再试。",
+        });
+      }
+
+      // IP 限流（与邮箱限流叠加，防换邮箱绕过）：同 IP 每小时 ≤ 5 条。
+      // 限流决策在落库与两封邮件（通知 + 自动回复）之前统一做出，二者共享同一决策。
+      const clientIp = clientIpFromHeaders(ctx.headers);
+      if (!allowFeedbackFromIp(clientIp)) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
           message: "提交过于频繁，请稍后再试。",

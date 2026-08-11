@@ -12,6 +12,7 @@ import {
   SITE_CONTENT_META,
 } from "@/src/features/oxelia51/content/defaults";
 import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import { Textarea } from "@/src/components/ui/textarea";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 
@@ -26,8 +27,10 @@ export function ContentTab() {
   const isSuperAdmin = useIsSuperAdmin();
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
-  const [opError, setOpError] = useState("");
+  // 每张卡片独立的保存错误（展示在对应卡片内）
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const utils = api.useUtils();
   const getQ = api.useQueries((t) =>
     KEYS.map((key) => t.siteContent.get({ key })),
   );
@@ -41,6 +44,16 @@ export function ContentTab() {
     return JSON.stringify(data ?? SITE_CONTENT_DEFAULTS[key], null, 2);
   };
 
+  /** 草稿与已保存内容不一致即视为有未保存的更改（含「载入默认」后未保存） */
+  const isDirty = (key: string): boolean => {
+    if (drafts[key] === undefined) return false;
+    const idx = KEYS.indexOf(key);
+    const data = getQ[idx]?.data;
+    return (
+      drafts[key] !== JSON.stringify(data ?? SITE_CONTENT_DEFAULTS[key], null, 2)
+    );
+  };
+
   const loadDefault = (key: string) => {
     setDrafts((d) => ({
       ...d,
@@ -49,15 +62,21 @@ export function ContentTab() {
   };
 
   const handleSave = async (key: string) => {
-    setOpError("");
+    setErrors((e) => ({ ...e, [key]: "" }));
     setSaving(key);
     try {
       const content = JSON.parse(drafts[key] ?? currentValue(key));
       await update.mutateAsync({ key, content });
       setDrafts((d) => ({ ...d, [key]: JSON.stringify(content, null, 2) }));
+      // 让服务端值与草稿同步，isDirty 随即清零
+      await utils.siteContent.get.invalidate({ key });
       showSuccessToast({ title: "已保存", description: "页面即时生效" });
     } catch (e) {
-      setOpError(errMsg(e as { message?: string }) || "JSON 解析失败或保存出错");
+      setErrors((prev) => ({
+        ...prev,
+        [key]:
+          errMsg(e as { message?: string }) || "JSON 解析失败或保存出错",
+      }));
     } finally {
       setSaving(null);
     }
@@ -70,7 +89,14 @@ export function ContentTab() {
         return (
           <AdminCard
             key={key}
-            title={meta.label}
+            title={
+              <span className="flex items-center gap-2">
+                {meta.label}
+                {isDirty(key) && (
+                  <Badge variant="secondary">未保存的更改</Badge>
+                )}
+              </span>
+            }
             description={`${meta.description}（key: ${key}）`}
           >
             <Textarea
@@ -105,10 +131,14 @@ export function ContentTab() {
                   : "仅超级管理员可编辑内容"}
               </span>
             </div>
+            {errors[key] && (
+              <p className="text-sm" style={{ color: "var(--ox-danger)" }}>
+                {errors[key]}
+              </p>
+            )}
           </AdminCard>
         );
       })}
-      {opError && <div className="text-destructive text-sm">{opError}</div>}
     </div>
   );
 }

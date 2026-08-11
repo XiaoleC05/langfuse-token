@@ -3,6 +3,16 @@
 import { useState } from "react";
 import { RefreshCw, Trash2 } from "lucide-react";
 import { api } from "@/src/utils/api";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/src/components/ui/alert-dialog";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Skeleton } from "@/src/components/ui/skeleton";
@@ -20,6 +30,7 @@ import {
   useIsSuperAdmin,
   type WhitelistItem,
 } from "@/src/features/oxelia51/components/admin/shared";
+import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 
 /** 安全：IP 白名单增删查、一键添加本机 IP（增删仅超级管理员可见） */
 export function SecurityTab() {
@@ -31,8 +42,12 @@ export function SecurityTab() {
 
   const utils = api.useUtils();
   const [opError, setOpError] = useState("");
+  // 非错误类的操作提示（如「IP 已在白名单中」），用 muted 样式与错误区分
+  const [opInfo, setOpInfo] = useState("");
   const [newIp, setNewIp] = useState("");
   const [newLabel, setNewLabel] = useState("");
+  // 删除二次确认的目标条目
+  const [deleteTarget, setDeleteTarget] = useState<WhitelistItem | null>(null);
 
   const invalidateWhitelist = () =>
     utils.oxelia51Admin.whitelistList.invalidate();
@@ -41,12 +56,18 @@ export function SecurityTab() {
     onSuccess: () => {
       setNewIp("");
       setNewLabel("");
+      setOpInfo("");
       void invalidateWhitelist();
+      showSuccessToast({ title: "已添加", description: "IP 已加入白名单。" });
     },
     onError: (e) => setOpError(e.message),
   });
   const deleteMut = api.oxelia51Admin.whitelistDelete.useMutation({
-    onSuccess: () => void invalidateWhitelist(),
+    onSuccess: () => {
+      setDeleteTarget(null);
+      void invalidateWhitelist();
+      showSuccessToast({ title: "已删除", description: "该 IP 已移出白名单。" });
+    },
     onError: (e) => setOpError(e.message),
   });
 
@@ -81,6 +102,7 @@ export function SecurityTab() {
           <Button
             onClick={() => {
               setOpError("");
+              setOpInfo("");
               createMut.mutate({ ip: newIp.trim(), label: newLabel.trim() });
             }}
             disabled={!newIp.trim() || createMut.isPending}
@@ -94,15 +116,16 @@ export function SecurityTab() {
               disabled={createMut.isPending}
               onClick={() => {
                 setOpError("");
-                // IP 已在白名单：给出明确提示而非禁用按钮（禁用会显示禁止指针）
+                // IP 已在白名单：给出明确提示（信息样式）而非禁用按钮（禁用会显示禁止指针）
                 if (
                   (whitelist.items ?? []).some(
                     (i) => i.ip === whitelist.clientIP,
                   )
                 ) {
-                  setOpError(`当前出口 IP ${whitelist.clientIP} 已在白名单中`);
+                  setOpInfo(`当前出口 IP ${whitelist.clientIP} 已在白名单中`);
                   return;
                 }
+                setOpInfo("");
                 createMut.mutate({
                   ip: whitelist.clientIP!,
                   label: "本机（一键添加）",
@@ -123,6 +146,7 @@ export function SecurityTab() {
           {opError}
         </p>
       )}
+      {opInfo && <p className="text-muted-foreground text-sm">{opInfo}</p>}
       {whitelistQ.error ? (
         <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
           {errMsg(whitelistQ.error)}
@@ -145,7 +169,7 @@ export function SecurityTab() {
               <TableHead className="w-16" />
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="ox-stagger">
             {(whitelist?.items ?? []).map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-mono">{item.ip}</TableCell>
@@ -163,7 +187,8 @@ export function SecurityTab() {
                       title="删除（仅超级管理员可操作）"
                       onClick={() => {
                         setOpError("");
-                        deleteMut.mutate({ id: String(item.id) });
+                        setOpInfo("");
+                        setDeleteTarget(item);
                       }}
                     >
                       <Trash2
@@ -188,6 +213,36 @@ export function SecurityTab() {
           </TableBody>
         </Table>
       )}
+
+      {/* 删除白名单条目：二次确认 */}
+      <AlertDialog
+        open={deleteTarget !== null}
+        onOpenChange={(open) => {
+          if (!open && !deleteMut.isPending) setDeleteTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>删除白名单条目</AlertDialogTitle>
+            <AlertDialogDescription>
+              删除后，来自 <b>{deleteTarget?.ip}</b>{" "}
+              的请求将无法再访问高危运维接口。确认删除？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={deleteMut.isPending}
+              onClick={() => {
+                if (deleteTarget)
+                  deleteMut.mutate({ id: String(deleteTarget.id) });
+              }}
+            >
+              {deleteMut.isPending ? "删除中…" : "确认删除"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminCard>
   );
 }

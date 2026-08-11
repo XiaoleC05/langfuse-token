@@ -98,7 +98,8 @@ export default function AdminConsolePage() {
               {/* 移动端横滚渐变遮罩（提示右侧还有内容） */}
               <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[var(--ox-bg)] to-transparent md:hidden" />
             </div>
-            <div className="min-w-0 flex-1">
+            {/* key=当前 tab：切换时重放 .ox-page-in 入场动效（主题 CSS 已定义） */}
+            <div key={tab} className="ox-page-in min-w-0 flex-1">
               <TabsContent value="overview" className="mt-0">
                 <OverviewTab />
               </TabsContent>

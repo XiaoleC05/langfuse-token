@@ -48,7 +48,7 @@ function MetricCard({
       ) : (
         <span
           className="text-2xl font-semibold tabular-nums"
-          style={{ color: warn ? "var(--ox-danger)" : "var(--ox-text-h)" }}
+          style={{ color: warn ? "var(--ox-warn)" : "var(--ox-text-h)" }}
         >
           {value}
         </span>
@@ -165,6 +165,56 @@ function PlatformDailyTrendCard() {
   );
 }
 
+/** 桌面端 GitHub Release 下载量（服务端 siteStats.downloadStats，内存缓存 1h） */
+function DesktopDownloadCard() {
+  const statsQ = api.siteStats.downloadStats.useQuery(undefined, {
+    staleTime: 5 * 60_000,
+  });
+  const stats = statsQ.data;
+
+  return (
+    <AdminCard
+      title="桌面端下载"
+      description="GitHub Releases 真实下载量，服务端每小时刷新一次"
+    >
+      {statsQ.error ? (
+        <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
+          {errMsg(statsQ.error)}
+        </p>
+      ) : statsQ.isLoading ? (
+        <Skeleton className="h-24 w-full" />
+      ) : !stats ? (
+        <div className="text-muted-foreground text-sm">
+          暂无数据（GitHub 拉取失败或尚无正式发布版本）
+        </div>
+      ) : (
+        <>
+          <StatCell
+            label="总下载量"
+            value={stats.totalDownloads.toLocaleString()}
+            sub={`${stats.version}${stats.publishedAt ? ` · 发布于 ${stats.publishedAt.slice(0, 10)}` : ""}${stats.stale ? " · 缓存数据" : ""}`}
+          />
+          <ul className="flex flex-col gap-1.5">
+            {stats.assets.map((a) => (
+              <li
+                key={a.name}
+                className="flex items-center justify-between gap-4 text-xs"
+              >
+                <span className="truncate" style={{ color: "var(--ox-text-h)" }}>
+                  {a.name}
+                </span>
+                <span className="text-muted-foreground shrink-0 tabular-nums">
+                  {a.downloads.toLocaleString()} 次
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </AdminCard>
+  );
+}
+
 /** 总览：平台核心指标（4 卡一排）+ 近 14 天平台用量 + 代理网关实时摘要 */
 export function OverviewTab() {
   const overviewQ = api.oxelia51Admin.platformOverview.useQuery();
@@ -220,6 +270,8 @@ export function OverviewTab() {
       )}
 
       <PlatformDailyTrendCard />
+
+      <DesktopDownloadCard />
 
       <AdminCard
         title={`代理网关摘要（近 ${gw?.windowSeconds ?? 5} 分钟）`}

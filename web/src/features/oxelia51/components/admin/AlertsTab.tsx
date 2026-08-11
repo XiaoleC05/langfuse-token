@@ -31,6 +31,14 @@ const SEVERITY_LABEL: Record<string, string> = {
   info: "提示",
 };
 
+/** 发送状态枚举 → 中文（未识别的原样展示） */
+const STATUS_LABEL: Record<string, string> = {
+  sent: "已发送",
+  pending: "待发送",
+  failed: "发送失败",
+  skipped: "已跳过",
+};
+
 /** 告警：跨项目最近告警记录（只读，最近 100 条） */
 export function AlertsTab() {
   const alertsQ = api.oxelia51Admin.listAlertLogs.useQuery();
@@ -82,7 +90,7 @@ export function AlertsTab() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="ox-stagger">
             {(alerts ?? []).map((a) => (
               <TableRow key={a.id}>
                 <TableCell>
@@ -93,8 +101,11 @@ export function AlertsTab() {
                 <TableCell className="font-mono text-xs">
                   {a.alertType}
                 </TableCell>
-                <TableCell className="font-mono text-xs">
-                  {a.projectId}
+                <TableCell
+                  className="font-mono text-xs"
+                  title={a.projectId}
+                >
+                  {a.projectName ?? `${a.projectId.slice(0, 8)}…`}
                 </TableCell>
                 <TableCell className="max-w-md">
                   <span className="line-clamp-2 whitespace-pre-wrap text-xs">
@@ -105,7 +116,9 @@ export function AlertsTab() {
                   {a.status === "sent" ? (
                     <span style={{ color: "var(--ox-ok)" }}>已发送</span>
                   ) : (
-                    <span className="text-muted-foreground">{a.status}</span>
+                    <span className="text-muted-foreground">
+                      {STATUS_LABEL[a.status] ?? a.status}
+                    </span>
                   )}
                 </TableCell>
                 <TableCell className="text-muted-foreground text-xs">

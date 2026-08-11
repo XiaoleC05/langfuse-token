@@ -8,10 +8,11 @@ import {
 } from "@/src/server/api/trpc";
 import { env } from "@/src/env.mjs";
 import { Prisma, prisma } from "@langfuse/shared/src/db";
-import { sendFeedbackReplyEmail } from "@langfuse/shared/src/server";
+import { redis, sendFeedbackReplyEmail } from "@langfuse/shared/src/server";
 import { TRPCError } from "@trpc/server";
 import { updateUserPassword } from "@/src/features/auth-credentials/lib/credentialsServerUtils";
-import { checkUserCanBeDeleted } from "@/src/server/api/routers/userAccount";
+import { ApiAuthService } from "@/src/features/public-api/server/apiAuth";
+import { deleteUserWithOrgCascade } from "@/src/features/oxelia51/server/userDeletion";
 import {
   clientIpFromHeaders,
   getGoToken,
@@ -46,17 +47,21 @@ export const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
 });
 
 /** 仅超级管理员的 procedure：所有写操作走此入口 */
-export const superAdminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
-  if (!isSuperAdminEmail(ctx.session.user.email)) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: "仅超级管理员可执行此操作",
-    });
-  }
-  return next();
-});
+export const superAdminProcedure = authenticatedProcedure.use(
+  ({ ctx, next }) => {
+    if (!isSuperAdminEmail(ctx.session.user.email)) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "仅超级管理员可执行此操作",
+      });
+    }
+    return next();
+  },
+);
 
-const whitelistIdSchema = z.object({ id: z.string().regex(/^\d+$/, "无效的 id") });
+const whitelistIdSchema = z.object({
+  id: z.string().regex(/^\d+$/, "无效的 id"),
+});
 
 export const oxelia51AdminRouter = createTRPCRouter({
   /** 前端据此决定后台管理入口可见性、操作按钮显隐（任何登录用户可调） */
@@ -117,26 +122,46 @@ export const oxelia51AdminRouter = createTRPCRouter({
   ),
 
   whitelistList: adminProcedure.query(({ ctx }) =>
-    goFetch("/api/admin/ip-whitelist", "GET", undefined, true, clientIpFromHeaders(ctx.headers)),
+    goFetch(
+      "/api/admin/ip-whitelist",
+      "GET",
+      undefined,
+      true,
+      clientIpFromHeaders(ctx.headers),
+    ),
   ),
   whitelistCreate: superAdminProcedure
     .input(
       z.object({
         // 只允许 IPv4/IPv6 或 CIDR，避免把任意字符串写入白名单
-        ip: z.string().regex(
-          /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?|[0-9a-fA-F:]+(\/\d{1,3})?)$/,
-          "请输入合法 IP 或 CIDR（如 1.2.3.4 或 1.2.3.0/24）",
-        ),
+        ip: z
+          .string()
+          .regex(
+            /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?|[0-9a-fA-F:]+(\/\d{1,3})?)$/,
+            "请输入合法 IP 或 CIDR（如 1.2.3.4 或 1.2.3.0/24）",
+          ),
         label: z.string().max(50).default(""),
       }),
     )
     .mutation(({ ctx, input }) =>
-      goFetch("/api/admin/ip-whitelist", "POST", input, true, clientIpFromHeaders(ctx.headers)),
+      goFetch(
+        "/api/admin/ip-whitelist",
+        "POST",
+        input,
+        true,
+        clientIpFromHeaders(ctx.headers),
+      ),
     ),
   whitelistDelete: superAdminProcedure
     .input(whitelistIdSchema)
     .mutation(({ ctx, input }) =>
-      goFetch(`/api/admin/ip-whitelist/${input.id}`, "DELETE", undefined, true, clientIpFromHeaders(ctx.headers)),
+      goFetch(
+        `/api/admin/ip-whitelist/${input.id}`,
+        "DELETE",
+        undefined,
+        true,
+        clientIpFromHeaders(ctx.headers),
+      ),
     ),
 
   /** 平台用户列表：直查 Langfuse 用户表（不走 Go 后端），支持邮箱/姓名模糊搜索 + OFFSET 分页 */
@@ -189,6 +214,10 @@ export const oxelia51AdminRouter = createTRPCRouter({
   /**
    * 重置用户密码：生成 12 位随机临时密码并写库（复用 credentials 的 bcrypt 哈希）。
    * 临时密码仅在本次响应返回，不落明文日志、不入库明文。——写操作，仅超级管理员
+   * 安全：重置同时吊销该用户全部 oxelia51.sync_tokens（旧密码签发的桌面同步密钥
+   * 在密码重置后必须失效，否则持旧密钥者可绕过新密码继续同步）。
+   * Web 会话说明：next-auth 配置为 JWT 会话（web/src/server/auth.ts session.strategy="jwt"），
+   * 无服务端会话行可删，旧 JWT 只能等其自然过期——这是已知取舍，如需即时生效须引入会话黑名单。
    */
   adminResetUserPassword: superAdminProcedure
     .input(z.object({ userId: z.string().min(1) }))
@@ -203,13 +232,23 @@ export const oxelia51AdminRouter = createTRPCRouter({
       // 9 字节 → base64url 编码恰为 12 字符，满足 isValidPassword（≥8 位）
       const tempPassword = randomBytes(9).toString("base64url");
       await updateUserPassword(user.id, tempPassword);
+      // 吊销该用户全部未吊销的桌面同步密钥（ revoked_at 置位即失效，见 syncStore.resolveSyncToken ）
+      await prisma.$executeRaw`
+        UPDATE oxelia51.sync_tokens
+        SET revoked_at = now()
+        WHERE user_id = ${user.id} AND revoked_at IS NULL
+      `;
       return { email: user.email, tempPassword };
     }),
 
   /**
    * 删除用户：复用账户自删（userAccount.delete）的「组织最后所有者」校验 +
    * schema 外键级联删除（会员关系/会话/账户等）。——写操作，仅超级管理员
+   * 级联规则（deleteUserWithOrgCascade）：用户是某组织唯一成员（唯一所有者且无其他成员）
+   * 时级联删除该组织（连同其项目，按 schema onDelete: Cascade）；组织内还有其他成员时
+   * 保持报错并说明是哪个组织、还有几名成员。
    * 保护：不能删除自己、不能删除 OXELIA_SUPER_ADMIN_EMAIL。
+   * 响应返回被级联删除的组织名列表（前端 toast 展示）。
    */
   adminDeleteUser: superAdminProcedure
     .input(z.object({ userId: z.string().min(1) }))
@@ -233,21 +272,173 @@ export const oxelia51AdminRouter = createTRPCRouter({
           message: "不能删除超级管理员账户",
         });
       }
+      const { deletedOrganizations } = await prisma.$transaction(
+        (tx) => deleteUserWithOrgCascade(target.id, tx),
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      );
+      // 事务提交后失效缓存中的组织 API key（Redis 不参与 DB 事务；同上游 organizationRouter.delete 步骤）
+      if (deletedOrganizations.length > 0) {
+        const apiAuthService = new ApiAuthService(prisma, redis);
+        for (const org of deletedOrganizations) {
+          await apiAuthService.invalidateCachedOrgApiKeys(org.id);
+        }
+      }
+      return {
+        success: true,
+        email: target.email,
+        deletedOrganizations: deletedOrganizations.map((o) => o.name),
+      };
+    }),
+
+  /**
+   * 废弃组织清单：无成员（organization_memberships 为空）的组织。
+   * 只读列表，管理员先看清单、逐项确认后再用 deleteOrphanedOrg 删除。
+   */
+  listOrphanedOrgs: adminProcedure.query(async () => {
+    const rows = await prisma.$queryRaw<
+      Array<{
+        id: string;
+        name: string;
+        created_at: Date;
+        project_count: bigint;
+      }>
+    >`
+      SELECT o.id, o.name, o.created_at, COUNT(p.id) AS project_count
+      FROM organizations o
+      LEFT JOIN projects p ON p.org_id = o.id
+      WHERE NOT EXISTS (
+        SELECT 1 FROM organization_memberships m WHERE m.org_id = o.id
+      )
+      GROUP BY o.id
+      ORDER BY o.created_at DESC
+      LIMIT 200
+    `;
+    return {
+      items: rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        createdAt: r.created_at,
+        projectCount: Number(r.project_count),
+      })),
+    };
+  }),
+
+  /**
+   * 空项目清单：仍有成员的活跃组织下、「无数据」的项目。
+   * 口径（注释即约定）：「无数据」= PG projects.has_traces = false（项目收到首条
+   * trace 时置真，轻量、无需 ClickHouse 聚合）且无任何项目级成员（project_memberships）。
+   * 无成员组织下的项目不在此列（随「废弃组织」一起清理）。
+   */
+  listEmptyProjects: adminProcedure.query(async () => {
+    const rows = await prisma.$queryRaw<
+      Array<{
+        id: string;
+        name: string;
+        org_name: string;
+        created_at: Date;
+      }>
+    >`
+      SELECT p.id, p.name, p.created_at, o.name AS org_name
+      FROM projects p
+      JOIN organizations o ON o.id = p.org_id
+      WHERE p.deleted_at IS NULL
+        AND p.has_traces = false
+        AND NOT EXISTS (
+          SELECT 1 FROM project_memberships pm WHERE pm.project_id = p.id
+        )
+        AND EXISTS (
+          SELECT 1 FROM organization_memberships m WHERE m.org_id = o.id
+        )
+      ORDER BY p.created_at DESC
+      LIMIT 200
+    `;
+    return {
+      items: rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        orgName: r.org_name,
+        createdAt: r.created_at,
+      })),
+    };
+  }),
+
+  /**
+   * 删除废弃组织：仅允许删除无成员的组织（删除前服务端再校验一次）。
+   * 按 schema onDelete: Cascade 级联删除其项目/邀请/API key 等。——写操作，仅超级管理员
+   * 注意：同 deleteUserWithOrgCascade，不经 ProjectDeleteQueue，ClickHouse 数据随 TTL 过期。
+   */
+  deleteOrphanedOrg: superAdminProcedure
+    .input(z.object({ orgId: z.string().min(1) }))
+    .mutation(async ({ input }) => {
+      const org = await prisma.organization.findUnique({
+        where: { id: input.orgId },
+        select: { id: true, name: true },
+      });
+      if (!org) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "组织不存在" });
+      }
       await prisma.$transaction(
         async (tx) => {
-          const { canDelete, blockingOrganizations } =
-            await checkUserCanBeDeleted(target.id, tx);
-          if (!canDelete) {
+          const memberCount = await tx.organizationMembership.count({
+            where: { orgId: org.id },
+          });
+          if (memberCount > 0) {
             throw new TRPCError({
-              code: "PRECONDITION_FAILED",
-              message: `该用户是组织「${blockingOrganizations.map((o) => o.name).join("、")}」的唯一所有者，请先移交所有者或删除对应组织`,
+              code: "CONFLICT",
+              message: `组织「${org.name}」仍有 ${memberCount} 名成员，不能按废弃组织删除`,
             });
           }
-          await tx.user.delete({ where: { id: target.id } });
+          await tx.organization.delete({ where: { id: org.id } });
         },
         { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
       );
-      return { success: true, email: target.email };
+      // 事务提交后失效缓存中的组织 API key（同上游 organizationRouter.delete 步骤）
+      await new ApiAuthService(prisma, redis).invalidateCachedOrgApiKeys(
+        org.id,
+      );
+      return { success: true, name: org.name };
+    }),
+
+  /**
+   * 删除空项目：仅允许删除 has_traces = false 且无项目级成员的项目（口径同 listEmptyProjects，
+   * 删除前服务端再校验一次）。——写操作，仅超级管理员
+   * 步骤对齐上游 projectsRouter.delete（缓存失效 + 删项目级 API key），
+   * 区别：无 trace 数据故无需走 ProjectDeleteQueue 软删流程，直接删行（schema 外键 Cascade）。
+   */
+  deleteEmptyProject: superAdminProcedure
+    .input(z.object({ projectId: z.string().min(1) }))
+    .mutation(async ({ input }) => {
+      const project = await prisma.project.findUnique({
+        where: { id: input.projectId },
+        select: { id: true, name: true, hasTraces: true, deletedAt: true },
+      });
+      if (!project || project.deletedAt) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "项目不存在" });
+      }
+      if (project.hasTraces) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: `项目「${project.name}」已有 trace 数据，请走项目设置内的常规删除流程`,
+        });
+      }
+      const membershipCount = await prisma.projectMembership.count({
+        where: { projectId: project.id },
+      });
+      if (membershipCount > 0) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: `项目「${project.name}」仍有项目级成员，不能按空项目删除`,
+        });
+      }
+      // 与上游一致：先失效缓存中的项目 API key，再删库里的项目级 key
+      await new ApiAuthService(prisma, redis).invalidateCachedProjectApiKeys(
+        project.id,
+      );
+      await prisma.apiKey.deleteMany({
+        where: { projectId: project.id, scope: "PROJECT" },
+      });
+      await prisma.project.delete({ where: { id: project.id } });
+      return { success: true, name: project.name };
     }),
 
   /** 用户反馈列表（oxelia51.feedback，按时间倒序；status 可选筛选） */
@@ -270,14 +461,17 @@ export const oxelia51AdminRouter = createTRPCRouter({
           category: string;
           message: string;
           project_id: string | null;
+          project_name: string | null;
           status: string;
           created_at: Date;
         }>
       >`
-        SELECT id, email, category, message, project_id, status, created_at
-        FROM oxelia51.feedback
-        WHERE (${status} = '' OR status = ${status})
-        ORDER BY created_at DESC
+        SELECT f.id, f.email, f.category, f.message, f.project_id,
+               p.name AS project_name, f.status, f.created_at
+        FROM oxelia51.feedback f
+        LEFT JOIN projects p ON p.id = f.project_id
+        WHERE (${status} = '' OR f.status = ${status})
+        ORDER BY f.created_at DESC
         LIMIT ${input?.limit ?? 50}
       `;
       return {
@@ -287,6 +481,7 @@ export const oxelia51AdminRouter = createTRPCRouter({
           category: r.category,
           message: r.message,
           projectId: r.project_id,
+          projectName: r.project_name,
           status: r.status,
           createdAt: r.created_at,
         })),
@@ -352,8 +547,12 @@ export const oxelia51AdminRouter = createTRPCRouter({
   /** 平台总览指标：注册用户/项目/待处理反馈/近 24h 告警（直查 PG，只读聚合） */
   platformOverview: adminProcedure.query(async () => {
     const [users, projects, pendingFeedback, alerts24h] = await Promise.all([
-      prisma.$queryRaw<[{ count: bigint }]>`SELECT COUNT(*) AS count FROM users`,
-      prisma.$queryRaw<[{ count: bigint }]>`SELECT COUNT(*) AS count FROM projects`,
+      prisma.$queryRaw<
+        [{ count: bigint }]
+      >`SELECT COUNT(*) AS count FROM users`,
+      prisma.$queryRaw<
+        [{ count: bigint }]
+      >`SELECT COUNT(*) AS count FROM projects`,
       prisma.$queryRaw<[{ count: bigint }]>`
         SELECT COUNT(*) AS count FROM oxelia51.feedback WHERE status = 'new'
       `,
@@ -370,12 +569,13 @@ export const oxelia51AdminRouter = createTRPCRouter({
     };
   }),
 
-  /** 跨项目最近告警记录（oxelia51.alert_logs，由外部分析引擎写入，只读） */
+  /** 跨项目最近告警记录（oxelia51.alert_logs，由外部分析引擎写入，只读；关联 projects 取项目名） */
   listAlertLogs: adminProcedure.query(async () => {
     const rows = await prisma.$queryRaw<
       Array<{
         id: unknown;
         project_id: string;
+        project_name: string | null;
         alert_type: string;
         severity: string;
         message: string | null;
@@ -383,15 +583,18 @@ export const oxelia51AdminRouter = createTRPCRouter({
         created_at: Date;
       }>
     >`
-      SELECT id, project_id, alert_type, severity, message, status, created_at
-      FROM oxelia51.alert_logs
-      ORDER BY created_at DESC
+      SELECT a.id, a.project_id, p.name AS project_name,
+             a.alert_type, a.severity, a.message, a.status, a.created_at
+      FROM oxelia51.alert_logs a
+      LEFT JOIN projects p ON p.id = a.project_id
+      ORDER BY a.created_at DESC
       LIMIT 100
     `;
     return {
       items: rows.map((r) => ({
         id: Number(r.id),
         projectId: r.project_id,
+        projectName: r.project_name,
         alertType: r.alert_type,
         severity: r.severity,
         message: r.message ?? "",

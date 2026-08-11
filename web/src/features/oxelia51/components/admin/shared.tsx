@@ -72,6 +72,8 @@ export type FeedbackItem = {
   category: string;
   message: string;
   projectId: string | null;
+  /** 关联 projects 表取到的项目名（项目已删除时为 null，前端回落截断 ID） */
+  projectName?: string | null;
   status: string;
   createdAt: string;
 };
@@ -79,6 +81,8 @@ export type FeedbackItem = {
 export type AlertLogItem = {
   id: number;
   projectId: string;
+  /** 关联 projects 表取到的项目名（取不到时前端回落截断 ID） */
+  projectName?: string | null;
   alertType: string;
   severity: string;
   message: string;
@@ -159,8 +163,23 @@ export function LiveDot() {
   );
 }
 
+/**
+ * 把 tRPC / 网络错误映射为中文友好文案。
+ * 服务端已中文化的 message 原样保留；原始英文（tRPC 错误码、网络异常等）
+ * 映射为常见中文，未识别的英文兜底「操作失败，请重试」并 console 留原文。
+ */
 export function errMsg(e: { message?: string } | null | undefined) {
-  return e?.message ?? "";
+  const raw = e?.message ?? "";
+  if (!raw) return "";
+  if (/UNAUTHORIZED/i.test(raw)) return "未登录或会话已过期，请重新登录";
+  if (/FORBIDDEN/i.test(raw)) return "没有权限执行此操作";
+  if (/failed to fetch|network ?error|fetch failed|ECONNREFUSED|ETIMEDOUT/i.test(raw))
+    return "网络异常，请重试";
+  // 含中文的 message 视为服务端友好文案，直接展示
+  if (/[一-龥]/.test(raw)) return raw;
+  // 纯英文原文不上界面，留 console 便于排查
+  console.warn("[admin] 未映射的错误信息:", raw);
+  return "操作失败，请重试";
 }
 
 export function gatewayQStatus(g: GatewayStats | undefined): string {

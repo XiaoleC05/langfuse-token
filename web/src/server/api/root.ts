@@ -66,6 +66,7 @@ import { syncRouter } from "@/src/features/oxelia51/server/syncRouter";
 import { oxelia51AdminRouter } from "@/src/features/oxelia51/server/adminRouter";
 import { proxyKeyRouter } from "@/src/features/oxelia51/server/proxyKeyRouter";
 import { siteContentRouter } from "@/src/features/oxelia51/server/siteContentRouter";
+import { siteStatsRouter } from "@/src/features/oxelia51/server/siteStatsRouter";
 
 /**
  * This is the primary router for your server.
@@ -140,6 +141,7 @@ export const appRouter = createTRPCRouter({
   oxelia51Admin: oxelia51AdminRouter,
   proxyKey: proxyKeyRouter,
   siteContent: siteContentRouter,
+  siteStats: siteStatsRouter,
 });
 
 // export type definition of API

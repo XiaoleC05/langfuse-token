@@ -81,6 +81,11 @@ function HeroSection() {
     { staleTime: 60_000 },
   );
   const hero: HeroCopy = (heroQ.data as HeroCopy | null) ?? LANDING_HERO;
+  // 下载量：服务端代理 GitHub Releases（缓存 1h）；失败为 null → 不渲染，不编造数字
+  const statsQ = api.siteStats.downloadStats.useQuery(undefined, {
+    staleTime: 5 * 60_000,
+  });
+  const stats = statsQ.data ?? null;
   return (
     <section className="relative overflow-hidden">
       {/* Hero 入场动效：每次进入页面都会播放（挂载触发，不依赖存储） */}
@@ -147,29 +152,39 @@ function HeroSection() {
           </Button>
         </div>
 
+        {/* 真实下载量（GitHub Releases）：仅服务端有数据时渲染 */}
+        {stats && (
+          <p
+            className="ox-hero-in mt-3 text-xs text-(--ox-text-muted)"
+            style={{ animationDelay: "300ms" }}
+          >
+            已被下载 {stats.totalDownloads.toLocaleString("zh-CN")} 次
+          </p>
+        )}
+
         {/* 平台徽章：可点击跳转到独立下载页对应平台 */}
         <div
           className="ox-hero-in mt-5 flex items-center justify-center gap-4 text-xs text-(--ox-text-muted)"
           style={{ animationDelay: "340ms" }}
         >
-          <a
+          <Link
             href="/download#windows"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Monitor className="h-3.5 w-3.5" /> Windows
-          </a>
-          <a
+          </Link>
+          <Link
             href="/download#macos"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Apple className="h-3.5 w-3.5" /> macOS
-          </a>
-          <a
+          </Link>
+          <Link
             href="/download#linux"
             className="flex items-center gap-1 transition-colors hover:text-(--ox-accent)"
           >
             <Terminal className="h-3.5 w-3.5" /> Linux
-          </a>
+          </Link>
         </div>
 
         {/* 产品截图 mock */}
@@ -389,7 +404,7 @@ function FaqSection() {
             return (
               <Reveal key={item.q} delay={i * 40}>
                 <div
-                  className="overflow-hidden rounded-xl border"
+                  className="ox-card-hover overflow-hidden rounded-xl border"
                   style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
                 >
                   <button

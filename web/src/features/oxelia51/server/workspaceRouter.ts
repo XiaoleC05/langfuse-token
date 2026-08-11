@@ -256,9 +256,16 @@ export const workspaceRouter = createTRPCRouter({
       });
 
       // 按 provider 聚合：成本按模型现算后求和
+      // hasUnpriced：该 provider 下存在定价表查无的模型（其成本被计 0，总额偏低估）
       const byProvider = new Map<
         string,
-        { provider: string; tokens: number; costUsd: number; requests: number }
+        {
+          provider: string;
+          tokens: number;
+          costUsd: number;
+          requests: number;
+          hasUnpriced: boolean;
+        }
       >();
       for (const r of rows) {
         const agg = byProvider.get(r.provider) ?? {
@@ -266,10 +273,12 @@ export const workspaceRouter = createTRPCRouter({
           tokens: 0,
           costUsd: 0,
           requests: 0,
+          hasUnpriced: false,
         };
         agg.tokens += toNumber(r.tokens);
         agg.costUsd += costOf(pricing, r.model, toNumber(r.prompt), toNumber(r.completion));
         agg.requests += toNumber(r.requests);
+        if (!pricing.has(r.model)) agg.hasUnpriced = true;
         byProvider.set(r.provider, agg);
       }
 
@@ -310,9 +319,16 @@ export const workspaceRouter = createTRPCRouter({
       });
 
       // 按 agent 聚合：成本按模型现算后求和
+      // hasUnpriced：该 agent 下存在定价表查无的模型（其成本被计 0，总额偏低估）
       const byAgent = new Map<
         string,
-        { agent: string; tokens: number; costUsd: number; requests: number }
+        {
+          agent: string;
+          tokens: number;
+          costUsd: number;
+          requests: number;
+          hasUnpriced: boolean;
+        }
       >();
       for (const r of rows) {
         const agg = byAgent.get(r.agent) ?? {
@@ -320,10 +336,12 @@ export const workspaceRouter = createTRPCRouter({
           tokens: 0,
           costUsd: 0,
           requests: 0,
+          hasUnpriced: false,
         };
         agg.tokens += toNumber(r.tokens);
         agg.costUsd += costOf(pricing, r.model, toNumber(r.prompt), toNumber(r.completion));
         agg.requests += toNumber(r.requests);
+        if (!pricing.has(r.model)) agg.hasUnpriced = true;
         byAgent.set(r.agent, agg);
       }
 

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { ArrowLeft, ChevronsUpDown, LogOut, Settings } from "lucide-react";
+import { ArrowLeft, ChevronsUpDown, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import { env } from "@/src/env.mjs";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -28,6 +29,7 @@ import { signOutCleanly } from "@/src/features/auth/lib/signOut";
  * （账户设置 / 退出登录），触发器改为顶栏紧凑形态。
  */
 export function AdminShell({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
 
@@ -36,16 +38,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <header className="bg-background/85 sticky top-0 z-10 border-b backdrop-blur-sm">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4">
           <Link href="/admin" className="flex items-center gap-2.5">
-            {/* 品牌 glyph：随主题切换深浅版 */}
+            {/* 品牌 glyph：随主题切换深浅版（h-7 sm:h-8，与工作台顶栏同规格） */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              className="h-7 w-7 dark:hidden"
+              className="h-7 w-7 sm:h-8 sm:w-8 dark:hidden"
               src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64.png`}
               alt="Oxelia51"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              className="hidden h-7 w-7 dark:block"
+              className="hidden h-7 w-7 sm:h-8 sm:w-8 dark:block"
               src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon-glyph-64-dark.png`}
               alt="Oxelia51"
             />
@@ -53,8 +55,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               Oxelia51 管理台
             </span>
           </Link>
-          {/* 右侧操作区：返回网站 + 账户菜单，统一间距 */}
+          {/* 右侧操作区：工作台 + 返回网站 + 账户菜单，统一间距 */}
           <div className="ml-auto flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/app">
+                <LayoutDashboard className="mr-1.5 h-3.5 w-3.5" />
+                工作台
+              </Link>
+            </Button>
             <Button asChild variant="ghost" size="sm">
               <Link href="/">
                 <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
@@ -65,8 +73,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-      {/* pb-16：为 MinimalLayout 吸底页脚留出空间 */}
-      <div className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-16">
+      {/* pb-16：为 MinimalLayout 吸底页脚留出空间；key=pathname 重放进入动画 */}
+      <div
+        key={router.pathname}
+        className="ox-page-in mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-16"
+      >
         {children}
       </div>
     </div>

@@ -131,6 +131,13 @@ export default function DownloadPage() {
             0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ox-accent) 45%, transparent); }
             100% { box-shadow: 0 0 0 14px transparent; }
           }
+          @media (prefers-reduced-motion: reduce) {
+            #windows:target,
+            #macos:target,
+            #linux:target {
+              animation: none;
+            }
+          }
         `}</style>
       </div>
     </>

@@ -97,7 +97,7 @@ export function FeedbackTab() {
   return (
     <>
       <AdminCard
-        title={`用户反馈（${feedback?.length ?? "…"}）`}
+        title={`用户反馈（最近 100 条，当前 ${feedback?.length ?? "…"} 条）`}
         action={
           <div className="flex items-center gap-2">
             <SegmentedControl
@@ -136,7 +136,7 @@ export function FeedbackTab() {
                 <TableHead className="w-40" />
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="ox-stagger">
               {(feedback ?? []).map((f) => {
                 const next = NEXT_STATUS[f.status];
                 return (
@@ -156,8 +156,11 @@ export function FeedbackTab() {
                         {f.message}
                       </span>
                       {f.projectId && (
-                        <span className="text-muted-foreground block text-xs">
-                          项目：{f.projectId}
+                        <span
+                          className="text-muted-foreground block text-xs"
+                          title={f.projectId}
+                        >
+                          项目：{f.projectName ?? `${f.projectId.slice(0, 8)}…`}
                         </span>
                       )}
                     </TableCell>

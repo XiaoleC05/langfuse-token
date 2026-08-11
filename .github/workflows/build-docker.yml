@@ -19,8 +19,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker image
+        # Umami 统计脚本：NEXT_PUBLIC 变量构建期内联（值公开，非机密）
+        env:
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: ac9420c0-fc6d-44ae-8a27-13903bf795d3
+          NEXT_PUBLIC_UMAMI_SRC: https://stats.oxelia51.com/script.js
         run: |
-          docker build -f web/Dockerfile -t langfuse-token-web:latest .
+          docker build -f web/Dockerfile -t langfuse-token-web:latest \
+            --build-arg NEXT_PUBLIC_UMAMI_WEBSITE_ID="$NEXT_PUBLIC_UMAMI_WEBSITE_ID" \
+            --build-arg NEXT_PUBLIC_UMAMI_SRC="$NEXT_PUBLIC_UMAMI_SRC" \
+            .
           docker save langfuse-token-web:latest | gzip > langfuse-token-web.tar.gz
           ls -lh langfuse-token-web.tar.gz
 

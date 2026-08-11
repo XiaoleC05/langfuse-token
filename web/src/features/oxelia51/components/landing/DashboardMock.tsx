@@ -24,7 +24,7 @@ export function DashboardMock() {
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
         <span
-          className="ml-3 flex-1 truncate rounded-md px-3 py-1 text-[11px] text-(--ox-text-muted)"
+          className="ml-3 flex-1 truncate rounded-md px-3 py-1 text-xs text-(--ox-text-muted)"
           style={{ backgroundColor: "var(--ox-bg)" }}
         >
           Oxelia51 桌面应用 · 总览

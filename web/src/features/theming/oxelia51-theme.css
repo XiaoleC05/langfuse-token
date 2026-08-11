@@ -160,3 +160,70 @@
   --radius-2xl: 1.5rem;   /* 24px */
   --radius-3xl: 2rem;     /* 32px */
 }
+
+/* ============================================================
+   过渡与动效（docs/design-system.md §4.17）
+   统一缓动 cubic-bezier(0.4, 0, 0.2, 1)，时长 ~0.3s（--ox-speed）。
+   全部动效在 prefers-reduced-motion: reduce 时禁用。
+   ============================================================ */
+
+/* 页面内容区进入：淡入 + 上移 6px（0.28s）。
+   路由切换重放由 React 侧 key={pathname} 触发（WorkspaceLayout / AdminShell）。 */
+.ox-page-in {
+  animation: ox-page-in 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes ox-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 列表/卡片网格错峰淡入：最多 6 行，0.03s 递增；第 6 行起共用末档延迟。
+   直接挂在列表容器（grid / tbody）上，作用于其直接子元素。 */
+.ox-stagger > * {
+  animation: ox-page-in 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.ox-stagger > :nth-child(2) { animation-delay: 0.03s; }
+.ox-stagger > :nth-child(3) { animation-delay: 0.06s; }
+.ox-stagger > :nth-child(4) { animation-delay: 0.09s; }
+.ox-stagger > :nth-child(5) { animation-delay: 0.12s; }
+.ox-stagger > :nth-child(n+6) { animation-delay: 0.15s; }
+
+/* 可点卡片 hover 浮起（§4.2）：translateY(-2px) + 微阴影。
+   仅加在可点/可交互卡片上，纯展示卡不用。 */
+.ox-card-hover {
+  transition:
+    transform var(--ox-speed) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--ox-speed) cubic-bezier(0.4, 0, 0.2, 1),
+    border-color var(--ox-speed) cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ox-card-hover:hover {
+  transform: translateY(-2px);
+}
+:root .ox-card-hover:hover,
+[data-theme="cozy"] .ox-card-hover:hover {
+  box-shadow: 0 4px 16px rgba(58, 51, 45, 0.1);
+}
+[data-theme="cosmos"] .ox-card-hover:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ox-page-in,
+  .ox-stagger > * {
+    animation: none !important;
+  }
+  .ox-card-hover {
+    transition: none !important;
+  }
+  .ox-card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}

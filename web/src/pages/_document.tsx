@@ -2,6 +2,12 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 import { LAYER_ORDER } from "@/src/components/ui/layer";
 
+// Umami 自托管统计（stats.oxelia51.com，部署见 Oxelia51/deploy/umami/）。
+// 两个 env 齐备才注入脚本；未配置则不加载任何统计代码。
+// NEXT_PUBLIC_* 为构建期内联变量，在 _document（服务端）直接读 process.env 即可。
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC;
+
 // The app renders inside #__next (<Main />), which is isolated into its own
 // stacking context (globals.css). The overlay layer containers are declared
 // here as <body> siblings AFTER #__next, so they paint above the whole app by
@@ -28,6 +34,15 @@ export default function Document() {
             __html: `try{document.documentElement.dataset.theme=localStorage.getItem("oxelia51-theme")==="cosmos"?"cosmos":"cozy"}catch(e){document.documentElement.dataset.theme="cozy"}`,
           }}
         />
+        {/* Umami 统计脚本：async+defer 不阻塞渲染；仅 env 齐备时注入 */}
+        {UMAMI_WEBSITE_ID && UMAMI_SRC ? (
+          <script
+            async
+            defer
+            src={UMAMI_SRC}
+            data-website-id={UMAMI_WEBSITE_ID}
+          />
+        ) : null}
       </Head>
       <body>
         <Main />

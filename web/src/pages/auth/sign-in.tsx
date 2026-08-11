@@ -643,13 +643,15 @@ export default function SignIn({
       const result = await signIn("credentials", {
         email: values.email,
         password: values.password,
-        callbackUrl: targetPath ?? "/",
+        // Oxelia51 fork 定制：无显式 targetPath 时默认落 /app 工作台
+        //（上游默认落 "/"，本 fork 的 "/" 是营销落地页）。
+        callbackUrl: targetPath ?? "/app",
         redirect: false,
       });
       if (result?.ok) {
         // Oxelia51：登录成功后立即显式跳转。若依赖会话刷新→守卫重定向的
         // 异步时序，会慢一拍导致「要点两下才能登录」的观感。
-        void router.push(targetPath ?? "/");
+        void router.push(targetPath ?? "/app");
         return;
       }
       if (result === undefined) {

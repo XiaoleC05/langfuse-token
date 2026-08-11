@@ -30,7 +30,8 @@ export function SegmentedControl<T extends string>({
           type="button"
           onClick={() => onChange(option.value)}
           className={cn(
-            "rounded-sm px-2.5 py-1 text-xs font-medium transition-colors",
+            // 触控目标：移动端 ≥32px，桌面端保持紧凑 24px（触控规范，桌面紧凑度不受影响）
+            "inline-flex min-h-8 items-center justify-center rounded-sm px-2.5 text-xs font-medium transition-colors sm:min-h-6",
             option.value === value
               ? "bg-[var(--ox-accent)] text-white"
               : "text-muted-foreground hover:bg-accent hover:text-foreground",

@@ -5,7 +5,9 @@ import { WorkspaceLayout } from "@/src/features/oxelia51/components/workspace/Wo
 import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/components/currency";
 import { TokenTrendChart } from "@/src/features/oxelia51/components/TokenTrendChart";
 import { OxCard } from "@/src/features/oxelia51/components/OxCard";
-import { EmptyText } from "@/src/features/oxelia51/components/EmptyText";
+import { EmptyState } from "@/src/features/oxelia51/components/EmptyState";
+import { QueryError } from "@/src/features/oxelia51/components/QueryError";
+import { Skeleton } from "@/src/components/ui/skeleton";
 
 /** 个人工作台总览：跨项目今日/周/月 token、本月成本、时间趋势、模型/供应商排行。 */
 
@@ -14,22 +16,28 @@ function StatCard({
   value,
   hint,
   accent = false,
+  loading = false,
 }: {
   label: string;
   value: string;
   hint?: string;
   accent?: boolean;
+  loading?: boolean;
 }) {
   return (
     <OxCard>
       <div className="text-xs text-(--ox-text-muted)">{label}</div>
-      <div
-        className="mt-1 text-xl font-semibold tabular-nums"
-        style={{ color: accent ? "var(--ox-accent)" : "var(--ox-text-h)" }}
-      >
-        {value}
-      </div>
-      {hint && <div className="mt-1 text-[11px] text-(--ox-text-muted)">{hint}</div>}
+      {loading ? (
+        <Skeleton className="mt-1 h-7 w-20" />
+      ) : (
+        <div
+          className="mt-1 text-xl font-semibold tabular-nums"
+          style={{ color: accent ? "var(--ox-accent)" : "var(--ox-text-h)" }}
+        >
+          {value}
+        </div>
+      )}
+      {hint && !loading && <div className="mt-1 text-xs text-(--ox-text-muted)">{hint}</div>}
     </OxCard>
   );
 }
@@ -55,39 +63,59 @@ export default function OverviewPage() {
     .sort((a, b) => a.bucket.localeCompare(b.bucket));
 
   const o = overview.data;
+  const failed = [overview, trend, byModel, byProvider].find((q) => q.isError);
 
   return (
     <WorkspaceLayout active="/app/overview">
-      <h1 className="text-2xl font-bold tracking-tight text-(--ox-text-h)">
+      <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         总览
       </h1>
       <p className="mt-1 text-sm text-(--ox-text-muted)">
         跨所有项目的 Token 消耗与成本。
       </p>
 
+      {failed && (
+        <div className="mt-6">
+          <QueryError
+            message={failed.error?.message}
+            retrying={failed.isFetching}
+            onRetry={() => {
+              void overview.refetch();
+              void trend.refetch();
+              void byModel.refetch();
+              void byProvider.refetch();
+            }}
+          />
+        </div>
+      )}
+
       {/* 统计卡 */}
-      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="ox-stagger mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard
           label="今日 Token"
           value={tokens(o?.todayTokens)}
           hint={o ? `昨日 ${tokens(o.yesterdayTokens)}` : undefined}
           accent
+          loading={overview.isLoading}
         />
         <StatCard
           label="本周 Token"
           value={tokens(o?.weekTokens)}
           hint={o ? `上周 ${tokens(o.prevWeekTokens)}` : undefined}
+          loading={overview.isLoading}
         />
         <StatCard
           label="本月 Token"
           value={tokens(o?.monthTokens)}
           hint={o ? `上月 ${tokens(o.prevMonthTokens)}` : undefined}
+          loading={overview.isLoading}
         />
         <StatCard
           label="本月成本"
           value={cost(o?.monthCostUsd)}
           hint={o ? `今日 ${cost(o.todayCostUsd)}` : undefined}
           accent
+          loading={overview.isLoading}
         />
       </div>
 
@@ -95,14 +123,18 @@ export default function OverviewPage() {
       <OxCard className="mt-6">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold text-(--ox-text-h)">近 30 天 Token 趋势</h2>
-          <span className="text-[11px] text-(--ox-text-muted)">按日</span>
+          <span className="text-xs text-(--ox-text-muted)">按日</span>
         </div>
         <div className="mt-3">
-          <TokenTrendChart data={trendData} />
+          {trend.isLoading ? (
+            <Skeleton className="h-40 w-full" />
+          ) : (
+            <TokenTrendChart data={trendData} />
+          )}
         </div>
       </OxCard>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="ox-stagger mt-6 grid gap-6 lg:grid-cols-2">
         {/* 模型排行 */}
         <OxCard className="p-0">
           <div className="border-b px-4 py-3 text-sm font-semibold text-(--ox-text-h)" style={{ borderColor: "var(--ox-border)" }}>
@@ -118,7 +150,13 @@ export default function OverviewPage() {
                 </span>
               </div>
             ))}
-            {(byModel.data ?? []).length === 0 && <EmptyText>暂无数据</EmptyText>}
+            {!byModel.isLoading && !byModel.isError && (byModel.data ?? []).length === 0 && (
+              <EmptyState
+                className="m-3"
+                description="近 30 天暂无模型消耗。接入代理产生请求后，这里会按模型展示排行。"
+                action={{ href: "/docs", label: "查看接入文档" }}
+              />
+            )}
           </div>
         </OxCard>
 
@@ -137,7 +175,13 @@ export default function OverviewPage() {
                 </span>
               </div>
             ))}
-            {(byProvider.data ?? []).length === 0 && <EmptyText>暂无数据</EmptyText>}
+            {!byProvider.isLoading && !byProvider.isError && (byProvider.data ?? []).length === 0 && (
+              <EmptyState
+                className="m-3"
+                description="近 30 天暂无供应商消耗。接入代理产生请求后，这里会按平台展示排行。"
+                action={{ href: "/docs", label: "查看接入文档" }}
+              />
+            )}
           </div>
         </OxCard>
       </div>

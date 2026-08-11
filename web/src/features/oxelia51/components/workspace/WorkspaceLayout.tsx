@@ -76,7 +76,7 @@ export function WorkspaceLayout({
         style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg)" }}
       >
         <Link href="/app" className="shrink-0">
-          <SiteLogo wordartClassName="h-5" glyphClassName="h-5" />
+          <SiteLogo wordartClassName="h-5" glyphClassName="h-7 sm:h-8" />
         </Link>
         <div className="flex items-center gap-2.5">
           <Oxelia51ThemeToggle />
@@ -86,24 +86,29 @@ export function WorkspaceLayout({
           <button
             type="button"
             onClick={() => void signOut({ callbackUrl: "/" })}
-            className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs text-(--ox-text-muted) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
+            title="退出登录"
+            aria-label="退出登录"
+            className="inline-flex items-center gap-1 rounded-md border p-2 text-xs text-(--ox-text-muted) transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent) sm:px-2 sm:py-1"
             style={{ borderColor: "var(--ox-border)" }}
           >
-            退出登录
-            <LogOut className="h-3 w-3" />
+            <span className="hidden sm:inline">退出登录</span>
+            <LogOut className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
           </button>
           <Link
             href="/"
-            className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h)"
+            title="返回网站"
+            aria-label="返回网站"
+            className="inline-flex items-center gap-1 rounded-md border p-2 text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h) sm:px-2 sm:py-1"
             style={{ borderColor: "var(--ox-border)" }}
           >
-            返回网站
-            <ExternalLink className="h-3 w-3" />
+            <span className="hidden sm:inline">返回网站</span>
+            <ExternalLink className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
           </Link>
         </div>
       </header>
 
-      <div className="flex min-h-0 flex-1">
+      {/* 移动端纵向排布（导航条在上、内容在下），sm 起恢复左右分栏 */}
+      <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
         {/* 侧边栏 */}
         <aside
           className="hidden w-48 shrink-0 border-r sm:block"
@@ -120,8 +125,10 @@ export function WorkspaceLayout({
                   style={
                     isActive
                       ? {
-                          backgroundColor: "var(--ox-accent)",
-                          color: "#fff",
+                          // §4.6：激活态为左侧 3px accent 内嵌条 + accent 文字，不用红底白字整块
+                          boxShadow: "inset 3px 0 0 var(--ox-accent)",
+                          color: "var(--ox-accent)",
+                          fontWeight: 600,
                         }
                       : {
                           color: "var(--ox-text-muted)",
@@ -136,7 +143,7 @@ export function WorkspaceLayout({
           </nav>
         </aside>
 
-        {/* 移动端顶栏导航条 */}
+        {/* 移动端顶栏导航条（溢出横向滚动；激活项首次渲染时滚入可视区） */}
         <nav
           className="flex shrink-0 items-center gap-1 overflow-x-auto border-b px-3 py-2 sm:hidden"
           style={{ borderColor: "var(--ox-border)", backgroundColor: "var(--ox-bg-alt)" }}
@@ -147,10 +154,21 @@ export function WorkspaceLayout({
               <Link
                 key={item.href}
                 href={item.href}
+                ref={
+                  isActive
+                    ? (el) => {
+                        // 每个 DOM 节点只滚一次，避免后续重渲染打断用户手动横滑
+                        if (el && !el.dataset.scrolledIntoView) {
+                          el.dataset.scrolledIntoView = "1";
+                          el.scrollIntoView({ block: "nearest", inline: "nearest" });
+                        }
+                      }
+                    : undefined
+                }
                 className="flex shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-colors"
                 style={
                   isActive
-                    ? { backgroundColor: "var(--ox-accent)", color: "#fff" }
+                    ? { color: "var(--ox-accent)", fontWeight: 600 }
                     : { color: "var(--ox-text-muted)" }
                 }
               >
@@ -161,8 +179,13 @@ export function WorkspaceLayout({
           })}
         </nav>
 
-        {/* 内容 */}
-        <main className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-8">{children}</main>
+        {/* 内容（key=pathname：路由切换时重放 .ox-page-in 进入动画） */}
+        <main
+          key={router.pathname}
+          className="ox-page-in min-w-0 flex-1 overflow-y-auto p-4 sm:p-8"
+        >
+          {children}
+        </main>
       </div>
     </div>
   );

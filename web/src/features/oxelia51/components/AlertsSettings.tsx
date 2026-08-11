@@ -136,6 +136,25 @@ export function AlertsSettings({ projectId }: { projectId: string }) {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* 配置/通道加载失败：显式错误 + 重试，不静默 */}
+      {(config.isError || channels.isError) && (
+        <Card className="flex flex-col items-start gap-2 p-4">
+          <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
+            加载失败：{config.error?.message ?? channels.error?.message}
+          </p>
+          <Button
+            size="sm"
+            variant="outline"
+            loading={config.isFetching || channels.isFetching}
+            onClick={() => {
+              void config.refetch();
+              void channels.refetch();
+            }}
+          >
+            重试
+          </Button>
+        </Card>
+      )}
       <div>
         <Header title="预算告警" />
         <Card className="flex flex-col gap-3 p-4">
@@ -324,7 +343,21 @@ export function AlertsSettings({ projectId }: { projectId: string }) {
       <div>
         <Header title="告警历史" />
         <Card className="p-4">
-          {logs.isLoading ? (
+          {logs.isError ? (
+            <div className="flex h-32 flex-col items-center justify-center gap-2">
+              <p className="text-sm" style={{ color: "var(--ox-warn)" }}>
+                加载失败：{logs.error?.message}
+              </p>
+              <Button
+                size="sm"
+                variant="outline"
+                loading={logs.isFetching}
+                onClick={() => void logs.refetch()}
+              >
+                重试
+              </Button>
+            </div>
+          ) : logs.isLoading ? (
             <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
               加载中…
             </div>

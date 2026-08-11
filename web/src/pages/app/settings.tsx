@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { api } from "@/src/utils/api";
 import { WorkspaceLayout } from "@/src/features/oxelia51/components/workspace/WorkspaceLayout";
 import { OxCard } from "@/src/features/oxelia51/components/OxCard";
 import { EmptyText } from "@/src/features/oxelia51/components/EmptyText";
-import { formatCost, formatTokens } from "@/src/features/oxelia51/components/currency";
+import { formatCost, formatTokens, useCurrency } from "@/src/features/oxelia51/components/currency";
 import { Button } from "@/src/components/ui/button";
 import {
   AlertDialog,
@@ -29,6 +30,9 @@ const fmtTime = (iso?: string | null) =>
 function SyncLedgerSection() {
   const utils = api.useUtils();
   const status = api.sync.status.useQuery();
+  const rateQuery = api.workspace.exchangeRate.useQuery();
+  const { currency } = useCurrency();
+  const rate = rateQuery.data?.rateCnyPerUsd ?? 7.2;
   const revoke = api.sync.revokeToken.useMutation({
     onSuccess: () => {
       void utils.sync.status.invalidate();
@@ -53,22 +57,23 @@ function SyncLedgerSection() {
       </p>
 
       {/* 近 30 日同步汇总 */}
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      {/* 移动端单列，避免数值在窄卡片里折行 */}
+      <div className="ox-stagger mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <OxCard>
           <div className="text-xs text-(--ox-text-muted)">近 30 日同步 Token</div>
           <div className="mt-1 text-xl font-semibold tabular-nums text-(--ox-text-h)">
             {formatTokens(s?.last30dTokens ?? 0)}
           </div>
-          <div className="mt-1 text-[11px] text-(--ox-text-muted)">
+          <div className="mt-1 text-xs text-(--ox-text-muted)">
             累计 {formatTokens(s?.totalEvents ?? 0)} 条事件
           </div>
         </OxCard>
         <OxCard>
           <div className="text-xs text-(--ox-text-muted)">近 30 日估算成本</div>
           <div className="mt-1 text-xl font-semibold tabular-nums text-(--ox-text-h)">
-            {formatCost(s?.last30dCostUsd ?? 0, "USD", 1)}
+            {formatCost(s?.last30dCostUsd ?? 0, currency, rate)}
           </div>
-          <div className="mt-1 text-[11px] text-(--ox-text-muted)">
+          <div className="mt-1 text-xs text-(--ox-text-muted)">
             按模型参考价估算，无定价的模型计 0
           </div>
         </OxCard>
@@ -81,9 +86,9 @@ function SyncLedgerSection() {
         </div>
         <div className="flex flex-col divide-y" style={{ borderColor: "var(--ox-border)" }}>
           {(s?.devices ?? []).map((d) => (
-            <div key={d.deviceId} className="flex items-center justify-between px-4 py-2.5 text-sm">
+            <div key={d.deviceId} className="flex flex-col gap-1 px-4 py-2.5 text-sm sm:flex-row sm:items-center sm:justify-between">
               <span className="truncate font-mono text-xs text-(--ox-text-h)">{d.deviceId}</span>
-              <span className="shrink-0 pl-3 text-right tabular-nums">
+              <span className="shrink-0 tabular-nums sm:pl-3 sm:text-right">
                 <span className="text-(--ox-text-h)">{formatTokens(d.events)} 条</span>
                 <span className="ml-2 text-xs text-(--ox-text-muted)">最近同步 {fmtTime(d.lastSyncedAt)}</span>
               </span>
@@ -104,16 +109,17 @@ function SyncLedgerSection() {
         </div>
         <div className="flex flex-col divide-y" style={{ borderColor: "var(--ox-border)" }}>
           {(s?.tokens ?? []).map((t) => (
-            <div key={t.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
+            <div key={t.id} className="flex flex-col gap-2 px-4 py-2.5 text-sm sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
                 <div className="truncate text-(--ox-text-h)">{t.deviceLabel || "未命名设备"}</div>
                 <div className="mt-0.5 text-xs text-(--ox-text-muted)">
                   签发 {fmtTime(t.createdAt)} · 最近使用 {fmtTime(t.lastUsedAt)}
                 </div>
               </div>
+              {/* 默认尺寸 h-8（32px），保证移动端触控目标 */}
               <Button
                 variant="ghost"
-                size="sm"
+                className="self-end sm:self-auto"
                 disabled={revoke.isPending}
                 onClick={() =>
                   setRevokeTarget({ id: t.id, label: t.deviceLabel || "未命名设备" })
@@ -136,7 +142,8 @@ function SyncLedgerSection() {
           if (!open) setRevokeTarget(null);
         }}
       >
-        <AlertDialogContent>
+        {/* 移动端留出 16px 屏幕边距并补圆角（核心组件默认 w-full 贴边、sm 以下无圆角） */}
+        <AlertDialogContent className="max-w-[calc(100vw-2rem)] rounded-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>断开同步密钥</AlertDialogTitle>
             <AlertDialogDescription>
@@ -175,7 +182,7 @@ export default function SettingsPage() {
 
   return (
     <WorkspaceLayout active="/app/settings">
-      <h1 className="text-2xl font-bold tracking-tight text-(--ox-text-h)">
+      <h1 className="text-xl font-semibold tracking-tight text-(--ox-text-h)">
         设置
       </h1>
       <p className="mt-1 text-sm text-(--ox-text-muted)">
@@ -190,6 +197,15 @@ export default function SettingsPage() {
               <span className="max-w-[60%] truncate text-(--ox-text-h)">{r.value}</span>
             </div>
           ))}
+          <div className="flex items-center justify-between px-4 py-3 text-sm">
+            <span className="text-(--ox-text-muted)">账户</span>
+            <Link
+              href="/account/settings"
+              className="shrink-0 text-(--ox-accent) hover:underline"
+            >
+              修改姓名与密码 →
+            </Link>
+          </div>
         </div>
       </div>
 

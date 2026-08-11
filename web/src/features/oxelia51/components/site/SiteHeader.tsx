@@ -125,7 +125,7 @@ export function SiteHeader() {
               </Link>
               <Link
                 href="/auth/admin"
-                className="hidden text-[11px] text-(--ox-text-muted)/60 transition-colors hover:text-(--ox-text-h) lg:inline"
+                className="hidden text-xs text-(--ox-text-muted) transition-colors hover:text-(--ox-text-h) lg:inline"
               >
                 我是管理员
               </Link>
@@ -163,6 +163,19 @@ export function SiteHeader() {
                 {l.label}
               </Link>
             ))}
+            {/* 登录态入口：移动端顶栏放不下，收进菜单面板底部 */}
+            <Link
+              href={authenticated ? workspaceHref : "/auth/sign-in"}
+              onClick={() => setMenuOpen(false)}
+              className="mt-1 flex items-center justify-between rounded-md border px-3 py-2.5 text-sm font-medium"
+              style={{
+                borderColor: "var(--ox-border)",
+                color: "var(--ox-accent)",
+              }}
+            >
+              {authenticated ? "进入工作台" : "登录"}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </nav>
         </div>
       )}

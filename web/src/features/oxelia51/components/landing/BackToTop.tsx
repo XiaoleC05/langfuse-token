@@ -23,7 +23,13 @@ export function BackToTop() {
       type="button"
       aria-label="回到顶部"
       onClick={() =>
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        window.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "auto"
+            : "smooth",
+        })
       }
       className="fixed right-5 bottom-5 z-50 flex h-10 w-10 items-center justify-center rounded-full border shadow-lg transition-all hover:-translate-y-0.5"
       style={{

@@ -20,6 +20,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/src/components/ui/alert-dialog";
 import { Trash2, Copy } from "lucide-react";
 import { showSuccessToast } from "@/src/features/notifications/showSuccessToast";
 import { cn } from "@/src/utils/tailwind";
@@ -77,8 +87,16 @@ export function ProxyAccessSettings({ projectId }: { projectId: string }) {
     },
   });
   const removeKey = api.proxyKey.remove.useMutation({
-    onSuccess: () => void utils.proxyKey.list.invalidate(),
+    onSuccess: () => {
+      void utils.proxyKey.list.invalidate();
+      setRemoveTarget(null);
+      showSuccessToast({
+        title: "已删除",
+        description: "项目密钥已删除，使用该密钥的工具将立即无法访问。",
+      });
+    },
   });
+  const [removeTarget, setRemoveTarget] = useState<ProxyKeyItem | null>(null);
 
   const keys = keysQ.data?.items ?? [];
   const proxyUrl = `${PROXY_BASE}/${provider}`;
@@ -152,7 +170,7 @@ export function ProxyAccessSettings({ projectId }: { projectId: string }) {
                       variant="ghost"
                       size="sm"
                       disabled={!k.enabled || removeKey.isPending}
-                      onClick={() => removeKey.mutate({ projectId, id: k.id })}
+                      onClick={() => setRemoveTarget(k)}
                     >
                       <Trash2 className="h-3.5 w-3.5" style={{ color: "var(--ox-danger)" }} />
                     </Button>
@@ -193,6 +211,36 @@ export OPENAI_API_KEY="${newKey ?? "<你的项目密钥 ox_...>"}"
           、OpenAI 兼容工具用自定义头）。未设置时上游按你工具原有的密钥配置。
         </p>
       </Card>
+
+      {/* 删除密钥：二次确认（删除即生效不可恢复） */}
+      <AlertDialog
+        open={removeTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setRemoveTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>删除项目密钥</AlertDialogTitle>
+            <AlertDialogDescription>
+              删除后，使用密钥 <b>{removeTarget?.keyPrefix}…</b>{" "}
+              的工具将立即无法通过代理访问，且不可恢复。确认继续？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={removeKey.isPending}
+              onClick={() => {
+                if (removeTarget)
+                  removeKey.mutate({ projectId, id: removeTarget.id });
+              }}
+            >
+              {removeKey.isPending ? "删除中…" : "确认删除"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

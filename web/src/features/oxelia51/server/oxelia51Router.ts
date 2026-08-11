@@ -293,7 +293,10 @@ export const oxelia51Router = createTRPCRouter({
       };
     }),
 
-  /** 告警设置：保存预算配置（UPSERT）+ 异常检测配置（project metadata） */
+  /**
+   * 告警设置：保存预算配置（UPSERT）+ 异常检测配置（project metadata）。
+   * 事务包裹两个写操作，消除原子性缺口（P1 修复）。
+   */
   saveAlertConfig: protectedProjectProcedure
     .input(
       projectIdInput.extend({
@@ -305,37 +308,39 @@ export const oxelia51Router = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.$executeRaw`
-        INSERT INTO oxelia51.budget_configs (project_id, budget_usd, threshold, enabled, updated_at)
-        VALUES (${input.projectId}, ${input.budgetUsd}, ${input.threshold}, ${input.budgetEnabled}, now())
-        ON CONFLICT (project_id) DO UPDATE SET
-          budget_usd = EXCLUDED.budget_usd,
-          threshold  = EXCLUDED.threshold,
-          enabled    = EXCLUDED.enabled,
-          updated_at = now()
-      `;
+      await ctx.prisma.$transaction(async (tx) => {
+        await tx.$executeRaw`
+          INSERT INTO oxelia51.budget_configs (project_id, budget_usd, threshold, enabled, updated_at)
+          VALUES (${input.projectId}, ${input.budgetUsd}, ${input.threshold}, ${input.budgetEnabled}, now())
+          ON CONFLICT (project_id) DO UPDATE SET
+            budget_usd = EXCLUDED.budget_usd,
+            threshold  = EXCLUDED.threshold,
+            enabled    = EXCLUDED.enabled,
+            updated_at = now()
+        `;
 
-      const project = await ctx.prisma.project.findFirst({
-        where: { id: input.projectId },
-        select: { metadata: true },
-      });
-      const metadata = (project?.metadata ?? {}) as Record<string, unknown>;
-      const oxelia = (metadata.oxelia51 ?? {}) as Record<string, unknown>;
-      await ctx.prisma.project.update({
-        where: { id: input.projectId },
-        data: {
-          metadata: {
-            ...metadata,
-            oxelia51: {
-              ...oxelia,
-              // 键名与 C++ 分析引擎契约一致（detector.h / postgres.cpp）
-              anomaly: {
-                spike_ratio: input.anomalyMultiplier,
-                enabled: input.anomalyEnabled,
+        const project = await tx.project.findFirst({
+          where: { id: input.projectId },
+          select: { metadata: true },
+        });
+        const metadata = (project?.metadata ?? {}) as Record<string, unknown>;
+        const oxelia = (metadata.oxelia51 ?? {}) as Record<string, unknown>;
+        await tx.project.update({
+          where: { id: input.projectId },
+          data: {
+            metadata: {
+              ...metadata,
+              oxelia51: {
+                ...oxelia,
+                // 键名与 C++ 分析引擎契约一致（detector.h / postgres.cpp）
+                anomaly: {
+                  spike_ratio: input.anomalyMultiplier,
+                  enabled: input.anomalyEnabled,
+                },
               },
             },
           },
-        },
+        });
       });
       return { success: true };
     }),
@@ -366,11 +371,9 @@ export const oxelia51Router = createTRPCRouter({
     }),
 
   /**
-   * 告警设置：保存通知通道。
-   * 地址未变化的通道保留原 verified 状态，不做任何重置；
-   * 新增/变更的邮件通道 verified=false + 6 位验证码（10 分钟有效），
-   * 经 verifyAlertChannel 验证后才启用投递（alerter 只外发 verified 邮件通道）；
-   * webhook 无验证流程，verified 直接置 true（alerter 对 webhook 不检查 verified）。
+   * 告警设置：保存通知通道（事务包裹，P1 修复）。
+   * 地址未变化的通道保留原 verified 状态；新增邮件通道发验证码在事务提交后执行
+   * （邮件发送失败不回滚通道落库，用户可点「重发验证码」）。
    */
   saveAlertChannels: protectedProjectProcedure
     .input(
@@ -385,59 +388,65 @@ export const oxelia51Router = createTRPCRouter({
       if (input.webhook)
         desired.push({ type: "webhook", address: input.webhook });
 
-      const existing = await ctx.prisma.$queryRaw<
-        Array<{ id: unknown; type: string; address: string }>
-      >`
-        SELECT id, type, address
-        FROM oxelia51.alert_channels
-        WHERE project_id = ${input.projectId}
-      `;
+      // 事务：读现有通道 → 删旧 → 插新（同一事务内可序列化隔离）
+      const newEmailChannels: Array<{ address: string; code: string }> = [];
+      await ctx.prisma.$transaction(async (tx) => {
+        const existing = await tx.$queryRaw<
+          Array<{ id: unknown; type: string; address: string }>
+        >`
+          SELECT id, type, address
+          FROM oxelia51.alert_channels
+          WHERE project_id = ${input.projectId}
+        `;
 
-      // 删除不再需要的通道
-      for (const row of existing) {
-        const keep = desired.some(
-          (d) => d.type === row.type && d.address === row.address,
-        );
-        if (!keep) {
-          await ctx.prisma.$executeRaw`
-            DELETE FROM oxelia51.alert_channels WHERE id = ${toNumber(row.id)}
-          `;
+        // 删除不再需要的通道
+        for (const row of existing) {
+          const keep = desired.some(
+            (d) => d.type === row.type && d.address === row.address,
+          );
+          if (!keep) {
+            await tx.$executeRaw`
+              DELETE FROM oxelia51.alert_channels WHERE id = ${toNumber(row.id)}
+            `;
+          }
         }
-      }
-      // 插入新通道
+        // 插入新通道
+        for (const channel of desired) {
+          const exists = existing.some(
+            (row) => row.type === channel.type && row.address === channel.address,
+          );
+          if (exists) continue;
+          if (channel.type === "email") {
+            const code = generateVerificationCode();
+            const expires = new Date(Date.now() + VERIFICATION_CODE_TTL_MS);
+            await tx.$executeRaw`
+              INSERT INTO oxelia51.alert_channels
+                (project_id, type, address, verified, verification_code, verification_expires)
+              VALUES (${input.projectId}, 'email', ${channel.address}, false, ${code}, ${expires})
+            `;
+            newEmailChannels.push({ address: channel.address, code });
+          } else {
+            await tx.$executeRaw`
+              INSERT INTO oxelia51.alert_channels (project_id, type, address, verified)
+              VALUES (${input.projectId}, ${channel.type}, ${channel.address}, true)
+            `;
+          }
+        }
+      });
+
+      // 事务提交后再发验证邮件（失败只记日志，不回滚通道）
       const mailEnv = {
         EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
         SMTP_CONNECTION_URL: env.SMTP_CONNECTION_URL,
       };
-      let emailVerificationSent = false;
-      for (const channel of desired) {
-        const exists = existing.some(
-          (row) => row.type === channel.type && row.address === channel.address,
-        );
-        if (exists) continue;
-        if (channel.type === "email") {
-          const code = generateVerificationCode();
-          const expires = new Date(Date.now() + VERIFICATION_CODE_TTL_MS);
-          await ctx.prisma.$executeRaw`
-            INSERT INTO oxelia51.alert_channels
-              (project_id, type, address, verified, verification_code, verification_expires)
-            VALUES (${input.projectId}, 'email', ${channel.address}, false, ${code}, ${expires})
-          `;
-          // 发送失败只记日志不抛错，通道已落库，用户可点「重发验证码」
-          await sendAlertChannelVerificationEmail({
-            env: mailEnv,
-            to: channel.address,
-            code,
-          });
-          emailVerificationSent = true;
-        } else {
-          await ctx.prisma.$executeRaw`
-            INSERT INTO oxelia51.alert_channels (project_id, type, address, verified)
-            VALUES (${input.projectId}, ${channel.type}, ${channel.address}, true)
-          `;
-        }
+      for (const ch of newEmailChannels) {
+        await sendAlertChannelVerificationEmail({
+          env: mailEnv,
+          to: ch.address,
+          code: ch.code,
+        });
       }
-      return { success: true, emailVerificationSent };
+      return { success: true, emailVerificationSent: newEmailChannels.length > 0 };
     }),
 
   /** 告警设置：校验邮件通道验证码，通过后 verified=true 并清除验证码。 */

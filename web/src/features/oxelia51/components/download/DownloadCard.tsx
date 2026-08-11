@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Apple, Download, Monitor, RotateCw, Terminal } from "lucide-react";
 import { api } from "@/src/utils/api";
 
 /**
- * 下载区：动态拉取 GitHub Releases 里的 v* 版本资产，渲染真实下载链接。
+ * 下载区：通过服务端 tRPC 代理拉取 GitHub Releases（不走客户端直连，
+ * 避免浏览器侧 GitHub 匿名限额 60 次/小时/IP 被共享 IP 耗尽）。
+ * 服务端有 1 小时内存缓存 + 可选 GITHUB_TOKEN 提至 5000 次/小时。
+ *
  * 尚无 v* 版本时各平台显示「即将推出」，不虚构下载项；
  * 拉取失败（限流/网络）显示「获取失败」+ 重试，不伪装成未发布。
- * 总下载量由服务端 siteStats.downloadStats 提供（GitHub 失败时为 null，不渲染）。
  */
-
-type Asset = { name: string; browser_download_url: string };
 
 type PlatformMethod = {
   key: string;
@@ -58,66 +57,39 @@ const PLATFORMS: {
 const ICONS = { windows: <Monitor className="h-5 w-5" />, macos: <Apple className="h-5 w-5" />, linux: <Terminal className="h-5 w-5" /> };
 
 export function DownloadCard() {
-  const [assets, setAssets] = useState<Asset[] | null>(null);
-  const [latestTag, setLatestTag] = useState<string | null>(null);
-  /** GitHub 拉取失败（限流/网络）——与「尚无 v* 版本」区分，不伪装成未发布 */
-  const [fetchFailed, setFetchFailed] = useState(false);
-  /** 重试计数：自增触发 useEffect 重新拉取 */
-  const [retryCount, setRetryCount] = useState(0);
-
-  // 总下载量：服务端代理 GitHub（内存缓存 1h）；失败返回 null → 不渲染数字
+  // 全部数据走服务端代理（有缓存 + 可选 GITHUB_TOKEN），不再客户端直连 GitHub
   const statsQ = api.siteStats.downloadStats.useQuery(undefined, {
     staleTime: 5 * 60_000,
   });
   const stats = statsQ.data ?? null;
 
-  useEffect(() => {
-    let cancelled = false;
-    setFetchFailed(false);
-    fetch("https://api.github.com/repos/XiaoleC05/Oxelia51/releases?per_page=30")
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((releases: { tag_name: string; assets: Asset[] }[]) => {
-        if (cancelled) return;
-        // 只认语义化版本（v*），自动 release-* 是 CI commit 噪声
-        const rel = releases.find((x) => /^v?\d+\.\d+\.\d+$/.test(x.tag_name));
-        if (!rel) {
-          // 尚无正式发布版本：空资产 → 各平台显示「即将推出」
-          setLatestTag(null);
-          setAssets([]);
-          return;
-        }
-        setLatestTag(rel.tag_name);
-        setAssets(rel.assets);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setLatestTag(null);
-          setAssets([]);
-          setFetchFailed(true);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [retryCount]);
+  // 派生状态
+  const isLoading = statsQ.isLoading;
+  const isError = statsQ.isError || (statsQ.isFetched && stats === null);
+  const version = stats?.version ?? null;
+  const assets = stats?.assets ?? [];
+  const hasRelease = version !== null && assets.length > 0;
 
   return (
     <>
-      {/* 汇总行：总下载量（服务端数据，失败不渲染）或客户端拉取失败提示 */}
+      {/* 汇总行 */}
       <div className="mt-8 flex min-h-6 items-center justify-center gap-3 text-xs text-(--ox-text-muted)">
-        {stats && (
+        {stats && stats.totalDownloads > 0 && (
           <span>
             累计下载 {stats.totalDownloads.toLocaleString("zh-CN")} 次
           </span>
         )}
-        {fetchFailed && (
+        {stats?.stale && (
+          <span className="text-(--ox-text-muted)/60">（缓存数据）</span>
+        )}
+        {isError && (
           <>
             <span style={{ color: "var(--ox-warn)" }}>
               发布信息获取失败，可能是 GitHub 访问受限
             </span>
             <button
               type="button"
-              onClick={() => setRetryCount((c) => c + 1)}
+              onClick={() => statsQ.refetch()}
               className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 transition-colors hover:border-(--ox-accent)/60 hover:text-(--ox-accent)"
               style={{ borderColor: "var(--ox-border)" }}
             >
@@ -129,7 +101,6 @@ export function DownloadCard() {
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-3">
       {PLATFORMS.map((p) => {
-        const hasRelease = assets !== null && latestTag !== null;
         return (
           <div
             key={p.id}
@@ -151,16 +122,16 @@ export function DownloadCard() {
                   className="rounded-full px-2 py-0.5 text-xs font-medium text-(--ox-ok)"
                   style={{ backgroundColor: "color-mix(in srgb, var(--ox-ok) 12%, transparent)" }}
                 >
-                  v{latestTag?.replace(/^v/, "")}
+                  v{version?.replace(/^v/, "")}
                 </span>
               ) : (
                 <span
                   className="rounded-full border px-2 py-0.5 text-xs text-(--ox-text-muted)"
                   style={{ borderColor: "var(--ox-border)" }}
                 >
-                  {fetchFailed
+                  {isError
                     ? "获取失败"
-                    : assets === null
+                    : isLoading
                       ? "检查中…"
                       : "即将推出"}
                 </span>
@@ -168,12 +139,12 @@ export function DownloadCard() {
             </div>
             <ul className="mt-4 flex flex-col gap-2.5">
               {p.methods.map((m) => {
-                const hit = hasRelease ? assets?.find((a) => m.match(a.name)) : undefined;
+                const hit = hasRelease ? assets.find((a) => m.match(a.name)) : undefined;
                 return (
                   <li key={m.key}>
                     {hit ? (
                       <a
-                        href={hit.browser_download_url}
+                        href={hit.url}
                         download
                         className="group flex items-start gap-2 rounded-lg border px-3 py-2 transition-colors hover:border-(--ox-accent)/60"
                         style={{

@@ -231,6 +231,10 @@ export const oxelia51AdminRouter = createTRPCRouter({
       }
       // 9 字节 → base64url 编码恰为 12 字符，满足 isValidPassword（≥8 位）
       const tempPassword = randomBytes(9).toString("base64url");
+      // 注：updateUserPassword 内部使用 prisma 单例，无法传入事务客户端；
+      // 密码更新与同步密钥吊销之间存在狭小原子性缺口（P2 级，概率极低——
+      // 需同时发生 token 吊销失败 + 密码已落库，且密码已改后旧 token 即时
+      // 失效的收益有限）。如 updateUserPassword 未来支持事务注入可无缝加固。
       await updateUserPassword(user.id, tempPassword);
       // 吊销该用户全部未吊销的桌面同步密钥（ revoked_at 置位即失效，见 syncStore.resolveSyncToken ）
       await prisma.$executeRaw`
@@ -399,46 +403,47 @@ export const oxelia51AdminRouter = createTRPCRouter({
       return { success: true, name: org.name };
     }),
 
-  /**
-   * 删除空项目：仅允许删除 has_traces = false 且无项目级成员的项目（口径同 listEmptyProjects，
-   * 删除前服务端再校验一次）。——写操作，仅超级管理员
-   * 步骤对齐上游 projectsRouter.delete（缓存失效 + 删项目级 API key），
-   * 区别：无 trace 数据故无需走 ProjectDeleteQueue 软删流程，直接删行（schema 外键 Cascade）。
-   */
+  /** 删除空项目（事务包裹检查+删除，消除 TOCTOU 竞态） */
   deleteEmptyProject: superAdminProcedure
     .input(z.object({ projectId: z.string().min(1) }))
     .mutation(async ({ input }) => {
-      const project = await prisma.project.findUnique({
-        where: { id: input.projectId },
-        select: { id: true, name: true, hasTraces: true, deletedAt: true },
-      });
-      if (!project || project.deletedAt) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "项目不存在" });
-      }
-      if (project.hasTraces) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: `项目「${project.name}」已有 trace 数据，请走项目设置内的常规删除流程`,
-        });
-      }
-      const membershipCount = await prisma.projectMembership.count({
-        where: { projectId: project.id },
-      });
-      if (membershipCount > 0) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: `项目「${project.name}」仍有项目级成员，不能按空项目删除`,
-        });
-      }
-      // 与上游一致：先失效缓存中的项目 API key，再删库里的项目级 key
-      await new ApiAuthService(prisma, redis).invalidateCachedProjectApiKeys(
-        project.id,
+      const result = await prisma.$transaction(
+        async (tx) => {
+          const project = await tx.project.findUnique({
+            where: { id: input.projectId },
+            select: { id: true, name: true, hasTraces: true, deletedAt: true },
+          });
+          if (!project || project.deletedAt) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "项目不存在" });
+          }
+          if (project.hasTraces) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: `项目「${project.name}」已有 trace 数据，请走项目设置内的常规删除流程`,
+            });
+          }
+          const membershipCount = await tx.projectMembership.count({
+            where: { projectId: project.id },
+          });
+          if (membershipCount > 0) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: `项目「${project.name}」仍有项目级成员，不能按空项目删除`,
+            });
+          }
+          await tx.apiKey.deleteMany({
+            where: { projectId: project.id, scope: "PROJECT" },
+          });
+          await tx.project.delete({ where: { id: project.id } });
+          return { success: true, name: project.name };
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
       );
-      await prisma.apiKey.deleteMany({
-        where: { projectId: project.id, scope: "PROJECT" },
-      });
-      await prisma.project.delete({ where: { id: project.id } });
-      return { success: true, name: project.name };
+      // 事务提交后失效缓存中的项目 API key（同上游 organizationRouter.delete 步骤）
+      await new ApiAuthService(prisma, redis).invalidateCachedProjectApiKeys(
+        input.projectId,
+      );
+      return result;
     }),
 
   /** 用户反馈列表（oxelia51.feedback，按时间倒序；status 可选筛选） */

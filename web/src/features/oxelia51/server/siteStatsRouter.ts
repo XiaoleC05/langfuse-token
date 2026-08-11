@@ -28,7 +28,7 @@ export type SiteDownloadStats = {
   publishedAt: string | null;
   /** 该 release 全部资产下载量之和 */
   totalDownloads: number;
-  assets: { name: string; downloads: number }[];
+  assets: { name: string; downloads: number; url: string }[];
 };
 
 type CachedStats = { at: number; stats: SiteDownloadStats };
@@ -57,7 +57,7 @@ async function fetchReleaseStats(): Promise<SiteDownloadStats | null> {
     tag_name: string;
     draft: boolean;
     published_at: string | null;
-    assets: { name: string; download_count: number }[];
+    assets: { name: string; download_count: number; browser_download_url: string }[];
   }[];
   // 只认语义化版本（v*），自动 release-* 是 CI commit 噪声（与前端口径一致）
   const rel = releases.find(
@@ -68,6 +68,7 @@ async function fetchReleaseStats(): Promise<SiteDownloadStats | null> {
   const assets = rel.assets.map((a) => ({
     name: a.name,
     downloads: a.download_count,
+    url: a.browser_download_url,
   }));
   return {
     version: rel.tag_name,

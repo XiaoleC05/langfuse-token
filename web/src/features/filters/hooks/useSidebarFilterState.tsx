@@ -12,7 +12,6 @@ import {
   type ColumnDefinition,
 } from "@langfuse/shared";
 import {
-  computeSelectedValues,
   encodeFiltersGeneric,
   decodeFiltersGeneric,
   MAX_URL_FILTER_QUERY_LENGTH,
@@ -40,7 +39,6 @@ import {
   applyNumericRange,
   applyStringContains,
   buildOnlySelection,
-  clearCategoricalColumn,
   deriveOperatorChange,
   removeColumnFiltersOfType,
   removeTextFilterEntry,
@@ -56,6 +54,21 @@ import {
 export { resolveCheckboxOperator } from "../lib/sidebar-filter-actions";
 import type { PeekTableStateContextValue } from "@/src/components/table/peek/contexts/PeekTableStateContext";
 import { usePostHogClientCapture } from "@/src/features/posthog-analytics/usePostHogClientCapture";
+import {
+  buildNumericFilter,
+  buildStringFilter,
+  buildKeyValueFilter,
+  buildNumericKeyValueFilter,
+  buildBooleanKeyValueFilter,
+  buildStringKeyValueFilter,
+  buildBooleanFilter,
+  buildCategoricalFilter,
+  type FilterBuilderContext,
+  type TextFilterEntry,
+} from "./sidebar-filter-builders";
+
+// Re-exported for external consumers (e.g. data-table-controls.tsx).
+export type { TextFilterEntry };
 
 /**
  * Decodes filters from URL query string and normalizes display names to column IDs.
@@ -118,31 +131,6 @@ export function decodeAndNormalizeFilters(
   }
 }
 
-function computeNumericRange(
-  column: string,
-  filterState: FilterState,
-  defaultMin: number,
-  defaultMax: number,
-): [number, number] {
-  const minFilter = filterState.find(
-    (f) => f.column === column && f.type === "number" && f.operator === ">=",
-  );
-  const maxFilter = filterState.find(
-    (f) => f.column === column && f.type === "number" && f.operator === "<=",
-  );
-
-  const minValue =
-    minFilter && typeof minFilter.value === "number"
-      ? minFilter.value
-      : defaultMin;
-  const maxValue =
-    maxFilter && typeof maxFilter.value === "number"
-      ? maxFilter.value
-      : defaultMax;
-
-  return [minValue, maxValue];
-}
-
 export interface BaseUIFilter {
   column: string;
   label: string;
@@ -158,15 +146,6 @@ export interface BaseUIFilter {
   disabledReason?: string;
   onReset: () => void;
 }
-
-/**
- * Represents one text filter entry (contains/does not contain)
- * Used for free-text filtering that's mutually exclusive with checkbox selection
- */
-export type TextFilterEntry = {
-  operator: "contains" | "does not contain";
-  value: string;
-};
 
 export interface CategoricalUIFilter extends BaseUIFilter {
   type: "categorical";
@@ -293,121 +272,6 @@ export type UIFilter =
   | NumericKeyValueUIFilter
   | BooleanKeyValueUIFilter
   | StringKeyValueUIFilter;
-
-const EMPTY_MAP: Map<string, number> = new Map();
-
-const mergeUniqueStrings = (...lists: (string[] | undefined)[]): string[] =>
-  Array.from(
-    new Set(
-      lists.flatMap((list) => (list ?? []).filter((value) => value.length > 0)),
-    ),
-  );
-
-// The level-agnostic score facet columns whose name pickers carry ScoreTag
-// level provenance (LFE-10596), each reading its OWN data-type-scoped level
-// map — a name reused across types at different levels must not inherit the
-// other type's level. Other keyValue facets (metadata) never carry levels.
-const SCORE_LEVEL_TAGGED_COLUMNS: Readonly<Record<string, string>> = {
-  scores_avg: "score_name_levels_numeric",
-  score_categories: "score_name_levels_categorical",
-  score_booleans: "score_name_levels_boolean",
-};
-
-const resolveKeyScoreLevels = (
-  column: string,
-  options: Record<
-    string,
-    (string | SingleValueOption)[] | Record<string, string[]> | undefined
-  >,
-): KeyScoreLevels | undefined => {
-  const levelsKey = SCORE_LEVEL_TAGGED_COLUMNS[column];
-  const scoreNameLevels = levelsKey ? options[levelsKey] : undefined;
-  if (scoreNameLevels === undefined || Array.isArray(scoreNameLevels)) {
-    return undefined;
-  }
-  const out: Record<string, ("observation" | "trace")[]> = {};
-  for (const [name, levels] of Object.entries(scoreNameLevels)) {
-    const valid = levels.filter(
-      (level): level is "observation" | "trace" =>
-        level === "observation" || level === "trace",
-    );
-    if (valid.length > 0) out[name] = valid;
-  }
-  return out;
-};
-
-const resolveKnownKeyOptions = (
-  facetKeyOptions: string[] | undefined,
-  availableKeys:
-    | (string | SingleValueOption)[]
-    | Record<string, string[]>
-    | undefined,
-  activeKeys: string[],
-): string[] | undefined => {
-  if (facetKeyOptions !== undefined) {
-    return mergeUniqueStrings(facetKeyOptions, activeKeys);
-  }
-
-  if (!Array.isArray(availableKeys)) {
-    return undefined;
-  }
-
-  return mergeUniqueStrings(
-    availableKeys.map((option) =>
-      typeof option === "string" ? option : option.value,
-    ),
-    activeKeys,
-  );
-};
-
-const mergeAvailableValuesWithActiveFilters = (
-  availableValues: Record<string, string[]>,
-  activeFilters: KeyValueFilterEntry[],
-): Record<string, string[]> => {
-  const merged: Record<string, string[]> = { ...availableValues };
-
-  for (const filter of activeFilters) {
-    if (!filter.key) continue;
-    merged[filter.key] = mergeUniqueStrings(merged[filter.key], filter.value);
-  }
-
-  return merged;
-};
-
-// extract values and counts from options array
-// for both string[] and SingleValueOption[]
-function processOptions(options: (string | SingleValueOption)[]): {
-  values: string[];
-  counts: Map<string, number>;
-  displayByValue?: Map<string, string>;
-} {
-  const values: string[] = [];
-  const counts = new Map<string, number>();
-  const displayByValue = new Map<string, string>();
-
-  for (const opt of options) {
-    if (typeof opt === "string") {
-      values.push(opt);
-    } else if (typeof opt === "object" && "value" in opt) {
-      values.push(opt.value);
-      if (opt.count !== undefined) {
-        counts.set(opt.value, opt.count);
-      }
-      if (
-        typeof opt.displayValue === "string" &&
-        opt.displayValue !== opt.value
-      ) {
-        displayByValue.set(opt.value, opt.displayValue);
-      }
-    }
-  }
-
-  return {
-    values,
-    counts: counts.size > 0 ? counts : EMPTY_MAP,
-    displayByValue: displayByValue.size > 0 ? displayByValue : undefined,
-  };
-}
 
 type UpdateFilter = (
   column: string,
@@ -1189,639 +1053,51 @@ export function useSidebarFilterState(
   );
 
   const filters: UIFilter[] = useMemo((): UIFilter[] => {
-    const filterByColumn = new Map(filterState.map((f) => [f.column, f]));
     const expandedSet = new Set(expandedState);
 
-    // Helper to determine if a filter should show loading state
-    // Only filters that depend on options from the query should show loading
-    const shouldShowLoading = (facetColumn: string): boolean => {
-      // Lazy filter-options: a precise per-facet set is supplied, so a facet
-      // shows a skeleton iff its own column is still in flight. This avoids the
-      // coarse-flag false positive where a never-enumerated facet (metadata,
-      // whose options are always undefined) would skeleton on every refetch.
-      if (loadingColumns) return loadingColumns.has(facetColumn);
-      if (!loading) return false;
-      // Only show loading if the filter depends on options and options are not yet available
-      // Filters that use options: categorical, keyValue, numericKeyValue, stringKeyValue
-      // Filters that don't use options: numeric (uses facet.min/max), string (static), boolean (static)
-      return options[facetColumn] === undefined;
-    };
-
-    const getFacetDisabledState = (
-      facet: FilterConfig["facets"][number],
-    ): { isDisabled: boolean; reason?: string } => {
-      const staticDisabled = facet.isDisabled ?? false;
-
-      if (staticDisabled) {
-        return {
-          isDisabled: true,
-          reason: facet.disabledReason ?? "This filter is currently disabled.",
-        };
-      }
-
-      return { isDisabled: false };
+    const builderCtx: FilterBuilderContext = {
+      filterState,
+      explicitFilterState,
+      options,
+      expandedSet,
+      columnDefinitions: config.columnDefinitions,
+      managedEnvironmentColumn,
+      hiddenEnvironments: managedEnvironmentPolicyConfig.hiddenEnvironments,
+      loadingColumns,
+      loading,
+      updateFilter,
+      updateFilterOnly,
+      updateOperator,
+      updateNumericFilter,
+      updateStringFilter,
+      addTextFilter,
+      removeTextFilter,
+      updateKeyedFilter,
+      resetKeyedFilter,
+      setFilterState,
+      emitFacetCleared,
     };
 
     return config.facets
       .map((facet): UIFilter | null => {
-        if (facet.type === "numeric") {
-          const currentRange = computeNumericRange(
-            facet.column,
-            filterState,
-            facet.min,
-            facet.max,
-          );
-          // Check if there are any numeric filters for this column
-          const isActive = filterState.some(
-            (f) => f.column === facet.column && f.type === "number",
-          );
-          const disableState = getFacetDisabledState(facet);
-          return {
-            type: "numeric",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: currentRange,
-            min: facet.min,
-            max: facet.max,
-            unit: facet.unit,
-            loading: false,
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (value: [number, number]) =>
-              updateNumericFilter(facet.column, value, facet.min, facet.max),
-            onReset: () =>
-              updateNumericFilter(facet.column, null, facet.min, facet.max),
-          };
+        switch (facet.type) {
+          case "numeric":
+            return buildNumericFilter(facet, builderCtx);
+          case "string":
+            return buildStringFilter(facet, builderCtx);
+          case "keyValue":
+            return buildKeyValueFilter(facet, builderCtx);
+          case "numericKeyValue":
+            return buildNumericKeyValueFilter(facet, builderCtx);
+          case "booleanKeyValue":
+            return buildBooleanKeyValueFilter(facet, builderCtx);
+          case "stringKeyValue":
+            return buildStringKeyValueFilter(facet, builderCtx);
+          case "boolean":
+            return buildBooleanFilter(facet, builderCtx);
+          default:
+            return buildCategoricalFilter(facet, builderCtx);
         }
-
-        // Handle string filters
-        if (facet.type === "string") {
-          const filterEntry = filterByColumn.get(facet.column);
-          const currentValue =
-            filterEntry?.type === "string" &&
-            typeof filterEntry.value === "string"
-              ? filterEntry.value
-              : "";
-          const isActive = currentValue.trim() !== "";
-
-          const disableState = getFacetDisabledState(facet);
-          return {
-            type: "string",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: currentValue,
-            loading: false,
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (value: string) =>
-              updateStringFilter(facet.column, value),
-            onReset: () => updateStringFilter(facet.column, ""),
-          };
-        }
-
-        // Handle keyValue filters
-        if (facet.type === "keyValue") {
-          // Extract all categoryOptions filters for this column from filterState
-          const categoryFilters = filterState.filter(
-            (f) => f.column === facet.column && f.type === "categoryOptions",
-          ) as Array<{
-            column: string;
-            type: "categoryOptions";
-            operator: "any of" | "none of";
-            key: string;
-            value: string[];
-          }>;
-
-          // Convert to KeyValueFilterEntry array
-          const activeFilters: KeyValueFilterEntry[] = categoryFilters.map(
-            (f) => ({
-              key: f.key,
-              operator: f.operator,
-              value: f.value,
-            }),
-          );
-
-          const isActive = activeFilters.length > 0;
-          const disableState = getFacetDisabledState(facet);
-
-          // Get available values from options
-          const availableValues = options[facet.column] ?? {};
-          const mergedAvailableValues =
-            typeof availableValues === "object" &&
-            !Array.isArray(availableValues)
-              ? mergeAvailableValuesWithActiveFilters(
-                  availableValues as Record<string, string[]>,
-                  activeFilters,
-                )
-              : ({} as Record<string, string[]>);
-
-          // Extract key options from availableValues if not defined in facet
-          const keyOptions =
-            facet.keyOptions ??
-            mergeUniqueStrings(
-              Object.keys(mergedAvailableValues),
-              activeFilters.map((filter) => filter.key),
-            );
-
-          return {
-            type: "keyValue",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: activeFilters,
-            keyOptions,
-            keyLevels: resolveKeyScoreLevels(facet.column, options),
-            availableValues: mergedAvailableValues,
-            loading: shouldShowLoading(facet.column),
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (filters: KeyValueFilterEntry[]) =>
-              updateKeyedFilter(facet.column, {
-                kind: "categoryOptions",
-                entries: filters,
-              }),
-            onReset: () => resetKeyedFilter(facet.column, "categoryOptions"),
-          };
-        }
-
-        // Handle numericKeyValue filters
-        if (facet.type === "numericKeyValue") {
-          // Extract all numberObject filters for this column from filterState
-          const numericFilters = filterState.filter(
-            (f) => f.column === facet.column && f.type === "numberObject",
-          ) as Array<{
-            column: string;
-            type: "numberObject";
-            operator: "=" | ">" | "<" | ">=" | "<=";
-            key: string;
-            value: number;
-          }>;
-
-          // Convert to NumericKeyValueFilterEntry array
-          const activeFilters: NumericKeyValueFilterEntry[] =
-            numericFilters.map((f) => ({
-              key: f.key,
-              operator: f.operator,
-              value: f.value,
-            }));
-
-          const isActive = activeFilters.length > 0;
-          const disableState = getFacetDisabledState(facet);
-
-          // Get available keys from options (should be array of score names).
-          // Backend numeric score-name discovery keeps BOOLEAN names for
-          // legacy numeric filtering; the paired boolean facet (same column
-          // with the score_booleans suffix) owns those names in the UI, so
-          // subtract them from the offering here. Active filter keys are
-          // merged back in resolveKnownKeyOptions, so pre-existing numeric
-          // filters on boolean scores (old URLs/saved views) still render
-          // and stay editable.
-          const pairedBooleanKeys =
-            options[facet.column.replace(/scores_avg$/, "score_booleans")];
-          const booleanNames = new Set(
-            Array.isArray(pairedBooleanKeys)
-              ? pairedBooleanKeys.map((option) =>
-                  typeof option === "string" ? option : option.value,
-                )
-              : [],
-          );
-          const availableKeys = options[facet.column];
-          const nonBooleanKeys =
-            Array.isArray(availableKeys) && booleanNames.size > 0
-              ? availableKeys.filter(
-                  (option) =>
-                    !booleanNames.has(
-                      typeof option === "string" ? option : option.value,
-                    ),
-                )
-              : availableKeys;
-          const keyOptions = resolveKnownKeyOptions(
-            facet.keyOptions,
-            nonBooleanKeys,
-            activeFilters.map((filter) => filter.key),
-          );
-
-          return {
-            type: "numericKeyValue",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: activeFilters,
-            keyOptions,
-            keyLevels: resolveKeyScoreLevels(facet.column, options),
-            loading: shouldShowLoading(facet.column),
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (filters: NumericKeyValueFilterEntry[]) =>
-              updateKeyedFilter(facet.column, {
-                kind: "numberObject",
-                entries: filters,
-              }),
-            onReset: () => resetKeyedFilter(facet.column, "numberObject"),
-          };
-        }
-
-        // Handle booleanKeyValue filters
-        if (facet.type === "booleanKeyValue") {
-          const booleanFilters = filterState.filter(
-            (f) => f.column === facet.column && f.type === "booleanObject",
-          ) as Array<{
-            column: string;
-            type: "booleanObject";
-            operator: "=" | "<>";
-            key: string;
-            value: boolean;
-          }>;
-
-          const activeFilters: BooleanKeyValueFilterEntry[] =
-            booleanFilters.map((f) => ({
-              key: f.key,
-              operator: f.operator,
-              value: f.value,
-            }));
-
-          const isActive = activeFilters.length > 0;
-          const disableState = getFacetDisabledState(facet);
-          const availableKeys = options[facet.column];
-          const keyOptions = resolveKnownKeyOptions(
-            facet.keyOptions,
-            availableKeys,
-            activeFilters.map((filter) => filter.key),
-          );
-
-          return {
-            type: "booleanKeyValue",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: activeFilters,
-            keyOptions,
-            keyLevels: resolveKeyScoreLevels(facet.column, options),
-            loading: shouldShowLoading(facet.column),
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (filters: BooleanKeyValueFilterEntry[]) =>
-              updateKeyedFilter(facet.column, {
-                kind: "booleanObject",
-                entries: filters,
-              }),
-            onReset: () => resetKeyedFilter(facet.column, "booleanObject"),
-          };
-        }
-
-        // Handle stringKeyValue filters
-        if (facet.type === "stringKeyValue") {
-          // Extract all stringObject filters for this column from filterState
-          const stringFilters = filterState.filter(
-            (f) => f.column === facet.column && f.type === "stringObject",
-          ) as Array<{
-            column: string;
-            type: "stringObject";
-            operator: "=" | "contains" | "does not contain";
-            key: string;
-            value: string;
-          }>;
-
-          // Convert to StringKeyValueFilterEntry array
-          const activeFilters: StringKeyValueFilterEntry[] = stringFilters.map(
-            (f) => ({
-              key: f.key,
-              operator: f.operator,
-              value: f.value,
-            }),
-          );
-
-          const isActive = activeFilters.length > 0;
-          const disableState = getFacetDisabledState(facet);
-
-          // Get available keys from options
-          const availableKeys = options[facet.column];
-          const keyOptions = resolveKnownKeyOptions(
-            facet.keyOptions,
-            availableKeys,
-            activeFilters.map((filter) => filter.key),
-          );
-
-          return {
-            type: "stringKeyValue",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: activeFilters,
-            keyOptions,
-            loading: shouldShowLoading(facet.column),
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (filters: StringKeyValueFilterEntry[]) =>
-              updateKeyedFilter(facet.column, {
-                kind: "stringObject",
-                entries: filters,
-              }),
-            onReset: () => resetKeyedFilter(facet.column, "stringObject"),
-          };
-        }
-
-        // Handle boolean as categorical UI
-        if (facet.type === "boolean") {
-          const trueLabel = facet.trueLabel ?? "True";
-          const falseLabel = facet.falseLabel ?? "False";
-          const invert = facet.invertValue ?? false;
-          const availableOptions = [trueLabel, falseLabel];
-          const filterEntry = filterByColumn.get(facet.column);
-
-          let selectedOptions = availableOptions;
-          if (filterEntry) {
-            const boolValue = filterEntry.value as boolean;
-            if (invert) {
-              // Inverted: filter value=true means falseLabel selected, value=false means trueLabel selected
-              selectedOptions = boolValue === true ? [falseLabel] : [trueLabel];
-            } else {
-              selectedOptions = boolValue === true ? [trueLabel] : [falseLabel];
-            }
-          }
-          const isActive = selectedOptions.length === 1;
-          const disableState = getFacetDisabledState(facet);
-
-          // Build counts from options
-          const rawOptions = options[facet.column];
-          let counts: Map<string, number> = EMPTY_MAP;
-          if (Array.isArray(rawOptions) && rawOptions.length > 0) {
-            const { counts: processedCounts } = processOptions(rawOptions);
-            if (processedCounts.size > 0) {
-              counts = new Map<string, number>();
-              if (invert) {
-                // Inverted: trueLabel count comes from "false", falseLabel count comes from "true"
-                const falseCount = processedCounts.get("false") ?? 0;
-                const trueCount = processedCounts.get("true") ?? 0;
-                if (falseCount > 0) counts.set(trueLabel, falseCount);
-                if (trueCount > 0) counts.set(falseLabel, trueCount);
-              } else {
-                const trueCount = processedCounts.get("true") ?? 0;
-                const falseCount = processedCounts.get("false") ?? 0;
-                if (trueCount > 0) counts.set(trueLabel, trueCount);
-                if (falseCount > 0) counts.set(falseLabel, falseCount);
-              }
-            }
-          }
-
-          return {
-            type: "categorical",
-            column: facet.column,
-            label: facet.label,
-            tooltip: facet.tooltip,
-            help: facet.help,
-
-            value: selectedOptions,
-            options: availableOptions,
-            counts,
-            loading: shouldShowLoading(facet.column),
-            expanded: expandedSet.has(facet.column),
-            isActive,
-            isDisabled: disableState.isDisabled,
-            disabledReason: disableState.reason,
-            onChange: (values: string[]) => {
-              if (values.length === 0 || values.length === 2) {
-                updateFilter(facet.column, []);
-                return;
-              }
-              if (values.includes(trueLabel) && !values.includes(falseLabel)) {
-                updateFilter(facet.column, [trueLabel]);
-              } else if (
-                values.includes(falseLabel) &&
-                !values.includes(trueLabel)
-              ) {
-                updateFilter(facet.column, [falseLabel]);
-              }
-            },
-            onOnlyChange: (value: string) => {
-              if (
-                selectedOptions.length === 1 &&
-                selectedOptions.includes(value)
-              ) {
-                updateFilter(facet.column, []);
-              } else {
-                updateFilter(facet.column, [value]);
-              }
-            },
-            onReset: () => updateFilter(facet.column, []),
-          };
-        }
-
-        // Handle categorical
-        const availableValuesRaw = options[facet.column] ?? [];
-        // For nested structures, default to empty array (shouldn't happen for categorical)
-        const availableValuesWithOptions = Array.isArray(availableValuesRaw)
-          ? availableValuesRaw
-          : [];
-
-        // Extract counts and values to display along multi-select values
-        const {
-          values: availableValues,
-          counts,
-          displayByValue,
-        } = Array.isArray(availableValuesWithOptions)
-          ? processOptions(availableValuesWithOptions)
-          : { values: [], counts: EMPTY_MAP, displayByValue: undefined };
-
-        // Check if this column supports operator toggle
-        // Only arrayOptions columns get the ANY/ALL toggle
-        // - arrayOptions: multi-valued arrays (e.g., tags on a trace)
-        // - stringOptions: single-valued strings (e.g., environment)
-        const colDef = config.columnDefinitions.find(
-          (c) => c.id === facet.column,
-        );
-        const isArrayOptions = colDef?.type === "arrayOptions";
-        const textFilterDisabled =
-          facet.type === "categorical" && facet.disableTextFilter === true;
-
-        // Get the checkbox filter (stringOptions/arrayOptions) for this column
-        const checkboxFilter = filterState.find(
-          (f) =>
-            f.column === facet.column &&
-            (f.type === "stringOptions" || f.type === "arrayOptions"),
-        );
-
-        const selectedValues = computeSelectedValues(
-          availableValues,
-          checkboxFilter,
-        );
-
-        // Determine current operator for ANY/ALL toggle
-        // When a user selects items in an arrayOptions filter, we expose a toggle
-        // to switch between:
-        // - "any of" (OR logic): match if item has ANY selected value
-        // - "all of" (AND logic): match if item has ALL selected values
-        // This operator is persisted in the filter state and URL
-        let currentOperator: "any of" | "all of" | "none of" | undefined;
-        if (
-          checkboxFilter &&
-          (checkboxFilter.type === "arrayOptions" ||
-            checkboxFilter.type === "stringOptions") &&
-          (checkboxFilter.operator === "any of" ||
-            checkboxFilter.operator === "all of" ||
-            checkboxFilter.operator === "none of")
-        ) {
-          currentOperator = checkboxFilter.operator;
-        } else if (isArrayOptions && selectedValues.length > 0) {
-          // Default to "any of" for arrayOptions when selections exist but no explicit operator
-          currentOperator = "any of";
-        } else {
-          currentOperator = undefined;
-        }
-
-        // Extract text filters for this column (contains/does not contain)
-        const textFilters: TextFilterEntry[] = filterState
-          .filter(
-            (f): f is Extract<typeof f, { type: "string" }> =>
-              f.column === facet.column &&
-              f.type === "string" &&
-              (f.operator === "contains" || f.operator === "does not contain"),
-          )
-          .map((f) => ({
-            operator: f.operator as "contains" | "does not contain",
-            value: f.value,
-          }));
-
-        const hasTextFilters = textFilters.length > 0;
-        const hasExplicitCheckboxFilter =
-          !!checkboxFilter &&
-          Array.isArray(checkboxFilter.value) &&
-          checkboxFilter.value.length > 0;
-        const hasExplicitCheckboxFilterWhileLoading =
-          hasExplicitCheckboxFilter &&
-          selectedValues.length === 0 &&
-          availableValues.length === 0;
-        const hasCheckboxSelections =
-          selectedValues.length > 0 &&
-          selectedValues.length !== availableValues.length;
-        const isManagedEnvironmentFacet =
-          facet.column === managedEnvironmentColumn &&
-          managedEnvironmentPolicyConfig.hiddenEnvironments.length > 0;
-        // A user-authored environment filter lives in EXPLICIT state; the
-        // implicit hidden-env default (`none of [hidden]`) is added to EFFECTIVE
-        // state only and stripped from explicit state by the managed-environment
-        // policy. So "explicit env filter present" is exactly "the user committed
-        // to an environment selection" — including `environment:default` (any-of
-        // the default set), which now persists. Keying the facet's active state
-        // off this keeps it in sync with the search bar, which renders any
-        // explicit env filter as a chip.
-        const hasExplicitManagedEnvironmentFilter =
-          isManagedEnvironmentFacet &&
-          explicitFilterState.some(
-            (filter) => filter.column === managedEnvironmentColumn,
-          );
-
-        // isActive check:
-        // - Managed environment facet: active whenever the user authored an
-        //   explicit env filter (the implicit hidden-env default lives only in
-        //   effective state, so it never surfaces a "Clear" badge).
-        // - Other facets: active when text filters exist or checkbox selections differ from unfiltered.
-        //   Special case: "all of" with all values selected is still active.
-        //   Special case: a "none of" filter renders as its complement, so
-        //   when every exclusion sits outside the current option list the
-        //   checkboxes all show checked — the live filter must still surface
-        //   its "Clear" affordance.
-        const isActive =
-          hasTextFilters ||
-          (isManagedEnvironmentFacet
-            ? hasExplicitManagedEnvironmentFilter
-            : (currentOperator === "all of" &&
-                (selectedValues.length === availableValues.length ||
-                  hasExplicitCheckboxFilterWhileLoading)) ||
-              (currentOperator === "none of" && hasExplicitCheckboxFilter) ||
-              hasCheckboxSelections ||
-              hasExplicitCheckboxFilterWhileLoading);
-        const disableState = getFacetDisabledState(facet);
-
-        return {
-          type: "categorical",
-          column: facet.column,
-          label: facet.label,
-          tooltip: facet.tooltip,
-          help: facet.help,
-
-          value: selectedValues,
-          options: availableValues,
-          counts,
-          displayByValue,
-          loading: shouldShowLoading(facet.column),
-          expanded: expandedSet.has(facet.column),
-          isActive,
-          isDisabled: disableState.isDisabled,
-          disabledReason: disableState.reason,
-          renderIcon:
-            facet.type === "categorical" ? facet.renderIcon : undefined,
-          onChange: (values: string[]) => updateFilter(facet.column, values),
-          onOnlyChange: (value: string) => {
-            if (selectedValues.length === 1 && selectedValues.includes(value)) {
-              // The label reads "All" in this state: re-select every option.
-              // Passing the full option list (not []) matters for an active
-              // "none of" filter — empty values there would re-derive to
-              // "exclude everything", the opposite of the label's promise.
-              updateFilter(facet.column, availableValues);
-            } else {
-              updateFilterOnly(facet.column, value);
-            }
-          },
-          onReset: () => {
-            // Reset both checkboxes AND text filters
-            const next = clearCategoricalColumn(filterState, facet.column);
-            setFilterState(next);
-            if (next.length < filterState.length) {
-              emitFacetCleared(facet.column, filterState.length - next.length);
-            }
-          },
-          // The operator is exposed for every checkbox facet so the "none of"
-          // display logic (pinning excluded rows) works on stringOptions too;
-          // the SOME/ALL/NONE toggle itself is gated on onOperatorChange below.
-          operator: currentOperator,
-          excludedValues:
-            checkboxFilter?.operator === "none of" &&
-            Array.isArray(checkboxFilter.value)
-              ? (checkboxFilter.value as string[])
-              : undefined,
-          onOperatorChange: isArrayOptions
-            ? (op: "any of" | "all of" | "none of") =>
-                updateOperator(facet.column, op)
-            : undefined,
-          // Text filter support - ONLY for stringOptions, NOT arrayOptions or boolean
-          textFilters:
-            !isArrayOptions && !textFilterDisabled ? textFilters : undefined,
-          onTextFilterAdd:
-            !isArrayOptions && !textFilterDisabled
-              ? (op, val) => addTextFilter(facet.column, op, val)
-              : undefined,
-          onTextFilterRemove:
-            !isArrayOptions && !textFilterDisabled
-              ? (op, val) => removeTextFilter(facet.column, op, val)
-              : undefined,
-        };
       })
       .filter((f): f is UIFilter => f !== null);
   }, [

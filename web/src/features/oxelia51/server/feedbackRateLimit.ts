@@ -39,7 +39,7 @@ export function allowFeedbackFromIp(
   return true;
 }
 
-/** 清空全部计数（仅测试用） */
+/** 清空全部计数（仅测试用；测试文件通过 vitest 直接 import 本模块） */
 export function resetFeedbackIpRateLimit(): void {
   hits.clear();
 }

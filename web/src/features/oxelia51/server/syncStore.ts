@@ -18,8 +18,8 @@ import {
   type SyncedEventRow,
 } from "@/src/features/oxelia51/server/syncTokenUtils";
 
-/** 最小 raw-client 结构：全局 prisma 单例与 tRPC ctx.prisma 都满足（同 workspaceRouter 的写法） */
-export type RawSqlClient = {
+/** 最小 raw-client 结构：全局 prisma 单例与 tRPC ctx.prisma 都满足（同 workspaceRouter 的写法）——本文件内部使用 */
+type RawSqlClient = {
   $queryRaw: (
     q: TemplateStringsArray,
     ...values: unknown[]
@@ -30,8 +30,8 @@ export type RawSqlClient = {
   ) => Promise<unknown>;
 };
 
-/** download 单页上限（与桌面 sidecar 合约一致） */
-export const SYNC_PAGE_SIZE = 2000;
+/** download 单页上限（与桌面 sidecar 合约一致）——本文件内部使用，对外通过 uploadBodySchema 暴露 */
+const SYNC_PAGE_SIZE = 2000;
 
 // ---------- 鉴权 ----------
 

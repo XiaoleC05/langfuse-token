@@ -1,5 +1,7 @@
 import { env } from "@/src/env.mjs";
 import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
+import { authenticatedProcedure } from "@/src/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 
 /**
  * oxelia51 管理台授权统一走邮箱制（区别于 langfuse 组织/角色体系）：
@@ -7,6 +9,8 @@ import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
  * - 管理员：超级管理员恒为管理员，外加 OXELIA51_ADMIN_EMAILS 邮箱名单
  *   （空名单 = 除超级管理员外无人是管理员，fail-closed）。
  * adminRouter / proxyKeyRouter / 用户列表的「平台管理员」标记均复用这里。
+ *
+ * adminProcedure / superAdminProcedure 是 tRPC 中间件，子 router 文件各自导入。
  */
 
 export function isSuperAdminEmail(email: string | null | undefined): boolean {
@@ -24,3 +28,27 @@ export function isAdminEmail(email: string | null | undefined): boolean {
   if (allowlist.length === 0) return false;
   return Boolean(email) && allowlist.includes(email as string);
 }
+
+/** 仅管理员的 procedure（在登录态之上再校验邮箱名单） */
+export const adminProcedure = authenticatedProcedure.use(({ ctx, next }) => {
+  if (!isAdminEmail(ctx.session.user.email)) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "当前账户无后台管理权限",
+    });
+  }
+  return next();
+});
+
+/** 仅超级管理员的 procedure：所有写操作走此入口 */
+export const superAdminProcedure = authenticatedProcedure.use(
+  ({ ctx, next }) => {
+    if (!isSuperAdminEmail(ctx.session.user.email)) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "仅超级管理员可执行此操作",
+      });
+    }
+    return next();
+  },
+);

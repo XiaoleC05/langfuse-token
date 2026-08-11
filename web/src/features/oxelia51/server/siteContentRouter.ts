@@ -4,7 +4,7 @@ import {
   publicProcedure,
 } from "@/src/server/api/trpc";
 import { prisma } from "@langfuse/shared/src/db";
-import { superAdminProcedure } from "@/src/features/oxelia51/server/adminRouter";
+import { superAdminProcedure } from "@/src/features/oxelia51/server/adminAuth";
 
 /**
  * 站点内容编辑（管理台「内容编辑」Tab 的读写）。

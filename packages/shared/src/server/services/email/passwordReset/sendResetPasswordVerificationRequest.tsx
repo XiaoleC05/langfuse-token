@@ -14,8 +14,12 @@ export async function sendResetPasswordVerificationRequest(
     params as SendVerificationRequestParams & { token: string };
   const transport = createMailTransport(provider.server as string);
 
-  // Detect if this is a setup-password flow (signup email verification)
-  const isSetupMode = url?.includes("/auth/setup-password") ?? false;
+  // Detect if this is a setup-password flow (signup email verification).
+  // NextAuth URL-encodes callbackUrl inside the verification URL via
+  // URLSearchParams, so /auth/setup-password appears as %2Fauth%2Fsetup-password.
+  // decodeURIComponent recovers the literal path for substring matching.
+  const isSetupMode =
+    decodeURIComponent(url ?? "").includes("/auth/setup-password");
 
   const htmlTemplate = await render(
     ResetPasswordTemplate({ token, isSetupMode }),

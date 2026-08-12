@@ -14,6 +14,34 @@ export type ChangelogVersion = {
 
 export const CHANGELOG_VERSIONS: ChangelogVersion[] = [
   {
+    tag: "v0.1.7",
+    date: "2026-08-13",
+    status: "released",
+    summary: "本地 Agent 检测 + 模型价格表独立导航 + 协议适配 + 清除数据",
+    items: [
+      "接入页「已检测到的工具」：自动扫描本机已安装的 AI Agent 并显示版本号",
+      "模型价格参考独立为顶部导航 Tab，点击模型条目可编辑价格",
+      "复制地址按协议适配：双协议供应商新增「Anthropic」按钮",
+      "设置页新增「清除本地数据」；更新横幅直达当前平台安装包",
+      "定价扩充（Claude 4.x / GPT-5.5 / 混元 Hy3）+ OpenAI Response API 记账",
+      "修复「预算使用」添加预算无响应",
+    ],
+  },
+  {
+    tag: "v0.1.6",
+    date: "2026-08-12",
+    status: "released",
+    summary: "Anthropic 路由 + Agent 识别增强 + 模型名归一化 + 总览显示模式",
+    items: [
+      "DeepSeek / 智谱新增 Anthropic 协议路由，Claude Code 可直接经本地代理记账",
+      "Agent 自动识别新增 11 种客户端（gemini-cli、cline、roo-code 等）",
+      "模型名 [1M]/[2M] 后缀归一化；未配置定价模型回退内置参考价",
+      "总览新增「按模型」排行与「全部/Token/成本」显示模式 + 币种切换",
+      "Agent 显示名别名；桌面字体整体放大；模型价格表新增「按输出价」排序",
+      "修复日期范围不生效、非 2xx 落账、流式耗时、0-token 排行等 12 项",
+    ],
+  },
+  {
     tag: "v0.1.5",
     date: "2026-08-11",
     status: "released",
@@ -108,7 +136,7 @@ export const LANDING_FAQ: FaqItem[] = [
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.5，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+    a: "已发布 v0.1.7，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
   },
   {
     q: "怎么自托管？",

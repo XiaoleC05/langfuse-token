@@ -36,7 +36,6 @@ import {
 } from "@/src/components/ui/dialog";
 import {
   AdminCard,
-  PLATFORM_ADMIN_EMAIL,
   errMsg,
   useIsSuperAdmin,
   type UserItem,
@@ -140,20 +139,6 @@ export function UsersTab() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* 管理员名单（env 驱动，只读展示） */}
-      <AdminCard title="管理员">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="font-mono text-xs sm:text-sm">
-            {PLATFORM_ADMIN_EMAIL}
-          </span>
-          <Badge variant="secondary">超级管理员</Badge>
-        </div>
-        <p className="text-muted-foreground text-xs">
-          管理员名单由服务器环境变量 OXELIA51_ADMIN_EMAILS
-          管理；新增/变更管理员与所有用户操作仅超级管理员可执行。
-        </p>
-      </AdminCard>
-
       <AdminCard
         title={`平台用户（${usersQ.data ? total : "…"}）`}
         action={
@@ -232,7 +217,7 @@ export function UsersTab() {
                           >
                             {u.email ?? "—"}
                           </span>
-                          {u.email === PLATFORM_ADMIN_EMAIL && (
+                          {u.isPlatformSuperAdmin && (
                             <Badge variant="secondary" className="shrink-0">
                               管理员
                             </Badge>
@@ -280,7 +265,7 @@ export function UsersTab() {
                               重置密码
                             </Button>
                             {/* 超级管理员账户不提供删除入口（服务端另有保护） */}
-                            {u.email !== PLATFORM_ADMIN_EMAIL && (
+                            {!u.isPlatformSuperAdmin && (
                               <Button
                                 variant="ghost"
                                 size="sm"

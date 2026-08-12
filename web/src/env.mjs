@@ -55,6 +55,12 @@ export const env = createEnv({
     OXELIA51_ADMIN_ACCOUNT: z.string().optional(),
     OXELIA51_ADMIN_PASSWORD: z.string().optional(),
     OXELIA51_ADMIN_EMAILS: z.string().optional(),
+    // 平台超级管理员邮箱：仅服务端读取（adminAuth.ts），不得暴露给客户端。
+    // 生产环境必须配置，缺失即构建失败——好过静默 fail-closed 导致管理员被锁在外面。
+    OXELIA_SUPER_ADMIN_EMAIL:
+      process.env.NODE_ENV === "production"
+        ? z.string().email()
+        : z.string().email().optional(),
     OXELIA51_DORM_NUMBER: z.string().optional(),
     NEXTAUTH_URL: z.preprocess(
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
@@ -571,6 +577,7 @@ export const env = createEnv({
     OXELIA51_ADMIN_ACCOUNT: process.env.OXELIA51_ADMIN_ACCOUNT,
     OXELIA51_ADMIN_PASSWORD: process.env.OXELIA51_ADMIN_PASSWORD,
     OXELIA51_ADMIN_EMAILS: process.env.OXELIA51_ADMIN_EMAILS,
+    OXELIA_SUPER_ADMIN_EMAIL: process.env.OXELIA_SUPER_ADMIN_EMAIL,
     OXELIA51_DORM_NUMBER: process.env.OXELIA51_DORM_NUMBER,
     NEXT_PUBLIC_DEMO_PROJECT_ID: process.env.NEXT_PUBLIC_DEMO_PROJECT_ID,
     NEXT_PUBLIC_DEMO_ORG_ID: process.env.NEXT_PUBLIC_DEMO_ORG_ID,

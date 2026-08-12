@@ -1,5 +1,4 @@
 import { env } from "@/src/env.mjs";
-import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
 import { authenticatedProcedure } from "@/src/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
@@ -14,7 +13,7 @@ import { TRPCError } from "@trpc/server";
  */
 
 export function isSuperAdminEmail(email: string | null | undefined): boolean {
-  return Boolean(email) && email === OXELIA_SUPER_ADMIN_EMAIL;
+  return Boolean(email) && email === env.OXELIA_SUPER_ADMIN_EMAIL;
 }
 
 export function isAdminEmail(email: string | null | undefined): boolean {

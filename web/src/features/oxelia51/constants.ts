@@ -7,8 +7,7 @@
 export const OXELIA_DOCS_URL = "/docs";
 
 /**
- * 平台超级管理员邮箱：唯一可执行写操作的管理员。
- * 单一来源——服务端 adminRouter 与前端 admin/shared.tsx 都从这里取，
- * 改这一处即同步两端，避免两侧常量漂移导致管理门禁失效。
+ * 平台超级管理员邮箱曾硬编码在此（安全隐患：进了公开仓库，且被 UsersTab.tsx
+ * 打进了管理后台的前端 JS bundle）。现改为服务端环境变量 OXELIA_SUPER_ADMIN_EMAIL
+ * （见 env.mjs），只在服务端读取（adminAuth.ts），不再有任何客户端可达路径。
  */
-export const OXELIA_SUPER_ADMIN_EMAIL = "postmaster@oxelia51.com";

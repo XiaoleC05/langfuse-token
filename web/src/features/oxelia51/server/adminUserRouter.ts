@@ -7,7 +7,6 @@ import { adminProcedure, superAdminProcedure, isAdminEmail, isSuperAdminEmail } 
 import { updateUserPassword } from "@/src/features/auth-credentials/lib/credentialsServerUtils";
 import { ApiAuthService } from "@/src/features/public-api/server/apiAuth";
 import { deleteUserWithOrgCascade } from "@/src/features/oxelia51/server/userDeletion";
-import { OXELIA_SUPER_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
 
 /**
  * 管理台用户管理：列表/密码重置/删除。
@@ -116,7 +115,7 @@ export const adminUserProcedures = {
       if (!target) {
         throw new TRPCError({ code: "NOT_FOUND", message: "用户不存在" });
       }
-      if (target.email === OXELIA_SUPER_ADMIN_EMAIL) {
+      if (isSuperAdminEmail(target.email)) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "不能删除超级管理员账户",

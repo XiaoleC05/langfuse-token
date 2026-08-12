@@ -93,9 +93,6 @@ export type AlertLogItem = {
 /** 轮询间隔（系统状态类卡片） */
 export const POLL_MS = 5000;
 
-/** 平台超级管理员账户：唯一可执行写操作的管理员（单一来源见 oxelia51/constants.ts）。 */
-export { OXELIA_SUPER_ADMIN_EMAIL as PLATFORM_ADMIN_EMAIL } from "@/src/features/oxelia51/constants";
-
 /** 当前登录用户是否为超级管理员（非超级管理员的管理员只读，操作按钮应隐藏） */
 export function useIsSuperAdmin(): boolean {
   const whoami = api.oxelia51Admin.whoami.useQuery(undefined, {

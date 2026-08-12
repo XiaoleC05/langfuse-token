@@ -111,6 +111,8 @@ const syncEventSchema = z.object({
   promptTokens: int64Field.default(0),
   completionTokens: int64Field.default(0),
   totalTokens: int64Field.default(0),
+  cacheReadTokens: int64Field.default(0),
+  cacheCreationTokens: int64Field.default(0),
   durationMs: int64Field.default(0),
   ts: z
     .string()
@@ -142,14 +144,15 @@ export async function insertSyncedEvents(
     (e) => Prisma.sql`(
       ${e.eventId}, ${userId}, ${e.deviceId}, ${e.projectId}, ${e.sessionId},
       ${e.provider}, ${e.agent}, ${e.model},
-      ${e.promptTokens}, ${e.completionTokens}, ${e.totalTokens}, ${e.durationMs},
+      ${e.promptTokens}, ${e.completionTokens}, ${e.totalTokens},
+      ${e.cacheReadTokens}, ${e.cacheCreationTokens}, ${e.durationMs},
       ${new Date(e.ts)}
     )`,
   );
   const inserted = toNumber(await client.$executeRaw`
     INSERT INTO oxelia51.synced_events
       (event_id, user_id, device_id, project_id, session_id, provider, agent, model,
-       prompt_tokens, completion_tokens, total_tokens, duration_ms, ts)
+       prompt_tokens, completion_tokens, total_tokens, cache_read_tokens, cache_creation_tokens, duration_ms, ts)
     VALUES ${Prisma.join(valueRows)}
     ON CONFLICT (event_id) DO NOTHING
   `);
@@ -179,6 +182,8 @@ export type SyncEventDto = {
   promptTokens: number;
   completionTokens: number;
   totalTokens: number;
+  cacheReadTokens: number;
+  cacheCreationTokens: number;
   durationMs: number;
   ts: string; // RFC3339
 };
@@ -194,6 +199,8 @@ type SyncedEventFullRow = {
   prompt_tokens: unknown;
   completion_tokens: unknown;
   total_tokens: unknown;
+  cache_read_tokens: unknown;
+  cache_creation_tokens: unknown;
   duration_ms: unknown;
   ts: Date | string;
   seq: unknown;
@@ -212,6 +219,8 @@ function toDto(row: SyncedEventFullRow): SyncEventDto {
     promptTokens: toNumber(row.prompt_tokens),
     completionTokens: toNumber(row.completion_tokens),
     totalTokens: toNumber(row.total_tokens),
+    cacheReadTokens: toNumber(row.cache_read_tokens),
+    cacheCreationTokens: toNumber(row.cache_creation_tokens),
     durationMs: toNumber(row.duration_ms),
     ts: new Date(row.ts).toISOString(),
   };
@@ -230,7 +239,7 @@ export async function fetchEventsAfter(
   const excludeDeviceId = deviceId ?? "";
   const rows = (await client.$queryRaw`
     SELECT event_id, device_id, project_id, session_id, provider, agent, model,
-           prompt_tokens, completion_tokens, total_tokens, duration_ms, ts, seq
+           prompt_tokens, completion_tokens, total_tokens, cache_read_tokens, cache_creation_tokens, duration_ms, ts, seq
     FROM oxelia51.synced_events
     WHERE user_id = ${userId}
       AND seq > ${after}

@@ -38,10 +38,11 @@ export default function Document() {
             老版百度浏览器 / 兼容模式的 Chromium 不支持 @layer / color-mix() / CSS 嵌套，
             Tailwind v4 生成的样式全部失效，页面表现为"格式错乱、样式丢失"。
             此脚本用纯 JS + 内联样式注入横幅（目标浏览器渲染不了 Tailwind 类，
-            甚至 React 都可能无法运行），明确告知用户升级浏览器或切「极速模式」。 */}
+            甚至 React 都可能无法运行），明确告知用户升级浏览器或切「极速模式」。
+            带 ✕ 关闭按钮；关闭后记入 localStorage，同浏览器不再重复弹出。 */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(typeof CSS==="undefined"||!CSS.supports||!CSS.supports("color-mix(in srgb, red 50%, blue)")){var show=function(){var b=document.body;if(!b)return;var x=document.createElement("div");x.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483000;background:#fef3c7;color:#78350f;font-size:13px;line-height:1.5;padding:8px 16px;text-align:center;border-bottom:1px solid #f59e0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";x.textContent="您的浏览器版本过旧，Oxelia51 网站可能无法正常显示。请使用 Chrome / Edge 111 以上版本，或将浏览器切换到「极速模式」后刷新重试。";b.insertBefore(x,b.firstChild)};if(document.body)show();else document.addEventListener("DOMContentLoaded",show)}}catch(e){}})();`,
+            __html: `(function(){try{if(typeof CSS==="undefined"||!CSS.supports||!CSS.supports("color-mix(in srgb, red 50%, blue)")){if(localStorage.getItem("oxelia51-browser-banner-dismissed")==="1")return;var show=function(){var b=document.body;if(!b)return;var x=document.createElement("div");x.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483000;background:#fef3c7;color:#78350f;font-size:13px;line-height:1.5;padding:8px 36px 8px 16px;text-align:center;border-bottom:1px solid #f59e0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";x.textContent="您的浏览器版本过旧，Oxelia51 网站可能无法正常显示。请使用 Chrome / Edge 111 以上版本，或将浏览器切换到「极速模式」后刷新重试。";var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","关闭提示");btn.innerHTML="&#x2715;";btn.style.cssText="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:#b45309;font-size:14px;line-height:1;padding:4px";btn.onclick=function(){try{localStorage.setItem("oxelia51-browser-banner-dismissed","1")}catch(e){};if(x.parentNode)x.parentNode.removeChild(x)};x.appendChild(btn);b.insertBefore(x,b.firstChild)};if(document.body)show();else document.addEventListener("DOMContentLoaded",show)}}catch(e){}})();`,
           }}
         />
         {/* Umami 统计脚本：async+defer 不阻塞渲染；仅 env 齐备时注入 */}

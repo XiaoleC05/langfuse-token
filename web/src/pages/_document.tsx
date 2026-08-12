@@ -34,6 +34,16 @@ export default function Document() {
             __html: `try{document.documentElement.dataset.theme=localStorage.getItem("oxelia51-theme")==="cosmos"?"cosmos":"cozy"}catch(e){document.documentElement.dataset.theme="cozy"}`,
           }}
         />
+        {/* 浏览器兼容提示（Tailwind CSS v4 要求 Chrome/Edge 111+）：
+            老版百度浏览器 / 兼容模式的 Chromium 不支持 @layer / color-mix() / CSS 嵌套，
+            Tailwind v4 生成的样式全部失效，页面表现为"格式错乱、样式丢失"。
+            此脚本用纯 JS + 内联样式注入横幅（目标浏览器渲染不了 Tailwind 类，
+            甚至 React 都可能无法运行），明确告知用户升级浏览器或切「极速模式」。 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(typeof CSS==="undefined"||!CSS.supports||!CSS.supports("color-mix(in srgb, red 50%, blue)")){var show=function(){var b=document.body;if(!b)return;var x=document.createElement("div");x.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483000;background:#fef3c7;color:#78350f;font-size:13px;line-height:1.5;padding:8px 16px;text-align:center;border-bottom:1px solid #f59e0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";x.textContent="您的浏览器版本过旧，Oxelia51 网站可能无法正常显示。请使用 Chrome / Edge 111 以上版本，或将浏览器切换到「极速模式」后刷新重试。";b.insertBefore(x,b.firstChild)};if(document.body)show();else document.addEventListener("DOMContentLoaded",show)}}catch(e){}})();`,
+          }}
+        />
         {/* Umami 统计脚本：async+defer 不阻塞渲染；仅 env 齐备时注入 */}
         {UMAMI_WEBSITE_ID && UMAMI_SRC ? (
           <script

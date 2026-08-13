@@ -14,6 +14,27 @@ export type ChangelogVersion = {
 
 export const CHANGELOG_VERSIONS: ChangelogVersion[] = [
   {
+    tag: "v0.1.9",
+    date: "2026-08-13",
+    status: "released",
+    summary: "独立后台代理——关闭应用后代理网关继续运行",
+    items: [
+      "「独立后台代理」：代理复制到固定目录并开机自启，作为独立进程运行；关闭应用（托盘退出）后代理继续在线，AI 工具无需常开应用",
+      "应用再次打开时自动复用现有代理，版本不同则自动换新；关闭开关即恢复「随应用运行」",
+      "代理新增 -local / -port / -version 命令行参数；/api/proxy/status 返回 version 字段",
+    ],
+  },
+  {
+    tag: "v0.1.8",
+    date: "2026-08-13",
+    status: "released",
+    summary: "Token 消耗计入缓存（Anthropic 缓存读/写单独落列）",
+    items: [
+      "修正 token 统计：Anthropic 的 input_tokens 不含缓存，此前缓存按计价倍数折算进总量（缓存读缩水 90%）；现 total 存原始 token（含缓存），缓存读/写细分单独落列",
+      "成本口径不变（prompt 仍按计价折算）；云同步账本往返缓存细分字段",
+    ],
+  },
+  {
     tag: "v0.1.7",
     date: "2026-08-13",
     status: "released",
@@ -136,7 +157,11 @@ export const LANDING_FAQ: FaqItem[] = [
   },
   {
     q: "桌面应用什么时候发布？",
-    a: "已发布 v0.1.7，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+    a: "已发布 v0.1.9，支持 Windows / macOS / Linux 三平台。在下载页或 GitHub Releases 获取。",
+  },
+  {
+    q: "关闭应用后，代理地址还能用吗？",
+    a: "可以。在桌面端「设置 → 本地代理」开启「独立后台代理」后，代理会开机自启并在关闭应用后继续运行，AI 工具无需常开应用；关闭开关即恢复「随应用运行」。",
   },
   {
     q: "怎么自托管？",
